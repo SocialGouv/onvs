@@ -1,0 +1,34 @@
+version: "3"
+services:
+   db:
+      restart: always
+      image: postgres:12.1
+      healthcheck:
+         test: ["CMD-SHELL", "pg_isready -U onvs"]
+         interval: 5s
+         timeout: 5s
+         retries: 10
+      environment:
+         - POSTGRES_USER=${POSTGRES_USER:-user}
+         - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      ports:
+         - 5435:5432
+      volumes:
+         - onvs-pgdata:/var/lib/postgresql/data
+   app:
+      restart: always
+      build:
+         context: .
+         # build-time variables
+         args:
+            - SENTRY_DSN=https://75f34cada95a4c189d69bc05e8aa324f@sentry.fabrique.social.gouv.fr/29
+            - SENTRY_TOKEN=1234
+            - MATOMO_URL=https://matomo.fabrique.social.gouv.fr
+            - MATOMO_SITE_ID=16
+            - POSTGRES_HOST=db
+            - JWT_SECRET=${JWT_SECRET:-j63NFc@YNWThqZ}
+      ports:
+         - 80:3030
+
+volumes:
+   onvs-pgdata:

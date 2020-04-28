@@ -1,0 +1,7 @@
+.DS_Store
+.next
+node_modules
+.env
+.idea
+# package-lock.json is unnecessary since we use yarn.lock
+package-lock.json
