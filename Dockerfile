@@ -1,5 +1,5 @@
 # Do the npm install or yarn install in the full image
-FROM node:12-alpine AS builder
+FROM node:14-alpine AS builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY . .
 RUN yarn build && yarn --production --frozen-lockfile
 
 # And then copy over node_modules, etc from that stage to the smaller base image
-FROM node:12-alpine
+FROM node:14-alpine
 
 WORKDIR /app
 
