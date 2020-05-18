@@ -1,3 +1,3 @@
 module.exports = () => {
-  throw new Error("error from API");
-};
+  throw new Error("error from API")
+}
