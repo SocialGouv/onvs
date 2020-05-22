@@ -1,67 +1,19 @@
 import React from "react"
 import Link from "next/link"
 
-import { matopush } from "../lib/matomo"
+const IndexPage = () => {
+  return (
+    <>
+      <div className="jumbotron" style={{ marginTop: 40 }}>
+        <h1 className="display-4">ONVS</h1>
+        <p className="lead">Observatoire National des Violences en Santé</p>
+      </div>
 
-const triggerClientError = () => {
-  throw new Error("Client-side error")
+      <Link href="step1">
+        <a>Déclarer un acte</a>
+      </Link>
+    </>
+  )
 }
 
-const trackEvent = () => {
-  matopush(["trackEvent", "click", "button-test-matomo"])
-}
-
-const apiCall = () =>
-  fetch("/api/answer/anything")
-    .then((r) => r.json())
-    .then((data) => alert(data.answer))
-
-const faultyApiCall = () =>
-  fetch("/api/faulty")
-    .then((r) => r.json())
-    .then((data) => alert(data.answer))
-
-const Page = () => (
-  <React.Fragment>
-    <p>
-      <Link href="/page2">
-        <a>Go to page 2</a>
-      </Link>
-    </p>
-
-    <p>
-      <Link href="/page3">
-        <a>Go to unknown page</a>
-      </Link>
-    </p>
-    <p>
-      <button className="btn btn-primary" onClick={apiCall}>
-        trigger api call to /api/answer/anything
-      </button>
-    </p>
-    <p>
-      <button className="btn btn-primary" onClick={faultyApiCall}>
-        trigger api call to /api/faulty
-      </button>
-    </p>
-    <p>
-      <button className="btn btn-primary" onClick={trackEvent}>
-        trigger Matomo event
-      </button>
-    </p>
-    <p>
-      <button className="btn btn-warning" onClick={triggerClientError}>
-        trigger Sentry client-side error
-      </button>
-    </p>
-    <p>
-      <Link href="/page-error">
-        <button className="btn btn-warning">
-          trigger Sentry server-side error
-        </button>
-      </Link>
-    </p>
-  </React.Fragment>
-)
-
-export default Page
+export default IndexPage

@@ -1,15 +1,15 @@
-import React from "react";
-import Link from "next/link";
+import React from "react"
+import Link from "next/link"
 
 const Nav = () => (
   <nav className="navbar sgb-navbar-marianne navbar-expand-lg navbar-light bg-light">
     <div className="sgb-marianne"></div>
     <div className="navbar-brand">
       <Link href="/">
-        <a>sample-next-app</a>
+        <a>ONVS</a>
       </Link>
       <div className="navbar-baseline" href="#">
-        Application standard
+        Observatoire National des Violences en Santé
       </div>
     </div>
     <button
@@ -49,6 +49,6 @@ const Nav = () => (
       </ul>
     </div>
   </nav>
-);
+)
 
-export default Nav;
+export default Nav
