@@ -6,10 +6,11 @@ import FreelanceCard from "../components/FreelanceCard"
 const IndexPage = () => {
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <AuthentCard />
-
-        <FreelanceCard />
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-full min-h-full flex flex-col sm:flex-row items-stretch justify-center py-6 space-y-8 sm:space-y-0 space-x-0 sm:space-x-12">
+          <AuthentCard />
+          <FreelanceCard />
+        </div>
       </div>
 
       {/* <div className="jumbotron" style={{ marginTop: 40 }}>

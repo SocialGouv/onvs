@@ -3,7 +3,7 @@ import App from "next/app"
 import Head from "next/head"
 import * as Sentry from "@sentry/node"
 import { initMatomo } from "../lib/matomo"
-import Nav from "../components/Nav"
+// import Nav from "../components/Nav"
 import { StateMachineProvider, createStore } from "little-state-machine"
 // import { DevTool } from "little-state-machine-devtools"
 
@@ -40,13 +40,9 @@ class MyApp extends App {
         <Head>
           <title>ONVS</title>
         </Head>
-        <Nav />
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <Component {...modifiedPageProps} />
-            </div>
-          </div>
+        {/* <Nav /> */}
+        <div className="container mx-auto px-4 min-h-screen">
+          <Component {...modifiedPageProps} />{" "}
         </div>
       </StateMachineProvider>
     )

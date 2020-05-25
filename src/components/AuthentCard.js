@@ -4,10 +4,10 @@ import Hospital from "./svg/hospital.js"
 
 const AuthentCard = () => {
   return (
-    <div className="max-w-md w-1/2 text-gray-700 text-center bg-gray-200 px-4 py-2 m-2 rounded shadow">
+    <div className="w-auto sm:w-full max-w-md flex flex-auto flex-col px-4 py-2 hover:transform hover:scale-110 text-gray-700 hover:bg-gray-800 bg-gray-200 rounded shadow">
       <Hospital className="mx-auto h-12 w-auto" alt="hôpital" />
       <h1 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
-        Établissements, ordres, fédérations
+        Établissement, ordre, fédération
       </h1>
       <h2 className="mt-3 text-center text-sm leading-5 text-gray-600">
         Connectez-vous à votre compte
@@ -58,17 +58,20 @@ const AuthentCard = () => {
             </Link>
           </div>
         </div>
-        <button type="submit" className="btn-blue mt-4">
-          Se connecter
-        </button>
+        <div className="text-center">
+          <button type="submit" className="btn-blue mt-5">
+            Se connecter
+          </button>
+        </div>
       </form>
-
-      <h2 className="mt-2 text-center text-sm leading-5 text-gray-600">
+      <h2 className="mt-10 text-center text-sm leading-5 text-gray-600">
         {"Vous n'avez pas encore de compte?"}
       </h2>
-      <button className="my-4 border border-gray-500 font-bold py-2 px-4 rounded">
-        Créer un compte
-      </button>
+      <div className="text-center">
+        <button className="my-4 border border-gray-500 font-bold py-2 px-4 rounded">
+          Créer un compte
+        </button>
+      </div>
     </div>
   )
 }
