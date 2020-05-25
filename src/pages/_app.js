@@ -41,7 +41,7 @@ class MyApp extends App {
           <title>ONVS</title>
         </Head>
         {/* <Nav /> */}
-        <div className="container mx-auto px-4 min-h-screen">
+        <div className="container min-h-screen px-4 mx-auto">
           <Component {...modifiedPageProps} />{" "}
         </div>
       </StateMachineProvider>

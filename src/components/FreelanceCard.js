@@ -3,18 +3,20 @@ import DoctorsIcon from "./svg/doctors"
 
 const FreelanceCard = () => {
   return (
-    <div className="w-auto sm:w-full max-w-md px-4 py-2 flex flex-auto flex-col text-gray-700 text-center bg-gray-200 rounded shadow">
-      <h1 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+    <div className="w-full max-w-md px-4 py-2 text-gray-700 transition duration-500 ease-in transform bg-gray-200 border rounded shadow hover:scale-105 hover:border-gray-400">
+      <h1 className="mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900">
         Vous exercez en libéral?
       </h1>
-      <h2 className="mt-2 text-center text-sm leading-5 text-gray-600">
+      <h2 className="mt-2 text-sm leading-5 text-center text-gray-600">
         Vous n’avez pas besoin de compte pour remonter un incident de violence.
       </h2>
-      <DoctorsIcon className="mt-5 mx-auto" />
-      <div className="mt-4 text-center text-sm leading-5 text-gray-600">
+      <DoctorsIcon className="mx-auto mt-5" />
+      <div className="mt-4 text-sm leading-5 text-center text-gray-600">
         Votre déclaration pourra être réalisée de manière anonyme.
       </div>
-      <button className="btn-blue my-4">Déclarer</button>
+      <div className="text-center">
+        <button className="my-4 btn-blue">Déclarer</button>
+      </div>
     </div>
   )
 }

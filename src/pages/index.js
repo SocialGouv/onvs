@@ -6,8 +6,8 @@ import FreelanceCard from "../components/FreelanceCard"
 const IndexPage = () => {
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="w-full min-h-full flex flex-col sm:flex-row items-stretch justify-center py-6 space-y-8 sm:space-y-0 space-x-0 sm:space-x-12">
+      <div className="flex items-center justify-center w-full min-h-screen">
+        <div className="flex flex-wrap items-stretch justify-center w-full min-h-full py-6 space-x-0 space-y-8 lg:space-y-0 lg:space-x-8">
           <AuthentCard />
           <FreelanceCard />
         </div>
