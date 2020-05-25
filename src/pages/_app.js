@@ -3,11 +3,13 @@ import App from "next/app"
 import Head from "next/head"
 import * as Sentry from "@sentry/node"
 import { initMatomo } from "../lib/matomo"
-import Nav from "../Nav"
+import Nav from "../components/Nav"
 import { StateMachineProvider, createStore } from "little-state-machine"
 // import { DevTool } from "little-state-machine-devtools"
 
-import "@socialgouv/bootstrap.core/dist/socialgouv-bootstrap.min.css"
+//import "@socialgouv/bootstrap.core/dist/socialgouv-bootstrap.min.css"
+
+import "../styles/index.css"
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,

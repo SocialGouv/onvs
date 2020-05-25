@@ -7,7 +7,7 @@
     "dev": "node scripts/server.js",
     "build": "next build",
     "start": "NODE_ENV=production node scripts/server.js",
-    "lint": "eslint src/*",
+    "lint": "eslint src/**/*.js",
     "test": "jest"
   },
   "dependencies": {
@@ -40,7 +40,9 @@
     "little-state-machine-devtools": "^1.0.0",
     "next-compose-plugins": "^2.2.0",
     "next-transpile-modules": "^3.3.0",
-    "prettier": "^2.0.5"
+    "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.0.5",
+    "tailwindcss": "^1.4.6"
   },
   "husky": {
     "hooks": {
