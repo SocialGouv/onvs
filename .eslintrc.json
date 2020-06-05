@@ -6,5 +6,16 @@
   "rules": {
     "jsx-a11y/anchor-is-valid": "warn",
     "react/prop-types": "warn"
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["components", "./src/components"],
+          ["lib", "./src/lib"],
+          ["styles", "./src/styles"]
+        ]
+      }
+    }
   }
 }
