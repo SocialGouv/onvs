@@ -26,6 +26,16 @@ export const OutlineButton = ({ children, type = "text" }) => (
 
 OutlineButton.propTypes = PrimaryButtton.propTypes
 
+export const HeroTitle = ({ children }) => (
+  <h1 className="mt-6 font-sans text-3xl font-medium text-gray-200 md:text-4xl title-font">
+    {children}
+  </h1>
+)
+
+HeroTitle.propTypes = {
+  children: PropTypes.object,
+}
+
 export const Title1 = ({ children }) => (
   <h1 className="mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900">
     {children}
