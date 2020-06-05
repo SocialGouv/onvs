@@ -1,7 +1,7 @@
 import React from "react"
 import Error from "next/error"
 
-import sentry from "../lib/sentry"
+import sentry from "lib/sentry"
 
 const { Sentry } = sentry()
 

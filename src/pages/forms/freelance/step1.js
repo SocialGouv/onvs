@@ -2,27 +2,31 @@ import React from "react"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { useStateMachine } from "little-state-machine"
-import update from "../lib/pages/form"
+import update from "lib/pages/form"
 
 const Step1Page = () => {
   const router = useRouter()
 
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      location: "Vincennes",
+    },
+  })
   const { action } = useStateMachine(update)
 
   const onSubmit = (data) => {
     console.log({ data })
     action(data)
-    router.push("/step3")
+    router.push("/step2")
   }
 
   return (
     <>
-      <h1>Page 2 du formulaire</h1>
+      <h1>Page 1 du formulaire</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input name="description" ref={register} />
-        <input name="email" ref={register} />
+        <input name="date" type="date" ref={register} />
+        <input name="location" ref={register} />
         <button type="submit">Suivant</button>
       </form>
     </>

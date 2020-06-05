@@ -1,7 +1,7 @@
 import React from "react"
 import Link from "next/link"
 
-import { matopush } from "../lib/matomo"
+import { matopush } from "lib/matomo"
 
 const triggerClientError = () => {
   throw new Error("Client-side error")
