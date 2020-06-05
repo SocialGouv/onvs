@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 export const PrimaryButtton = ({ children, type = "text" }) => (
   <button
     type={type}
-    className="px-4 py-2 mt-5 font-bold text-white bg-blue-500 rounded"
+    className="px-4 py-2 font-bold text-white bg-blue-500 rounded"
   >
     {children}
   </button>
@@ -18,7 +18,7 @@ PrimaryButtton.propTypes = {
 export const OutlineButton = ({ children, type = "text" }) => (
   <button
     type={type}
-    className="px-4 py-2 my-4 font-bold border border-gray-500 rounded"
+    className="px-4 py-2 font-bold border border-gray-500 rounded"
   >
     {children}
   </button>
@@ -27,7 +27,7 @@ export const OutlineButton = ({ children, type = "text" }) => (
 OutlineButton.propTypes = PrimaryButtton.propTypes
 
 export const HeroTitle = ({ children }) => (
-  <h1 className="mt-6 font-sans text-3xl font-medium text-gray-200 md:text-4xl title-font">
+  <h1 className="mt-6 font-sans text-3xl font-medium text-blue-200 md:text-4xl title-font">
     {children}
   </h1>
 )

@@ -42,7 +42,7 @@ class MyApp extends App {
         </Head>
         {/* <Nav /> */}
         {/* <div className="container min-h-screen px-4 mx-auto"> */}
-        <div className="">
+        <div className="min-h-screen">
           <Component {...modifiedPageProps} />{" "}
         </div>
       </StateMachineProvider>
