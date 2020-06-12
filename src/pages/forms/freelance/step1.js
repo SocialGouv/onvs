@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
@@ -7,33 +7,70 @@ import update from "lib/pages/form"
 import { Layout } from "components/Layout"
 import { PrimaryButtton, OutlineButton } from "components/lib"
 import { Stepper, Title1, Title2 } from "components/Stepper"
+import Select from "react-select"
+
+const hoursOptions = [
+  { value: "Matin (7h-12h)", label: "Matin (7h-12h)" },
+  { value: "Après-midi (12h-19h)", label: "Après-midi (12h-19h)" },
+  { value: "Soirée (19h-00h)", label: "Soirée (19h-00h)" },
+  { value: "Nuit (00h-7h)", label: "Nuit (00h-7h)" },
+]
 
 const Step1Page = () => {
   const router = useRouter()
+  const { action } = useStateMachine(update)
 
-  const { register, handleSubmit } = useForm({
+  const { handleSubmit, register, setValue } = useForm({
     defaultValues: {
       location: "Vincennes",
+      hour: hoursOptions[0]?.value,
     },
   })
-  const { action } = useStateMachine(update)
+
+  const [hour, setHour] = useState(hoursOptions[0])
+
+  useEffect(() => {
+    // Extra field in form to store the value of selects
+    register({ name: "hour" })
+  }, [register])
 
   const onSubmit = (data) => {
     console.log({ data })
     action(data)
 
-    router.push("/step2")
+    router.push("/forms/freelance/step2")
   }
 
+  const customStyles = {
+    container: (styles) => ({
+      ...styles,
+      flexGrow: 1,
+    }),
+    menu: (styles) => ({
+      ...styles,
+      textAlign: "left",
+    }),
+  }
+
+  const onHoursChange = (selectedOption) => {
+    // Needs to sync specifically the value to the react-select as well
+    setHour(selectedOption)
+
+    // Needs transformation between format of react-select to expected format for API call
+    setValue("hour", selectedOption?.value ?? null)
+  }
   return (
     <Layout>
       <div className="max-w-4xl m-auto mb-8">
         <Stepper />
 
-        <Title1>Où la violence a-t-elle eu lieu ?</Title1>
+        <Title1 className="mt-4">Où la violence a-t-elle eu lieu ?</Title1>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Title2 className="mt-8">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-10/12 m-auto text-gray-900"
+        >
+          <Title2 className="mt-12 mb-8">
             Quand et dans quelle ville l’incident s’est-il déroulé ?
           </Title2>
 
@@ -50,6 +87,7 @@ const Step1Page = () => {
                 type="date"
                 id="date"
                 name="date"
+                ref={register}
               />
             </div>
 
@@ -60,11 +98,20 @@ const Step1Page = () => {
               >
                 Créneau horaire
               </label>
-              <input
+              {/* <input
                 className="w-full form-input"
                 type="text"
                 id="periodDay"
                 name="periodDay"
+                ref={register}
+              /> */}
+              <Select
+                options={hoursOptions}
+                placeholder="Choisir..."
+                value={hour}
+                onChange={onHoursChange}
+                isClearable={true}
+                styles={customStyles}
               />
             </div>
 
@@ -75,53 +122,57 @@ const Step1Page = () => {
               >
                 Ville
               </label>
-              <input className="form-input" type="text" id="town" name="town" />
+              <input
+                className="form-input"
+                type="text"
+                id="town"
+                name="town"
+                placeholder="Tapez les premières lettres"
+                ref={register}
+              />
             </div>
           </div>
 
-          <Title2 className="mt-8">Dans quel lieu précisément ?</Title2>
+          <Title2 className="mt-12">Dans quel lieu précisément ?</Title2>
 
           <div className="mt-4">
             <b>Intérieur</b>
             <div className="block mt-3">
               <div className="mt-2 space-y-2">
                 <div>
-                  <input
-                    type="radio"
-                    className="form-radio"
-                    name="location"
-                    value="Cabinet individuel"
-                    id="1"
-                    checked
-                  />
-                  <label
-                    htmlFor="Cabinet individuel"
-                    className="inline-flex items-center"
-                  >
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio"
+                      name="location"
+                      value="Cabinet individuel"
+                      ref={register}
+                      defaultChecked
+                    />
                     <span className="ml-2">Cabinet individuel</span>
                   </label>
                 </div>
                 <div>
-                  <input
-                    type="radio"
-                    className="form-radio"
-                    name="location"
-                    value="Cabinet collectif"
-                    id="2"
-                  />
-                  <label htmlFor="2" className="inline-flex items-center">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio"
+                      name="location"
+                      value="Cabinet collectif"
+                      ref={register}
+                    />
                     <span className="ml-2">Cabinet collectif</span>
                   </label>
                 </div>
                 <div>
-                  <input
-                    type="radio"
-                    className="form-radio"
-                    name="location"
-                    value="Officine"
-                    id="3"
-                  />
-                  <label htmlFor="3" className="inline-flex items-center">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio"
+                      name="location"
+                      value="Officine"
+                      ref={register}
+                    />
                     <span className="ml-2">Officine</span>
                   </label>
                 </div>
@@ -129,46 +180,45 @@ const Step1Page = () => {
             </div>
           </div>
 
-          <div className="mt-4">
+          <div className="mt-8">
             <b>Extérieur</b>
             <div className="block mt-3">
               <div className="mt-2 space-y-2">
                 <div>
-                  <input
-                    type="radio"
-                    className="form-radio"
-                    name="location"
-                    value="En face/à proximité du cabinet ou de l’officine"
-                    id="4"
-                    checked
-                  />
-                  <label htmlFor="4" className="inline-flex items-center">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio"
+                      name="location"
+                      value="En face/à proximité du cabinet ou de l’officine"
+                      ref={register}
+                    />
                     <span className="ml-2">
                       En face/à proximité du cabinet ou de l’officine
                     </span>
                   </label>
                 </div>
                 <div>
-                  <input
-                    type="radio"
-                    className="form-radio"
-                    name="location"
-                    value="Au domicile du patient"
-                    id="5"
-                  />
-                  <label htmlFor="5" className="inline-flex items-center">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio"
+                      name="location"
+                      value="Au domicile du patient"
+                      ref={register}
+                    />
                     <span className="ml-2">Au domicile du patient</span>
                   </label>
                 </div>
                 <div>
-                  <input
-                    type="radio"
-                    className="form-radio"
-                    name="location"
-                    value="Sur le trajet entre le cabinet et le domicile du patient"
-                    id="6"
-                  />
-                  <label htmlFor="6" className="inline-flex items-center">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio"
+                      name="location"
+                      value="Sur le trajet entre le cabinet et le domicile du patient"
+                      ref={register}
+                    />
                     <span className="ml-2">
                       Sur le trajet entre le cabinet et le domicile du patient
                     </span>
@@ -176,14 +226,14 @@ const Step1Page = () => {
                 </div>
 
                 <div>
-                  <input
-                    type="radio"
-                    className="form-radio"
-                    name="location"
-                    value="Sur le trajet entre votre domicile et votre lieu de travail"
-                    id="7"
-                  />
-                  <label htmlFor="7" className="inline-flex items-center">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio"
+                      name="location"
+                      value="Sur le trajet entre votre domicile et votre lieu de travail"
+                      ref={register}
+                    />
                     <span className="ml-2">
                       Sur le trajet entre votre domicile et votre lieu de
                       travail
@@ -192,14 +242,14 @@ const Step1Page = () => {
                 </div>
 
                 <div>
-                  <input
-                    type="radio"
-                    className="form-radio"
-                    name="location"
-                    value="Autre"
-                    id="8"
-                  />
-                  <label htmlFor="8" className="inline-flex items-center">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio"
+                      name="location"
+                      value="Autre"
+                      ref={register}
+                    />
                     <span className="ml-2">{"Autre : "}</span>
                   </label>
                   <div className="inline-block py-2 border-b border-b-2 border-blue-400">
@@ -209,6 +259,7 @@ const Step1Page = () => {
                       id="otherLocation"
                       name="otherLocation"
                       placeholder="Ajouter un lieu"
+                      ref={register}
                     />
                   </div>
                 </div>
