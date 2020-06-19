@@ -79,13 +79,13 @@
 @font-face {
   font-family: "Evolventa";
   font-weight: 400;
-  src: url("../fonts/Evolventa/Evolventa-Regular.ttf");
+  src: url("../fonts/evolventa/Evolventa-Regular.ttf");
 }
 
 @font-face {
   font-family: "Evolventa";
   font-weight: 800;
-  src: url("../fonts/Evolventa/Evolventa-Bold.ttf");
+  src: url("../fonts/evolventa/Evolventa-Bold.ttf");
 }
 
 @tailwind components;
