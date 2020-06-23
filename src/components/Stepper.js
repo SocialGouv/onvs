@@ -8,9 +8,9 @@ export const Title1 = ({ children, className }) => (
 )
 
 export const Title2 = ({ children, className }) => (
-  <h1 className={`text-lg text-left font-evolventa ${className}`}>
+  <h2 className={`text-lg text-left font-evolventa ${className}`}>
     {children}
-  </h1>
+  </h2>
 )
 
 const Tab = ({ children, selected = false }) =>

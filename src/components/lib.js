@@ -1,5 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
+import AddIcon from "./svg/add"
+import MinusIcon from "./svg/minus"
 
 export const PrimaryButtton = ({
   children,
@@ -105,3 +107,93 @@ Checkbox.propTypes = {
   name: PropTypes.string,
   required: PropTypes.boolean,
 }
+
+export const Groups = ({ name, values, register }) => {
+  return (
+    <div className="mt-4">
+      <div className="mt-2 space-y-2">
+        {values.map((value, index) => (
+          <div key={index}>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                className={`form-checkbox ${value.color}`}
+                name={name}
+                value={value.label}
+                ref={register}
+              />
+              <span className="ml-2">{value.label}</span>
+            </label>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export const Options = ({
+  name,
+  values,
+  register,
+  color = "text-indigo-600",
+}) => {
+  return (
+    <div className="my-4">
+      <div className="mt-2 space-y-2">
+        {values.map((value, index) => (
+          <div key={index}>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                className={`form-checkbox ${color}`}
+                name={name}
+                value={value}
+                ref={register}
+              />
+              <span className="ml-2">{value}</span>
+            </label>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export const Counter = ({ value = 0, setValue }) => {
+  const add = () => {
+    setValue(value + 1)
+  }
+
+  const substract = () => {
+    setValue(value - 1 >= 0 ? value - 1 : 0)
+  }
+
+  const keyPress = (event, fn) => event.key === "Enter" && fn(event)
+
+  return (
+    <>
+      <div className="flex items-center justify-center mb-4 text-center">
+        <MinusIcon
+          onClick={substract}
+          className="w-8 h-8 p-1 mr-4 bg-blue-100 rounded-full"
+          tabIndex="0"
+          onKeyPress={(e) => keyPress(e, substract)}
+        />
+        <span className="w-12">{value}</span>
+        <AddIcon
+          onClick={add}
+          className="w-8 h-8 p-1 ml-4 bg-blue-100 rounded-full "
+          tabIndex="0"
+          onKeyPress={(e) => keyPress(e, add)}
+        />
+      </div>
+    </>
+  )
+}
+
+Counter.propTypes = {
+  value: PropTypes.number.isRequired,
+  setValue: PropTypes.func.isRequired,
+}
+
+export default Counter
