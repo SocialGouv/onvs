@@ -9,10 +9,6 @@ import { Counter, Options, PrimaryButtton, OutlineButton } from "components/lib"
 import { Stepper, Title1, Title2 } from "components/Stepper"
 import Select from "react-select"
 
-function createArrayWithNumbers(length) {
-  return Array.from({ length }, (_, k) => k)
-}
-
 const victimProfileOptions = [
   "Accompagnant/Visiteur/Famille",
   "Agent de sécurité-sûreté",
@@ -70,7 +66,7 @@ const Step4Page = () => {
   const router = useRouter()
   const { action } = useStateMachine(update)
   const [phase, setPhase] = useState(1)
-  const { handleSubmit, register, setValue, getValues } = useForm({})
+  const { handleSubmit, register, setValue } = useForm({})
   // const [victimsSize, setVictimsSize] = useState(1)
   const [stateForm, setStateForm] = useState({
     sickLeaveDays: 0,
@@ -422,9 +418,6 @@ const Step4Page = () => {
               </div>
             </>
           )}
-          {/* <input name="date" type="date" ref={register} />
-          <input name="location" ref={register} />
-          <button type="submit">Suivant</button> */}
         </form>
       </div>
     </Layout>

@@ -13,7 +13,7 @@ const Step2Page = () => {
   const { action } = useStateMachine(update)
   const [hasClickedNext, setClickedNext] = useState(false)
 
-  const { handleSubmit, register, setValue, getValues, watch } = useForm({})
+  const { handleSubmit, register, watch } = useForm({})
 
   const factType = watch("factType")
   const factpGroups = watch("factpGroups")
@@ -86,8 +86,8 @@ const Step2Page = () => {
               </div>
             </div>
           </div>
-          {(getValues("factType") === "Atteinte aux personnes" ||
-            getValues("factType") === "Les deux") && (
+          {(factType === "Atteinte aux personnes" ||
+            factType === "Les deux") && (
             <>
               <Title2 className="mt-12 mb-8">
                 Veuillez préciser l’atteinte aux personnes :
@@ -134,8 +134,7 @@ const Step2Page = () => {
               />
             </>
           )}
-          {(getValues("factType") === "Atteinte aux biens" ||
-            getValues("factType") === "Les deux") && (
+          {(factType === "Atteinte aux biens" || factType === "Les deux") && (
             <>
               <Title2 className="mt-12 mb-8">
                 Veuillez préciser l’atteinte aux biens :
@@ -406,9 +405,6 @@ const Step2Page = () => {
               <PrimaryButtton>Suivant</PrimaryButtton>
             </div>
           )}
-          {/* <input name="date" type="date" ref={register} />
-          <input name="location" ref={register} />
-          <button type="submit">Suivant</button> */}
         </form>
       </div>
     </Layout>

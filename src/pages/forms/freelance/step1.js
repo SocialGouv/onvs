@@ -98,13 +98,6 @@ const Step1Page = () => {
               >
                 Créneau horaire
               </label>
-              {/* <input
-                className="w-full form-input"
-                type="text"
-                id="periodDay"
-                name="periodDay"
-                ref={register}
-              /> */}
               <Select
                 options={hoursOptions}
                 placeholder="Choisir..."
@@ -275,10 +268,6 @@ const Step1Page = () => {
             </Link>
             <PrimaryButtton>Suivant</PrimaryButtton>
           </div>
-
-          {/* <input name="date" type="date" ref={register} />
-          <input name="location" ref={register} />
-          <button type="submit">Suivant</button> */}
         </form>
       </div>
     </Layout>

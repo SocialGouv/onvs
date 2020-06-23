@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
@@ -6,14 +6,13 @@ import { useStateMachine } from "little-state-machine"
 import update from "lib/pages/form"
 import { Layout } from "components/Layout"
 import { PrimaryButtton, OutlineButton, Options } from "components/lib"
-import { Stepper, Title1, Title2 } from "components/Stepper"
-import Select from "react-select"
+import { Stepper, Title1 } from "components/Stepper"
 
 const Step3Page = () => {
   const router = useRouter()
   const { action } = useStateMachine(update)
 
-  const { handleSubmit, register, setValue, getValues } = useForm({})
+  const { handleSubmit, register } = useForm({})
 
   useEffect(() => {
     document.body.focus()
@@ -23,8 +22,6 @@ const Step3Page = () => {
   const onSubmit = (data) => {
     console.log({ data })
     action(data)
-
-    console.log("dans step3 vers step 4")
 
     router.push("/forms/freelance/step4")
   }

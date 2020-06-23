@@ -2,7 +2,7 @@ import React from "react"
 import Link from "next/link"
 import { Layout } from "components/Layout"
 import { PrimaryButtton, OutlineButton } from "components/lib"
-import { Stepper, Title1, Title2 } from "components/Stepper"
+import { Stepper, Title1 } from "components/Stepper"
 
 const ConfirmationPage = () => {
   return (
