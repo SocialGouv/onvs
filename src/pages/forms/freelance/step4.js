@@ -10,7 +10,7 @@ import { Stepper, Title1, Title2 } from "components/Stepper"
 import Select from "react-select"
 import { useScrollTop } from "hooks/scrollTop"
 
-const victimProfileOptions = [
+const victimTypeOptions = [
   "Accompagnant/Visiteur/Famille",
   "Agent de sécurité-sûreté",
   "Détenu",
@@ -64,32 +64,69 @@ const authorProfileOptions = [
 ].map((curr) => ({ value: curr, label: curr }))
 
 const Step4Page = () => {
+  useScrollTop()
   const router = useRouter()
-  const { action } = useStateMachine(update)
+  const { action, state } = useStateMachine(update)
   const [phase, setPhase] = useState(1)
-  const { handleSubmit, register, setValue } = useForm({})
+  const { handleSubmit, register, setValue } = useForm({
+    defaultValues: {
+      pursuit: state?.form?.pursuit,
+      pursuitBy: state?.form?.pursuitBy,
+      discernmentTroubles: state?.form?.discernmentTroubles,
+      thirdParty: state?.form?.thirdParty,
+    },
+  })
   // const [victimsSize, setVictimsSize] = useState(1)
   const [stateForm, setStateForm] = useState({
-    sickLeaveDays: 0,
-    hospitalizationDays: 0,
-    ITTDays: 0,
+    victimType: state?.form?.victimType && {
+      value: state?.form?.victimType,
+      label: state?.form?.victimType,
+    },
+    victimGender: state?.form?.victimGender && {
+      value: state?.form?.victimGender,
+      label: state?.form?.victimGender,
+    },
+    victimAge: state?.form?.victimAge && {
+      value: state?.form?.victimAge,
+      label: state?.form?.victimAge,
+    },
+    victimProfession: state?.form?.victimProfession && {
+      value: state?.form?.victimProfession,
+      label: state?.form?.victimProfession,
+    },
+    authorType: state?.form?.authorType && {
+      value: state?.form?.authorType,
+      label: state?.form?.authorType,
+    },
+    authorGender: state?.form?.authorGender && {
+      value: state?.form?.authorGender,
+      label: state?.form?.authorGender,
+    },
+    authorAge: state?.form?.authorAge && {
+      value: state?.form?.authorAge,
+      label: state?.form?.authorAge,
+    },
+    sickLeaveDays: state?.form?.sickLeaveDays,
+    hospitalizationDays: state?.form?.hospitalizationDays,
+    ITTDays: state?.form?.ITTDays,
   })
-
-  useScrollTop()
 
   useEffect(() => {
     // Extra field in form to store the value of selects
-
     register({ name: `victimType` })
     register({ name: `victimGender` })
     register({ name: `victimAge` })
     register({ name: `victimProfession` })
+    register({ name: `authorType` })
+    register({ name: `authorGender` })
+    register({ name: `authorAge` })
+    register({ name: `sickLeaveDays` })
+    register({ name: `hospitalizationDays` })
+    register({ name: `ITTDays` })
   }, [register])
 
   const onSubmit = (data) => {
-    console.log({ data })
     action(data)
-
     router.push("/forms/freelance/step5")
   }
 
@@ -99,6 +136,14 @@ const Step4Page = () => {
 
     // Needs transformation between format of react-select to expected format for API call
     setValue(name, selectedOption?.value || null)
+  }
+
+  const onCounterChange = (name, selectedOption) => {
+    // Needs to sync specifically the value to the react-select as well
+    setStateForm((state) => ({ ...state, [name]: selectedOption }))
+
+    // Needs transformation between format of react-select to expected format for API call
+    setValue(name, selectedOption || null)
   }
 
   const customStyles = {
@@ -137,7 +182,7 @@ const Step4Page = () => {
                 </label>
 
                 <Select
-                  options={victimProfileOptions}
+                  options={victimTypeOptions}
                   placeholder="Choisir une profession"
                   value={stateForm?.victimType || ""}
                   onChange={(selectedOption) =>
@@ -158,7 +203,7 @@ const Step4Page = () => {
                     "Autre genre",
                   ].map((curr) => ({ value: curr, label: curr }))}
                   placeholder="Choisir..."
-                  value={stateForm?.victimGender}
+                  value={stateForm?.victimGender || ""}
                   onChange={(selectedOption) =>
                     onChange("victimGender", selectedOption)
                   }
@@ -178,7 +223,7 @@ const Step4Page = () => {
                     "non déterminable",
                   ].map((curr) => ({ value: curr, label: curr }))}
                   placeholder="Choisir..."
-                  value={stateForm?.victimAge}
+                  value={stateForm?.victimAge || ""}
                   onChange={(selectedOption) =>
                     onChange("victimAge", selectedOption)
                   }
@@ -196,21 +241,25 @@ const Step4Page = () => {
                 <div className="text-center">
                   <Counter
                     value={stateForm?.sickLeaveDays}
-                    setValue={(value) => onChange("sickLeaveDays", value)}
+                    setValue={(value) =>
+                      onCounterChange("sickLeaveDays", value)
+                    }
                   />
                   {" jours d'arrêt de travail"}
                 </div>
                 <div className="text-center">
                   <Counter
                     value={stateForm?.hospitalizationDays}
-                    setValue={(value) => onChange("hospitalizationDays", value)}
+                    setValue={(value) =>
+                      onCounterChange("hospitalizationDays", value)
+                    }
                   />
                   {" jours d'hospitalisation"}
                 </div>
                 <div className="text-center">
                   <Counter
                     value={stateForm?.ITTDays}
-                    setValue={(value) => onChange("ITTDays", value)}
+                    setValue={(value) => onCounterChange("ITTDays", value)}
                   />
                   {" jours d'ITT"}
                 </div>
@@ -334,7 +383,12 @@ const Step4Page = () => {
                       "Autre genre",
                     ].map((curr) => ({ value: curr, label: curr }))}
                     placeholder="Choisir..."
-                    value={stateForm?.authorGender}
+                    value={
+                      state?.form?.authorGender && {
+                        value: state?.form?.authorGender,
+                        label: state?.form?.authorGender,
+                      }
+                    }
                     onChange={(selectedOption) =>
                       onChange("authorGender", selectedOption)
                     }
@@ -354,7 +408,12 @@ const Step4Page = () => {
                       "non déterminable",
                     ].map((curr) => ({ value: curr, label: curr }))}
                     placeholder="Choisir..."
-                    value={stateForm?.authorAge}
+                    value={
+                      state?.form?.authorAge && {
+                        value: state?.form?.authorAge,
+                        label: state?.form?.authorAge,
+                      }
+                    }
                     onChange={(selectedOption) =>
                       onChange("authorAge", selectedOption)
                     }

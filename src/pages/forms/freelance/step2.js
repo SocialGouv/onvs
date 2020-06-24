@@ -10,26 +10,35 @@ import { Stepper, Title1, Title2 } from "components/Stepper"
 
 const Step2Page = () => {
   const router = useRouter()
-  const { action } = useStateMachine(update)
-  const [hasClickedNext, setClickedNext] = useState(false)
-
-  const { handleSubmit, register, watch } = useForm({})
+  const { action, state } = useStateMachine(update)
+  const { handleSubmit, register, watch } = useForm({
+    defaultValues: {
+      factType: state?.form?.factType,
+      factpGroups: state?.form?.factpGroups,
+      factgGroups: state?.form?.factgGroups,
+      factpSpokenViolence: state?.form?.factpSpokenViolence,
+      factpPhysicalViolence: state?.form?.factpPhysicalViolence,
+      factpSexualViolence: state?.form?.factpSexualViolence,
+      factpPsychologicalViolence: state?.form?.factpPsychologicalViolence,
+      factpDiscrimination: state?.form?.factpDiscrimination,
+      factpHarassment: state?.form?.factpHarassment,
+      factpNoRespect: state?.form?.factpNoRespect,
+      factpOthers: state?.form?.factpOthers,
+      factgDeterioration: state?.form?.factgDeterioration,
+      factgStealWithoutBreakin: state?.form?.factgStealWithoutBreakin,
+      factgStealWithBreakin: state?.form?.factgStealWithBreakin,
+      factgOthers: state?.form?.factgOthers,
+    },
+  })
 
   const factType = watch("factType")
   const factpGroups = watch("factpGroups")
   const factgGroups = watch("factgGroups")
 
   const onSubmit = (data) => {
-    console.log({ data })
     action(data)
 
     router.push("/forms/freelance/step3")
-  }
-
-  const onClickNext = (e) => {
-    e.preventDefault()
-
-    if (factpGroups?.length || factgGroups?.length) setClickedNext(true)
   }
 
   return (
@@ -164,12 +173,7 @@ const Step2Page = () => {
               />
             </>
           )}
-          {!hasClickedNext && (!!factpGroups?.length || !!factgGroups?.length) && (
-            <PrimaryButtton className="mt-8" onClick={onClickNext}>
-              Suivant
-            </PrimaryButtton>
-          )}
-          {hasClickedNext && !!factpGroups?.length && (
+          {!!factpGroups?.length && (
             <>
               <Title2 className="mt-12 mb-8">
                 Veuillez préciser les faits :
@@ -315,7 +319,7 @@ const Step2Page = () => {
               )}
             </>
           )}
-          {hasClickedNext && !!factgGroups?.length && (
+          {!!factgGroups?.length && (
             <>
               <Title2 className="mt-12 mb-8">
                 Veuillez préciser les faits :
@@ -395,7 +399,7 @@ const Step2Page = () => {
             </>
           )}
 
-          {hasClickedNext && (
+          {(!!factpGroups?.length || !!factgGroups?.length) && (
             <div className="flex justify-center w-full my-16 space-x-4">
               <Link href="/forms/freelance/step1">
                 <a>

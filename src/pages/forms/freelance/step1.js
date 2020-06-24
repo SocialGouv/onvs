@@ -18,16 +18,23 @@ const hoursOptions = [
 
 const Step1Page = () => {
   const router = useRouter()
-  const { action } = useStateMachine(update)
+  const { action, state } = useStateMachine(update)
 
   const { handleSubmit, register, setValue } = useForm({
     defaultValues: {
-      location: "Vincennes",
-      hour: hoursOptions[0]?.value,
+      date: state?.form?.date,
+      town: state?.form?.town,
+      location: state?.form?.location,
+      otherLocation: state?.form?.otherLocation,
     },
   })
 
-  const [hour, setHour] = useState(hoursOptions[0])
+  const [hour, setHour] = useState(
+    state?.form?.hour && {
+      value: state?.form?.hour,
+      label: state?.form?.hour,
+    },
+  )
 
   useEffect(() => {
     // Extra field in form to store the value of selects
@@ -35,7 +42,6 @@ const Step1Page = () => {
   }, [register])
 
   const onSubmit = (data) => {
-    console.log({ data })
     action(data)
 
     router.push("/forms/freelance/step2")

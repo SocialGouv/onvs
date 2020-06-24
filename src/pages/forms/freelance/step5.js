@@ -10,16 +10,23 @@ import { Stepper, Title1, Title2 } from "components/Stepper"
 import { useScrollTop } from "hooks/scrollTop"
 
 const Step5Page = () => {
-  const router = useRouter()
-  const { action } = useStateMachine(update)
-  const { handleSubmit, register } = useForm({})
-  // const [victimsSize, setVictimsSize] = useState(1)
   useScrollTop()
+  const router = useRouter()
+  const { action, state } = useStateMachine(update)
+  const { handleSubmit, register } = useForm({
+    defaultValues: {
+      description: state?.form?.description,
+      declarantNames: state?.form?.declarantNames,
+      declarantId: state?.form?.declarantId,
+      declarantEmail: state?.form?.declarantEmail,
+      declarantTel: state?.form?.declarantTel,
+      declarantContactAgreement: state?.form?.declarantContactAgreement,
+    },
+  })
+  // const [victimsSize, setVictimsSize] = useState(1)
 
   const onSubmit = (data) => {
-    console.log({ data })
     action(data)
-
     router.push("/forms/freelance/confirmation")
   }
 
