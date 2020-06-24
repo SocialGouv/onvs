@@ -8,6 +8,7 @@ import { Layout } from "components/Layout"
 import { Counter, Options, PrimaryButtton, OutlineButton } from "components/lib"
 import { Stepper, Title1, Title2 } from "components/Stepper"
 import Select from "react-select"
+import { useScrollTop } from "hooks/scrollTop"
 
 const victimProfileOptions = [
   "Accompagnant/Visiteur/Famille",
@@ -74,10 +75,7 @@ const Step4Page = () => {
     ITTDays: 0,
   })
 
-  useEffect(() => {
-    document.body.focus()
-    window.scrollTo(0, 0)
-  }, [])
+  useScrollTop()
 
   useEffect(() => {
     // Extra field in form to store the value of selects

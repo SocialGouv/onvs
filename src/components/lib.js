@@ -41,7 +41,7 @@ export const HeroTitle = ({ children }) => (
 )
 
 HeroTitle.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.string,
 }
 
 export const Title1 = ({ children }) => (
@@ -51,7 +51,7 @@ export const Title1 = ({ children }) => (
 )
 
 Title1.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.string,
 }
 
 export const Title2 = ({ children }) => (
@@ -67,7 +67,7 @@ export const Input = ({
   id,
   name,
   type = "text",
-  required,
+  required = false,
   placeholder,
 }) => (
   <input
@@ -86,11 +86,11 @@ Input.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   type: PropTypes.oneOf(["text", "password", "email"]),
-  required: PropTypes.boolean,
+  required: PropTypes.bool,
   placeholder: PropTypes.string,
 }
 
-export const Checkbox = ({ ariaLabel, id, name, required }) => (
+export const Checkbox = ({ ariaLabel, id, name, required = false }) => (
   <input
     aria-label={ariaLabel}
     name={name}
@@ -105,7 +105,7 @@ Checkbox.propTypes = {
   ariaLabel: PropTypes.string,
   id: PropTypes.string,
   name: PropTypes.string,
-  required: PropTypes.boolean,
+  required: PropTypes.bool,
 }
 
 export const Groups = ({ name, values, register }) => {
@@ -129,6 +129,12 @@ export const Groups = ({ name, values, register }) => {
       </div>
     </div>
   )
+}
+
+Groups.propTypes = {
+  name: PropTypes.string,
+  values: PropTypes.array,
+  register: PropTypes.func,
 }
 
 export const Options = ({
@@ -157,6 +163,13 @@ export const Options = ({
       </div>
     </div>
   )
+}
+
+Options.propTypes = {
+  name: PropTypes.string,
+  values: PropTypes.array,
+  register: PropTypes.func,
+  color: PropTypes.string,
 }
 
 export const Counter = ({ value = 0, setValue }) => {

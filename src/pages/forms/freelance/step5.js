@@ -7,12 +7,14 @@ import update from "lib/pages/form"
 import { Layout } from "components/Layout"
 import { PrimaryButtton, OutlineButton } from "components/lib"
 import { Stepper, Title1, Title2 } from "components/Stepper"
+import { useScrollTop } from "hooks/scrollTop"
 
 const Step5Page = () => {
   const router = useRouter()
   const { action } = useStateMachine(update)
   const { handleSubmit, register } = useForm({})
   // const [victimsSize, setVictimsSize] = useState(1)
+  useScrollTop()
 
   const onSubmit = (data) => {
     console.log({ data })

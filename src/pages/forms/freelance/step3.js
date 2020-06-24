@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
@@ -7,6 +7,7 @@ import update from "lib/pages/form"
 import { Layout } from "components/Layout"
 import { PrimaryButtton, OutlineButton, Options } from "components/lib"
 import { Stepper, Title1 } from "components/Stepper"
+import { useScrollTop } from "hooks/scrollTop"
 
 const Step3Page = () => {
   const router = useRouter()
@@ -14,10 +15,7 @@ const Step3Page = () => {
 
   const { handleSubmit, register } = useForm({})
 
-  useEffect(() => {
-    document.body.focus()
-    window.scrollTo(0, 0)
-  })
+  useScrollTop()
 
   const onSubmit = (data) => {
     console.log({ data })

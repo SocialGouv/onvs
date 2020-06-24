@@ -1,11 +1,19 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Link from "next/link"
 import AuthentCard from "components/AuthentCard"
 import FreelanceCard from "components/FreelanceCard"
 import { HeroTitle } from "components/lib"
 import Wave from "components/svg/wave"
+import { useStateMachine } from "little-state-machine"
+import { reset } from "lib/pages/form"
 
 const IndexPage = () => {
+  const { action } = useStateMachine(reset)
+
+  useEffect(() => {
+    action()
+  }, [action])
+
   return (
     <>
       <div
