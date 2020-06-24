@@ -8,6 +8,7 @@ import { Layout } from "components/Layout"
 import { PrimaryButtton, OutlineButton } from "components/lib"
 import { Stepper, Title1, Title2 } from "components/Stepper"
 import Select from "react-select"
+import { useScrollTop } from "hooks/scrollTop"
 
 const hoursOptions = [
   { value: "Matin (7h-12h)", label: "Matin (7h-12h)" },
@@ -17,6 +18,7 @@ const hoursOptions = [
 ]
 
 const Step1Page = () => {
+  useScrollTop()
   const router = useRouter()
   const { action, state } = useStateMachine(update)
 

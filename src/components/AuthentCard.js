@@ -14,7 +14,7 @@ const AuthentCard = () => {
   return (
     <div className="w-full max-w-md px-4 py-2 text-gray-700 transition duration-500 ease-in transform bg-gray-200 border rounded shadow hover:scale-105 hover:border-gray-400">
       <Hospital className="w-auto h-12 mx-auto" alt="hôpital" />
-      <Title1>Établissement, ordre, fédération</Title1>
+      <Title1>Établissement, ordre, fédération, conférence</Title1>
       <Title2>Connectez-vous à votre compte</Title2>
       <form className="mt-5" action="#">
         <label htmlFor="email">Adresse courriel</label>
@@ -56,12 +56,12 @@ const AuthentCard = () => {
             </Link>
           </div>
         </div>
-        <div className="text-center">
+        <div className="mt-6 text-center">
           <PrimaryButtton type="submit">Se connecter</PrimaryButtton>
         </div>
       </form>
       <Title2>{"Vous n'avez pas encore de compte?"}</Title2>
-      <div className="text-center">
+      <div className="mt-4 text-center">
         <OutlineButton>Créer un compte</OutlineButton>
       </div>
     </div>

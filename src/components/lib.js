@@ -44,18 +44,23 @@ HeroTitle.propTypes = {
   children: PropTypes.string,
 }
 
-export const Title1 = ({ children }) => (
-  <h1 className="mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900">
+export const Title1 = ({ children, className }) => (
+  <h1
+    className={`mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900 ${className}`}
+  >
     {children}
   </h1>
 )
 
 Title1.propTypes = {
   children: PropTypes.string,
+  className: PropTypes.string,
 }
 
-export const Title2 = ({ children }) => (
-  <h2 className="mt-3 text-sm leading-5 text-center text-gray-600">
+export const Title2 = ({ children, className }) => (
+  <h2
+    className={`mt-3 text-sm leading-5 text-center text-gray-600 ${className}`}
+  >
     {children}
   </h2>
 )

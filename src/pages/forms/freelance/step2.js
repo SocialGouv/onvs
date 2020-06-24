@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
@@ -7,8 +7,10 @@ import update from "lib/pages/form"
 import { Layout } from "components/Layout"
 import { PrimaryButtton, OutlineButton, Groups, Options } from "components/lib"
 import { Stepper, Title1, Title2 } from "components/Stepper"
+import { useScrollTop } from "hooks/scrollTop"
 
 const Step2Page = () => {
+  useScrollTop()
   const router = useRouter()
   const { action, state } = useStateMachine(update)
   const { handleSubmit, register, watch } = useForm({
