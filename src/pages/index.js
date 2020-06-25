@@ -1,10 +1,12 @@
 import React, { useEffect } from "react"
+import { useStateMachine } from "little-state-machine"
+
 import AuthentCard from "components/AuthentCard"
 import FreelanceCard from "components/FreelanceCard"
 import { HeroTitle } from "components/lib"
 import Wave from "components/svg/wave"
-import { useStateMachine } from "little-state-machine"
 import { reset } from "lib/pages/form"
+import Footer from "components/Footer"
 
 const IndexPage = () => {
   const { action } = useStateMachine(reset)
@@ -33,6 +35,7 @@ const IndexPage = () => {
           <FreelanceCard />
         </div>
       </div>
+      <Footer />
     </>
   )
 }
