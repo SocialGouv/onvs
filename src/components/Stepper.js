@@ -15,7 +15,7 @@ export const Title2 = ({ children, className }) => (
 
 const Tab = ({ children, selected = false }) =>
   selected ? (
-    <a className="inline-flex items-center justify-center w-1/2 py-3 text-base font-medium leading-none tracking-wider text-gray-100 bg-teal-400 border-b-2 border-teal-500 rounded-t sm:px-6 sm:w-auto sm:justify-start font-evolventa">
+    <a className="inline-flex items-center justify-center w-1/2 py-3 text-base font-medium leading-none tracking-wider text-gray-100 bg-blue-400 border-b-4 border-r-2 border-blue-500 rounded-t sm:px-6 sm:w-auto sm:justify-start font-evolventa">
       {children}
     </a>
   ) : (

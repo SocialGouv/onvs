@@ -3,6 +3,8 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { useStateMachine } from "little-state-machine"
+import { format } from "date-fns"
+
 import update from "lib/pages/form"
 import { Layout } from "components/Layout"
 import { PrimaryButtton, OutlineButton } from "components/lib"
@@ -24,7 +26,7 @@ const Step1Page = () => {
 
   const { handleSubmit, register, setValue } = useForm({
     defaultValues: {
-      date: state?.form?.date,
+      date: state?.form?.date || format(new Date(), "yyyy-MM-dd"),
       town: state?.form?.town,
       location: state?.form?.location,
       otherLocation: state?.form?.otherLocation,
