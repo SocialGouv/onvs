@@ -11,7 +11,7 @@ export const PrimaryButtton = ({
 }) => (
   <button
     type={type}
-    className={`px-4 py-2 font-bold text-white bg-blue-500 rounded ${className}`}
+    className={`px-6 py-2 font-bold uppercase text-sm tracking-wider font-source text-white bg-blue-600 rounded ${className}`}
     onClick={onClick}
   >
     {children}
@@ -26,7 +26,7 @@ PrimaryButtton.propTypes = {
 export const OutlineButton = ({ children, type = "text" }) => (
   <button
     type={type}
-    className="px-4 py-2 text-blue-600 border border-blue-600 rounded"
+    className="px-4 py-2 text-sm tracking-wider text-blue-600 uppercase border border-blue-600 rounded font-source"
   >
     {children}
   </button>
