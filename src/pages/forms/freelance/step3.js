@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form"
 import { useStateMachine } from "little-state-machine"
 import update from "lib/pages/form"
 import { Layout } from "components/Layout"
-import { PrimaryButtton, OutlineButton, Options } from "components/lib"
-import { Stepper, Title1 } from "components/Stepper"
+import { PrimaryButtton, OutlineButton, Options, Title1 } from "components/lib"
+import { Stepper } from "components/Stepper"
 import { useScrollTop } from "hooks/scrollTop"
 
 const Step3Page = () => {

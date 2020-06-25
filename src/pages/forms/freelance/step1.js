@@ -7,8 +7,8 @@ import { format } from "date-fns"
 
 import update from "lib/pages/form"
 import { Layout } from "components/Layout"
-import { PrimaryButtton, OutlineButton } from "components/lib"
-import { Stepper, Title1, Title2 } from "components/Stepper"
+import { PrimaryButtton, OutlineButton, Title1, Title2 } from "components/lib"
+import { Stepper } from "components/Stepper"
 import Select from "react-select"
 import { useScrollTop } from "hooks/scrollTop"
 

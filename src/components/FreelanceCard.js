@@ -1,6 +1,6 @@
 import React from "react"
 import DoctorsIcon from "./svg/doctors"
-import { PrimaryButtton, Title1, Title2 } from "../components/lib"
+import { PrimaryButtton, TitleCard, SubTitleCard } from "../components/lib"
 import { useRouter } from "next/router"
 
 const FreelanceCard = () => {
@@ -18,14 +18,14 @@ const FreelanceCard = () => {
       role="button"
       tabIndex="0"
     >
-      <Title1>Vous exercez en libéral?</Title1>
-      <Title2>
+      <TitleCard>Vous exercez en libéral?</TitleCard>
+      <SubTitleCard>
         Vous n’avez pas besoin de compte pour remonter un incident de violence.
-      </Title2>
+      </SubTitleCard>
       <DoctorsIcon className="mx-auto mt-5" />
-      <Title2 className="mt-8">
+      <SubTitleCard className="mt-8">
         Votre déclaration pourra être réalisée de manière anonyme.
-      </Title2>
+      </SubTitleCard>
       <div className="my-6 text-center">
         <PrimaryButtton type="submit">Déclarer</PrimaryButtton>
       </div>
