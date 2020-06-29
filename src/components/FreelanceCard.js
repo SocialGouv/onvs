@@ -1,6 +1,7 @@
 import React from "react"
 import DoctorsIcon from "./svg/doctors"
 import { PrimaryButtton, TitleCard, SubTitleCard } from "../components/lib"
+import { RoughNotation } from "../components/RoughNotation"
 import { useRouter } from "next/router"
 
 const FreelanceCard = () => {
@@ -18,7 +19,18 @@ const FreelanceCard = () => {
       role="button"
       tabIndex="0"
     >
-      <TitleCard>Vous exercez en libéral?</TitleCard>
+      <TitleCard>
+        Vous exercez{" "}
+        <RoughNotation
+          type="highlight"
+          color="lightgreen"
+          show={false}
+          animate={true}
+        >
+          en libéral ?
+        </RoughNotation>
+      </TitleCard>
+
       <SubTitleCard>
         Vous n’avez pas besoin de compte pour remonter un incident de violence.
       </SubTitleCard>
