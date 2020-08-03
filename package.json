@@ -21,7 +21,7 @@
     "next": "^9.3.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-hook-form": "^5.7.2",
+    "react-hook-form": "^6.3.0",
     "sentry-testkit": "^3.2.1"
   },
   "devDependencies": {
