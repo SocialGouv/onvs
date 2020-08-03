@@ -1,10 +1,19 @@
-import React from "react"
 import PropTypes from "prop-types"
+import React from "react"
 
-export const PrimaryButtton = ({ children, type = "text" }) => (
+import AddIcon from "./svg/add"
+import MinusIcon from "./svg/minus"
+
+export const PrimaryButtton = ({
+  children,
+  className,
+  type = "text",
+  onClick,
+}) => (
   <button
     type={type}
-    className="px-4 py-2 font-bold text-white bg-blue-500 rounded"
+    className={`px-6 py-2 font-bold uppercase text-sm tracking-wider font-source text-white bg-blue-600 rounded ${className}`}
+    onClick={onClick}
   >
     {children}
   </button>
@@ -18,7 +27,7 @@ PrimaryButtton.propTypes = {
 export const OutlineButton = ({ children, type = "text" }) => (
   <button
     type={type}
-    className="px-4 py-2 font-bold border border-gray-500 rounded"
+    className="px-4 py-2 text-sm tracking-wider text-blue-600 uppercase border border-blue-600 rounded font-source"
   >
     {children}
   </button>
@@ -33,21 +42,45 @@ export const HeroTitle = ({ children }) => (
 )
 
 HeroTitle.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.string,
 }
 
-export const Title1 = ({ children }) => (
-  <h1 className="mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900">
+export const TitleCard = ({ children, className }) => (
+  <h1
+    className={`mt-6 text-3xl font-bold leading-9 text-center text-gray-900 ${className}`}
+  >
+    {children}
+  </h1>
+)
+
+TitleCard.propTypes = {
+  children: PropTypes.string,
+  className: PropTypes.string,
+}
+
+export const SubTitleCard = ({ children, className }) => (
+  <h2
+    className={`mt-3 text-sm leading-5 text-center text-gray-600 ${className}`}
+  >
+    {children}
+  </h2>
+)
+
+SubTitleCard.propTypes = TitleCard.propTypes
+
+export const Title1 = ({ children, className }) => (
+  <h1 className={`text-lg text-center font-evolventa ${className}`}>
     {children}
   </h1>
 )
 
 Title1.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  className: PropTypes.string,
 }
 
-export const Title2 = ({ children }) => (
-  <h2 className="mt-3 text-sm leading-5 text-center text-gray-600">
+export const Title2 = ({ children, className }) => (
+  <h2 className={`text-lg text-left font-evolventa ${className}`}>
     {children}
   </h2>
 )
@@ -59,7 +92,7 @@ export const Input = ({
   id,
   name,
   type = "text",
-  required,
+  required = false,
   placeholder,
 }) => (
   <input
@@ -77,12 +110,12 @@ Input.propTypes = {
   ariaLabel: PropTypes.string,
   id: PropTypes.string,
   name: PropTypes.string,
-  type: PropTypes.oneOf(["text", "password", "email"]),
-  required: PropTypes.boolean,
   placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  type: PropTypes.oneOf(["text", "password", "email"]),
 }
 
-export const Checkbox = ({ ariaLabel, id, name, required }) => (
+export const Checkbox = ({ ariaLabel, id, name, required = false }) => (
   <input
     aria-label={ariaLabel}
     name={name}
@@ -97,5 +130,108 @@ Checkbox.propTypes = {
   ariaLabel: PropTypes.string,
   id: PropTypes.string,
   name: PropTypes.string,
-  required: PropTypes.boolean,
+  required: PropTypes.bool,
 }
+
+export const Groups = ({ name, values, register }) => {
+  return (
+    <div className="mt-4">
+      <div className="mt-2 space-y-2">
+        {values.map((value, index) => (
+          <div key={index}>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                className={`form-checkbox ${value.color}`}
+                name={name}
+                value={value.label}
+                ref={register}
+              />
+              <span className="ml-2">{value.label}</span>
+            </label>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+Groups.propTypes = {
+  name: PropTypes.string,
+  register: PropTypes.func,
+  values: PropTypes.array,
+}
+
+export const Options = ({
+  name,
+  values,
+  register,
+  color = "text-indigo-600",
+}) => {
+  return (
+    <div className="my-4">
+      <div className="mt-2 space-y-2">
+        {values.map((value, index) => (
+          <div key={index}>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                className={`form-checkbox ${color}`}
+                name={name}
+                value={value}
+                ref={register}
+              />
+              <span className="ml-2">{value}</span>
+            </label>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+Options.propTypes = {
+  color: PropTypes.string,
+  name: PropTypes.string,
+  register: PropTypes.func,
+  values: PropTypes.array,
+}
+
+export const Counter = ({ value = 0, setValue }) => {
+  const add = () => {
+    setValue(value + 1)
+  }
+
+  const substract = () => {
+    setValue(value - 1 >= 0 ? value - 1 : 0)
+  }
+
+  const keyPress = (event, fn) => event.key === "Enter" && fn(event)
+
+  return (
+    <>
+      <div className="flex items-center justify-center mb-4 text-center">
+        <MinusIcon
+          onClick={substract}
+          className="w-8 h-8 p-1 mr-4 bg-blue-100 rounded-full"
+          tabIndex="0"
+          onKeyPress={(e) => keyPress(e, substract)}
+        />
+        <span className="w-12">{value}</span>
+        <AddIcon
+          onClick={add}
+          className="w-8 h-8 p-1 ml-4 bg-blue-100 rounded-full "
+          tabIndex="0"
+          onKeyPress={(e) => keyPress(e, add)}
+        />
+      </div>
+    </>
+  )
+}
+
+Counter.propTypes = {
+  setValue: PropTypes.func.isRequired,
+  value: PropTypes.number.isRequired,
+}
+
+export default Counter

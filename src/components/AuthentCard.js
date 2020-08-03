@@ -1,21 +1,34 @@
-import React from "react"
 import Link from "next/link"
-import Hospital from "./svg/hospital.js"
+import React from "react"
+
 import {
-  PrimaryButtton,
-  OutlineButton,
-  Title1,
-  Title2,
-  Input,
   Checkbox,
+  Input,
+  OutlineButton,
+  PrimaryButtton,
+  SubTitleCard,
+  TitleCard,
 } from "../components/lib"
+import { RoughNotation } from "../components/RoughNotation"
+import Hospital from "./svg/hospital.js"
 
 const AuthentCard = () => {
   return (
     <div className="w-full max-w-md px-4 py-2 text-gray-700 transition duration-500 ease-in transform bg-gray-200 border rounded shadow hover:scale-105 hover:border-gray-400">
       <Hospital className="w-auto h-12 mx-auto" alt="hôpital" />
-      <Title1>Établissement, ordre, fédération</Title1>
-      <Title2>Connectez-vous à votre compte</Title2>
+      <TitleCard>
+        <RoughNotation
+          type="highlight"
+          multiline="true"
+          color="#bee3f8"
+          show={false}
+          animate={true}
+          animationDuration="800"
+        >
+          Établissement, ordre, fédération, conférence
+        </RoughNotation>
+      </TitleCard>
+      <SubTitleCard>Connectez-vous à votre compte</SubTitleCard>
       <form className="mt-5" action="#">
         <label htmlFor="email">Adresse courriel</label>
         <div>
@@ -49,19 +62,19 @@ const AuthentCard = () => {
           </div>
 
           <div className="text-sm leading-5">
-            <Link href="#">
+            <Link href="/">
               <a className="font-medium text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline">
                 Mot de passe oublié?
               </a>
             </Link>
           </div>
         </div>
-        <div className="text-center">
+        <div className="mt-6 text-center">
           <PrimaryButtton type="submit">Se connecter</PrimaryButtton>
         </div>
       </form>
-      <Title2>{"Vous n'avez pas encore de compte?"}</Title2>
-      <div className="text-center">
+      <SubTitleCard>{"Vous n'avez pas encore de compte?"}</SubTitleCard>
+      <div className="mt-4 text-center">
         <OutlineButton>Créer un compte</OutlineButton>
       </div>
     </div>
