@@ -1,8 +1,9 @@
-import React from "react"
-import DoctorsIcon from "./svg/doctors"
-import { PrimaryButtton, TitleCard, SubTitleCard } from "../components/lib"
-import { RoughNotation } from "../components/RoughNotation"
 import { useRouter } from "next/router"
+import React from "react"
+
+import { PrimaryButtton, SubTitleCard, TitleCard } from "../components/lib"
+import { RoughNotation } from "../components/RoughNotation"
+import DoctorsIcon from "./svg/doctors"
 
 const FreelanceCard = () => {
   const router = useRouter()

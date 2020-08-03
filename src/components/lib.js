@@ -1,5 +1,6 @@
-import React from "react"
 import PropTypes from "prop-types"
+import React from "react"
+
 import AddIcon from "./svg/add"
 import MinusIcon from "./svg/minus"
 
@@ -109,9 +110,9 @@ Input.propTypes = {
   ariaLabel: PropTypes.string,
   id: PropTypes.string,
   name: PropTypes.string,
-  type: PropTypes.oneOf(["text", "password", "email"]),
-  required: PropTypes.bool,
   placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  type: PropTypes.oneOf(["text", "password", "email"]),
 }
 
 export const Checkbox = ({ ariaLabel, id, name, required = false }) => (
@@ -157,8 +158,8 @@ export const Groups = ({ name, values, register }) => {
 
 Groups.propTypes = {
   name: PropTypes.string,
-  values: PropTypes.array,
   register: PropTypes.func,
+  values: PropTypes.array,
 }
 
 export const Options = ({
@@ -190,10 +191,10 @@ export const Options = ({
 }
 
 Options.propTypes = {
-  name: PropTypes.string,
-  values: PropTypes.array,
-  register: PropTypes.func,
   color: PropTypes.string,
+  name: PropTypes.string,
+  register: PropTypes.func,
+  values: PropTypes.array,
 }
 
 export const Counter = ({ value = 0, setValue }) => {
@@ -229,8 +230,8 @@ export const Counter = ({ value = 0, setValue }) => {
 }
 
 Counter.propTypes = {
-  value: PropTypes.number.isRequired,
   setValue: PropTypes.func.isRequired,
+  value: PropTypes.number.isRequired,
 }
 
 export default Counter

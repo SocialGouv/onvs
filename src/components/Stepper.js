@@ -1,5 +1,5 @@
-import React from "react"
 import PropTypes from "prop-types"
+import React from "react"
 
 const Tab = ({ children, selected = false }) =>
   selected ? (
@@ -11,6 +11,11 @@ const Tab = ({ children, selected = false }) =>
       {children}
     </a>
   )
+
+Tab.propTypes = {
+  children: PropTypes.array,
+  selected: PropTypes.bool,
+}
 
 export const Stepper = ({ step = 1 }) => (
   <section className="container flex flex-col flex-wrap py-1 mx-auto text-gray-700 body-font">

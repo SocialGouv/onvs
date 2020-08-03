@@ -1,15 +1,14 @@
-import React from "react"
-import App from "next/app"
-import Head from "next/head"
+// import { DevTool } from "little-state-machine-devtools"
+//import "@socialgouv/bootstrap.core/dist/socialgouv-bootstrap.min.css"
+import "../styles/index.css"
+
 import * as Sentry from "@sentry/node"
 import { initMatomo } from "lib/matomo"
 // import Nav from "../components/Nav"
-import { StateMachineProvider, createStore } from "little-state-machine"
-// import { DevTool } from "little-state-machine-devtools"
-
-//import "@socialgouv/bootstrap.core/dist/socialgouv-bootstrap.min.css"
-
-import "../styles/index.css"
+import { createStore, StateMachineProvider } from "little-state-machine"
+import App from "next/app"
+import Head from "next/head"
+import React from "react"
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -22,8 +21,8 @@ createStore({
 class MyApp extends App {
   componentDidMount() {
     initMatomo({
-      siteId: process.env.MATOMO_SITE_ID,
       piwikUrl: process.env.MATOMO_URL,
+      siteId: process.env.MATOMO_SITE_ID,
     })
   }
   render() {

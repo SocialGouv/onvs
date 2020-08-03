@@ -1,15 +1,16 @@
-import React from "react"
 import Link from "next/link"
-import Hospital from "./svg/hospital.js"
+import React from "react"
+
 import {
-  PrimaryButtton,
-  OutlineButton,
-  TitleCard,
-  SubTitleCard,
-  Input,
   Checkbox,
+  Input,
+  OutlineButton,
+  PrimaryButtton,
+  SubTitleCard,
+  TitleCard,
 } from "../components/lib"
 import { RoughNotation } from "../components/RoughNotation"
+import Hospital from "./svg/hospital.js"
 
 const AuthentCard = () => {
   return (
@@ -61,7 +62,7 @@ const AuthentCard = () => {
           </div>
 
           <div className="text-sm leading-5">
-            <Link href="#">
+            <Link href="/">
               <a className="font-medium text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline">
                 Mot de passe oublié?
               </a>

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React from "react"
 
 const Header = () => (
@@ -55,3 +56,7 @@ export const Layout = ({ children }) => (
     <Footer />
   </>
 )
+
+Layout.propTypes = {
+  children: PropTypes.array,
+}

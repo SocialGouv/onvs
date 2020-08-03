@@ -1,5 +1,5 @@
-import React from "react"
 import Marianne from "components/svg/marianne"
+import React from "react"
 
 const Footer = () => {
   return (
