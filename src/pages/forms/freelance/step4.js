@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react"
-import { useRouter } from "next/router"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { useStateMachine } from "little-state-machine"
-import update from "lib/pages/form"
 import { Layout } from "components/Layout"
 import {
   Counter,
   Options,
-  PrimaryButtton,
   OutlineButton,
+  PrimaryButtton,
   Title1,
   Title2,
 } from "components/lib"
 import { Stepper } from "components/Stepper"
-import Select from "react-select"
 import { useScrollTop } from "hooks/scrollTop"
+import update from "lib/pages/form"
+import { useStateMachine } from "little-state-machine"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import React, { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import Select from "react-select"
 
 const victimTypeOptions = [
   "Accompagnant/Visiteur/Famille",
@@ -27,7 +27,7 @@ const victimTypeOptions = [
   "Personnel administratif et technique",
   "Personnel de santé",
   "Prestataire extérieur",
-].map((curr) => ({ value: curr, label: curr }))
+].map((curr) => ({ label: curr, value: curr }))
 
 const victimJobsOptions = [
   "Aide-soignant",
@@ -56,7 +56,7 @@ const victimJobsOptions = [
   "Psychothérapeute",
   "Sage-femme",
   "Technicien de laboratoire médical",
-].map((curr) => ({ value: curr, label: curr }))
+].map((curr) => ({ label: curr, value: curr }))
 
 const authorProfileOptions = [
   "Accompagnant/Visiteur/Famille",
@@ -68,7 +68,7 @@ const authorProfileOptions = [
   "Personnel administratif et technique",
   "Personnel de santé",
   "Prestataire extérieur",
-].map((curr) => ({ value: curr, label: curr }))
+].map((curr) => ({ label: curr, value: curr }))
 
 const Step4Page = () => {
   useScrollTop()
@@ -77,45 +77,45 @@ const Step4Page = () => {
   const [phase, setPhase] = useState(1)
   const { handleSubmit, register, setValue } = useForm({
     defaultValues: {
+      discernmentTroubles: state?.form?.discernmentTroubles,
       pursuit: state?.form?.pursuit,
       pursuitBy: state?.form?.pursuitBy,
-      discernmentTroubles: state?.form?.discernmentTroubles,
       thirdParty: state?.form?.thirdParty,
     },
   })
   // const [victimsSize, setVictimsSize] = useState(1)
   const [stateForm, setStateForm] = useState({
-    victimType: state?.form?.victimType && {
-      value: state?.form?.victimType,
-      label: state?.form?.victimType,
-    },
-    victimGender: state?.form?.victimGender && {
-      value: state?.form?.victimGender,
-      label: state?.form?.victimGender,
-    },
-    victimAge: state?.form?.victimAge && {
-      value: state?.form?.victimAge,
-      label: state?.form?.victimAge,
-    },
-    victimProfession: state?.form?.victimProfession && {
-      value: state?.form?.victimProfession,
-      label: state?.form?.victimProfession,
-    },
-    authorType: state?.form?.authorType && {
-      value: state?.form?.authorType,
-      label: state?.form?.authorType,
+    ITTDays: state?.form?.ITTDays,
+    authorAge: state?.form?.authorAge && {
+      label: state?.form?.authorAge,
+      value: state?.form?.authorAge,
     },
     authorGender: state?.form?.authorGender && {
-      value: state?.form?.authorGender,
       label: state?.form?.authorGender,
+      value: state?.form?.authorGender,
     },
-    authorAge: state?.form?.authorAge && {
-      value: state?.form?.authorAge,
-      label: state?.form?.authorAge,
+    authorType: state?.form?.authorType && {
+      label: state?.form?.authorType,
+      value: state?.form?.authorType,
     },
-    sickLeaveDays: state?.form?.sickLeaveDays,
     hospitalizationDays: state?.form?.hospitalizationDays,
-    ITTDays: state?.form?.ITTDays,
+    sickLeaveDays: state?.form?.sickLeaveDays,
+    victimAge: state?.form?.victimAge && {
+      label: state?.form?.victimAge,
+      value: state?.form?.victimAge,
+    },
+    victimGender: state?.form?.victimGender && {
+      label: state?.form?.victimGender,
+      value: state?.form?.victimGender,
+    },
+    victimProfession: state?.form?.victimProfession && {
+      label: state?.form?.victimProfession,
+      value: state?.form?.victimProfession,
+    },
+    victimType: state?.form?.victimType && {
+      label: state?.form?.victimType,
+      value: state?.form?.victimType,
+    },
   })
 
   useEffect(() => {
@@ -184,20 +184,22 @@ const Step4Page = () => {
 
             <div className="flex space-x-6">
               <div className="flex-1">
-                <label className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase">
+                <span className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase">
                   &nbsp;
-                </label>
+                </span>
 
-                <Select
-                  options={victimTypeOptions}
-                  placeholder="Choisir une profession"
-                  value={stateForm?.victimType || ""}
-                  onChange={(selectedOption) =>
-                    onChange("victimType", selectedOption)
-                  }
-                  isClearable={true}
-                  styles={customStyles}
-                />
+                <div className="">
+                  <Select
+                    options={victimTypeOptions}
+                    placeholder="Choisir..."
+                    value={stateForm?.victimType || ""}
+                    onChange={(selectedOption) =>
+                      onChange("victimType", selectedOption)
+                    }
+                    isClearable={true}
+                    styles={customStyles}
+                  />
+                </div>
               </div>
               <div className="flex-1">
                 <label className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase">
@@ -208,7 +210,7 @@ const Step4Page = () => {
                     "Masculin",
                     "Féminin",
                     "Autre genre",
-                  ].map((curr) => ({ value: curr, label: curr }))}
+                  ].map((curr) => ({ label: curr, value: curr }))}
                   placeholder="Choisir..."
                   value={stateForm?.victimGender || ""}
                   onChange={(selectedOption) =>
@@ -228,7 +230,7 @@ const Step4Page = () => {
                     "- de 18 ans",
                     "+ de 18 ans",
                     "non déterminable",
-                  ].map((curr) => ({ value: curr, label: curr }))}
+                  ].map((curr) => ({ label: curr, value: curr }))}
                   placeholder="Choisir..."
                   value={stateForm?.victimAge || ""}
                   onChange={(selectedOption) =>
@@ -348,6 +350,12 @@ const Step4Page = () => {
           </>
           {phase === 1 && (
             <div className="flex justify-center w-full my-16 space-x-4">
+              <Link href="/forms/freelance/step3">
+                <a>
+                  <OutlineButton>Précédent</OutlineButton>
+                </a>
+              </Link>
+
               <PrimaryButtton onClick={() => setPhase(2)}>
                 Suivant
               </PrimaryButtton>
@@ -370,7 +378,7 @@ const Step4Page = () => {
 
                   <Select
                     options={authorProfileOptions}
-                    placeholder="Choisir une profession"
+                    placeholder="Choisir..."
                     value={stateForm?.authorType || ""}
                     onChange={(selectedOption) =>
                       onChange("authorType", selectedOption)
@@ -388,12 +396,12 @@ const Step4Page = () => {
                       "Masculin",
                       "Féminin",
                       "Autre genre",
-                    ].map((curr) => ({ value: curr, label: curr }))}
+                    ].map((curr) => ({ label: curr, value: curr }))}
                     placeholder="Choisir..."
                     value={
                       state?.form?.authorGender && {
-                        value: state?.form?.authorGender,
                         label: state?.form?.authorGender,
+                        value: state?.form?.authorGender,
                       }
                     }
                     onChange={(selectedOption) =>
@@ -413,12 +421,12 @@ const Step4Page = () => {
                       "- de 18 ans",
                       "+ de 18 ans",
                       "non déterminable",
-                    ].map((curr) => ({ value: curr, label: curr }))}
+                    ].map((curr) => ({ label: curr, value: curr }))}
                     placeholder="Choisir..."
                     value={
                       state?.form?.authorAge && {
-                        value: state?.form?.authorAge,
                         label: state?.form?.authorAge,
+                        value: state?.form?.authorAge,
                       }
                     }
                     onChange={(selectedOption) =>

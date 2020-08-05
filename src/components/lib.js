@@ -167,6 +167,7 @@ export const Options = ({
   values,
   register,
   color = "text-indigo-600",
+  disabled = false,
 }) => {
   return (
     <div className="my-4">
@@ -176,12 +177,17 @@ export const Options = ({
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
-                className={`form-checkbox ${color}`}
+                className={`form-checkbox ${
+                  disabled ? "opacity-50" : ""
+                } ${color}`}
                 name={name}
                 value={value}
                 ref={register}
+                disabled={disabled}
               />
-              <span className="ml-2">{value}</span>
+              <span className={`ml-2 ${disabled ? "opacity-50" : ""}`}>
+                {value}
+              </span>
             </label>
           </div>
         ))}
@@ -192,6 +198,7 @@ export const Options = ({
 
 Options.propTypes = {
   color: PropTypes.string,
+  disabled: PropTypes.bool,
   name: PropTypes.string,
   register: PropTypes.func,
   values: PropTypes.array,

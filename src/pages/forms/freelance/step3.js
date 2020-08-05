@@ -1,34 +1,66 @@
-import React from "react"
-import { useRouter } from "next/router"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { useStateMachine } from "little-state-machine"
-import update from "lib/pages/form"
 import { Layout } from "components/Layout"
-import { PrimaryButtton, OutlineButton, Options, Title1 } from "components/lib"
+import { Options, OutlineButton, PrimaryButtton, Title1 } from "components/lib"
 import { Stepper } from "components/Stepper"
 import { useScrollTop } from "hooks/scrollTop"
+import update from "lib/pages/form"
+import { useStateMachine } from "little-state-machine"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import React from "react"
+import { useForm } from "react-hook-form"
+import { useToasts } from "react-toast-notifications"
+import { hasData } from "utils/misc"
+
+import { toastConfig } from "../../../config"
 
 const Step3Page = () => {
   useScrollTop()
   const router = useRouter()
+  const { addToast } = useToasts()
+
   const { action, state } = useStateMachine(update)
 
-  const { handleSubmit, register } = useForm({
+  const { getValues, handleSubmit, register, watch } = useForm({
     defaultValues: {
       reasonCausePatient: state?.form?.reasonCausePatient,
       reasonCauseProfessional: state?.form?.reasonCauseProfessional,
-      reasonDiscord: state?.form?.reasonDiscord,
-      reasonLifeRules: state?.form?.reasonLifeRules,
-      reasonFalsification: state?.form?.reasonFalsification,
       reasonDeficientCommunication: state?.form?.reasonDeficientCommunication,
-      reasonOthers: state?.form?.reasonOthers,
+      reasonDiscord: state?.form?.reasonDiscord,
+      reasonFalsification: state?.form?.reasonFalsification,
+      reasonLifeRules: state?.form?.reasonLifeRules,
       reasonNotApparent: state?.form?.reasonNotApparent,
+      reasonOthers: state?.form?.reasonOthers,
     },
   })
 
+  const reasonNotApparentClicked = watch("reasonNotApparent")
+
   const onSubmit = (data) => {
-    action(data)
+    if (!hasData(data)) {
+      console.error("Le formulaire ne peut pas être vide")
+      addToast(
+        'Vous devez renseigner un motif ou bien cocher la case "Pas de motif apparent".',
+        toastConfig.error,
+      )
+
+      return
+    }
+
+    if (getValues("reasonNotApparent")) {
+      // reset part of the form which was possibly clicked
+      action({
+        reasonCausePatient: [],
+        reasonCauseProfessional: [],
+        reasonDeficientCommunication: [],
+        reasonDiscord: [],
+        reasonFalsification: [],
+        reasonLifeRules: [],
+        reasonNotApparent: "Pas de motif apparent",
+        reasonOthers: [],
+      })
+    } else {
+      action(data)
+    }
 
     router.push("/forms/freelance/step4")
   }
@@ -62,6 +94,7 @@ const Step3Page = () => {
                 "De paiement",
                 "De participer à une activité extérieure",
               ]}
+              disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-indigo-600"
             />
@@ -80,6 +113,7 @@ const Step3Page = () => {
                 "De vente pour non-conformité des droits",
                 "De vente pour d’autres raisons (hors stupéfiants)",
               ]}
+              disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-green-500"
             />
@@ -96,6 +130,7 @@ const Step3Page = () => {
                 "Entre les patients/résidents/accompagnants",
                 "Autres (bandes, clans, squatteurs…)",
               ]}
+              disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-pink-600"
             />
@@ -113,6 +148,7 @@ const Step3Page = () => {
                 "Non-respect des conditions de séjour",
                 "Frustation/contrariété (pas de sortie, pas de cigarettes, pas de nourriture supplémentaire, etc.)",
               ]}
+              disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-red-600"
             />
@@ -130,6 +166,7 @@ const Step3Page = () => {
                 "Document médical (ordonnance)",
                 "Document administratif (CNI, carte Vitale non mise à jour, etc.)",
               ]}
+              disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-orange-600"
             />
@@ -145,6 +182,7 @@ const Step3Page = () => {
                 "Défaut d’information ou information incomplète du professionnel",
                 "Reproche d’une communication non adaptée (termes trop techniques, difficultés de compréhension de la langue)",
               ]}
+              disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-teal-600"
             />
@@ -163,13 +201,14 @@ const Step3Page = () => {
                 "Patient sous stupéfiants",
                 "Autre",
               ]}
+              disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-purple-600"
             />
           </div>
 
           <div className="mt-4">
-            <b></b>
+            <b />
             <div className="block mt-3">
               <div className="mt-2 space-y-2">
                 <div>

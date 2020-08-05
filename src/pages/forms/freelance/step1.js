@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from "react"
-import { useRouter } from "next/router"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { useStateMachine } from "little-state-machine"
-import { format } from "date-fns"
-
-import update from "lib/pages/form"
 import { Layout } from "components/Layout"
-import { PrimaryButtton, OutlineButton, Title1, Title2 } from "components/lib"
+import { OutlineButton, PrimaryButtton, Title1, Title2 } from "components/lib"
 import { Stepper } from "components/Stepper"
-import Select from "react-select"
+import { format } from "date-fns"
 import { useScrollTop } from "hooks/scrollTop"
+import update from "lib/pages/form"
+import { useStateMachine } from "little-state-machine"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import React, { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import Select from "react-select"
 
 const hoursOptions = [
-  { value: "Matin (7h-12h)", label: "Matin (7h-12h)" },
-  { value: "Après-midi (12h-19h)", label: "Après-midi (12h-19h)" },
-  { value: "Soirée (19h-00h)", label: "Soirée (19h-00h)" },
-  { value: "Nuit (00h-7h)", label: "Nuit (00h-7h)" },
+  { label: "Matin (7h-12h)", value: "Matin (7h-12h)" },
+  { label: "Après-midi (12h-19h)", value: "Après-midi (12h-19h)" },
+  { label: "Soirée (19h-00h)", value: "Soirée (19h-00h)" },
+  { label: "Nuit (00h-7h)", value: "Nuit (00h-7h)" },
 ]
 
 const Step1Page = () => {
@@ -27,16 +26,16 @@ const Step1Page = () => {
   const { handleSubmit, register, setValue } = useForm({
     defaultValues: {
       date: state?.form?.date || format(new Date(), "yyyy-MM-dd"),
-      town: state?.form?.town,
       location: state?.form?.location,
       otherLocation: state?.form?.otherLocation,
+      town: state?.form?.town,
     },
   })
 
   const [hour, setHour] = useState(
     state?.form?.hour && {
-      value: state?.form?.hour,
       label: state?.form?.hour,
+      value: state?.form?.hour,
     },
   )
 

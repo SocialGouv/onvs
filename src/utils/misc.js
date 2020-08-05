@@ -11,3 +11,16 @@ export const removeEmpty = (data) => {
   }
   return res
 }
+
+export const hasData = (data) => {
+  for (const prop in data) {
+    if (Array.isArray(data[prop])) {
+      if (data[prop].length) {
+        return true
+      }
+    } else if (data[prop]) {
+      return true
+    }
+  }
+  return false
+}

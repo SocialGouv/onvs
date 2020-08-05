@@ -1,13 +1,13 @@
-import React from "react"
-import { useRouter } from "next/router"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { useStateMachine } from "little-state-machine"
-import update from "lib/pages/form"
 import { Layout } from "components/Layout"
-import { PrimaryButtton, OutlineButton, Title1, Title2 } from "components/lib"
+import { OutlineButton, PrimaryButtton, Title1, Title2 } from "components/lib"
 import { Stepper } from "components/Stepper"
 import { useScrollTop } from "hooks/scrollTop"
+import update from "lib/pages/form"
+import { useStateMachine } from "little-state-machine"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import React from "react"
+import { useForm } from "react-hook-form"
 
 const Step5Page = () => {
   useScrollTop()
@@ -15,12 +15,12 @@ const Step5Page = () => {
   const { action, state } = useStateMachine(update)
   const { handleSubmit, register } = useForm({
     defaultValues: {
-      description: state?.form?.description,
-      declarantNames: state?.form?.declarantNames,
-      declarantId: state?.form?.declarantId,
-      declarantEmail: state?.form?.declarantEmail,
-      declarantTel: state?.form?.declarantTel,
       declarantContactAgreement: state?.form?.declarantContactAgreement,
+      declarantEmail: state?.form?.declarantEmail,
+      declarantId: state?.form?.declarantId,
+      declarantNames: state?.form?.declarantNames,
+      declarantTel: state?.form?.declarantTel,
+      description: state?.form?.description,
     },
   })
   // const [victimsSize, setVictimsSize] = useState(1)

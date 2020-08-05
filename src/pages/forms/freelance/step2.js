@@ -1,20 +1,20 @@
-import React from "react"
-import { useRouter } from "next/router"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { useStateMachine } from "little-state-machine"
-import update from "lib/pages/form"
 import { Layout } from "components/Layout"
 import {
-  PrimaryButtton,
-  OutlineButton,
   Groups,
   Options,
+  OutlineButton,
+  PrimaryButtton,
   Title1,
   Title2,
 } from "components/lib"
 import { Stepper } from "components/Stepper"
 import { useScrollTop } from "hooks/scrollTop"
+import update from "lib/pages/form"
+import { useStateMachine } from "little-state-machine"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import React from "react"
+import { useForm } from "react-hook-form"
 
 const Step2Page = () => {
   useScrollTop()
@@ -23,20 +23,20 @@ const Step2Page = () => {
   const { handleSubmit, register, watch } = useForm({
     defaultValues: {
       factType: state?.form?.factType,
-      factpGroups: state?.form?.factpGroups,
+      factgDeterioration: state?.form?.factgDeterioration,
       factgGroups: state?.form?.factgGroups,
-      factpSpokenViolence: state?.form?.factpSpokenViolence,
-      factpPhysicalViolence: state?.form?.factpPhysicalViolence,
-      factpSexualViolence: state?.form?.factpSexualViolence,
-      factpPsychologicalViolence: state?.form?.factpPsychologicalViolence,
+      factgOthers: state?.form?.factgOthers,
+      factgStealWithBreakin: state?.form?.factgStealWithBreakin,
+      factgStealWithoutBreakin: state?.form?.factgStealWithoutBreakin,
       factpDiscrimination: state?.form?.factpDiscrimination,
+      factpGroups: state?.form?.factpGroups,
       factpHarassment: state?.form?.factpHarassment,
       factpNoRespect: state?.form?.factpNoRespect,
       factpOthers: state?.form?.factpOthers,
-      factgDeterioration: state?.form?.factgDeterioration,
-      factgStealWithoutBreakin: state?.form?.factgStealWithoutBreakin,
-      factgStealWithBreakin: state?.form?.factgStealWithBreakin,
-      factgOthers: state?.form?.factgOthers,
+      factpPhysicalViolence: state?.form?.factpPhysicalViolence,
+      factpPsychologicalViolence: state?.form?.factpPsychologicalViolence,
+      factpSexualViolence: state?.form?.factpSexualViolence,
+      factpSpokenViolence: state?.form?.factpSpokenViolence,
     },
   })
 
@@ -115,37 +115,37 @@ const Step2Page = () => {
                 name="factpGroups"
                 values={[
                   {
-                    label: "La victime a subi une violence verbale",
                     color: "text-indigo-600",
+                    label: "La victime a subi une violence verbale",
                   },
                   {
-                    label: "La victime a subi une violence physique",
                     color: "text-green-500",
+                    label: "La victime a subi une violence physique",
                   },
                   {
-                    label: "La victime a subi une violence sexuelle",
                     color: "text-pink-600",
+                    label: "La victime a subi une violence sexuelle",
                   },
                   {
-                    label: "La victime a subi une violence psychologique",
                     color: "text-red-600",
+                    label: "La victime a subi une violence psychologique",
                   },
                   {
-                    label: "La victime a été discriminée",
                     color: "text-orange-600",
+                    label: "La victime a été discriminée",
                   },
                   {
-                    label: "La victime a été harcelée",
                     color: "text-teal-600",
+                    label: "La victime a été harcelée",
                   },
                   {
+                    color: "text-purple-600",
                     label:
                       "Les auteurs n’ont pas respecté les règles du lieu / ont eu un comportement incivique",
-                    color: "text-purple-600",
                   },
                   {
-                    label: "Autres atteintes aux personnes",
                     color: "  ",
+                    label: "Autres atteintes aux personnes",
                   },
                 ]}
                 register={register}
@@ -162,20 +162,20 @@ const Step2Page = () => {
                 name="factgGroups"
                 values={[
                   {
-                    label: "Dégradation",
                     color: "text-indigo-600",
+                    label: "Dégradation",
                   },
                   {
-                    label: "Vol sans effraction",
                     color: "text-green-500",
+                    label: "Vol sans effraction",
                   },
                   {
-                    label: "Vol avec effraction",
                     color: "text-pink-600",
+                    label: "Vol avec effraction",
                   },
                   {
-                    label: "Autres atteintes aux biens",
                     color: "text-yellow-600",
+                    label: "Autres atteintes aux biens",
                   },
                 ]}
                 register={register}
