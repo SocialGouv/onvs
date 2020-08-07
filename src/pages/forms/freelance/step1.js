@@ -110,8 +110,11 @@ const Step1Page = () => {
                 id="date"
                 name="date"
                 ref={register}
+                aria-invalid={errors.date?.message ? "true" : "false"}
               />
-              <span className="text-red-500">{errors.date?.message}</span>
+              <span role="alert" className="text-red-500">
+                {errors.date?.message}
+              </span>
             </div>
 
             <div className="flex-1">
@@ -129,7 +132,6 @@ const Step1Page = () => {
                 control={control}
                 styles={selectConfig}
               />
-              <span className="text-red-500">{errors.hour?.message}</span>
             </div>
 
             <div className="flex-1">
@@ -148,8 +150,11 @@ const Step1Page = () => {
                 name="town"
                 placeholder="Tapez les premières lettres"
                 ref={register}
+                aria-invalid={errors.town?.message ? "true" : "false"}
               />
-              <span className="text-red-500">{errors.town?.message}</span>
+              <span role="alert" className="text-red-500">
+                {errors.town?.message}
+              </span>
             </div>
           </div>
 
@@ -287,10 +292,13 @@ const Step1Page = () => {
                       placeholder="Ajouter un lieu"
                       onChange={() => setValue("location", "Autre")}
                       ref={register}
+                      aria-invalid={
+                        errors.otherLocation?.message ? "true" : "false"
+                      }
                     />
                   </div>
                 </div>
-                <span className="text-red-500">
+                <span role="alert" className="text-red-500">
                   {errors.otherLocation?.message}
                 </span>
               </div>
