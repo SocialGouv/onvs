@@ -1,7 +1,7 @@
 import { Layout } from "components/Layout"
 import { Options, OutlineButton, PrimaryButtton, Title1 } from "components/lib"
 import { Stepper } from "components/Stepper"
-import { useScrollTop } from "hooks/scrollTop"
+import { useScrollTop } from "hooks/useScrollTop"
 import update from "lib/pages/form"
 import { useStateMachine } from "little-state-machine"
 import Link from "next/link"
@@ -37,7 +37,6 @@ const Step3Page = () => {
 
   const onSubmit = (data) => {
     if (!hasData(data)) {
-      console.error("Le formulaire ne peut pas être vide")
       addToast(
         'Vous devez renseigner un motif ou bien cocher la case "Pas de motif apparent".',
         toastConfig.error,
@@ -230,7 +229,7 @@ const Step3Page = () => {
           <div className="flex justify-center w-full my-16 space-x-4">
             <Link href="/forms/freelance/step2">
               <a>
-                <OutlineButton>Précédent</OutlineButton>
+                <OutlineButton type="button">Précédent</OutlineButton>
               </a>
             </Link>
             <PrimaryButtton>Suivant</PrimaryButtton>

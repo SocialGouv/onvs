@@ -7,13 +7,15 @@ import MinusIcon from "./svg/minus"
 export const PrimaryButtton = ({
   children,
   className,
-  type = "text",
+  type = "submit",
   onClick,
+  tabIndex = "0",
 }) => (
   <button
     type={type}
     className={`px-6 py-2 font-bold uppercase text-sm tracking-wider font-source text-white bg-blue-600 rounded ${className}`}
     onClick={onClick}
+    tabIndex={tabIndex}
   >
     {children}
   </button>
@@ -21,13 +23,19 @@ export const PrimaryButtton = ({
 
 PrimaryButtton.propTypes = {
   children: PropTypes.string,
+  tabIndex: PropTypes.string,
   type: PropTypes.string,
 }
 
-export const OutlineButton = ({ children, type = "text" }) => (
+export const OutlineButton = ({
+  children,
+  type = "submit",
+  tabIndex = "-1",
+}) => (
   <button
     type={type}
     className="px-4 py-2 text-sm tracking-wider text-blue-600 uppercase border border-blue-600 rounded font-source"
+    tabIndex={tabIndex}
   >
     {children}
   </button>

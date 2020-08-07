@@ -8,7 +8,7 @@ import {
   Title2,
 } from "components/lib"
 import { Stepper } from "components/Stepper"
-import { useScrollTop } from "hooks/scrollTop"
+import { useScrollTop } from "hooks/useScrollTop"
 import update from "lib/pages/form"
 import { useStateMachine } from "little-state-machine"
 import Link from "next/link"
@@ -412,7 +412,7 @@ const Step2Page = () => {
             <div className="flex justify-center w-full my-16 space-x-4">
               <Link href="/forms/freelance/step1">
                 <a>
-                  <OutlineButton>Précédent</OutlineButton>
+                  <OutlineButton type="button">Précédent</OutlineButton>
                 </a>
               </Link>
               <PrimaryButtton>Suivant</PrimaryButtton>
