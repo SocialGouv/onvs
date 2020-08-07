@@ -1,8 +1,14 @@
 import { yupResolver } from "@hookform/resolvers"
 import { Layout } from "components/Layout"
-import { OutlineButton, PrimaryButtton, Title1, Title2 } from "components/lib"
+import {
+  OutlineButton,
+  PrimaryButtton,
+  RadioInput,
+  Title1,
+  Title2,
+} from "components/lib"
 import { Stepper } from "components/Stepper"
-import { formatISO } from "date-fns"
+import { formatISO, isFuture, parseISO } from "date-fns"
 import { useEffectToast } from "hooks/useEffectToast"
 import { useScrollTop } from "hooks/useScrollTop"
 import update from "lib/pages/form"
@@ -12,7 +18,6 @@ import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import Select from "react-select"
-import { now } from "utils/date"
 import * as yup from "yup"
 
 import { selectConfig } from "../../../config"
@@ -26,9 +31,17 @@ const hoursOptions = [
 
 const schema = yup.object().shape({
   date: yup
-    .date()
+    .string()
     .required("La date est à renseigner.")
-    .max(now(), "La date ne peut pas être future."),
+    .test(
+      "past or present ISO date representation",
+      "La date ne peut pas être future.",
+      function (value) {
+        const date = parseISO(value)
+        if (date === "Invalid Date") return false
+        return !isFuture(date)
+      },
+    ),
   hour: yup
     .object()
     .shape({
@@ -164,43 +177,22 @@ const Step1Page = () => {
             <b>Intérieur</b>
             <div className="block mt-3">
               <div className="mt-2 space-y-2">
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Cabinet individuel"
-                      ref={register}
-                      defaultChecked
-                    />
-                    <span className="ml-2">Cabinet individuel</span>
-                  </label>
-                </div>
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Cabinet collectif"
-                      ref={register}
-                    />
-                    <span className="ml-2">Cabinet collectif</span>
-                  </label>
-                </div>
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Officine"
-                      ref={register}
-                    />
-                    <span className="ml-2">Officine</span>
-                  </label>
-                </div>
+                <RadioInput
+                  name="location"
+                  value="Cabinet individuel"
+                  register={register}
+                  defaultChecked
+                />
+                <RadioInput
+                  name="location"
+                  value="Cabinet collectif"
+                  register={register}
+                />
+                <RadioInput
+                  name="location"
+                  value="Officine"
+                  register={register}
+                />
               </div>
             </div>
           </div>
@@ -209,62 +201,26 @@ const Step1Page = () => {
             <b>Extérieur</b>
             <div className="block mt-3">
               <div className="mt-2 space-y-2">
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="En face/à proximité du cabinet ou de l’officine"
-                      ref={register}
-                    />
-                    <span className="ml-2">
-                      En face/à proximité du cabinet ou de l’officine
-                    </span>
-                  </label>
-                </div>
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Au domicile du patient"
-                      ref={register}
-                    />
-                    <span className="ml-2">Au domicile du patient</span>
-                  </label>
-                </div>
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Sur le trajet entre le cabinet et le domicile du patient"
-                      ref={register}
-                    />
-                    <span className="ml-2">
-                      Sur le trajet entre le cabinet et le domicile du patient
-                    </span>
-                  </label>
-                </div>
-
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Sur le trajet entre votre domicile et votre lieu de travail"
-                      ref={register}
-                    />
-                    <span className="ml-2">
-                      Sur le trajet entre votre domicile et votre lieu de
-                      travail
-                    </span>
-                  </label>
-                </div>
+                <RadioInput
+                  name="location"
+                  value="En face/à proximité du cabinet ou de l’officine"
+                  register={register}
+                />
+                <RadioInput
+                  name="location"
+                  value="Au domicile du patient"
+                  register={register}
+                />
+                <RadioInput
+                  name="location"
+                  value="Sur le trajet entre le cabinet et le domicile du patient"
+                  register={register}
+                />
+                <RadioInput
+                  name="location"
+                  value="Sur le trajet entre votre domicile et votre lieu de travail"
+                  register={register}
+                />
 
                 <div>
                   <label className="inline-flex items-center">

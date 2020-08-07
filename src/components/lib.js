@@ -250,3 +250,33 @@ Counter.propTypes = {
 }
 
 export default Counter
+
+export const RadioInput = ({
+  name,
+  value,
+  register,
+  defaultChecked = false,
+}) => {
+  return (
+    <div>
+      <label className="inline-flex items-center">
+        <input
+          type="radio"
+          className="form-radio"
+          name={name}
+          value={value}
+          ref={register}
+          defaultChecked={defaultChecked}
+        />
+        <span className="ml-2">{value}</span>
+      </label>
+    </div>
+  )
+}
+
+RadioInput.propTypes = {
+  defaultChecked: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+  register: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+}
