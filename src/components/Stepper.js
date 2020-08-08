@@ -13,7 +13,7 @@ const Tab = ({ children, selected = false }) =>
   )
 
 Tab.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.node,
   selected: PropTypes.bool,
 }
 
