@@ -1,7 +1,8 @@
-import sentry from "lib/sentry"
 import Error from "next/error"
 import PropTypes from "prop-types"
 import React from "react"
+
+import sentry from "@/lib/sentry"
 
 const { Sentry } = sentry()
 

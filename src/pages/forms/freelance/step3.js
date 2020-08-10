@@ -1,15 +1,21 @@
-import { Layout } from "components/Layout"
-import { Options, OutlineButton, PrimaryButtton, Title1 } from "components/lib"
-import { Stepper } from "components/Stepper"
-import { useScrollTop } from "hooks/useScrollTop"
-import update from "lib/pages/form"
 import { useStateMachine } from "little-state-machine"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
 import { useForm } from "react-hook-form"
 import { useToasts } from "react-toast-notifications"
-import { hasData } from "utils/misc"
+
+import { Layout } from "@/components/Layout"
+import {
+  Options,
+  OutlineButton,
+  PrimaryButtton,
+  Title1,
+} from "@/components/lib"
+import { Stepper } from "@/components/Stepper"
+import { useScrollTop } from "@/hooks/useScrollTop"
+import update from "@/lib/pages/form"
+import { hasData } from "@/utils/misc"
 
 import { toastConfig } from "../../../config"
 

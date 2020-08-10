@@ -8,9 +8,9 @@ import {
   PrimaryButtton,
   SubTitleCard,
   TitleCard,
-} from "../components/lib"
-import { RoughNotation } from "../components/RoughNotation"
-import Hospital from "./svg/hospital.js"
+} from "@/components/lib"
+import { RoughNotation } from "@/components/RoughNotation"
+import Hospital from "@/components/svg/hospital.js"
 
 const AuthentCard = () => {
   return (

@@ -1,17 +1,5 @@
 import { yupResolver } from "@hookform/resolvers"
-import { Layout } from "components/Layout"
-import {
-  OutlineButton,
-  PrimaryButtton,
-  RadioInput,
-  Title1,
-  Title2,
-} from "components/lib"
-import { Stepper } from "components/Stepper"
 import { formatISO, isFuture, parseISO } from "date-fns"
-import { useEffectToast } from "hooks/useEffectToast"
-import { useScrollTop } from "hooks/useScrollTop"
-import update from "lib/pages/form"
 import { useStateMachine } from "little-state-machine"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -19,6 +7,19 @@ import React, { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import Select from "react-select"
 import * as yup from "yup"
+
+import { Layout } from "@/components/Layout"
+import {
+  OutlineButton,
+  PrimaryButtton,
+  RadioInput,
+  Title1,
+  Title2,
+} from "@/components/lib"
+import { Stepper } from "@/components/Stepper"
+import { useEffectToast } from "@/hooks/useEffectToast"
+import { useScrollTop } from "@/hooks/useScrollTop"
+import update from "@/lib/pages/form"
 
 import { selectConfig } from "../../../config"
 
@@ -97,7 +98,7 @@ const Step1Page = () => {
   return (
     <Layout>
       <div className="max-w-4xl m-auto mb-8">
-        <Stepper />
+        <Stepper step={1} />
 
         <Title1 className="mt-4">Où la violence a-t-elle eu lieu ?</Title1>
 
@@ -123,7 +124,7 @@ const Step1Page = () => {
                 id="date"
                 name="date"
                 ref={register}
-                aria-invalid={errors.date?.message ? "true" : "false"}
+                aria-invalid={!!errors.date?.message}
               />
               <span role="alert" className="text-red-500">
                 {errors.date?.message}
@@ -163,7 +164,7 @@ const Step1Page = () => {
                 name="town"
                 placeholder="Tapez les premières lettres"
                 ref={register}
-                aria-invalid={errors.town?.message ? "true" : "false"}
+                aria-invalid={!!errors.town?.message}
               />
               <span role="alert" className="text-red-500">
                 {errors.town?.message}
@@ -262,7 +263,7 @@ const Step1Page = () => {
           </div>
 
           <div className="flex justify-center w-full my-16 space-x-4">
-            <Link href="/index">
+            <Link href="/forms/freelance/step0">
               <a>
                 <OutlineButton type="button">Précédent</OutlineButton>
               </a>

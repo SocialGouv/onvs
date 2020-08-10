@@ -1,6 +1,7 @@
 import React from "react"
 import { useToasts } from "react-toast-notifications"
-import { isEmpty } from "utils/misc"
+
+import { isEmpty } from "@/utils/misc"
 
 import { toastConfig } from "../config"
 

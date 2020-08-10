@@ -1,16 +1,16 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { formatISO } from "date-fns"
-import { useScrollTop } from "hooks/useScrollTop"
 import * as stateMachine from "little-state-machine"
 import * as nextRouter from "next/router"
 import React from "react"
 import * as reactToasts from "react-toast-notifications"
 
-import Step1Page from "../../pages/forms/freelance/step1"
+import { useScrollTop } from "@/hooks/useScrollTop"
+import Step1Page from "@/pages/forms/freelance/step1"
 
 jest.mock("react-toast-notifications")
-jest.mock("hooks/useScrollTop")
+jest.mock("@/hooks/useScrollTop")
 jest.mock("little-state-machine")
 
 const addToast = jest.fn()
@@ -75,7 +75,7 @@ test("the step1 should display an error on Autre if no precision is present", as
   expect(addToast).toHaveBeenCalled()
 })
 
-test("the step1 should pass if all informations are present", async () => {
+test("the step1 should route to step2 if all informations are present", async () => {
   render(<Step1Page />)
 
   userEvent.type(screen.getByLabelText(/ville/i), "Vincennes")

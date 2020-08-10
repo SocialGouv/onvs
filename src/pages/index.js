@@ -1,11 +1,12 @@
-import AuthentCard from "components/AuthentCard"
-import Footer from "components/Footer"
-import FreelanceCard from "components/FreelanceCard"
-import { HeroTitle } from "components/lib"
-import Wave from "components/svg/wave"
-import { reset } from "lib/pages/form"
 import { useStateMachine } from "little-state-machine"
 import React, { useEffect } from "react"
+
+import AuthentCard from "@/components/AuthentCard"
+import Footer from "@/components/Footer"
+import FreelanceCard from "@/components/FreelanceCard"
+import { HeroTitle } from "@/components/lib"
+import Wave from "@/components/svg/wave"
+import { reset } from "@/lib/pages/form"
 
 const IndexPage = () => {
   const { action } = useStateMachine(reset)

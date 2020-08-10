@@ -1,4 +1,10 @@
-import { Layout } from "components/Layout"
+import { useStateMachine } from "little-state-machine"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import React from "react"
+import { useForm } from "react-hook-form"
+
+import { Layout } from "@/components/Layout"
 import {
   Groups,
   Options,
@@ -6,15 +12,10 @@ import {
   PrimaryButtton,
   Title1,
   Title2,
-} from "components/lib"
-import { Stepper } from "components/Stepper"
-import { useScrollTop } from "hooks/useScrollTop"
-import update from "lib/pages/form"
-import { useStateMachine } from "little-state-machine"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import React from "react"
-import { useForm } from "react-hook-form"
+} from "@/components/lib"
+import { Stepper } from "@/components/Stepper"
+import { useScrollTop } from "@/hooks/useScrollTop"
+import update from "@/lib/pages/form"
 
 const Step2Page = () => {
   useScrollTop()

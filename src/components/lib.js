@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
 import React from "react"
 
-import AddIcon from "./svg/add"
-import MinusIcon from "./svg/minus"
+import AddIcon from "@/components/svg/add"
+import MinusIcon from "@/components/svg/minus"
 
 export const PrimaryButtton = ({
   children,

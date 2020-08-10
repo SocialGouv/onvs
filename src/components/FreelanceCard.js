@@ -1,22 +1,22 @@
 import { useRouter } from "next/router"
 import React from "react"
 
-import { PrimaryButtton, SubTitleCard, TitleCard } from "../components/lib"
-import { RoughNotation } from "../components/RoughNotation"
-import DoctorsIcon from "./svg/doctors"
+import { PrimaryButtton, SubTitleCard, TitleCard } from "@/components/lib"
+import { RoughNotation } from "@/components/RoughNotation"
+import DoctorsIcon from "@/components/svg/doctors"
 
 const FreelanceCard = () => {
   const router = useRouter()
 
-  const goToStep1 = () => router.push("/forms/freelance/step1")
+  const goToStep0 = () => router.push("/forms/freelance/step0")
 
   const keyPress = (event, fn) => event.key === "Enter" && fn(event)
 
   return (
     <div
       className="w-full max-w-md px-4 py-2 text-gray-700 transition duration-500 ease-in transform bg-gray-200 border rounded shadow hover:scale-105 hover:border-gray-400"
-      onClick={goToStep1}
-      onKeyPress={(e) => keyPress(e, goToStep1)}
+      onClick={goToStep0}
+      onKeyPress={(e) => keyPress(e, goToStep0)}
       role="button"
       tabIndex="0"
     >

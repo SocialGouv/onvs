@@ -3,13 +3,14 @@
 import "../styles/index.css"
 
 import * as Sentry from "@sentry/node"
-import { initMatomo } from "lib/matomo"
 // import Nav from "../components/Nav"
 import { createStore, StateMachineProvider } from "little-state-machine"
 import App from "next/app"
 import Head from "next/head"
 import React from "react"
 import { ToastProvider } from "react-toast-notifications"
+
+import { initMatomo } from "@/lib/matomo"
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,

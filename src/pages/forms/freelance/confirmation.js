@@ -1,8 +1,9 @@
-import React from "react"
 import Link from "next/link"
-import { Layout } from "components/Layout"
-import { PrimaryButtton, OutlineButton, Title1 } from "components/lib"
-import { Stepper } from "components/Stepper"
+import React from "react"
+
+import { Layout } from "@/components/Layout"
+import { OutlineButton, PrimaryButtton, Title1 } from "@/components/lib"
+import { Stepper } from "@/components/Stepper"
 
 const ConfirmationPage = () => {
   return (
