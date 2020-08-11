@@ -5,6 +5,6 @@
   },
   "editor.formatOnSave": true,
   "workbench.colorCustomizations": {
-    "titleBar.activeBackground": "#553955" // Change this color!
+    "statusBar.background": "#63ace5" // Change this color!
   }
 }

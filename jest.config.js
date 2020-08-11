@@ -7,5 +7,9 @@ module.exports = {
     "^@/styles(.*)$": "<rootDir>/src/styles$1",
     "^@/utils(.*)$": "<rootDir>/src/utils$1",
   },
-  testPathIgnorePatterns: ["<rootDir>/.next/", "<rootDir>/node_modules/"],
+  testPathIgnorePatterns: [
+    "<rootDir>/node_modules/",
+    "<rootDir>/dist/",
+    "<rootDir>/.next/",
+  ],
 }
