@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import * as stateMachine from "little-state-machine"
 import * as nextRouter from "next/router"
 import React from "react"
+import selectEvent from "react-select-event"
 import * as reactToasts from "react-toast-notifications"
 
 import { useScrollTop } from "@/hooks/useScrollTop"
@@ -32,12 +33,14 @@ beforeAll(() => {
   }))
 })
 
+beforeEach(() => {
+  jest.clearAllMocks()
+})
+
 test("should display an error when no job are chosen", async () => {
   render(<Step0Page />)
 
   expect(useScrollTop).toHaveBeenCalled()
-
-  // screen.debug(screen.getByText(/Commencer/i))
 
   fireEvent.click(screen.getByText(/Commencer/i))
 
@@ -48,9 +51,19 @@ test("should display an error when no job are chosen", async () => {
   expect(push).not.toHaveBeenCalled()
 })
 
-//TODO test avec le choix d'une profession
-// l'erreur La profession est à renseigner ne doit pas être présente (expect.toBeNull)
-// push doit être appelé (expect.toHaveBennCalled)
+test("it should go to step1 if a job is correctly selected", async () => {
+  // to be sure that mocks are reset
+  expect(addToast).not.toHaveBeenCalled()
 
-// see: https://stackoverflow.com/a/61470870/2728710
-// https://github.com/romgain/react-select-event
+  render(<Step0Page />)
+
+  await selectEvent.select(screen.getByLabelText("job"), ["Médecin"])
+
+  fireEvent.click(screen.getByText(/commencer/i))
+
+  await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
+
+  expect(push).toHaveBeenCalledWith("/forms/freelance/step1")
+
+  expect(addToast).not.toHaveBeenCalled()
+})

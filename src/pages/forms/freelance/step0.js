@@ -130,7 +130,7 @@ const Step0Page = () => {
           <div className="flex justify-center w-full my-8 space-x-4">
             <Link href="/index">
               <a>
-                <OutlineButton type="button">Retour XXX</OutlineButton>
+                <OutlineButton type="button">Retour</OutlineButton>
               </a>
             </Link>
             <PrimaryButtton>Commencer</PrimaryButtton>

@@ -1902,6 +1902,17 @@
     mini-svg-data-uri "^1.0.3"
     traverse "^0.6.6"
 
+"@testing-library/dom@>=5":
+  version "7.22.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-7.22.1.tgz#b66861fb7751287bda63a55f5c72ca808c63043c"
+  integrity sha512-bEszhvj9LcspaRz56mqGV7uc+vJTAYKCKPJcGb5X6U1qBysgTAgCexQXvKZ3BBjWu5S/TANP2NniOVsMWqKXcw==
+  dependencies:
+    "@babel/runtime" "^7.10.3"
+    "@types/aria-query" "^4.2.0"
+    aria-query "^4.2.2"
+    dom-accessibility-api "^0.5.0"
+    pretty-format "^25.5.0"
+
 "@testing-library/dom@^7.17.1":
   version "7.22.0"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-7.22.0.tgz#07cc67f4670c2ce564b8d7f0e1826d7caf0645e3"
@@ -4189,6 +4200,11 @@ dom-accessibility-api@^0.4.6:
   version "0.4.7"
   resolved "https://registry.yarnpkg.com/dom-accessibility-api/-/dom-accessibility-api-0.4.7.tgz#31d01c113af49f323409b3ed09e56967aba485a8"
   integrity sha512-5+GzhTpCQYHz4NjL8loYTDVBnXIjNLBadWQBKxXk+osFEplLt3EsSYBu2YZcdZ8QqrvCHgW6TSMGMbmgfhrn2g==
+
+dom-accessibility-api@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/dom-accessibility-api/-/dom-accessibility-api-0.5.0.tgz#fddffd04e178796e241436c3f21be2f89c91afac"
+  integrity sha512-eCVf9n4Ni5UQAFc2+fqfMPHdtiX7DA0rLakXgNBZfXNJzEbNo3MQIYd+zdYpFBqAaGYVrkd8leNSLGPrG4ODmA==
 
 dom-helpers@^5.0.1:
   version "5.1.4"
@@ -9106,6 +9122,13 @@ react-refresh@0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
   integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
+
+react-select-event@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-select-event/-/react-select-event-5.0.0.tgz#e16d1dd240b5e1f41f31cb74a50baaa89aa6406c"
+  integrity sha512-bESECffhi//x1nlMoRJtwI0nGl5n6OKaVYeIEcPTV8flVPycvUoBGank/1RIoxVc6WtoQ4QbPbU8xMvX0xAiOA==
+  dependencies:
+    "@testing-library/dom" ">=5"
 
 react-select@^3.1.0:
   version "3.1.0"
