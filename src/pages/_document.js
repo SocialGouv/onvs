@@ -9,7 +9,7 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="fr">
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
