@@ -113,6 +113,7 @@ const Step2Page = () => {
           message: "Il faut au moins renseigner une atteinte aux personnes.",
           type: "manual",
         })
+      return
     }
     if (data?.factTypes?.includes("Atteinte aux biens")) {
       const hasClicked =
