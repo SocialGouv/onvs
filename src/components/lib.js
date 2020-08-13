@@ -83,7 +83,7 @@ export const Title1 = ({ children, className }) => (
 )
 
 Title1.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  children: PropTypes.node,
   className: PropTypes.string,
 }
 
@@ -141,75 +141,143 @@ Checkbox.propTypes = {
   required: PropTypes.bool,
 }
 
-export const Groups = ({ name, values, register }) => {
+// Shows different groups with different colors
+export const Groups = ({ name, register, children }) => {
+  if (!children) return null
+
+  const expandedChildren = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { name, register })
+    }
+    return null // It should not happen.
+  })
+
   return (
     <div className="mt-4">
-      <div className="mt-2 space-y-2">
-        {values.map((value, index) => (
-          <div key={index}>
-            <label className="inline-flex items-center">
-              <input
-                type="checkbox"
-                className={`form-checkbox ${value.color}`}
-                name={name}
-                value={value.label}
-                ref={register}
-              />
-              <span className="ml-2">{value.label}</span>
-            </label>
-          </div>
-        ))}
-      </div>
+      <div className="mt-2 space-y-2">{expandedChildren}</div>
     </div>
   )
 }
 
 Groups.propTypes = {
+  children: PropTypes.node,
   name: PropTypes.string,
   register: PropTypes.func,
-  values: PropTypes.array,
 }
 
+export const Group = ({ name, register, value, color }) => {
+  return (
+    <div>
+      <label className="inline-flex items-center">
+        <input
+          type="checkbox"
+          className={`form-checkbox ${color}`}
+          name={name}
+          value={value}
+          ref={register}
+        />
+        <span className="ml-2">{value}</span>
+      </label>
+    </div>
+  )
+}
+
+Group.propTypes = {
+  color: PropTypes.string,
+  name: PropTypes.string,
+  register: PropTypes.func,
+  value: PropTypes.string.isRequired,
+}
+
+// Shows options of a group with a same color. Options can be disabled.
 export const Options = ({
   name,
-  values,
   register,
   color = "text-indigo-600",
   disabled = false,
+  children,
 }) => {
+  if (!children) return null
+
+  const expandedChildren = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { color, disabled, name, register })
+    }
+    return child // It should not happen.
+  })
+
   return (
     <div className="my-4">
-      <div className="mt-2 space-y-2">
-        {values.map((value, index) => (
-          <div key={index}>
-            <label className="inline-flex items-center">
-              <input
-                type="checkbox"
-                className={`form-checkbox ${
-                  disabled ? "opacity-50" : ""
-                } ${color}`}
-                name={name}
-                value={value}
-                ref={register}
-                disabled={disabled}
-              />
-              <span className={`ml-2 ${disabled ? "opacity-50" : ""}`}>
-                {value}
-              </span>
-            </label>
-          </div>
-        ))}
-      </div>
+      <div className="mt-2 space-y-2">{expandedChildren}</div>
     </div>
   )
 }
 
 Options.propTypes = {
+  children: PropTypes.node,
   color: PropTypes.string,
   disabled: PropTypes.bool,
   name: PropTypes.string,
   register: PropTypes.func,
   values: PropTypes.array,
+}
+
+export const Option = ({
+  disabled = false,
+  color = "text-indigo-600",
+  value,
+  register,
+  name,
+  precision,
+  placeholder,
+  error,
+}) => {
+  return (
+    <div>
+      <label className="inline-flex items-center">
+        <input
+          type="checkbox"
+          className={`form-checkbox ${disabled ? "opacity-50" : ""} ${color}`}
+          name={name}
+          value={value}
+          ref={register}
+          disabled={disabled}
+        />
+        <span className={`ml-2 ${disabled ? "opacity-50" : ""}`}>{value}</span>
+        {precision && (
+          <>
+            <span className="ml-2">{" : "}</span>
+            <div
+              className={`inline-block py-2 border-b-2  ${
+                error ? "border-red-500" : "border-blue-400"
+              }`}
+            >
+              <input
+                className={`px-2 mr-3 leading-tight bg-transparent border-none focus:outline-none`}
+                type="text"
+                id={precision}
+                name={precision}
+                placeholder={placeholder}
+                ref={register()}
+                aria-invalid={error ? "true" : "false"}
+              />
+            </div>
+          </>
+        )}
+      </label>
+    </div>
+  )
+}
+
+Option.propTypes = {
+  color: PropTypes.string,
+  disabled: PropTypes.bool,
+  error: PropTypes.string,
+  name: PropTypes.string,
+  placeholder: PropTypes.string,
+  precision: PropTypes.string,
+  register: PropTypes.func,
+  value: PropTypes.string.isRequired,
 }
 
 export const Counter = ({ value = 0, setValue }) => {
@@ -246,7 +314,7 @@ export const Counter = ({ value = 0, setValue }) => {
 
 Counter.propTypes = {
   setValue: PropTypes.func.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.number,
 }
 
 export default Counter

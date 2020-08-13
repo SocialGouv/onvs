@@ -7,6 +7,7 @@ import { useToasts } from "react-toast-notifications"
 
 import { Layout } from "@/components/Layout"
 import {
+  Option,
   Options,
   OutlineButton,
   PrimaryButtton,
@@ -19,6 +20,17 @@ import { hasData } from "@/utils/misc"
 
 import { toastConfig } from "../../../config"
 
+const resetValues = {
+  reasonCausePatient: [],
+  reasonCauseProfessional: [],
+  reasonDeficientCommunication: [],
+  reasonDiscord: [],
+  reasonFalsification: [],
+  reasonLifeRules: [],
+  reasonNotApparent: "Pas de motif apparent",
+  reasonOthers: [],
+}
+
 const Step3Page = () => {
   useScrollTop()
   const router = useRouter()
@@ -26,7 +38,7 @@ const Step3Page = () => {
 
   const { action, state } = useStateMachine(update)
 
-  const { getValues, handleSubmit, register, watch } = useForm({
+  const { getValues, handleSubmit, register, reset, watch } = useForm({
     defaultValues: {
       reasonCausePatient: state?.form?.reasonCausePatient,
       reasonCauseProfessional: state?.form?.reasonCauseProfessional,
@@ -41,6 +53,12 @@ const Step3Page = () => {
 
   const reasonNotApparentClicked = watch("reasonNotApparent")
 
+  React.useEffect(() => {
+    if (reasonNotApparentClicked) {
+      reset(resetValues)
+    }
+  }, [reasonNotApparentClicked, reset])
+
   const onSubmit = (data) => {
     if (!hasData(data)) {
       addToast(
@@ -53,16 +71,7 @@ const Step3Page = () => {
 
     if (getValues("reasonNotApparent")) {
       // reset part of the form which was possibly clicked
-      action({
-        reasonCausePatient: [],
-        reasonCauseProfessional: [],
-        reasonDeficientCommunication: [],
-        reasonDiscord: [],
-        reasonFalsification: [],
-        reasonLifeRules: [],
-        reasonNotApparent: "Pas de motif apparent",
-        reasonOthers: [],
-      })
+      action(resetValues)
     } else {
       action(data)
     }
@@ -91,18 +100,17 @@ const Step3Page = () => {
 
             <Options
               name="reasonCausePatient"
-              values={[
-                "Du RDV donné (délai, horaire)",
-                "D’accepter le diagnostic, la décision thérapeutique/médicale/de sortie, etc.",
-                "D’accepter les soins",
-                "D’accepter les soins de toilette",
-                "De paiement",
-                "De participer à une activité extérieure",
-              ]}
               disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-indigo-600"
-            />
+            >
+              <Option value="Du RDV donné (délai, horaire)" />
+              <Option value="D’accepter le diagnostic, la décision thérapeutique/médicale/de sortie, etc." />
+              <Option value="D’accepter les soins" />
+              <Option value="D’accepter les soins de toilette" />
+              <Option value="De paiement" />
+              <Option value="De participer à une activité extérieure" />
+            </Options>
           </div>
 
           <div className="mt-4">
@@ -110,18 +118,17 @@ const Step3Page = () => {
 
             <Options
               name="reasonCauseProfessional"
-              values={[
-                "De prescription, de délivrance, de modification : d’une ordonnance, d’un arrêt de travail, d’hospitalisation",
-                "De donner des informations médicales à une tierce personne non référent médical",
-                "De soins",
-                "De donner un RDV (délai, horaire)",
-                "De vente pour non-conformité des droits",
-                "De vente pour d’autres raisons (hors stupéfiants)",
-              ]}
               disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-green-500"
-            />
+            >
+              <Option value="De prescription, de délivrance, de modification : d’une ordonnance, d’un arrêt de travail, d’hospitalisation" />
+              <Option value="De donner des informations médicales à une tierce personne non référent médical" />
+              <Option value="De soins" />
+              <Option value="De donner un RDV (délai, horaire)" />
+              <Option value="De vente pour non-conformité des droits" />
+              <Option value="De vente pour d’autres raisons (hors stupéfiants)" />
+            </Options>
           </div>
 
           <div className="mt-4">
@@ -129,16 +136,15 @@ const Step3Page = () => {
 
             <Options
               name="reasonDiscord"
-              values={[
-                "Entre le professionnel/collaborateur et le patient/résident/accompagnant/famille",
-                "Entre les professionnels",
-                "Entre les patients/résidents/accompagnants",
-                "Autres (bandes, clans, squatteurs…)",
-              ]}
               disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-pink-600"
-            />
+            >
+              <Option value="Entre le professionnel/collaborateur et le patient/résident/accompagnant/famille" />
+              <Option value="Entre les professionnels" />
+              <Option value="Entre les patients/résidents/accompagnants" />
+              <Option value="Autres (bandes, clans, squatteurs…)" />
+            </Options>
           </div>
 
           <div className="mt-4">
@@ -146,17 +152,16 @@ const Step3Page = () => {
 
             <Options
               name="reasonLifeRules"
-              values={[
-                "Retard du patient",
-                "Temps d’attente jugé excessif par le patient/résident/accompagnant/famille",
-                "Ordre de passage entre patients",
-                "Non-respect des conditions de séjour",
-                "Frustation/contrariété (pas de sortie, pas de cigarettes, pas de nourriture supplémentaire, etc.)",
-              ]}
               disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-red-600"
-            />
+            >
+              <Option value="Retard du patient" />
+              <Option value="Temps d’attente jugé excessif par le patient/résident/accompagnant/famille" />
+              <Option value="Ordre de passage entre patients" />
+              <Option value="Non-respect des conditions de séjour" />
+              <Option value="Frustation/contrariété (pas de sortie, pas de cigarettes, pas de nourriture supplémentaire, etc.)" />
+            </Options>
           </div>
 
           <div className="mt-4">
@@ -167,14 +172,13 @@ const Step3Page = () => {
 
             <Options
               name="reasonFalsification"
-              values={[
-                "Document médical (ordonnance)",
-                "Document administratif (CNI, carte Vitale non mise à jour, etc.)",
-              ]}
               disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-orange-600"
-            />
+            >
+              <Option value="Document médical (ordonnance)" />
+              <Option value="Document administratif (CNI, carte Vitale non mise à jour, etc.)" />
+            </Options>
           </div>
 
           <div className="mt-4">
@@ -182,15 +186,14 @@ const Step3Page = () => {
 
             <Options
               name="reasonDeficientCommunication"
-              values={[
-                "Remarques de la part du professionnel/collaborateur",
-                "Défaut d’information ou information incomplète du professionnel",
-                "Reproche d’une communication non adaptée (termes trop techniques, difficultés de compréhension de la langue)",
-              ]}
               disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-teal-600"
-            />
+            >
+              <Option value="Remarques de la part du professionnel/collaborateur" />
+              <Option value="Défaut d’information ou information incomplète du professionnel" />
+              <Option value="Reproche d’une communication non adaptée (termes trop techniques, difficultés de compréhension de la langue)" />
+            </Options>
           </div>
 
           <div className="mt-4">
@@ -198,18 +201,17 @@ const Step3Page = () => {
 
             <Options
               name="reasonOthers"
-              values={[
-                "Atteinte au principe de laïcité",
-                "Radicalisation",
-                "Caisse (vol de caisse, rendu de monnaie, etc.)",
-                "Réaction face à la douleur du soin",
-                "Patient sous stupéfiants",
-                "Autre",
-              ]}
               disabled={!!reasonNotApparentClicked}
               register={register}
               color="text-purple-600"
-            />
+            >
+              <Option value="Atteinte au principe de laïcité" />
+              <Option value="Radicalisation" />
+              <Option value="Caisse (vol de caisse, rendu de monnaie, etc.)" />
+              <Option value="Réaction face à la douleur du soin" />
+              <Option value="Patient sous stupéfiants" />
+              <Option value="Autre" />
+            </Options>
           </div>
 
           <div className="mt-4">

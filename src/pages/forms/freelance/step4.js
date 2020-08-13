@@ -185,12 +185,17 @@ const Step4Page = () => {
 
             <div className="flex space-x-6">
               <div className="flex-1">
-                <span className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase">
+                <label
+                  className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+                  htmlFor="victim1Type"
+                >
                   &nbsp;
-                </span>
+                </label>
 
                 <div className="">
                   <Select
+                    id="victim1Type"
+                    instanceId="victim1Type"
                     options={victimTypeOptions}
                     placeholder="Choisir..."
                     value={stateForm?.victimType || ""}
@@ -203,10 +208,15 @@ const Step4Page = () => {
                 </div>
               </div>
               <div className="flex-1">
-                <label className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase">
+                <label
+                  className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+                  htmlFor="victim1Gender"
+                >
                   de genre
                 </label>
                 <Select
+                  id="victim1Gender"
+                  instanceId="victim1Gender"
                   options={[
                     "Masculin",
                     "Féminin",
@@ -223,10 +233,15 @@ const Step4Page = () => {
               </div>
 
               <div className="flex-1">
-                <label className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase">
+                <label
+                  className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+                  htmlFor="victim1Age"
+                >
                   et âgé de
                 </label>
                 <Select
+                  id="victim1Age"
+                  instanceId="victim1Age"
                   options={[
                     "- de 18 ans",
                     "+ de 18 ans",
@@ -373,11 +388,16 @@ const Step4Page = () => {
 
               <div className="flex space-x-6">
                 <div className="flex-1">
-                  <label className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase">
+                  <label
+                    className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+                    htmlFor="author1Type"
+                  >
                     &nbsp;
                   </label>
 
                   <Select
+                    id="author1Type"
+                    instanceId="author1Type"
                     options={authorProfileOptions}
                     placeholder="Choisir..."
                     value={stateForm?.authorType || ""}
@@ -389,10 +409,15 @@ const Step4Page = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <label className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase">
+                  <label
+                    className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+                    htmlFor="author1Gender"
+                  >
                     de genre
                   </label>
                   <Select
+                    id="author1Gender"
+                    instanceId="author1Gender"
                     options={[
                       "Masculin",
                       "Féminin",
@@ -414,10 +439,15 @@ const Step4Page = () => {
                 </div>
 
                 <div className="flex-1">
-                  <label className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase">
+                  <label
+                    className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+                    htmlFor="author1Age"
+                  >
                     et âgé de
                   </label>
                   <Select
+                    id="author1Age"
+                    instanceId="author1Age"
                     options={[
                       "- de 18 ans",
                       "+ de 18 ans",
