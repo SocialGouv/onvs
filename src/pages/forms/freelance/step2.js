@@ -67,15 +67,7 @@ const Step2Page = () => {
   useScrollTop()
   const router = useRouter()
   const { action, state } = useStateMachine(update)
-  const {
-    control,
-    errors,
-    handleSubmit,
-    getValues,
-    register,
-    setError,
-    watch,
-  } = useForm({
+  const { control, errors, handleSubmit, register, setError, watch } = useForm({
     defaultValues: {
       factTypes: state?.form?.factTypes,
       factgDeterioration: state?.form?.factgDeterioration,

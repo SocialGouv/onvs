@@ -348,3 +348,18 @@ RadioInput.propTypes = {
   register: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
 }
+
+export const InputError = ({ error }) => {
+  return error ? (
+    <span role="alert" className="text-red-500">
+      <span role="img" aria-label="Warning">
+        ⚠️
+      </span>{" "}
+      {error}
+    </span>
+  ) : null
+}
+
+InputError.propTypes = {
+  error: PropTypes.string,
+}

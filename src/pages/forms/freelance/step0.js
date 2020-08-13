@@ -8,7 +8,12 @@ import Select from "react-select"
 import * as yup from "yup"
 
 import { Layout } from "@/components/Layout"
-import { OutlineButton, PrimaryButtton, Title1 } from "@/components/lib"
+import {
+  InputError,
+  OutlineButton,
+  PrimaryButtton,
+  Title1,
+} from "@/components/lib"
 import { Stepper } from "@/components/Stepper"
 import { useEffectToast } from "@/hooks/useEffectToast"
 import { useScrollTop } from "@/hooks/useScrollTop"
@@ -109,9 +114,8 @@ const Step0Page = () => {
               placeholder="Tapez les premières lettres"
               aria-invalid={!!errors.job?.message}
             />
-            <span role="alert" className="text-red-500">
-              {errors.job?.message}
-            </span>
+
+            <InputError error={errors?.job?.message} />
           </div>
 
           <div className="mt-12 text-center">

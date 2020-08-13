@@ -10,6 +10,7 @@ import * as yup from "yup"
 
 import { Layout } from "@/components/Layout"
 import {
+  InputError,
   OutlineButton,
   PrimaryButtton,
   RadioInput,
@@ -126,9 +127,8 @@ const Step1Page = () => {
                 ref={register}
                 aria-invalid={!!errors.date?.message}
               />
-              <span role="alert" className="text-red-500">
-                {errors.date?.message}
-              </span>
+
+              <InputError error={errors?.date?.message} />
             </div>
 
             <div className="flex-1">
@@ -166,9 +166,8 @@ const Step1Page = () => {
                 ref={register}
                 aria-invalid={!!errors.town?.message}
               />
-              <span role="alert" className="text-red-500">
-                {errors.town?.message}
-              </span>
+
+              <InputError error={errors?.town?.message} />
             </div>
           </div>
 
@@ -255,9 +254,8 @@ const Step1Page = () => {
                     />
                   </div>
                 </div>
-                <span role="alert" className="text-red-500">
-                  {errors.otherLocation?.message}
-                </span>
+
+                <InputError error={errors?.otherLocation?.message} />
               </div>
             </div>
           </div>
