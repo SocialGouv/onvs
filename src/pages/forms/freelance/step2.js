@@ -108,12 +108,13 @@ const Step2Page = () => {
         data?.factpSexualViolence.length ||
         data?.factpSpokenViolence.length
 
-      if (!hasClicked)
+      if (!hasClicked) {
         setError("global", {
           message: "Il faut au moins renseigner une atteinte aux personnes.",
           type: "manual",
         })
-      return
+        return
+      }
     }
     if (data?.factTypes?.includes("Atteinte aux biens")) {
       const hasClicked =
@@ -122,13 +123,14 @@ const Step2Page = () => {
         data?.factgStealWithBreakin.length ||
         data?.factgStealWithoutBreakin.length
 
-      if (!hasClicked)
+      if (!hasClicked) {
         setError("global", {
           message: "Il faut au moins renseigner une atteinte aux biens.",
           type: "manual",
         })
 
-      return
+        return
+      }
     }
 
     action(data)

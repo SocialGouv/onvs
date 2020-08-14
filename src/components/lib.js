@@ -244,27 +244,26 @@ export const Option = ({
           disabled={disabled}
         />
         <span className={`ml-2 ${disabled ? "opacity-50" : ""}`}>{value}</span>
-        {precision && (
-          <>
-            <span className="ml-2">{" : "}</span>
-            <div
-              className={`inline-block py-2 border-b-2  ${
-                error ? "border-red-500" : "border-blue-400"
-              }`}
-            >
-              <input
-                className={`px-2 mr-3 leading-tight bg-transparent border-none focus:outline-none`}
-                type="text"
-                id={precision}
-                name={precision}
-                placeholder={placeholder}
-                ref={register()}
-                aria-invalid={error ? "true" : "false"}
-              />
-            </div>
-          </>
-        )}
       </label>
+      {precision && (
+        <>
+          <div
+            className={`ml-2 inline-block pb-2 border-b-2  ${
+              error ? "border-red-500" : "border-blue-400"
+            }`}
+          >
+            <input
+              className={`px-2 mr-3 leading-tight bg-transparent border-none focus:outline-none`}
+              type="text"
+              id={precision}
+              name={precision}
+              placeholder={placeholder}
+              ref={register()}
+              aria-invalid={error ? "true" : "false"}
+            />
+          </div>
+        </>
+      )}
     </div>
   )
 }
