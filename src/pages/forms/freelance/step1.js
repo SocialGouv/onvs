@@ -96,6 +96,24 @@ const Step1Page = () => {
     router.push("/forms/freelance/step2")
   }
 
+  const customStyles = {
+    container: (styles) => ({
+      ...styles,
+      flexGrow: 1,
+    }),
+    menu: (styles) => ({
+      ...styles,
+      textAlign: "left",
+    }),
+  }
+
+  const onHoursChange = (selectedOption) => {
+    // Needs to sync specifically the value to the react-select as well
+    setHour(selectedOption)
+
+    // Needs transformation between format of react-select to expected format for API call
+    setValue("hour", selectedOption?.value ?? null)
+  }
   return (
     <Layout>
       <div className="max-w-4xl m-auto mb-8">
