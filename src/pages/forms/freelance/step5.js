@@ -14,7 +14,11 @@ import { useScrollTop } from "@/hooks/useScrollTop"
 import update from "@/lib/pages/form"
 
 const schema = yup.object({
-  declarantContactAgreement: yup.string().required(),
+  declarantContactAgreement: yup
+    .string()
+    .required(
+      "L'accord (ou non) sur l'envoi des coordonnées est à renseigner.",
+    ),
   declarantEmail: yup.string().when("declarantContactAgreement", {
     is: "true",
     otherwise: (schema) => schema.transform(() => ""),
