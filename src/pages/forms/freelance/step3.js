@@ -20,17 +20,6 @@ import { hasData } from "@/utils/misc"
 
 import { toastConfig } from "../../../config"
 
-const resetValues = {
-  reasonCausePatient: [],
-  reasonCauseProfessional: [],
-  reasonDeficientCommunication: [],
-  reasonDiscord: [],
-  reasonFalsification: [],
-  reasonLifeRules: [],
-  reasonNotApparent: "Pas de motif apparent",
-  reasonOthers: [],
-}
-
 const Step3Page = () => {
   useScrollTop()
   const router = useRouter()
@@ -38,7 +27,7 @@ const Step3Page = () => {
 
   const { action, state } = useStateMachine(update)
 
-  const { getValues, handleSubmit, register, reset, watch } = useForm({
+  const { handleSubmit, register, setValue, watch } = useForm({
     defaultValues: {
       reasonCausePatient: state?.form?.reasonCausePatient,
       reasonCauseProfessional: state?.form?.reasonCauseProfessional,
@@ -51,13 +40,19 @@ const Step3Page = () => {
     },
   })
 
-  const reasonNotApparentClicked = watch("reasonNotApparent")
+  const watchReasonNotApparent = watch("reasonNotApparent")
 
   React.useEffect(() => {
-    if (reasonNotApparentClicked) {
-      reset(resetValues)
+    if (watchReasonNotApparent === "Pas de motif apparent") {
+      setValue("reasonCausePatient", [])
+      setValue("reasonCauseProfessional", [])
+      setValue("reasonDeficientCommunication", [])
+      setValue("reasonDiscord", [])
+      setValue("reasonFalsification", [])
+      setValue("reasonLifeRules", [])
+      setValue("reasonOthers", [])
     }
-  }, [reasonNotApparentClicked, reset])
+  }, [watchReasonNotApparent, setValue])
 
   const onSubmit = (data) => {
     if (!hasData(data)) {
@@ -69,12 +64,7 @@ const Step3Page = () => {
       return
     }
 
-    if (getValues("reasonNotApparent")) {
-      // reset part of the form which was possibly clicked
-      action(resetValues)
-    } else {
-      action(data)
-    }
+    action(data)
 
     router.push("/forms/freelance/step4")
   }
@@ -83,11 +73,9 @@ const Step3Page = () => {
     <Layout>
       <div className="max-w-4xl m-auto mb-8">
         <Stepper step={3} />
-
         <Title1 className="mt-4">
           Quel(s) étai(en)t le(s) motif(s) apparent(s) de la violence ?
         </Title1>
-
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="w-10/12 m-auto space-y-12 text-gray-900"
@@ -100,7 +88,7 @@ const Step3Page = () => {
 
             <Options
               name="reasonCausePatient"
-              disabled={!!reasonNotApparentClicked}
+              disabled={!!watchReasonNotApparent}
               register={register}
               color="text-indigo-600"
             >
@@ -118,7 +106,7 @@ const Step3Page = () => {
 
             <Options
               name="reasonCauseProfessional"
-              disabled={!!reasonNotApparentClicked}
+              disabled={!!watchReasonNotApparent}
               register={register}
               color="text-green-500"
             >
@@ -136,7 +124,7 @@ const Step3Page = () => {
 
             <Options
               name="reasonDiscord"
-              disabled={!!reasonNotApparentClicked}
+              disabled={!!watchReasonNotApparent}
               register={register}
               color="text-pink-600"
             >
@@ -152,7 +140,7 @@ const Step3Page = () => {
 
             <Options
               name="reasonLifeRules"
-              disabled={!!reasonNotApparentClicked}
+              disabled={!!watchReasonNotApparent}
               register={register}
               color="text-red-600"
             >
@@ -172,7 +160,7 @@ const Step3Page = () => {
 
             <Options
               name="reasonFalsification"
-              disabled={!!reasonNotApparentClicked}
+              disabled={!!watchReasonNotApparent}
               register={register}
               color="text-orange-600"
             >
@@ -186,7 +174,7 @@ const Step3Page = () => {
 
             <Options
               name="reasonDeficientCommunication"
-              disabled={!!reasonNotApparentClicked}
+              disabled={!!watchReasonNotApparent}
               register={register}
               color="text-teal-600"
             >
@@ -201,7 +189,7 @@ const Step3Page = () => {
 
             <Options
               name="reasonOthers"
-              disabled={!!reasonNotApparentClicked}
+              disabled={!!watchReasonNotApparent}
               register={register}
               color="text-purple-600"
             >

@@ -1,4 +1,3 @@
-import { DevTool } from "@hookform/devtools"
 import { yupResolver } from "@hookform/resolvers"
 import { useStateMachine } from "little-state-machine"
 import Link from "next/link"
@@ -41,7 +40,7 @@ const schema = yup.object({
     }),
   factgStealWithBreakin: yup.array(yup.string()).default(() => []),
   factgStealWithoutBreakin: yup.array(yup.string()).default(() => []),
-  factpDiscrimination: yup.array(yup.string()).default(() => []),
+  factpDiscrimination: yup.string().default(""),
   factpGroups: yup.array(yup.string()).default(() => []),
   factpHarassment: yup.array(yup.string()).default(() => []),
   factpNoRespect: yup.array(yup.string()).default(() => []),
@@ -67,7 +66,7 @@ const Step2Page = () => {
   useScrollTop()
   const router = useRouter()
   const { action, state } = useStateMachine(update)
-  const { control, errors, handleSubmit, register, setError, watch } = useForm({
+  const { errors, handleSubmit, register, setError, watch } = useForm({
     defaultValues: {
       factTypes: state?.form?.factTypes,
       factgDeterioration: state?.form?.factgDeterioration,
@@ -474,7 +473,6 @@ const Step2Page = () => {
               <PrimaryButtton>Suivant</PrimaryButtton>
             </div>
           )}
-          <DevTool control={control} /> {/* set up the dev tool */}
         </form>
       </div>
     </Layout>
