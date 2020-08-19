@@ -1,13 +1,15 @@
 import { useStateMachine } from "little-state-machine"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import React, { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import PropTypes from "prop-types"
+import React, { useState } from "react"
+import { Controller, useFieldArray, useForm } from "react-hook-form"
 import Select from "react-select"
 
 import { Layout } from "@/components/Layout"
 import {
   Counter,
+  Option,
   Options,
   OutlineButton,
   PrimaryButtton,
@@ -15,6 +17,7 @@ import {
   Title2,
 } from "@/components/lib"
 import { Stepper } from "@/components/Stepper"
+import UserRemove from "@/components/svg/user-remove"
 import { useScrollTop } from "@/hooks/useScrollTop"
 import update from "@/lib/pages/form"
 
@@ -71,98 +74,209 @@ const authorProfileOptions = [
   "Prestataire extérieur",
 ].map((curr) => ({ label: curr, value: curr }))
 
+const customStyles = {
+  container: (styles) => ({
+    ...styles,
+    flexGrow: 1,
+  }),
+  menu: (styles) => ({
+    ...styles,
+    textAlign: "left",
+  }),
+}
+const suffix = (number) => (number === 1 ? "ère" : number === 2 ? "nde" : "ème")
+
+const Victims = ({ control }) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "victims",
+  })
+
+  return (
+    <div className="mt-2">
+      <div>
+        {fields.map((victim, index) => (
+          <Victim
+            key={victim?.id}
+            data={victim}
+            control={control}
+            number={index}
+            remove={() => remove(index)}
+          />
+        ))}
+      </div>
+      <div className="mt-10 text-center">
+        <OutlineButton
+          type="button"
+          tabIndex="0"
+          onClick={() => {
+            append({})
+          }}
+        >
+          +&nbsp;Ajouter une victime
+        </OutlineButton>
+      </div>
+    </div>
+  )
+}
+
+Victims.propTypes = {
+  control: PropTypes.object.isRequired,
+}
+
+const Victim = ({ data, control, number = 0, remove }) => (
+  <div className="px-10 py-6 my-5 bg-gray-100 rounded-md shadow-md" name="toto">
+    <Title2 className="mb-4">
+      {number + 1 + suffix(number + 1)} victime
+      <div className="inline-block float-right text-sm">
+        <OutlineButton color="red" onClick={remove}>
+          <span className="align-middle">Effacer&nbsp;X</span>
+        </OutlineButton>
+      </div>
+    </Title2>
+
+    <b>Profil</b>
+    <div className="flex space-x-6">
+      <div className="flex-1">
+        <label
+          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+          htmlFor={`victims[${number}].type`}
+        >
+          &nbsp;
+        </label>
+
+        <div className="">
+          <Controller
+            as={Select}
+            control={control}
+            name={`victims[${number}].type`}
+            id={`victims[${number}].type`}
+            instanceId={`victims[${number}].type`}
+            options={victimTypeOptions}
+            placeholder="Choisir..."
+            isClearable={true}
+            styles={customStyles}
+            defaultValue={data?.type || null}
+          />
+        </div>
+      </div>
+      <div className="flex-1">
+        <label
+          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+          htmlFor={`victims[${number}].gender`}
+        >
+          de genre
+        </label>
+        <Controller
+          as={Select}
+          control={control}
+          name={`victims[${number}].gender`}
+          id={`victims[${number}].gender`}
+          instanceId={`victims[${number}].gender`}
+          options={["Masculin", "Féminin", "Autre genre"].map((curr) => ({
+            label: curr,
+            value: curr,
+          }))}
+          placeholder="Choisir..."
+          isClearable={true}
+          styles={customStyles}
+          defaultValue={data?.gender || null}
+        />
+      </div>
+
+      <div className="flex-1">
+        <label
+          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+          htmlFor={`victims[${number}].age`}
+        >
+          et âgé de
+        </label>
+        <Controller
+          as={Select}
+          control={control}
+          name={`victims[${number}].age`}
+          id={`victims[${number}].age`}
+          instanceId={`victims[${number}].age`}
+          options={[
+            "- de 18 ans",
+            "+ de 18 ans",
+            "non déterminable",
+          ].map((curr) => ({ label: curr, value: curr }))}
+          placeholder="Choisir..."
+          isClearable={true}
+          styles={customStyles}
+          defaultValue={data?.age || null}
+        />
+      </div>
+    </div>
+    <div className="mt-8">
+      <b>Conséquences d’éventuelles blessures physiques et/ou psychiques</b>
+      <div className="flex items-center justify-around mt-8">
+        <div className="text-center">
+          <Controller
+            as={Counter}
+            control={control}
+            name={`victims[${number}].sickLeaveDays`}
+            defaultValue={data?.sickLeaveDays || 0}
+          />
+          {" jours d'arrêt de travail"}
+        </div>
+        <div className="text-center">
+          <Controller
+            as={Counter}
+            control={control}
+            name={`victims[${number}].hospitalizationDays`}
+            defaultValue={data?.hospitalizationDays || 0}
+          />
+          {" jours d'hospitalisation"}
+        </div>
+        <div className="text-center">
+          <Controller
+            as={Counter}
+            control={control}
+            name={`victims[${number}].ITTDays`}
+            defaultValue={data?.ITTDays || 0}
+          />
+          {" jours d'ITT"}
+        </div>
+      </div>
+    </div>
+  </div>
+)
+
+Victim.propTypes = {
+  control: PropTypes.object,
+  data: PropTypes.object.isRequired,
+  number: PropTypes.number,
+  remove: PropTypes.func,
+}
+
 const Step4Page = () => {
   useScrollTop()
   const router = useRouter()
   const { action, state } = useStateMachine(update)
   const [phase, setPhase] = useState(1)
-  const { handleSubmit, register, setValue } = useForm({
+  const { control, handleSubmit, register, watch } = useForm({
     defaultValues: {
+      ITTDays: state?.form?.ITTDays,
+      authors: [],
       discernmentTroubles: state?.form?.discernmentTroubles,
+      hospitalizationDays: state?.form?.hospitalizationDays,
       pursuit: state?.form?.pursuit,
       pursuitBy: state?.form?.pursuitBy,
+      sickLeaveDays: state?.form?.sickLeaveDays,
       thirdParty: state?.form?.thirdParty,
-    },
-  })
-  // const [victimsSize, setVictimsSize] = useState(1)
-  const [stateForm, setStateForm] = useState({
-    ITTDays: state?.form?.ITTDays,
-    authorAge: state?.form?.authorAge && {
-      label: state?.form?.authorAge,
-      value: state?.form?.authorAge,
-    },
-    authorGender: state?.form?.authorGender && {
-      label: state?.form?.authorGender,
-      value: state?.form?.authorGender,
-    },
-    authorType: state?.form?.authorType && {
-      label: state?.form?.authorType,
-      value: state?.form?.authorType,
-    },
-    hospitalizationDays: state?.form?.hospitalizationDays,
-    sickLeaveDays: state?.form?.sickLeaveDays,
-    victimAge: state?.form?.victimAge && {
-      label: state?.form?.victimAge,
-      value: state?.form?.victimAge,
-    },
-    victimGender: state?.form?.victimGender && {
-      label: state?.form?.victimGender,
-      value: state?.form?.victimGender,
-    },
-    victimProfession: state?.form?.victimProfession && {
-      label: state?.form?.victimProfession,
-      value: state?.form?.victimProfession,
-    },
-    victimType: state?.form?.victimType && {
-      label: state?.form?.victimType,
-      value: state?.form?.victimType,
+      victims: state?.form.victims,
     },
   })
 
-  useEffect(() => {
-    // Extra field in form to store the value of selects
-    register({ name: `victimType` })
-    register({ name: `victimGender` })
-    register({ name: `victimAge` })
-    register({ name: `victimProfession` })
-    register({ name: `authorType` })
-    register({ name: `authorGender` })
-    register({ name: `authorAge` })
-    register({ name: `sickLeaveDays` })
-    register({ name: `hospitalizationDays` })
-    register({ name: `ITTDays` })
-  }, [register])
+  const watchPursuit = watch("pursuit")
 
   const onSubmit = (data) => {
+    console.log("onSubmit -> data", data)
+
     action(data)
     router.push("/forms/freelance/step5")
-  }
-
-  const onChange = (name, selectedOption) => {
-    // Needs to sync specifically the value to the react-select as well
-    setStateForm((state) => ({ ...state, [name]: selectedOption }))
-
-    // Needs transformation between format of react-select to expected format for API call
-    setValue(name, selectedOption?.value || null)
-  }
-
-  const onCounterChange = (name, selectedOption) => {
-    // Needs to sync specifically the value to the react-select as well
-    setStateForm((state) => ({ ...state, [name]: selectedOption }))
-
-    // Needs transformation between format of react-select to expected format for API call
-    setValue(name, selectedOption || null)
-  }
-
-  const customStyles = {
-    container: (styles) => ({
-      ...styles,
-      flexGrow: 1,
-    }),
-    menu: (styles) => ({
-      ...styles,
-      textAlign: "left",
-    }),
   }
 
   return (
@@ -179,120 +293,14 @@ const Step4Page = () => {
           className="w-10/12 m-auto text-gray-900"
         >
           <>
-            <Title2 className="mt-8 mb-4">1ère victime</Title2>
+            {/* {getValues("victims")?.map((victim, index) => (
+              <Victim key={index} number={index} control={control} />
+            ))} */}
 
-            <b>Profil</b>
-
-            <div className="flex space-x-6">
-              <div className="flex-1">
-                <label
-                  className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-                  htmlFor="victim1Type"
-                >
-                  &nbsp;
-                </label>
-
-                <div className="">
-                  <Select
-                    id="victim1Type"
-                    instanceId="victim1Type"
-                    options={victimTypeOptions}
-                    placeholder="Choisir..."
-                    value={stateForm?.victimType || ""}
-                    onChange={(selectedOption) =>
-                      onChange("victimType", selectedOption)
-                    }
-                    isClearable={true}
-                    styles={customStyles}
-                  />
-                </div>
-              </div>
-              <div className="flex-1">
-                <label
-                  className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-                  htmlFor="victim1Gender"
-                >
-                  de genre
-                </label>
-                <Select
-                  id="victim1Gender"
-                  instanceId="victim1Gender"
-                  options={[
-                    "Masculin",
-                    "Féminin",
-                    "Autre genre",
-                  ].map((curr) => ({ label: curr, value: curr }))}
-                  placeholder="Choisir..."
-                  value={stateForm?.victimGender || ""}
-                  onChange={(selectedOption) =>
-                    onChange("victimGender", selectedOption)
-                  }
-                  isClearable={true}
-                  styles={customStyles}
-                />
-              </div>
-
-              <div className="flex-1">
-                <label
-                  className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-                  htmlFor="victim1Age"
-                >
-                  et âgé de
-                </label>
-                <Select
-                  id="victim1Age"
-                  instanceId="victim1Age"
-                  options={[
-                    "- de 18 ans",
-                    "+ de 18 ans",
-                    "non déterminable",
-                  ].map((curr) => ({ label: curr, value: curr }))}
-                  placeholder="Choisir..."
-                  value={stateForm?.victimAge || ""}
-                  onChange={(selectedOption) =>
-                    onChange("victimAge", selectedOption)
-                  }
-                  isClearable={true}
-                  styles={customStyles}
-                />
-              </div>
-            </div>
-
-            <div className="mt-12">
-              <b>
-                Conséquences d’éventuelles blessures physiques et/ou psychiques
-              </b>
-              <div className="flex items-center justify-around mt-12">
-                <div className="text-center">
-                  <Counter
-                    value={stateForm?.sickLeaveDays}
-                    setValue={(value) =>
-                      onCounterChange("sickLeaveDays", value)
-                    }
-                  />
-                  {" jours d'arrêt de travail"}
-                </div>
-                <div className="text-center">
-                  <Counter
-                    value={stateForm?.hospitalizationDays}
-                    setValue={(value) =>
-                      onCounterChange("hospitalizationDays", value)
-                    }
-                  />
-                  {" jours d'hospitalisation"}
-                </div>
-                <div className="text-center">
-                  <Counter
-                    value={stateForm?.ITTDays}
-                    setValue={(value) => onCounterChange("ITTDays", value)}
-                  />
-                  {" jours d'ITT"}
-                </div>
-              </div>
-            </div>
+            <Victims control={control} />
 
             <Title2 className="mt-12">
-              Y’a-t-il eu des poursuites judiciaires ?
+              Y’a-t-il eu des poursuites judiciaires ? <i>(optionnel)</i>
             </Title2>
 
             <div className="mt-4">
@@ -348,19 +356,17 @@ const Step4Page = () => {
                   </div>
                 </div>
 
-                <div>
-                  <Title2 className="mt-12">Par...</Title2>
+                {watchPursuit === "Plainte" && (
+                  <div>
+                    <Title2 className="mt-12">Par...</Title2>
 
-                  <Options
-                    name="pursuitBy"
-                    values={[
-                      "La (les) victime(s)",
-                      "L'établissement",
-                      "L'ordre",
-                    ]}
-                    register={register}
-                  />
-                </div>
+                    <Options name="pursuitBy" register={register}>
+                      <Option value="La (les) victime(s)" />
+                      <Option value="L'établissement" />
+                      <Option value="L'ordre" />
+                    </Options>
+                  </div>
+                )}
               </div>
             </div>
           </>
@@ -395,17 +401,17 @@ const Step4Page = () => {
                     &nbsp;
                   </label>
 
-                  <Select
-                    id="author1Type"
-                    instanceId="author1Type"
+                  <Controller
+                    as={Select}
+                    control={control}
+                    name="authors[0].type"
+                    id="authors[0].type"
+                    instanceId="authors[0].type"
                     options={authorProfileOptions}
                     placeholder="Choisir..."
-                    value={stateForm?.authorType || ""}
-                    onChange={(selectedOption) =>
-                      onChange("authorType", selectedOption)
-                    }
                     isClearable={true}
                     styles={customStyles}
+                    defaultValue={null}
                   />
                 </div>
                 <div className="flex-1">
@@ -415,26 +421,21 @@ const Step4Page = () => {
                   >
                     de genre
                   </label>
-                  <Select
-                    id="author1Gender"
-                    instanceId="author1Gender"
+                  <Controller
+                    as={Select}
+                    control={control}
+                    name="authors[0].gender"
+                    id="authors[0].gender"
+                    instanceId="authors[0].gender"
                     options={[
                       "Masculin",
                       "Féminin",
                       "Autre genre",
                     ].map((curr) => ({ label: curr, value: curr }))}
                     placeholder="Choisir..."
-                    value={
-                      state?.form?.authorGender && {
-                        label: state?.form?.authorGender,
-                        value: state?.form?.authorGender,
-                      }
-                    }
-                    onChange={(selectedOption) =>
-                      onChange("authorGender", selectedOption)
-                    }
                     isClearable={true}
                     styles={customStyles}
+                    defaultValue={null}
                   />
                 </div>
 
@@ -445,43 +446,34 @@ const Step4Page = () => {
                   >
                     et âgé de
                   </label>
-                  <Select
-                    id="author1Age"
-                    instanceId="author1Age"
+                  <Controller
+                    as={Select}
+                    control={control}
+                    name="authors[0].age"
+                    id="authors[0].age"
+                    instanceId="authors[0].age"
                     options={[
                       "- de 18 ans",
                       "+ de 18 ans",
                       "non déterminable",
                     ].map((curr) => ({ label: curr, value: curr }))}
                     placeholder="Choisir..."
-                    value={
-                      state?.form?.authorAge && {
-                        label: state?.form?.authorAge,
-                        value: state?.form?.authorAge,
-                      }
-                    }
-                    onChange={(selectedOption) =>
-                      onChange("authorAge", selectedOption)
-                    }
                     isClearable={true}
                     styles={customStyles}
+                    defaultValue={null}
                   />
                 </div>
               </div>
 
               <div className="mt-12">
-                <b>Altération du discernement</b> (optionnel)
-                <Options
-                  name="discernmentTroubles"
-                  values={[
-                    "Trouble psychique ou neuropsychique",
-                    "Prise d’alcool",
-                    "Prise de produits stupéfiants",
-                    "Prise de médicaments",
-                    "Effet de l’anesthésie",
-                  ]}
-                  register={register}
-                />
+                <b>Altération du discernement</b> <i>(optionnel)</i>
+                <Options name="discernmentTroubles" register={register}>
+                  <Option value="Trouble psychique ou neuropsychique" />
+                  <Option value="Prise d’alcool" />
+                  <Option value="Prise de produits stupéfiants" />
+                  <Option value="Prise de médicaments" />
+                  <Option value="Effet de l’anesthésie" />
+                </Options>
               </div>
               {phase === 2 && (
                 <div className="flex justify-center w-full my-16 space-x-4">
@@ -501,16 +493,12 @@ const Step4Page = () => {
               <Title2 className="mt-8 mb-4">
                 Intervention de tiers (optionnel)
               </Title2>{" "}
-              <Options
-                name="thirdParty"
-                values={[
-                  "Personnel hospitalier",
-                  "Service de sécurité interne",
-                  "Forces de l'ordre",
-                  "Autre",
-                ]}
-                register={register}
-              />
+              <Options name="thirdParty" register={register}>
+                <Option value="Personnel hospitalier" />
+                <Option value="Service de sécurité interne" />
+                <Option value="Forces de l'ordre" />
+                <Option value="Autre" />
+              </Options>
               <div className="flex justify-center w-full my-16 space-x-4">
                 <Link href="/forms/freelance/step3">
                   <a>
