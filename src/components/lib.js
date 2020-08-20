@@ -293,7 +293,7 @@ export const Counter = ({ value = 0, onChange }) => {
   }
 
   const substract = () => {
-    onChange(value - 1)
+    if (value > 0) onChange(value - 1)
   }
 
   // A11y keyboard navigation: push space key to activate the button
