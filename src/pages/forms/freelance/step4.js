@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import PropTypes from "prop-types"
 import React, { useState } from "react"
-import { Controller, useFieldArray, useForm } from "react-hook-form"
+import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form"
 import Select from "react-select"
 
 import { Layout } from "@/components/Layout"
@@ -17,9 +17,19 @@ import {
   Title2,
 } from "@/components/lib"
 import { Stepper } from "@/components/Stepper"
-import UserRemove from "@/components/svg/user-remove"
 import { useScrollTop } from "@/hooks/useScrollTop"
 import update from "@/lib/pages/form"
+
+const ageOptions = [
+  "- de 18 ans",
+  "+ de 18 ans",
+  "non déterminable",
+].map((curr) => ({ label: curr, value: curr }))
+
+const genderOptions = ["Masculin", "Féminin", "Autre genre"].map((curr) => ({
+  label: curr,
+  value: curr,
+}))
 
 const victimTypeOptions = [
   "Accompagnant/Visiteur/Famille",
@@ -33,7 +43,19 @@ const victimTypeOptions = [
   "Prestataire extérieur",
 ].map((curr) => ({ label: curr, value: curr }))
 
-const victimJobsOptions = [
+const authorProfileOptions = [
+  "Accompagnant/Visiteur/Famille",
+  "Agent de sécurité-sûreté",
+  "Détenu",
+  "Étudiant en santé",
+  "Inconnu",
+  "Patient/Résident",
+  "Personnel administratif et technique",
+  "Personnel de santé",
+  "Prestataire extérieur",
+].map((curr) => ({ label: curr, value: curr }))
+
+const healthJobOptions = [
   "Aide-soignant",
   "Ambulancier",
   "Assistant dentaire",
@@ -62,18 +84,6 @@ const victimJobsOptions = [
   "Technicien de laboratoire médical",
 ].map((curr) => ({ label: curr, value: curr }))
 
-const authorProfileOptions = [
-  "Accompagnant/Visiteur/Famille",
-  "Agent de sécurité-sûreté",
-  "Détenu",
-  "Étudiant en santé",
-  "Inconnu",
-  "Patient/Résident",
-  "Personnel administratif et technique",
-  "Personnel de santé",
-  "Prestataire extérieur",
-].map((curr) => ({ label: curr, value: curr }))
-
 const customStyles = {
   container: (styles) => ({
     ...styles,
@@ -84,7 +94,15 @@ const customStyles = {
     textAlign: "left",
   }),
 }
-const suffix = (number) => (number === 1 ? "ère" : number === 2 ? "nde" : "ème")
+const suffix = (number, isFeminine = false) => {
+  if (number === 1) {
+    return isFeminine ? "ère" : "er"
+  }
+  if (number === 2) {
+    return isFeminine ? "nde" : "nd"
+  }
+  return "ème"
+}
 
 const Victims = ({ control }) => {
   const { fields, append, remove } = useFieldArray({
@@ -110,7 +128,7 @@ const Victims = ({ control }) => {
           type="button"
           tabIndex="0"
           onClick={() => {
-            append({})
+            append({ type: null })
           }}
         >
           +&nbsp;Ajouter une victime
@@ -124,125 +142,158 @@ Victims.propTypes = {
   control: PropTypes.object.isRequired,
 }
 
-const Victim = ({ data, control, number = 0, remove }) => (
-  <div className="px-10 py-6 my-5 bg-gray-100 rounded-md shadow-md" name="toto">
-    <Title2 className="mb-4">
-      {number + 1 + suffix(number + 1)} victime
-      <div className="inline-block float-right text-sm">
-        <OutlineButton color="red" onClick={remove}>
-          <span className="align-middle">Effacer&nbsp;X</span>
-        </OutlineButton>
-      </div>
-    </Title2>
+const Victim = ({ data, control, number = 0, remove }) => {
+  const type = useWatch({
+    control,
+    name: `victims[${number}].type`,
+  })
 
-    <b>Profil</b>
-    <div className="flex space-x-6">
-      <div className="flex-1">
-        <label
-          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-          htmlFor={`victims[${number}].type`}
-        >
-          &nbsp;
-        </label>
+  return (
+    <div className="px-10 py-6 my-5 bg-gray-100 rounded-md shadow-md">
+      <Title2 className="mb-4">
+        {number + 1 + suffix(number + 1, true)} victime
+        <div className="inline-block float-right text-sm">
+          <OutlineButton color="red" onClick={remove} tabIndex="0">
+            <span className="align-middle">Effacer&nbsp;X</span>
+          </OutlineButton>
+        </div>
+      </Title2>
 
-        <div className="">
+      <b>Profil</b>
+      <div className="flex space-x-6">
+        <div className="flex-1">
+          <label
+            className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+            htmlFor={`victims[${number}].type`}
+          >
+            &nbsp;
+          </label>
+
+          <div className="">
+            <Controller
+              as={Select}
+              control={control}
+              name={`victims[${number}].type`}
+              id={`victims[${number}].type`}
+              instanceId={`victims[${number}].type`}
+              options={victimTypeOptions}
+              placeholder="Choisir..."
+              isClearable={true}
+              styles={customStyles}
+              defaultValue={type || null}
+              noOptionsMessage={() => "Aucun élément"}
+            />
+          </div>
+        </div>
+        <div className="flex-1">
+          <label
+            className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+            htmlFor={`victims[${number}].gender`}
+          >
+            de genre
+          </label>
           <Controller
             as={Select}
             control={control}
-            name={`victims[${number}].type`}
-            id={`victims[${number}].type`}
-            instanceId={`victims[${number}].type`}
-            options={victimTypeOptions}
+            name={`victims[${number}].gender`}
+            id={`victims[${number}].gender`}
+            instanceId={`victims[${number}].gender`}
+            options={genderOptions}
             placeholder="Choisir..."
             isClearable={true}
             styles={customStyles}
-            defaultValue={data?.type || null}
+            defaultValue={data?.gender || null}
+            noOptionsMessage={() => "Aucun élément"}
           />
         </div>
-      </div>
-      <div className="flex-1">
-        <label
-          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-          htmlFor={`victims[${number}].gender`}
-        >
-          de genre
-        </label>
-        <Controller
-          as={Select}
-          control={control}
-          name={`victims[${number}].gender`}
-          id={`victims[${number}].gender`}
-          instanceId={`victims[${number}].gender`}
-          options={["Masculin", "Féminin", "Autre genre"].map((curr) => ({
-            label: curr,
-            value: curr,
-          }))}
-          placeholder="Choisir..."
-          isClearable={true}
-          styles={customStyles}
-          defaultValue={data?.gender || null}
-        />
+
+        <div className="flex-1">
+          <label
+            className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+            htmlFor={`victims[${number}].age`}
+          >
+            et âgé de
+          </label>
+          <Controller
+            as={Select}
+            control={control}
+            name={`victims[${number}].age`}
+            id={`victims[${number}].age`}
+            instanceId={`victims[${number}].age`}
+            options={ageOptions}
+            placeholder="Choisir..."
+            isClearable={true}
+            styles={customStyles}
+            defaultValue={data?.age || null}
+            noOptionsMessage={() => "Aucun élément"}
+          />
+        </div>
       </div>
 
-      <div className="flex-1">
-        <label
-          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-          htmlFor={`victims[${number}].age`}
-        >
-          et âgé de
-        </label>
-        <Controller
-          as={Select}
-          control={control}
-          name={`victims[${number}].age`}
-          id={`victims[${number}].age`}
-          instanceId={`victims[${number}].age`}
-          options={[
-            "- de 18 ans",
-            "+ de 18 ans",
-            "non déterminable",
-          ].map((curr) => ({ label: curr, value: curr }))}
-          placeholder="Choisir..."
-          isClearable={true}
-          styles={customStyles}
-          defaultValue={data?.age || null}
-        />
+      {["Étudiant en santé", "Personnel de santé"].includes(type?.value) && (
+        <div className="flex mt-6">
+          <div className="flex items-center flex-1 text-center">
+            <label
+              className="justify-center flex-1 text-xs font-medium text-gray-700 uppercase"
+              htmlFor={`victims[${number}].type`}
+            >
+              dont la profession est&nbsp;
+            </label>
+          </div>
+          <div className="flex-1">
+            <div className="">
+              <Controller
+                as={Select}
+                control={control}
+                name={`victims[${number}].healthJob`}
+                id={`victims[${number}].healthJob`}
+                instanceId={`victims[${number}].healthJob`}
+                options={healthJobOptions}
+                placeholder="Choisir..."
+                isClearable={true}
+                styles={customStyles}
+                defaultValue={data?.type || null}
+                noOptionsMessage={() => "Aucun élément"}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="mt-8">
+        <b>Conséquences d’éventuelles blessures physiques et/ou psychiques</b>
+        <div className="flex items-center justify-around mt-8">
+          <div className="text-center">
+            <Controller
+              as={Counter}
+              control={control}
+              name={`victims[${number}].sickLeaveDays`}
+              defaultValue={data?.sickLeaveDays || 0}
+            />
+            {" jours d'arrêt de travail"}
+          </div>
+          <div className="text-center">
+            <Controller
+              as={Counter}
+              control={control}
+              name={`victims[${number}].hospitalizationDays`}
+              defaultValue={data?.hospitalizationDays || 0}
+            />
+            {" jours d'hospitalisation"}
+          </div>
+          <div className="text-center">
+            <Controller
+              as={Counter}
+              control={control}
+              name={`victims[${number}].ITTDays`}
+              defaultValue={data?.ITTDays || 0}
+            />
+            {" jours d'ITT"}
+          </div>
+        </div>
       </div>
     </div>
-    <div className="mt-8">
-      <b>Conséquences d’éventuelles blessures physiques et/ou psychiques</b>
-      <div className="flex items-center justify-around mt-8">
-        <div className="text-center">
-          <Controller
-            as={Counter}
-            control={control}
-            name={`victims[${number}].sickLeaveDays`}
-            defaultValue={data?.sickLeaveDays || 0}
-          />
-          {" jours d'arrêt de travail"}
-        </div>
-        <div className="text-center">
-          <Controller
-            as={Counter}
-            control={control}
-            name={`victims[${number}].hospitalizationDays`}
-            defaultValue={data?.hospitalizationDays || 0}
-          />
-          {" jours d'hospitalisation"}
-        </div>
-        <div className="text-center">
-          <Controller
-            as={Counter}
-            control={control}
-            name={`victims[${number}].ITTDays`}
-            defaultValue={data?.ITTDays || 0}
-          />
-          {" jours d'ITT"}
-        </div>
-      </div>
-    </div>
-  </div>
-)
+  )
+}
 
 Victim.propTypes = {
   control: PropTypes.object,
@@ -251,30 +302,180 @@ Victim.propTypes = {
   remove: PropTypes.func,
 }
 
+const Authors = ({ control, register }) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "authors",
+  })
+
+  return (
+    <div className="mt-2">
+      <div>
+        {fields.map((author, index) => (
+          <Author
+            key={author?.id}
+            data={author}
+            control={control}
+            number={index}
+            remove={() => remove(index)}
+            register={register}
+          />
+        ))}
+      </div>
+      <div className="mt-10 text-center">
+        <OutlineButton
+          type="button"
+          tabIndex="0"
+          onClick={() => {
+            append({})
+          }}
+        >
+          +&nbsp;Ajouter un auteur
+        </OutlineButton>
+      </div>
+    </div>
+  )
+}
+
+Authors.propTypes = {
+  control: PropTypes.object.isRequired,
+  register: PropTypes.func.isRequired,
+}
+
+const Author = ({ data, control, number = 0, remove, register }) => (
+  <div className="px-10 py-6 my-5 bg-gray-100 rounded-md shadow-md">
+    <Title2 className="mb-4">
+      {number + 1 + suffix(number + 1)} auteur
+      <div className="inline-block float-right text-sm">
+        <OutlineButton color="red" onClick={remove} tabIndex="0">
+          <span className="align-middle">Effacer&nbsp;X</span>
+        </OutlineButton>
+      </div>
+    </Title2>
+
+    <b>Profil</b>
+
+    <div className="flex space-x-6">
+      <div className="flex-1">
+        <label
+          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+          htmlFor={`authors[${number}].type`}
+        >
+          &nbsp;
+        </label>
+
+        <Controller
+          as={Select}
+          control={control}
+          name={`authors[${number}].type`}
+          id={`authors[${number}].type`}
+          instanceId={`authors[${number}].type`}
+          options={authorProfileOptions}
+          placeholder="Choisir..."
+          isClearable={true}
+          styles={customStyles}
+          defaultValue={data?.type || null}
+          noOptionsMessage={() => "Aucun élément"}
+        />
+      </div>
+      <div className="flex-1">
+        <label
+          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+          htmlFor={`authors[${number}].gender`}
+        >
+          de genre
+        </label>
+        <Controller
+          as={Select}
+          control={control}
+          name={`authors[${number}].gender`}
+          id={`authors[${number}].gender`}
+          instanceId={`authors[${number}].gender`}
+          options={genderOptions}
+          placeholder="Choisir..."
+          isClearable={true}
+          styles={customStyles}
+          defaultValue={data?.gender || null}
+          noOptionsMessage={() => "Aucun élément"}
+        />
+      </div>
+
+      <div className="flex-1">
+        <label
+          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+          htmlFor={`authors[${number}].age`}
+        >
+          et âgé de
+        </label>
+        <Controller
+          as={Select}
+          control={control}
+          name={`authors[${number}].age`}
+          id={`authors[${number}].age`}
+          instanceId={`authors[${number}].age`}
+          options={ageOptions}
+          placeholder="Choisir..."
+          isClearable={true}
+          styles={customStyles}
+          defaultValue={data?.age || null}
+          noOptionsMessage={() => "Aucun élément"}
+        />
+      </div>
+    </div>
+
+    <div className="mt-12">
+      <b>Altération du discernement</b> <i>(optionnel)</i>
+      <Options
+        name={`authors[${number}].discernmentTroubles`}
+        register={register}
+      >
+        <Option value="Trouble psychique ou neuropsychique" />
+        <Option value="Prise d’alcool" />
+        <Option value="Prise de produits stupéfiants" />
+        <Option value="Prise de médicaments" />
+        <Option value="Effet de l’anesthésie" />
+      </Options>
+    </div>
+  </div>
+)
+
+Author.propTypes = {
+  control: PropTypes.object,
+  data: PropTypes.object.isRequired,
+  number: PropTypes.number,
+  register: PropTypes.func,
+  remove: PropTypes.func,
+}
+
 const Step4Page = () => {
   useScrollTop()
   const router = useRouter()
   const { action, state } = useStateMachine(update)
   const [phase, setPhase] = useState(1)
-  const { control, handleSubmit, register, watch } = useForm({
+  const {
+    control,
+    getValues,
+    handleSubmit,
+    register,
+    watch,
+    formState,
+  } = useForm({
     defaultValues: {
       ITTDays: state?.form?.ITTDays,
-      authors: [],
+      authors: state?.form?.authors,
       discernmentTroubles: state?.form?.discernmentTroubles,
       hospitalizationDays: state?.form?.hospitalizationDays,
       pursuit: state?.form?.pursuit,
       pursuitBy: state?.form?.pursuitBy,
       sickLeaveDays: state?.form?.sickLeaveDays,
       thirdParty: state?.form?.thirdParty,
-      victims: state?.form.victims,
+      victims: state?.form?.victims,
     },
   })
 
   const watchPursuit = watch("pursuit")
 
   const onSubmit = (data) => {
-    console.log("onSubmit -> data", data)
-
     action(data)
     router.push("/forms/freelance/step5")
   }
@@ -293,10 +494,6 @@ const Step4Page = () => {
           className="w-10/12 m-auto text-gray-900"
         >
           <>
-            {/* {getValues("victims")?.map((victim, index) => (
-              <Victim key={index} number={index} control={control} />
-            ))} */}
-
             <Victims control={control} />
 
             <Title2 className="mt-12">
@@ -388,93 +585,9 @@ const Step4Page = () => {
               <Title1 className="mt-16">
                 Qui a été <b>auteur</b> de la violence ?
               </Title1>
-              <Title2 className="mt-8 mb-4">1er auteur</Title2>
 
-              <b>Profil</b>
+              <Authors control={control} register={register} />
 
-              <div className="flex space-x-6">
-                <div className="flex-1">
-                  <label
-                    className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-                    htmlFor="author1Type"
-                  >
-                    &nbsp;
-                  </label>
-
-                  <Controller
-                    as={Select}
-                    control={control}
-                    name="authors[0].type"
-                    id="authors[0].type"
-                    instanceId="authors[0].type"
-                    options={authorProfileOptions}
-                    placeholder="Choisir..."
-                    isClearable={true}
-                    styles={customStyles}
-                    defaultValue={null}
-                  />
-                </div>
-                <div className="flex-1">
-                  <label
-                    className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-                    htmlFor="author1Gender"
-                  >
-                    de genre
-                  </label>
-                  <Controller
-                    as={Select}
-                    control={control}
-                    name="authors[0].gender"
-                    id="authors[0].gender"
-                    instanceId="authors[0].gender"
-                    options={[
-                      "Masculin",
-                      "Féminin",
-                      "Autre genre",
-                    ].map((curr) => ({ label: curr, value: curr }))}
-                    placeholder="Choisir..."
-                    isClearable={true}
-                    styles={customStyles}
-                    defaultValue={null}
-                  />
-                </div>
-
-                <div className="flex-1">
-                  <label
-                    className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-                    htmlFor="author1Age"
-                  >
-                    et âgé de
-                  </label>
-                  <Controller
-                    as={Select}
-                    control={control}
-                    name="authors[0].age"
-                    id="authors[0].age"
-                    instanceId="authors[0].age"
-                    options={[
-                      "- de 18 ans",
-                      "+ de 18 ans",
-                      "non déterminable",
-                    ].map((curr) => ({ label: curr, value: curr }))}
-                    placeholder="Choisir..."
-                    isClearable={true}
-                    styles={customStyles}
-                    defaultValue={null}
-                  />
-                </div>
-              </div>
-
-              <div className="mt-12">
-                <b>Altération du discernement</b> <i>(optionnel)</i>
-                <Options name="discernmentTroubles" register={register}>
-                  <Option value="Trouble psychique ou neuropsychique" />
-                  <Option value="Prise d’alcool" />
-                  <Option value="Prise de produits stupéfiants" />
-                  <Option value="Prise de médicaments" />
-                  <Option value="Effet de l’anesthésie" />
-                </Options>
-              </div>
               {phase === 2 && (
                 <div className="flex justify-center w-full my-16 space-x-4">
                   <PrimaryButtton onClick={() => setPhase(3)}>

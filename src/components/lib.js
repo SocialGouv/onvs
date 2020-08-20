@@ -297,7 +297,12 @@ export const Counter = ({ value = 0, onChange }) => {
   }
 
   // A11y keyboard navigation: push space key to activate the button
-  const keyPress = (event, fn) => event.key === " " && fn(event)
+  const keyPress = (event, fn) => {
+    if (event.key === " " || event.key === "Enter") {
+      event.preventDefault()
+      fn(event)
+    }
+  }
 
   return (
     <div className="flex items-center justify-center mb-4 text-center">
