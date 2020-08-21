@@ -19,10 +19,12 @@ export const useEffectToast = (errors) => {
           </span>
           <br />
           {Object.keys(errors)?.map((err, index) => {
-            errors[err].message && (
-              <ul key={index} className="ml-5">
-                <li className="list-disc">{errors[err].message}</li>
-              </ul>
+            return (
+              errors[err].message && (
+                <ul key={index} className="ml-5">
+                  <li className="list-disc">{errors[err].message}</li>
+                </ul>
+              )
             )
           })}
         </div>,

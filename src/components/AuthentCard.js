@@ -23,7 +23,7 @@ const AuthentCard = () => {
           color="#bee3f8"
           show={false}
           animate={true}
-          animationDuration="800"
+          animationDuration={800}
         >
           Établissement, ordre, fédération, conférence
         </RoughNotation>

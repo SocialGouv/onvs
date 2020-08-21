@@ -33,9 +33,7 @@ const schema = yup.object({
     .string()
     .when("factgOthers", (factgOthers, schema) => {
       return factgOthers.includes("Autre")
-        ? schema.required(
-            "Le champ Autre atteinte aux biens doit être précisé.",
-          )
+        ? schema.required("Le champ Autre atteinte aux biens doit être précisé")
         : schema.nullable(true)
     }),
   factgStealWithBreakin: yup.array(yup.string()).default(() => []),
@@ -50,10 +48,8 @@ const schema = yup.object({
     .when("factpOthers", (factpOthers, schema) => {
       return factpOthers.includes("Autre")
         ? schema
-            .required(
-              "Le champ Autre atteinte aux personnes doit être précisé.",
-            )
-            .min(5, 'Le champ "Autre" doit être précisé.')
+            .required("Le champ Autre atteinte aux personnes doit être précisé")
+            .min(5, 'Le champ "Autre" doit être précisé')
         : yup.string().nullable(true)
     }),
   factpPhysicalViolence: yup.array(yup.string()).default(() => []),

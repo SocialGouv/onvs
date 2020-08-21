@@ -24,34 +24,34 @@ const schema = yup.object({
     otherwise: (schema) => schema.transform(() => ""),
     then: (schema) =>
       schema
-        .required("L'e-mail est à renseigner.")
-        .email("L'e-mail est mal formé."),
+        .required("L'e-mail est à renseigner")
+        .email("L'e-mail est mal formé"),
   }),
   declarantId: yup.string().when("declarantContactAgreement", {
     is: "true",
     otherwise: (schema) => schema.transform(() => ""),
     then: (schema) =>
       schema
-        .required("Le n° RPPS/Adeli est à renseigner.")
+        .required("Le n° RPPS/Adeli est à renseigner")
         .matches(
           /^[0-9]{9}$|^[0-9]{11}$/g,
-          "Le n° RPPS/Adeli est à 9 ou 11 chiffres.",
+          "Le n° RPPS/Adeli est à 9 ou 11 chiffres",
         ),
   }),
   declarantNames: yup.string().when("declarantContactAgreement", {
     is: "true",
     otherwise: (schema) => schema.transform(() => ""),
-    then: (schema) => schema.required("Le nom est à renseigner."),
+    then: (schema) => schema.required("Le nom est à renseigner"),
   }),
   declarantTel: yup.string().when("declarantContactAgreement", {
     is: "true",
     otherwise: (schema) => schema.transform(() => ""),
     then: (schema) =>
       schema
-        .required("Le téléphone est à renseigner.")
-        .matches(/[0-9]{10}/g, "Le numéro de téléphone est mal formé."),
+        .required("Le téléphone est à renseigner")
+        .matches(/[0-9]{10}/g, "Le numéro de téléphone est mal formé"),
   }),
-  description: yup.string().required("La description doit être renseignée."),
+  description: yup.string().required("La description doit être renseignée"),
 })
 
 const Step5Page = () => {

@@ -60,7 +60,7 @@ const schema = yup.object().shape({
       value: yup.string(),
     })
     .nullable(true) // to consider null as an object and let required validate and displays the appropriate message
-    .required("La profession est à renseigner."),
+    .required("La profession est à renseigner"),
 })
 
 const Step0Page = () => {
@@ -106,8 +106,9 @@ const Step0Page = () => {
               as={Select}
               options={jobsOptions}
               name="job"
-              aria-label="job"
               id="job"
+              instanceId="job"
+              aria-label="job"
               isClearable="true"
               control={control}
               styles={selectConfig}

@@ -70,7 +70,7 @@ export const TitleCard = ({ children, className }) => (
 )
 
 TitleCard.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   className: PropTypes.string,
 }
 

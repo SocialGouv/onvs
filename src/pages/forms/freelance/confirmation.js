@@ -32,9 +32,7 @@ const ConfirmationPage = () => {
           <div className="flex justify-center w-full my-16 space-x-4">
             <Link href="/">
               <a>
-                <OutlineButton className="mt-16">
-                  +&nbsp;Déclarer un autre incident
-                </OutlineButton>
+                <OutlineButton>+&nbsp;Déclarer un autre incident</OutlineButton>
               </a>
             </Link>
           </div>

@@ -34,10 +34,10 @@ const hoursOptions = [
 const schema = yup.object().shape({
   date: yup
     .string()
-    .required("La date est à renseigner.")
+    .required("La date est à renseigner")
     .test(
       "past or present ISO date representation",
-      "La date ne peut pas être future.",
+      "La date ne peut pas être future",
       function (value) {
         const date = parseISO(value)
         if (date === "Invalid Date") return false
@@ -51,13 +51,13 @@ const schema = yup.object().shape({
       value: yup.string(),
     })
     .nullable(true) // to consider null as an object and let required validate and displays the appropriate message
-    .required("Les heures sont à renseigner."),
-  location: yup.string().required("Le lieu est à renseigner."),
+    .required("Les heures sont à renseigner"),
+  location: yup.string().required("Le lieu est à renseigner"),
   otherLocation: yup.string().when("location", {
     is: "Autre",
-    then: yup.string().required('Le champ "Autre lieu" doit être précisé.'),
+    then: yup.string().required('Le champ "Autre lieu" doit être précisé'),
   }),
-  town: yup.string().required("La ville est à renseigner."),
+  town: yup.string().required("La ville est à renseigner"),
 })
 
 const Step1Page = () => {
@@ -96,24 +96,6 @@ const Step1Page = () => {
     router.push("/forms/freelance/step2")
   }
 
-  const customStyles = {
-    container: (styles) => ({
-      ...styles,
-      flexGrow: 1,
-    }),
-    menu: (styles) => ({
-      ...styles,
-      textAlign: "left",
-    }),
-  }
-
-  const onHoursChange = (selectedOption) => {
-    // Needs to sync specifically the value to the react-select as well
-    setHour(selectedOption)
-
-    // Needs transformation between format of react-select to expected format for API call
-    setValue("hour", selectedOption?.value ?? null)
-  }
   return (
     <Layout>
       <div className="max-w-4xl m-auto mb-8">

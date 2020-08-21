@@ -542,7 +542,7 @@ const Step4Page = () => {
   const { action, state } = useStateMachine(update)
   const [phase, setPhase] = React.useState(1)
 
-  const { control, errors, handleSubmit, register, setValue, watch } = useForm({
+  const { control, errors, handleSubmit, register, watch } = useForm({
     defaultValues: {
       authors: state?.form?.authors || [{}],
       pursuit: state?.form?.pursuit,
@@ -559,8 +559,8 @@ const Step4Page = () => {
 
   React.useEffect(() => {
     // Si le champ pursuit est rempli, c'est qu'on n'affiche pas la page pour la 1ère fois, i.e. tout doit être déplié
-    if (watchPursuit) setPhase(3)
-  }, [watchPursuit, setValue])
+    if (state?.form?.pursuit) setPhase(3)
+  }, [state?.form?.pursuit, setPhase])
 
   const onSubmit = (data) => {
     // We can't do it in yup validation (with transform) because this part of the form is not present so it is not carry on by react hook form...
