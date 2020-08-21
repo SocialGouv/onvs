@@ -4,6 +4,7 @@ const pack = require("../package.json")
 
 const next = require("next")
 const express = require("express")
+
 const port = parseInt(process.env.PORT, 10) || 3030
 const dev = process.env.NODE_ENV !== "production"
 
@@ -51,6 +52,9 @@ app.prepare().then(() => {
       console.log(`process.env.SENTRY_TOKEN: ${process.env.SENTRY_TOKEN}`)
       console.log(`process.env.MATOMO_URL: ${process.env.MATOMO_URL}`)
       console.log(`process.env.MATOMO_SITE_ID: ${process.env.MATOMO_SITE_ID}`)
+      console.log(
+        `process.env.TEST_CURRENT_DATE: ${process.env.TEST_CURRENT_DATE}`,
+      )
       // eslint-disable-next-line no-console
       console.log(`> Ready on http://localhost:${port}`)
       console.log("-----------------")

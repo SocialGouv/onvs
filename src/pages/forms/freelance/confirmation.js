@@ -1,8 +1,9 @@
-import React from "react"
 import Link from "next/link"
-import { Layout } from "components/Layout"
-import { PrimaryButtton, OutlineButton, Title1 } from "components/lib"
-import { Stepper } from "components/Stepper"
+import React from "react"
+
+import { Layout } from "@/components/Layout"
+import { OutlineButton, PrimaryButtton, Title1 } from "@/components/lib"
+import { Stepper } from "@/components/Stepper"
 
 const ConfirmationPage = () => {
   return (
@@ -26,14 +27,16 @@ const ConfirmationPage = () => {
           </p>
 
           <div className="flex justify-center w-full my-16 space-x-4">
-            <PrimaryButtton>Télécharger le récapitulatif</PrimaryButtton>
+            <Link href="/forms/freelance/debug">
+              <a>
+                <PrimaryButtton>Télécharger le récapitulatif</PrimaryButtton>
+              </a>
+            </Link>
           </div>
           <div className="flex justify-center w-full my-16 space-x-4">
             <Link href="/">
               <a>
-                <OutlineButton className="mt-16">
-                  +&nbsp;Déclarer un autre incident
-                </OutlineButton>
+                <OutlineButton>+&nbsp;Déclarer un autre incident</OutlineButton>
               </a>
             </Link>
           </div>

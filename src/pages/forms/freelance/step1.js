@@ -1,49 +1,94 @@
-import React, { useState, useEffect } from "react"
-import { useRouter } from "next/router"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers"
+import { formatISO, isFuture, parseISO } from "date-fns"
 import { useStateMachine } from "little-state-machine"
-import { format } from "date-fns"
-
-import update from "lib/pages/form"
-import { Layout } from "components/Layout"
-import { PrimaryButtton, OutlineButton, Title1, Title2 } from "components/lib"
-import { Stepper } from "components/Stepper"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import React, { useEffect } from "react"
+import { Controller, useForm } from "react-hook-form"
 import Select from "react-select"
-import { useScrollTop } from "hooks/scrollTop"
+import * as yup from "yup"
+
+import { Layout } from "@/components/Layout"
+import {
+  InputError,
+  OutlineButton,
+  PrimaryButtton,
+  RadioInput,
+  Title1,
+  Title2,
+} from "@/components/lib"
+import { Stepper } from "@/components/Stepper"
+import { useEffectToast } from "@/hooks/useEffectToast"
+import { useScrollTop } from "@/hooks/useScrollTop"
+import update from "@/lib/pages/form"
+
+import { selectConfig } from "../../../config"
 
 const hoursOptions = [
-  { value: "Matin (7h-12h)", label: "Matin (7h-12h)" },
-  { value: "Après-midi (12h-19h)", label: "Après-midi (12h-19h)" },
-  { value: "Soirée (19h-00h)", label: "Soirée (19h-00h)" },
-  { value: "Nuit (00h-7h)", label: "Nuit (00h-7h)" },
-]
+  "Matin (7h-12h)",
+  "Après-midi (12h-19h)",
+  "Soirée (19h-00h)",
+  "Nuit (00h-7h)",
+].map((label) => ({ label, value: label }))
+
+const schema = yup.object().shape({
+  date: yup
+    .string()
+    .required("La date est à renseigner")
+    .test(
+      "past or present ISO date representation",
+      "La date ne peut pas être future",
+      function (value) {
+        const date = parseISO(value)
+        if (date === "Invalid Date") return false
+        return !isFuture(date)
+      },
+    ),
+  hour: yup
+    .object()
+    .shape({
+      label: yup.string(),
+      value: yup.string(),
+    })
+    .nullable(true) // to consider null as an object and let required validate and displays the appropriate message
+    .required("Les heures sont à renseigner"),
+  location: yup.string().required("Le lieu est à renseigner"),
+  otherLocation: yup.string().when("location", {
+    is: "Autre",
+    then: yup.string().required('Le champ "Autre lieu" doit être précisé'),
+  }),
+  town: yup.string().required("La ville est à renseigner"),
+})
 
 const Step1Page = () => {
   useScrollTop()
   const router = useRouter()
   const { action, state } = useStateMachine(update)
 
-  const { handleSubmit, register, setValue } = useForm({
+  const { control, errors, handleSubmit, register, setValue, watch } = useForm({
     defaultValues: {
-      date: state?.form?.date || format(new Date(), "yyyy-MM-dd"),
-      town: state?.form?.town,
+      date:
+        state?.form?.date || formatISO(new Date(), { representation: "date" }),
+      hour: state?.form?.hour
+        ? { label: state.form.hour.label, value: state.form.hour.value }
+        : hoursOptions?.[0],
       location: state?.form?.location,
       otherLocation: state?.form?.otherLocation,
+      town: state?.form?.town,
     },
+    resolver: yupResolver(schema),
   })
 
-  const [hour, setHour] = useState(
-    state?.form?.hour && {
-      value: state?.form?.hour,
-      label: state?.form?.hour,
-    },
-  )
+  const location = watch("location")
 
   useEffect(() => {
-    // Extra field in form to store the value of selects
-    register({ name: "hour" })
-  }, [register])
+    // Clean otherLocation when location changed and is equals to Autre
+    if (location !== "Autre") {
+      setValue("otherLocation", "")
+    }
+  }, [setValue, location])
+
+  useEffectToast(errors)
 
   const onSubmit = (data) => {
     action(data)
@@ -51,28 +96,10 @@ const Step1Page = () => {
     router.push("/forms/freelance/step2")
   }
 
-  const customStyles = {
-    container: (styles) => ({
-      ...styles,
-      flexGrow: 1,
-    }),
-    menu: (styles) => ({
-      ...styles,
-      textAlign: "left",
-    }),
-  }
-
-  const onHoursChange = (selectedOption) => {
-    // Needs to sync specifically the value to the react-select as well
-    setHour(selectedOption)
-
-    // Needs transformation between format of react-select to expected format for API call
-    setValue("hour", selectedOption?.value ?? null)
-  }
   return (
     <Layout>
       <div className="max-w-4xl m-auto mb-8">
-        <Stepper />
+        <Stepper step={1} />
 
         <Title1 className="mt-4">Où la violence a-t-elle eu lieu ?</Title1>
 
@@ -98,7 +125,10 @@ const Step1Page = () => {
                 id="date"
                 name="date"
                 ref={register}
+                aria-invalid={!!errors.date?.message}
               />
+
+              <InputError error={errors?.date?.message} />
             </div>
 
             <div className="flex-1">
@@ -106,33 +136,38 @@ const Step1Page = () => {
                 className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
                 htmlFor="periodDay"
               >
-                Créneau horaire
+                Horaire
               </label>
-              <Select
+
+              <Controller
+                as={Select}
                 options={hoursOptions}
-                placeholder="Choisir..."
-                value={hour}
-                onChange={onHoursChange}
-                isClearable={true}
-                styles={customStyles}
+                name="hour"
+                control={control}
+                styles={selectConfig}
               />
             </div>
 
             <div className="flex-1">
               <label
-                className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+                className={`block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase ${
+                  errors?.town && "text-red-500"
+                }`}
                 htmlFor="town"
               >
                 Ville
               </label>
               <input
-                className="form-input"
+                className={`form-input ${errors?.town && "border-red-600"}`}
                 type="text"
                 id="town"
                 name="town"
                 placeholder="Tapez les premières lettres"
                 ref={register}
+                aria-invalid={!!errors.town?.message}
               />
+
+              <InputError error={errors?.town?.message} />
             </div>
           </div>
 
@@ -142,43 +177,22 @@ const Step1Page = () => {
             <b>Intérieur</b>
             <div className="block mt-3">
               <div className="mt-2 space-y-2">
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Cabinet individuel"
-                      ref={register}
-                      defaultChecked
-                    />
-                    <span className="ml-2">Cabinet individuel</span>
-                  </label>
-                </div>
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Cabinet collectif"
-                      ref={register}
-                    />
-                    <span className="ml-2">Cabinet collectif</span>
-                  </label>
-                </div>
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Officine"
-                      ref={register}
-                    />
-                    <span className="ml-2">Officine</span>
-                  </label>
-                </div>
+                <RadioInput
+                  name="location"
+                  value="Cabinet individuel"
+                  register={register}
+                  defaultChecked
+                />
+                <RadioInput
+                  name="location"
+                  value="Cabinet collectif"
+                  register={register}
+                />
+                <RadioInput
+                  name="location"
+                  value="Officine"
+                  register={register}
+                />
               </div>
             </div>
           </div>
@@ -187,62 +201,26 @@ const Step1Page = () => {
             <b>Extérieur</b>
             <div className="block mt-3">
               <div className="mt-2 space-y-2">
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="En face/à proximité du cabinet ou de l’officine"
-                      ref={register}
-                    />
-                    <span className="ml-2">
-                      En face/à proximité du cabinet ou de l’officine
-                    </span>
-                  </label>
-                </div>
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Au domicile du patient"
-                      ref={register}
-                    />
-                    <span className="ml-2">Au domicile du patient</span>
-                  </label>
-                </div>
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Sur le trajet entre le cabinet et le domicile du patient"
-                      ref={register}
-                    />
-                    <span className="ml-2">
-                      Sur le trajet entre le cabinet et le domicile du patient
-                    </span>
-                  </label>
-                </div>
-
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio"
-                      name="location"
-                      value="Sur le trajet entre votre domicile et votre lieu de travail"
-                      ref={register}
-                    />
-                    <span className="ml-2">
-                      Sur le trajet entre votre domicile et votre lieu de
-                      travail
-                    </span>
-                  </label>
-                </div>
+                <RadioInput
+                  name="location"
+                  value="En face/à proximité du cabinet ou de l’officine"
+                  register={register}
+                />
+                <RadioInput
+                  name="location"
+                  value="Au domicile du patient"
+                  register={register}
+                />
+                <RadioInput
+                  name="location"
+                  value="Sur le trajet entre le cabinet et le domicile du patient"
+                  register={register}
+                />
+                <RadioInput
+                  name="location"
+                  value="Sur le trajet entre votre domicile et votre lieu de travail"
+                  register={register}
+                />
 
                 <div>
                   <label className="inline-flex items-center">
@@ -255,25 +233,37 @@ const Step1Page = () => {
                     />
                     <span className="ml-2">{"Autre : "}</span>
                   </label>
-                  <div className="inline-block py-2 border-b border-b-2 border-blue-400">
+                  <div
+                    className={`inline-block py-2 border-b-2  ${
+                      errors.otherLocation?.message
+                        ? "border-red-500"
+                        : "border-blue-400"
+                    }`}
+                  >
                     <input
-                      className="px-2 mr-3 leading-tight bg-transparent border-none focus:outline-none"
+                      className={`px-2 mr-3 leading-tight bg-transparent border-none focus:outline-none`}
                       type="text"
                       id="otherLocation"
                       name="otherLocation"
                       placeholder="Ajouter un lieu"
+                      onChange={() => setValue("location", "Autre")}
                       ref={register}
+                      aria-invalid={
+                        errors.otherLocation?.message ? "true" : "false"
+                      }
                     />
                   </div>
                 </div>
+
+                <InputError error={errors?.otherLocation?.message} />
               </div>
             </div>
           </div>
 
           <div className="flex justify-center w-full my-16 space-x-4">
-            <Link href="/index">
+            <Link href="/forms/freelance/step0">
               <a>
-                <OutlineButton>Précédent</OutlineButton>
+                <OutlineButton type="button">Précédent</OutlineButton>
               </a>
             </Link>
             <PrimaryButtton>Suivant</PrimaryButtton>

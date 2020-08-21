@@ -1,38 +1,54 @@
 import PropTypes from "prop-types"
 import React from "react"
 
-import AddIcon from "./svg/add"
-import MinusIcon from "./svg/minus"
+import AddIcon from "@/components/svg/add"
+import MinusIcon from "@/components/svg/minus"
 
 export const PrimaryButtton = ({
   children,
   className,
-  type = "text",
+  type = "submit",
   onClick,
+  tabIndex = "0",
 }) => (
   <button
     type={type}
     className={`px-6 py-2 font-bold uppercase text-sm tracking-wider font-source text-white bg-blue-600 rounded ${className}`}
     onClick={onClick}
+    tabIndex={tabIndex}
   >
     {children}
   </button>
 )
 
 PrimaryButtton.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
+  tabIndex: PropTypes.string,
   type: PropTypes.string,
 }
 
-export const OutlineButton = ({ children, type = "text" }) => (
-  <button
-    type={type}
-    className="px-4 py-2 text-sm tracking-wider text-blue-600 uppercase border border-blue-600 rounded font-source"
-  >
-    {children}
-  </button>
-)
-
+export const OutlineButton = ({
+  children,
+  type = "submit",
+  tabIndex = "-1",
+  color,
+  ...props
+}) => {
+  const colorStyle =
+    color === "red"
+      ? "text-red-500 border-red-500 hover:text-white hover:bg-red-500"
+      : "text-blue-600 border-blue-600 hover:text-white hover:bg-blue-600"
+  return (
+    <button
+      type={type}
+      className={`px-6 py-2 text-sm tracking-wider uppercase rounded font-source border ${colorStyle} `}
+      tabIndex={tabIndex}
+      {...props}
+    >
+      {children}
+    </button>
+  )
+}
 OutlineButton.propTypes = PrimaryButtton.propTypes
 
 export const HeroTitle = ({ children }) => (
@@ -54,7 +70,7 @@ export const TitleCard = ({ children, className }) => (
 )
 
 TitleCard.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   className: PropTypes.string,
 }
 
@@ -75,7 +91,7 @@ export const Title1 = ({ children, className }) => (
 )
 
 Title1.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  children: PropTypes.node,
   className: PropTypes.string,
 }
 
@@ -133,105 +149,228 @@ Checkbox.propTypes = {
   required: PropTypes.bool,
 }
 
-export const Groups = ({ name, values, register }) => {
+// Shows different groups with different colors
+export const Groups = ({ name, register, children }) => {
+  if (!children) return null
+
+  const expandedChildren = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { name, register })
+    }
+    return null // It should not happen.
+  })
+
   return (
     <div className="mt-4">
-      <div className="mt-2 space-y-2">
-        {values.map((value, index) => (
-          <div key={index}>
-            <label className="inline-flex items-center">
-              <input
-                type="checkbox"
-                className={`form-checkbox ${value.color}`}
-                name={name}
-                value={value.label}
-                ref={register}
-              />
-              <span className="ml-2">{value.label}</span>
-            </label>
-          </div>
-        ))}
-      </div>
+      <div className="mt-2 space-y-2">{expandedChildren}</div>
     </div>
   )
 }
 
 Groups.propTypes = {
+  children: PropTypes.node,
   name: PropTypes.string,
   register: PropTypes.func,
-  values: PropTypes.array,
 }
 
+export const Group = ({ name, register, value, color }) => {
+  return (
+    <div>
+      <label className="inline-flex items-center">
+        <input
+          type="checkbox"
+          className={`form-checkbox ${color}`}
+          name={name}
+          value={value}
+          ref={register}
+        />
+        <span className="ml-2">{value}</span>
+      </label>
+    </div>
+  )
+}
+
+Group.propTypes = {
+  color: PropTypes.string,
+  name: PropTypes.string,
+  register: PropTypes.func,
+  value: PropTypes.string.isRequired,
+}
+
+// Shows options of a group with a same color. Options can be disabled.
 export const Options = ({
   name,
-  values,
   register,
   color = "text-indigo-600",
+  disabled = false,
+  children,
 }) => {
+  if (!children) return null
+
+  const expandedChildren = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { color, disabled, name, register })
+    }
+    return child // It should not happen.
+  })
+
   return (
     <div className="my-4">
-      <div className="mt-2 space-y-2">
-        {values.map((value, index) => (
-          <div key={index}>
-            <label className="inline-flex items-center">
-              <input
-                type="checkbox"
-                className={`form-checkbox ${color}`}
-                name={name}
-                value={value}
-                ref={register}
-              />
-              <span className="ml-2">{value}</span>
-            </label>
-          </div>
-        ))}
-      </div>
+      <div className="mt-2 space-y-2">{expandedChildren}</div>
     </div>
   )
 }
 
 Options.propTypes = {
+  children: PropTypes.node,
   color: PropTypes.string,
+  disabled: PropTypes.bool,
   name: PropTypes.string,
   register: PropTypes.func,
   values: PropTypes.array,
 }
 
-export const Counter = ({ value = 0, setValue }) => {
+export const Option = ({
+  disabled = false,
+  color = "text-indigo-600",
+  value,
+  register,
+  name,
+  precision,
+  placeholder,
+  error,
+}) => {
+  return (
+    <div>
+      <label className="inline-flex items-center">
+        <input
+          type="checkbox"
+          className={`form-checkbox ${disabled ? "opacity-50" : ""} ${color}`}
+          name={name}
+          value={value}
+          ref={register}
+          disabled={disabled}
+        />
+        <span className={`ml-2 ${disabled ? "opacity-50" : ""}`}>{value}</span>
+      </label>
+      {precision && (
+        <>
+          <div
+            className={`ml-2 inline-block pb-2 border-b-2  ${
+              error ? "border-red-500" : "border-blue-400"
+            }`}
+          >
+            <input
+              className={`px-2 mr-3 leading-tight bg-transparent border-none focus:outline-none`}
+              type="text"
+              id={precision}
+              name={precision}
+              placeholder={placeholder}
+              ref={register()}
+              aria-invalid={error ? "true" : "false"}
+            />
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+Option.propTypes = {
+  color: PropTypes.string,
+  disabled: PropTypes.bool,
+  error: PropTypes.string,
+  name: PropTypes.string,
+  placeholder: PropTypes.string,
+  precision: PropTypes.string,
+  register: PropTypes.func,
+  value: PropTypes.string.isRequired,
+}
+
+export const Counter = ({ value = 0, onChange }) => {
   const add = () => {
-    setValue(value + 1)
+    onChange(value + 1)
   }
 
   const substract = () => {
-    setValue(value - 1 >= 0 ? value - 1 : 0)
+    if (value > 0) onChange(value - 1)
   }
 
-  const keyPress = (event, fn) => event.key === "Enter" && fn(event)
+  // A11y keyboard navigation: push space key to activate the button
+  const keyPress = (event, fn) => {
+    if (event.key === " " || event.key === "Enter") {
+      event.preventDefault()
+      fn(event)
+    }
+  }
 
   return (
-    <>
-      <div className="flex items-center justify-center mb-4 text-center">
-        <MinusIcon
-          onClick={substract}
-          className="w-8 h-8 p-1 mr-4 bg-blue-100 rounded-full"
-          tabIndex="0"
-          onKeyPress={(e) => keyPress(e, substract)}
-        />
-        <span className="w-12">{value}</span>
-        <AddIcon
-          onClick={add}
-          className="w-8 h-8 p-1 ml-4 bg-blue-100 rounded-full "
-          tabIndex="0"
-          onKeyPress={(e) => keyPress(e, add)}
-        />
-      </div>
-    </>
+    <div className="flex items-center justify-center mb-4 text-center">
+      <MinusIcon
+        onClick={substract}
+        className="w-8 h-8 p-1 mr-4 bg-blue-100 rounded-full"
+        tabIndex="0"
+        onKeyPress={(e) => keyPress(e, substract)}
+      />
+      <span className="w-12">{value}</span>
+      <AddIcon
+        onClick={add}
+        className="w-8 h-8 p-1 ml-4 bg-blue-100 rounded-full"
+        tabIndex="0"
+        onKeyPress={(e) => keyPress(e, add)}
+      />
+    </div>
   )
 }
 
 Counter.propTypes = {
-  setValue: PropTypes.func.isRequired,
-  value: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.number,
 }
 
 export default Counter
+
+export const RadioInput = ({
+  name,
+  value,
+  register,
+  defaultChecked = false,
+}) => {
+  return (
+    <div>
+      <label className="inline-flex items-center">
+        <input
+          type="radio"
+          className="form-radio"
+          name={name}
+          value={value}
+          ref={register}
+          defaultChecked={defaultChecked}
+        />
+        <span className="ml-2">{value}</span>
+      </label>
+    </div>
+  )
+}
+
+RadioInput.propTypes = {
+  defaultChecked: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+  register: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+}
+
+export const InputError = ({ error }) => {
+  return error ? (
+    <span role="alert" className="text-red-500">
+      <span role="img" aria-label="Warning">
+        ⚠️
+      </span>{" "}
+      {error}
+    </span>
+  ) : null
+}
+
+InputError.propTypes = {
+  error: PropTypes.string,
+}

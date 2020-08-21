@@ -8,9 +8,9 @@ import {
   PrimaryButtton,
   SubTitleCard,
   TitleCard,
-} from "../components/lib"
-import { RoughNotation } from "../components/RoughNotation"
-import Hospital from "./svg/hospital.js"
+} from "@/components/lib"
+import { RoughNotation } from "@/components/RoughNotation"
+import Hospital from "@/components/svg/hospital.js"
 
 const AuthentCard = () => {
   return (
@@ -23,7 +23,7 @@ const AuthentCard = () => {
           color="#bee3f8"
           show={false}
           animate={true}
-          animationDuration="800"
+          animationDuration={800}
         >
           Établissement, ordre, fédération, conférence
         </RoughNotation>

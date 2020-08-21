@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@hookform/resolvers": "^0.1.0",
     "@sentry/browser": "^5.20.1",
     "@sentry/integrations": "^5.20.1",
     "@sentry/node": "^5.20.1",
@@ -20,22 +21,28 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "little-state-machine": "^3.1.1",
-    "next": "^9.5.1",
+    "next": "^9.5.2",
     "next-compose-plugins": "^2.2.0",
     "next-transpile-modules": "^4.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.3.0",
     "react-select": "^3.1.0",
+    "react-toast-notifications": "^2.4.0",
     "rough-notation": "^0.4.0",
-    "sentry-testkit": "^3.2.1"
+    "sentry-testkit": "^3.2.1",
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
+    "@hookform/devtools": "^2.0.4",
     "@socialgouv/eslint-config-react": "^1.21.0",
     "@socialgouv/eslint-config-recommended": "^1.21.0",
     "@tailwindcss/custom-forms": "^0.2.1",
+    "@testing-library/jest-dom": "^5.11.2",
+    "@testing-library/react": "^10.4.8",
+    "@testing-library/user-event": "^12.1.1",
     "eslint": "^7.6.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^6.11.0",
@@ -47,6 +54,7 @@
     "little-state-machine-devtools": "^1.0.0",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.5",
+    "react-select-event": "^5.0.0",
     "tailwindcss": "^1.6.2"
   },
   "husky": {

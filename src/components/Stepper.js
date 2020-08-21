@@ -13,11 +13,11 @@ const Tab = ({ children, selected = false }) =>
   )
 
 Tab.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.node,
   selected: PropTypes.bool,
 }
 
-export const Stepper = ({ step = 1 }) => (
+export const Stepper = ({ step }) => (
   <section className="container flex flex-col flex-wrap py-1 mx-auto text-gray-700 body-font">
     <div className="flex flex-wrap w-full mb-8 uppercase">
       <Tab selected={step === 1}>01/ Date et lieu</Tab>

@@ -14,17 +14,21 @@
     ],
     "react/prop-types": "warn"
   },
+
   "settings": {
     "import/resolver": {
       "alias": {
         "map": [
-          ["components", "./src/components"],
-          ["hooks", "./src/hooks"],
-          ["lib", "./src/lib"],
-          ["utils", "./src/utils"],
-          ["styles", "./src/styles"]
+          ["@/components", "./src/components"],
+          ["@/pages", "./src/pages"],
+          ["@/hooks", "./src/hooks"],
+          ["@/lib", "./src/lib"],
+          ["@/utils", "./src/utils"],
+          ["@/styles", "./src/styles"]
         ]
       }
     }
-  }
+  },
+
+  "ignorePatterns": ["node_modules/", "dist", ".next/"]
 }
