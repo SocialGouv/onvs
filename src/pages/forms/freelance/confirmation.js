@@ -27,7 +27,11 @@ const ConfirmationPage = () => {
           </p>
 
           <div className="flex justify-center w-full my-16 space-x-4">
-            <PrimaryButtton>Télécharger le récapitulatif</PrimaryButtton>
+            <Link href="/forms/freelance/debug">
+              <a>
+                <PrimaryButtton>Télécharger le récapitulatif</PrimaryButtton>
+              </a>
+            </Link>
           </div>
           <div className="flex justify-center w-full my-16 space-x-4">
             <Link href="/">
