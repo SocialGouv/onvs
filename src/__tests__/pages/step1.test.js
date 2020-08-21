@@ -66,11 +66,11 @@ test("the step1 should display an error on Autre if no precision is present", as
 
   fireEvent.click(screen.queryByText(/suivant/i))
 
-  await screen.findByText(/le champ "Autre lieu" doit être précisé./i)
+  await screen.findByText(/le champ "Autre lieu" doit être précisé/i)
 
   expect(screen.getByLabelText(/ville/i).value).toBe("Vincennes")
 
-  expect(screen.queryByText(/La ville est à renseigner./i)).toBeNull()
+  expect(screen.queryByText(/La ville est à renseigner/i)).toBeNull()
   expect(screen.queryByText(/la date est à renseigner/i)).toBeNull()
   expect(addToast).toHaveBeenCalled()
 })

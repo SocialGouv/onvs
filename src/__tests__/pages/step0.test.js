@@ -44,7 +44,7 @@ test("should display an error when no job are chosen", async () => {
 
   fireEvent.click(screen.getByText(/Commencer/i))
 
-  await screen.findByText(/La profession est à renseigner./i)
+  await screen.findByText(/La profession est à renseigner/i)
 
   expect(addToast).toHaveBeenCalled()
 
