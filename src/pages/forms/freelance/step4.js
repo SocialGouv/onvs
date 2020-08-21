@@ -1,14 +1,17 @@
+import { yupResolver } from "@hookform/resolvers"
 import { useStateMachine } from "little-state-machine"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import PropTypes from "prop-types"
-import React, { useState } from "react"
+import React from "react"
 import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form"
 import Select from "react-select"
+import * as yup from "yup"
 
 import { Layout } from "@/components/Layout"
 import {
   Counter,
+  InputError,
   Option,
   Options,
   OutlineButton,
@@ -17,8 +20,50 @@ import {
   Title2,
 } from "@/components/lib"
 import { Stepper } from "@/components/Stepper"
+import { useEffectToast } from "@/hooks/useEffectToast"
 import { useScrollTop } from "@/hooks/useScrollTop"
 import update from "@/lib/pages/form"
+
+const isHealthType = (type) =>
+  ["Étudiant en santé", "Personnel de santé"].includes(type)
+
+const schema = yup.object({
+  authors: yup
+    .array(
+      yup.object({
+        age: yup.object().nullable().required("L'âge est à renseigner"),
+        gender: yup.object().nullable().required("Le genre est à renseigner"),
+        type: yup.object().nullable().required("Le type est à renseigner"),
+      }),
+    )
+    .min(1, "Au moins une victime est à renseigner")
+    .required("Au moins une victime est à renseigner"),
+  pursuit: yup.string(),
+  pursuitBy: yup.array(yup.string()).when("pursuit", (pursuit, schema) => {
+    return pursuit === "Plainte"
+      ? schema.required("La plainte doit être précisée")
+      : schema
+  }),
+  thirdParty: yup.string(),
+  victims: yup
+    .array(
+      yup.object({
+        age: yup.object().nullable().required("L'âge est à renseigner"),
+        gender: yup.object().nullable().required("Le genre est à renseigner"),
+        healthJob: yup
+          .object()
+          .nullable()
+          .when("type", (type, schema) => {
+            return isHealthType(type?.value)
+              ? schema.required("La profession de santé est à renseigner")
+              : schema
+          }),
+        type: yup.object().nullable().required("Le type est à renseigner"),
+      }),
+    )
+    .min(1, "Au moins une victime est à renseigner")
+    .required("Au moins un auteur est à renseigner"),
+})
 
 const ageOptions = [
   "- de 18 ans",
@@ -104,7 +149,7 @@ const suffix = (number, isFeminine = false) => {
   return "ème"
 }
 
-const Victims = ({ control }) => {
+const Victims = ({ control, errors }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "victims",
@@ -120,6 +165,7 @@ const Victims = ({ control }) => {
             control={control}
             number={index}
             remove={() => remove(index)}
+            errors={errors}
           />
         ))}
       </div>
@@ -140,9 +186,10 @@ const Victims = ({ control }) => {
 
 Victims.propTypes = {
   control: PropTypes.object.isRequired,
+  errors: PropTypes.object,
 }
 
-const Victim = ({ data, control, number = 0, remove }) => {
+const Victim = ({ data, control, number = 0, remove, errors }) => {
   const type = useWatch({
     control,
     name: `victims[${number}].type`,
@@ -152,11 +199,18 @@ const Victim = ({ data, control, number = 0, remove }) => {
     <div className="px-10 py-6 my-5 bg-gray-100 rounded-md shadow-md">
       <Title2 className="mb-4">
         {number + 1 + suffix(number + 1, true)} victime
-        <div className="inline-block float-right text-sm">
-          <OutlineButton color="red" onClick={remove} tabIndex="0">
-            <span className="align-middle">Effacer&nbsp;X</span>
-          </OutlineButton>
-        </div>
+        {number > 0 && (
+          <div className="inline-block float-right text-sm">
+            <OutlineButton
+              color="red"
+              onClick={remove}
+              tabIndex="0"
+              type="button"
+            >
+              <span className="align-middle">Effacer&nbsp;X</span>
+            </OutlineButton>
+          </div>
+        )}{" "}
       </Title2>
 
       <b>Profil</b>
@@ -182,7 +236,10 @@ const Victim = ({ data, control, number = 0, remove }) => {
               styles={customStyles}
               defaultValue={type || null}
               noOptionsMessage={() => "Aucun élément"}
+              aria-invalid={!!errors.victims?.[number]?.type?.message}
             />
+
+            <InputError error={errors.victims?.[number]?.type?.message} />
           </div>
         </div>
         <div className="flex-1">
@@ -204,7 +261,10 @@ const Victim = ({ data, control, number = 0, remove }) => {
             styles={customStyles}
             defaultValue={data?.gender || null}
             noOptionsMessage={() => "Aucun élément"}
+            aria-invalid={!!errors.victims?.[number]?.gender?.message}
           />
+
+          <InputError error={errors.victims?.[number]?.gender?.message} />
         </div>
 
         <div className="flex-1">
@@ -226,11 +286,14 @@ const Victim = ({ data, control, number = 0, remove }) => {
             styles={customStyles}
             defaultValue={data?.age || null}
             noOptionsMessage={() => "Aucun élément"}
+            aria-invalid={!!errors.victims?.[number]?.age?.message}
           />
+
+          <InputError error={errors.victims?.[number]?.age?.message} />
         </div>
       </div>
 
-      {["Étudiant en santé", "Personnel de santé"].includes(type?.value) && (
+      {isHealthType(type?.value) && (
         <div className="flex mt-6">
           <div className="flex items-center flex-1 text-center">
             <label
@@ -254,6 +317,11 @@ const Victim = ({ data, control, number = 0, remove }) => {
                 styles={customStyles}
                 defaultValue={data?.type || null}
                 noOptionsMessage={() => "Aucun élément"}
+                aria-invalid={!!errors.victims?.[number]?.healthJob?.message}
+              />
+
+              <InputError
+                error={errors.victims?.[number]?.healthJob?.message}
               />
             </div>
           </div>
@@ -298,11 +366,12 @@ const Victim = ({ data, control, number = 0, remove }) => {
 Victim.propTypes = {
   control: PropTypes.object,
   data: PropTypes.object.isRequired,
+  errors: PropTypes.object,
   number: PropTypes.number,
   remove: PropTypes.func,
 }
 
-const Authors = ({ control, register }) => {
+const Authors = ({ control, register, errors }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "authors",
@@ -319,6 +388,7 @@ const Authors = ({ control, register }) => {
             number={index}
             remove={() => remove(index)}
             register={register}
+            errors={errors}
           />
         ))}
       </div>
@@ -339,18 +409,26 @@ const Authors = ({ control, register }) => {
 
 Authors.propTypes = {
   control: PropTypes.object.isRequired,
+  errors: PropTypes.object,
   register: PropTypes.func.isRequired,
 }
 
-const Author = ({ data, control, number = 0, remove, register }) => (
+const Author = ({ data, control, number = 0, remove, register, errors }) => (
   <div className="px-10 py-6 my-5 bg-gray-100 rounded-md shadow-md">
     <Title2 className="mb-4">
       {number + 1 + suffix(number + 1)} auteur
-      <div className="inline-block float-right text-sm">
-        <OutlineButton color="red" onClick={remove} tabIndex="0">
-          <span className="align-middle">Effacer&nbsp;X</span>
-        </OutlineButton>
-      </div>
+      {number > 0 && (
+        <div className="inline-block float-right text-sm">
+          <OutlineButton
+            color="red"
+            onClick={remove}
+            tabIndex="0"
+            type="button"
+          >
+            <span className="align-middle">Effacer&nbsp;X</span>
+          </OutlineButton>
+        </div>
+      )}
     </Title2>
 
     <b>Profil</b>
@@ -376,7 +454,10 @@ const Author = ({ data, control, number = 0, remove, register }) => (
           styles={customStyles}
           defaultValue={data?.type || null}
           noOptionsMessage={() => "Aucun élément"}
+          aria-invalid={!!errors.authors?.[number]?.type?.message}
         />
+
+        <InputError error={errors.authors?.[number]?.type?.message} />
       </div>
       <div className="flex-1">
         <label
@@ -397,7 +478,10 @@ const Author = ({ data, control, number = 0, remove, register }) => (
           styles={customStyles}
           defaultValue={data?.gender || null}
           noOptionsMessage={() => "Aucun élément"}
+          aria-invalid={!!errors.authors?.[number]?.gender?.message}
         />
+
+        <InputError error={errors.authors?.[number]?.gender?.message} />
       </div>
 
       <div className="flex-1">
@@ -419,7 +503,10 @@ const Author = ({ data, control, number = 0, remove, register }) => (
           styles={customStyles}
           defaultValue={data?.age || null}
           noOptionsMessage={() => "Aucun élément"}
+          aria-invalid={!!errors.authors?.[number]?.age?.message}
         />
+
+        <InputError error={errors.authors?.[number]?.age?.message} />
       </div>
     </div>
 
@@ -442,6 +529,7 @@ const Author = ({ data, control, number = 0, remove, register }) => (
 Author.propTypes = {
   control: PropTypes.object,
   data: PropTypes.object.isRequired,
+  errors: PropTypes.object,
   number: PropTypes.number,
   register: PropTypes.func,
   remove: PropTypes.func,
@@ -450,32 +538,34 @@ Author.propTypes = {
 const Step4Page = () => {
   useScrollTop()
   const router = useRouter()
+
   const { action, state } = useStateMachine(update)
-  const [phase, setPhase] = useState(1)
-  const {
-    control,
-    getValues,
-    handleSubmit,
-    register,
-    watch,
-    formState,
-  } = useForm({
+  const [phase, setPhase] = React.useState(1)
+
+  const { control, errors, handleSubmit, register, setValue, watch } = useForm({
     defaultValues: {
-      ITTDays: state?.form?.ITTDays,
-      authors: state?.form?.authors,
-      discernmentTroubles: state?.form?.discernmentTroubles,
-      hospitalizationDays: state?.form?.hospitalizationDays,
+      authors: state?.form?.authors || [{}],
       pursuit: state?.form?.pursuit,
-      pursuitBy: state?.form?.pursuitBy,
-      sickLeaveDays: state?.form?.sickLeaveDays,
+      pursuitBy: state?.form?.pursuitBy || [],
       thirdParty: state?.form?.thirdParty,
-      victims: state?.form?.victims,
+      victims: state?.form?.victims || [{}],
     },
+    resolver: yupResolver(schema),
   })
+
+  useEffectToast(errors)
 
   const watchPursuit = watch("pursuit")
 
+  React.useEffect(() => {
+    // Si le champ pursuit est rempli, c'est qu'on n'affiche pas la page pour la 1ère fois, i.e. tout doit être déplié
+    if (watchPursuit) setPhase(3)
+  }, [watchPursuit, setValue])
+
   const onSubmit = (data) => {
+    // We can't do it in yup validation (with transform) because this part of the form is not present so it is not carry on by react hook form...
+    if (data?.pursuit !== "Plainte") data.pursuitBy = []
+
     action(data)
     router.push("/forms/freelance/step5")
   }
@@ -494,12 +584,10 @@ const Step4Page = () => {
           className="w-10/12 m-auto text-gray-900"
         >
           <>
-            <Victims control={control} />
-
+            <Victims control={control} errors={errors} />
             <Title2 className="mt-12">
-              Y’a-t-il eu des poursuites judiciaires ? <i>(optionnel)</i>
+              Y’a-t-il eu des poursuites judiciaires ?
             </Title2>
-
             <div className="mt-4">
               <div className="block mt-3">
                 <div className="mt-2 space-y-2">
@@ -511,6 +599,7 @@ const Step4Page = () => {
                         name="pursuit"
                         value="Non"
                         ref={register}
+                        defaultChecked
                       />
                       <span className="ml-2">Non</span>
                     </label>
@@ -562,6 +651,8 @@ const Step4Page = () => {
                       <Option value="L'établissement" />
                       <Option value="L'ordre" />
                     </Options>
+
+                    <InputError error={errors.pursuitBy?.message} />
                   </div>
                 )}
               </div>
@@ -569,12 +660,6 @@ const Step4Page = () => {
           </>
           {phase === 1 && (
             <div className="flex justify-center w-full my-16 space-x-4">
-              <Link href="/forms/freelance/step3">
-                <a>
-                  <OutlineButton>Précédent</OutlineButton>
-                </a>
-              </Link>
-
               <PrimaryButtton onClick={() => setPhase(2)}>
                 Suivant
               </PrimaryButtton>
@@ -585,9 +670,7 @@ const Step4Page = () => {
               <Title1 className="mt-16">
                 Qui a été <b>auteur</b> de la violence ?
               </Title1>
-
-              <Authors control={control} register={register} />
-
+              <Authors control={control} register={register} errors={errors} />
               {phase === 2 && (
                 <div className="flex justify-center w-full my-16 space-x-4">
                   <PrimaryButtton onClick={() => setPhase(3)}>
@@ -605,7 +688,7 @@ const Step4Page = () => {
               </Title1>
               <Title2 className="mt-8 mb-4">
                 Intervention de tiers (optionnel)
-              </Title2>{" "}
+              </Title2>
               <Options name="thirdParty" register={register}>
                 <Option value="Personnel hospitalier" />
                 <Option value="Service de sécurité interne" />

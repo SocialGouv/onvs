@@ -41,7 +41,7 @@ export const OutlineButton = ({
   return (
     <button
       type={type}
-      className={`px-4 py-1 text-sm tracking-wider uppercase rounded font-source border ${colorStyle} `}
+      className={`px-6 py-2 text-sm tracking-wider uppercase rounded font-source border ${colorStyle} `}
       tabIndex={tabIndex}
       {...props}
     >

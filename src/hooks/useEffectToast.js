@@ -12,13 +12,19 @@ export const useEffectToast = (errors) => {
   React.useEffect(() => {
     if (!isEmpty(errors)) {
       addToast(
-        <div>
-          Vous devez renseigner les informations de cette page. <br />
-          {Object.keys(errors)?.map((err, index) => (
-            <ul key={index} className="ml-5">
-              <li className="list-disc">{errors[err].message}</li>
-            </ul>
-          ))}
+        <div className="text-lg">
+          Oops ! Des erreurs se sont glissées dans la page...{" "}
+          <span role="img" aria-hidden="true">
+            😕👇
+          </span>
+          <br />
+          {Object.keys(errors)?.map((err, index) => {
+            errors[err].message && (
+              <ul key={index} className="ml-5">
+                <li className="list-disc">{errors[err].message}</li>
+              </ul>
+            )
+          })}
         </div>,
         toastConfig.error,
       )

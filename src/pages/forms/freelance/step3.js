@@ -57,7 +57,11 @@ const Step3Page = () => {
   const onSubmit = (data) => {
     if (!hasData(data)) {
       addToast(
-        'Vous devez renseigner un motif ou bien cocher la case "Pas de motif apparent".',
+        <div className="text-lg">
+          {
+            'Vous devez renseigner un motif ou bien cocher la case "Pas de motif apparent"'
+          }
+        </div>,
         toastConfig.error,
       )
 
