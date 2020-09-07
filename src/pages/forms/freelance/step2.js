@@ -38,7 +38,7 @@ const schema = yup.object({
     }),
   factgStealWithBreakin: yup.array(yup.string()).default(() => []),
   factgStealWithoutBreakin: yup.array(yup.string()).default(() => []),
-  factpDiscrimination: yup.string().default(""),
+  factpDiscrimination: yup.array(yup.string()).default(() => []),
   factpGroups: yup.array(yup.string()).default(() => []),
   factpHarassment: yup.array(yup.string()).default(() => []),
   factpNoRespect: yup.array(yup.string()).default(() => []),
@@ -320,6 +320,8 @@ const Step2Page = () => {
                       register={register}
                     >
                       <Option value="Refus d'un bien ou d'un service en raison de critères discriminatoires" />
+                      {/* Hack to make the field factpDiscrimination an array (like the other fields), not a boolean */}
+                      <Option value="N/A" hidden />
                     </Options>
                   </>
                 )}

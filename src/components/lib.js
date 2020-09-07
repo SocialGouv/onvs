@@ -239,9 +239,10 @@ export const Option = ({
   precision,
   placeholder,
   error,
+  hidden,
 }) => {
   return (
-    <div>
+    <div className={hidden ? "hidden" : ""}>
       <label className="inline-flex items-center">
         <input
           type="checkbox"
