@@ -8,7 +8,14 @@
     "build": "next build",
     "start": "NODE_ENV=production node scripts/server.js",
     "lint": "eslint src/**/*.js",
-    "test": "jest"
+    "test": "jest",
+    "migrate:make": "node -r dotenv/config ./node_modules/knex/bin/cli migrate:make name_migration",
+    "migrate:latest": "node -r dotenv/config ./node_modules/knex/bin/cli migrate:latest",
+    "migrate:rollback": "node -r dotenv/config ./node_modules/knex/bin/cli migrate:rollback",
+    "migrate:list": "node -r dotenv/config ./node_modules/knex/bin/cli migrate:list",
+    "seed:make": "node -r dotenv/config ./node_modules/knex/bin/cli seed:make name_seed",
+    "seed:run:dev": "node -r dotenv/config ./node_modules/knex/bin/cli seed:run --env development",
+    "seed:run:staging": "node -r dotenv/config ./node_modules/knex/bin/cli seed:run --env staging"
   },
   "dependencies": {
     "@hookform/resolvers": "^0.1.0",
@@ -20,10 +27,13 @@
     "date-fns": "^2.15.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "knex": "^0.21.5",
     "little-state-machine": "^3.1.1",
+    "micro-cors": "^0.1.1",
     "next": "^9.5.2",
     "next-compose-plugins": "^2.2.0",
     "next-transpile-modules": "^4.0.2",
+    "pg": "^8.3.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.3.0",
@@ -31,6 +41,7 @@
     "react-toast-notifications": "^2.4.0",
     "rough-notation": "^0.4.0",
     "sentry-testkit": "^3.2.1",
+    "uuid": "^8.3.0",
     "yup": "^0.29.3"
   },
   "devDependencies": {

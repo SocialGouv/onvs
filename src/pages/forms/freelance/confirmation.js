@@ -3,15 +3,12 @@ import React from "react"
 
 import { Layout } from "@/components/Layout"
 import { OutlineButton, PrimaryButtton, Title1 } from "@/components/lib"
-import { Stepper } from "@/components/Stepper"
 
 const ConfirmationPage = () => {
   return (
     <Layout>
       <div className="max-w-4xl m-auto mb-8">
-        <Stepper step={5} />
-
-        <Title1 className="mt-4">
+        <Title1 className="mt-12">
           <b>Votre déclaration d’incident de violence a été enregistrée.</b>
         </Title1>
 

@@ -1,7 +1,6 @@
-import { removeEmpty } from "@/utils/misc"
+import { v4 as uuid } from "uuid"
 
 export default function update(state, payload) {
-  // payload = removeEmpty(payload)
   const res = {
     ...state,
     form: {
@@ -14,6 +13,9 @@ export default function update(state, payload) {
 }
 export function reset() {
   return {
-    form: {},
+    form: {
+      // We set a new uuid for each reset to prevent multiple submits of the same declaration
+      id: uuid(),
+    },
   }
 }

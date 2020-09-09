@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`A full correct declaration 1`] = `
+Object {
+  "authors": Array [
+    Object {
+      "age": "+ de 18 ans",
+      "discernmentTroubles": Array [
+        "Prise d’alcool",
+      ],
+      "gender": "Féminin",
+      "type": "Inconnu",
+    },
+  ],
+  "date": "2020-09-09",
+  "declarantContactAgreement": "true",
+  "declarantEmail": "marie.dupuis@gmail.com",
+  "declarantId": "12345678901",
+  "declarantNames": "mom",
+  "declarantTel": "0202020202",
+  "description": "Voici ce qui s'est passé...",
+  "factTypes": Array [
+    "Atteinte aux personnes",
+    "Atteinte aux biens",
+  ],
+  "fgDeteriorations": Array [],
+  "fgGroups": Array [
+    "Vol avec effraction",
+    "Autres faits",
+  ],
+  "fgOthers": Array [
+    "Escroquerie",
+  ],
+  "fgOthersPrecisions": "",
+  "fgStealWithBreakins": Array [
+    "Informations",
+    "Vol à main armée",
+  ],
+  "fgStealWithoutBreakins": Array [],
+  "fpDiscriminations": Array [],
+  "fpGroups": Array [
+    "Les auteurs n’ont pas respecté les règles du lieu / ont eu un comportement incivique",
+    "Autres faits",
+  ],
+  "fpHarassments": Array [],
+  "fpNoRespects": Array [
+    "Nuisance, chahut, fugue",
+    "Consommation ou détention sur place d’alcool et/ou de produits stupéfiants pour son propre usage sexuel",
+  ],
+  "fpOthers": Array [
+    "Atteinte au respect dû aux morts",
+  ],
+  "fpOthersPrecision": "",
+  "fpPhysicalViolences": Array [],
+  "fpPsychologicalViolences": Array [],
+  "fpSexualViolences": Array [],
+  "fpSpokenViolences": Array [],
+  "hour": "Matin (7h-12h)",
+  "job": "Chiropracteur",
+  "location": "Cabinet individuel",
+  "otherLocation": "",
+  "pursuit": "Plainte",
+  "pursuitBy": Array [
+    "L'ordre",
+  ],
+  "rCausePatients": Array [
+    "De paiement",
+  ],
+  "rCauseProfessionals": Array [
+    "De soins",
+  ],
+  "rDeficientCommunications": Array [],
+  "rDiscords": Array [
+    "Entre les professionnels",
+  ],
+  "rFalsifications": Array [],
+  "rLifeRules": Array [],
+  "rNotApparent": false,
+  "rOthers": Array [
+    "Autre",
+  ],
+  "thirdParty": "Autre",
+  "town": "vincennes",
+  "victims": Array [
+    Object {
+      "ITTDays": 0,
+      "age": "- de 18 ans",
+      "gender": "Masculin",
+      "healthJob": "Ambulancier",
+      "hospitalizationDays": 0,
+      "sickLeaveDays": 1,
+      "type": "Étudiant en santé",
+    },
+    Object {
+      "ITTDays": 0,
+      "age": "- de 18 ans",
+      "gender": "Féminin",
+      "hospitalizationDays": 0,
+      "sickLeaveDays": 1,
+      "type": "Détenu",
+    },
+  ],
+}
+`;

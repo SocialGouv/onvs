@@ -29,28 +29,28 @@ const Step3Page = () => {
 
   const { handleSubmit, register, setValue, watch } = useForm({
     defaultValues: {
-      reasonCausePatient: state?.form?.reasonCausePatient,
-      reasonCauseProfessional: state?.form?.reasonCauseProfessional,
-      reasonDeficientCommunication: state?.form?.reasonDeficientCommunication,
-      reasonDiscord: state?.form?.reasonDiscord,
-      reasonFalsification: state?.form?.reasonFalsification,
-      reasonLifeRules: state?.form?.reasonLifeRules,
-      reasonNotApparent: state?.form?.reasonNotApparent,
-      reasonOthers: state?.form?.reasonOthers,
+      rCausePatients: state?.form?.rCausePatients,
+      rCauseProfessionals: state?.form?.rCauseProfessionals,
+      rDeficientCommunications: state?.form?.rDeficientCommunications,
+      rDiscords: state?.form?.rDiscords,
+      rFalsifications: state?.form?.rFalsifications,
+      rLifeRules: state?.form?.rLifeRules,
+      rNotApparent: state?.form?.rNotApparent,
+      rOthers: state?.form?.rOthers,
     },
   })
 
-  const watchReasonNotApparent = watch("reasonNotApparent")
+  const watchReasonNotApparent = watch("rNotApparent")
 
   React.useEffect(() => {
     if (watchReasonNotApparent === "Pas de motif apparent") {
-      setValue("reasonCausePatient", [])
-      setValue("reasonCauseProfessional", [])
-      setValue("reasonDeficientCommunication", [])
-      setValue("reasonDiscord", [])
-      setValue("reasonFalsification", [])
-      setValue("reasonLifeRules", [])
-      setValue("reasonOthers", [])
+      setValue("rCausePatients", [])
+      setValue("rCauseProfessionals", [])
+      setValue("rDeficientCommunications", [])
+      setValue("rDiscords", [])
+      setValue("rFalsifications", [])
+      setValue("rLifeRules", [])
+      setValue("rOthers", [])
     }
   }, [watchReasonNotApparent, setValue])
 
@@ -91,7 +91,7 @@ const Step3Page = () => {
             </b>
 
             <Options
-              name="reasonCausePatient"
+              name="rCausePatients"
               disabled={!!watchReasonNotApparent}
               register={register}
               color="text-indigo-600"
@@ -109,7 +109,7 @@ const Step3Page = () => {
             <b>Refus par le professionnel de santé</b>
 
             <Options
-              name="reasonCauseProfessional"
+              name="rCauseProfessionals"
               disabled={!!watchReasonNotApparent}
               register={register}
               color="text-green-500"
@@ -127,7 +127,7 @@ const Step3Page = () => {
             <b>Incompatibilité d’humeur et mésentente</b>
 
             <Options
-              name="reasonDiscord"
+              name="rDiscords"
               disabled={!!watchReasonNotApparent}
               register={register}
               color="text-pink-600"
@@ -143,7 +143,7 @@ const Step3Page = () => {
             <b>Non-respect des règles de vie</b>
 
             <Options
-              name="reasonLifeRules"
+              name="rLifeRules"
               disabled={!!watchReasonNotApparent}
               register={register}
               color="text-red-600"
@@ -163,7 +163,7 @@ const Step3Page = () => {
             </b>
 
             <Options
-              name="reasonFalsification"
+              name="rFalsifications"
               disabled={!!watchReasonNotApparent}
               register={register}
               color="text-orange-600"
@@ -177,7 +177,7 @@ const Step3Page = () => {
             <b>Communication défaillante</b>
 
             <Options
-              name="reasonDeficientCommunication"
+              name="rDeficientCommunications"
               disabled={!!watchReasonNotApparent}
               register={register}
               color="text-teal-600"
@@ -192,7 +192,7 @@ const Step3Page = () => {
             <b>Motifs divers</b>
 
             <Options
-              name="reasonOthers"
+              name="rOthers"
               disabled={!!watchReasonNotApparent}
               register={register}
               color="text-purple-600"
@@ -215,7 +215,7 @@ const Step3Page = () => {
                     <input
                       type="checkbox"
                       className="form-check"
-                      name="reasonNotApparent"
+                      name="rNotApparent"
                       value="Pas de motif apparent"
                       ref={register}
                     />
