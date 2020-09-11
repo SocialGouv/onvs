@@ -11,7 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@hookform/resolvers": "^0.1.0",
+    "@hookform/resolvers": "^0.1.1",
     "@sentry/browser": "^5.20.1",
     "@sentry/integrations": "^5.20.1",
     "@sentry/node": "^5.20.1",
