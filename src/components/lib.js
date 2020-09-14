@@ -207,6 +207,7 @@ export const Options = ({
 }) => {
   if (!children) return null
 
+  // Iterate over children and set on them the factorized properties of their ancestor
   const expandedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
       return React.cloneElement(child, { color, disabled, name, register })
@@ -281,6 +282,7 @@ Option.propTypes = {
   color: PropTypes.string,
   disabled: PropTypes.bool,
   error: PropTypes.string,
+  hidden: PropTypes.bool,
   name: PropTypes.string,
   placeholder: PropTypes.string,
   precision: PropTypes.string,
