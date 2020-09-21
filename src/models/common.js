@@ -1,5 +1,4 @@
-// import { revertObject } from "../utils/object"
-import { renameKeys } from "../utils/object"
+import { renameKeys, revertObject } from "../utils/object"
 
 const configValidate = {
   abortEarly: false,
@@ -18,19 +17,17 @@ const validate = (schema, entityName = "") => async (model) => {
   }
 }
 
-const castJSToDB = (schema, mappingJStoDB, entityName) => async (model) => {
+const cast = (schema, mapping, entityName) => async (model) => {
   const res = await validate(schema, entityName)(model)
-  return renameKeys(res, mappingJStoDB)
+  return renameKeys(res, mapping)
 }
-// const castDBToJS = (mappingDBtoJS) => async (model) => validate(model)
 
-export const build = ({ mappingJStoDB, schemaJSToDB, entityName }) => {
-  // const innerTransform = transform(mappingJStoDB)
-  // const mappingDBToJS = revertObject(mappingJStoDB)
+export const build = ({ mappingJStoDB, schemaJS, schemaDB, entityName }) => {
+  const mappingDBToJS = revertObject(mappingJStoDB)
 
   return {
-    // castDBToJS: castDBToJS(schemaDBToJS, mappingDBToJS, entityName),
-    castJSToDB: castJSToDB(schemaJSToDB, mappingJStoDB, entityName),
-    validateJS: validate(schemaJSToDB, entityName),
+    castDBToJS: cast(schemaDB, mappingDBToJS, entityName),
+    castJSToDB: cast(schemaJS, mappingJStoDB, entityName),
+    validateJS: validate(schemaJS, entityName),
   }
 }

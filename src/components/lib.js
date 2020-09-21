@@ -1,7 +1,9 @@
 import PropTypes from "prop-types"
 import React from "react"
 
+// import Modal from "@/components/Modal"
 import AddIcon from "@/components/svg/add"
+import Info from "@/components/svg/info"
 import MinusIcon from "@/components/svg/minus"
 
 export const PrimaryButtton = ({
@@ -241,6 +243,7 @@ export const Option = ({
   placeholder,
   error,
   hidden,
+  info,
 }) => {
   return (
     <div className={hidden ? "hidden" : ""}>
@@ -253,7 +256,16 @@ export const Option = ({
           ref={register}
           disabled={disabled}
         />
-        <span className={`ml-2 ${disabled ? "opacity-50" : ""}`}>{value}</span>
+        <span className={`ml-2 ${disabled ? "opacity-50" : ""}`}>
+          {value}&nbsp;
+          {/* <Modal
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            title="Hop hop!"
+            content="Bla blab et trilili et tralala!! "
+          /> */}
+          {info && <Info title={info} />}
+        </span>
       </label>
       {precision && (
         <>
@@ -270,6 +282,7 @@ export const Option = ({
               placeholder={placeholder}
               ref={register()}
               aria-invalid={error ? "true" : "false"}
+              autoComplete="off"
             />
           </div>
         </>
@@ -283,6 +296,7 @@ Option.propTypes = {
   disabled: PropTypes.bool,
   error: PropTypes.string,
   hidden: PropTypes.bool,
+  info: PropTypes.string,
   name: PropTypes.string,
   placeholder: PropTypes.string,
   precision: PropTypes.string,

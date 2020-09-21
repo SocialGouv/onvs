@@ -17,12 +17,10 @@
     "fpPsychologicalViolences": [],
     "fpPhysicalViolences": [],
     "fpOthers": ["Atteinte au respect dû aux morts"],
-    "fpOthersPrecision": "",
     "fpNoRespects": [
       "Nuisance, chahut, fugue",
       "Consommation ou détention sur place d’alcool et/ou de produits stupéfiants pour son propre usage sexuel"
     ],
-    "fpHarassments": [],
     "fpGroups": [
       "Les auteurs n’ont pas respecté les règles du lieu / ont eu un comportement incivique",
       "Autres faits"
@@ -31,7 +29,6 @@
     "fgStealWithoutBreakins": [],
     "fgStealWithBreakins": ["Informations", "Vol à main armée"],
     "fgOthers": ["Escroquerie"],
-    "fgOthersPrecisions": "",
     "fgGroups": ["Vol avec effraction", "Autres faits"],
     "fgDeteriorations": [],
     "factTypes": ["Atteinte aux personnes", "Atteinte aux biens"],
@@ -106,7 +103,7 @@
     "description": "Voici ce qui s'est passé...",
     "declarantContactAgreement": "true",
     "declarantNames": "mom",
-    "declarantId": "12345678901",
+    "declarantExternalId": "12345678901",
     "declarantEmail": "marie.dupuis@gmail.com",
     "declarantTel": "0202020202"
   }

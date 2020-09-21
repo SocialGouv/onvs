@@ -6,11 +6,12 @@ import { createDeclaration } from "@/clients/declarations"
 import { Layout } from "@/components/Layout"
 import { OutlineButton, PrimaryButtton, Title1 } from "@/components/lib"
 import { useEffectToast } from "@/hooks/useEffectToast"
-import update from "@/lib/pages/form"
+import { update } from "@/lib/pages/form"
 
 const ConfirmationPage = () => {
   const { state } = useStateMachine(update)
   const [error, setError] = useState()
+  const [warning, setWarning] = useState()
 
   useEffect(() => {
     const create = async (declaration) => {
@@ -20,7 +21,7 @@ const ConfirmationPage = () => {
         console.error(error)
 
         if (error.status === 409) {
-          setError({
+          setWarning({
             emoji: "🤫",
             message: "Il semble que la déclaration soit déjà enregistrée.",
           })
@@ -52,9 +53,29 @@ const ConfirmationPage = () => {
         {!error && (
           <>
             <Title1 className="mt-12">
-              <b>Votre déclaration d’incident de violence a été enregistrée.</b>
+              {warning && (
+                <b>
+                  Il semble que la déclaration soit déjà enregistrée.{" "}
+                  <span role="img" aria-hidden="true">
+                    🤫
+                  </span>
+                </b>
+              )}
+              {!warning && (
+                <b>
+                  Votre déclaration d’incident de violence a été enregistrée.
+                </b>
+              )}
             </Title1>
+
             <div className="max-w-2xl m-auto">
+              {warning && (
+                <p className="mt-4 text-center">
+                  {
+                    "Il n'est plus possible de modifier la déclaration une fois qu'elle a été confirmée."
+                  }
+                </p>
+              )}
               <p className="mt-16 text-center">
                 Le Ministère de la Santé et à défaut la fédération/association
                 de votre branche y auront accès.
@@ -66,7 +87,10 @@ const ConfirmationPage = () => {
               </p>
 
               <div className="flex justify-center w-full my-16 space-x-4">
-                <Link href={`/declarations/${state.id}`}>
+                <Link
+                  href="/declarations/[id]"
+                  as={`/declarations/${state.form.id}`}
+                >
                   <a>
                     <PrimaryButtton>
                       Télécharger le récapitulatif
@@ -74,18 +98,16 @@ const ConfirmationPage = () => {
                   </a>
                 </Link>
               </div>
-              <div className="flex justify-center w-full my-16 space-x-4">
-                <Link href="/">
-                  <a>
-                    <OutlineButton>
-                      +&nbsp;Déclarer un autre incident
-                    </OutlineButton>
-                  </a>
-                </Link>
-              </div>
             </div>
           </>
         )}
+        <div className="flex justify-center w-full my-16 space-x-4">
+          <Link href="/">
+            <a>
+              <OutlineButton>+&nbsp;Déclarer un autre incident</OutlineButton>
+            </a>
+          </Link>
+        </div>
       </div>
     </Layout>
   )

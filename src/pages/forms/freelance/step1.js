@@ -20,7 +20,7 @@ import {
 import { Stepper } from "@/components/Stepper"
 import { useEffectToast } from "@/hooks/useEffectToast"
 import { useScrollTop } from "@/hooks/useScrollTop"
-import update from "@/lib/pages/form"
+import { update } from "@/lib/pages/form"
 
 import { selectConfig } from "../../../config"
 

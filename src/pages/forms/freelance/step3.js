@@ -15,7 +15,7 @@ import {
 } from "@/components/lib"
 import { Stepper } from "@/components/Stepper"
 import { useScrollTop } from "@/hooks/useScrollTop"
-import update from "@/lib/pages/form"
+import { update } from "@/lib/pages/form"
 import { hasData } from "@/utils/misc"
 
 import { toastConfig } from "../../../config"

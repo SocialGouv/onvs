@@ -10,3 +10,9 @@ export const createDeclaration = async (declaration) =>
     headers: { "Content-Type": "application/json" },
     method: "POST",
   })
+
+export const findDeclaration = async (id) =>
+  fetcher(API_URL + DECLARATION_ENDPOINT + `/${id}`, {
+    headers: { "Content-Type": "application/json" },
+    method: "GET",
+  })

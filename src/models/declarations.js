@@ -8,24 +8,26 @@ const mappingJStoDB = {
   date: "date",
   declarantContactAgreement: "declarant_contact_agreement",
   declarantEmail: "declarant_email",
-  declarantId: "declarant_id",
+  declarantExternalId: "declarant_external_id",
   declarantNames: "declarant_names",
   declarantTel: "declarant_tel",
+  declarationType: "declaration_type",
   description: "description",
   factTypes: "fact_types",
   fgDeteriorations: "fg_deteriorations",
   fgGroups: "fg_groups",
   fgOthers: "fg_others",
-  fgOthersPrecision: "fg_others_precision",
+  // fgOthersPrecision: "fg_others_precision",
   fgStealWithBreakins: "fg_steal_with_breakins",
   fgStealWithoutBreakins: "fg_steal_without_breakins",
   fpDiscriminations: "fp_discriminations",
   fpGroups: "fp_groups",
-  fpHarassments: "fp_harassments",
   fpNoRespects: "fp_no_respects",
   fpOthers: "fp_others",
-  fpOthersPrecision: "fp_others_precision",
+  // fpOthersPrecision: "fp_others_precision",
   fpPhysicalViolences: "fp_physical_violences",
+  // fpHarassments: "fp_harassments",
+  fpPhysicalViolencesPrecision: "fp_physical_violences_precision",
   fpPsychologicalViolences: "fp_psychological_violences",
   fpSexualViolences: "fp_sexual_violences",
   fpSpokenViolences: "fp_spoken_violences",
@@ -55,24 +57,17 @@ const getValueFromSelect = () =>
     return originalValue?.value || ""
   })
 
-const schemaJSToDB = yup.object({
-  // authors: yup.array().of(
-  //   yup.object({
-  //     age: getValueFromSelect(),
-  //     discernmentTroubles: yup.array().of(yup.string()),
-  //     gender: getValueFromSelect(),
-  //     type: getValueFromSelect(),
-  //   }),
-  // ),
+const schemaJS = yup.object({
   authors: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
   date: yup.string().required(),
   declarantContactAgreement: yup.string(),
   declarantEmail: yup.string(),
-  declarantId: yup.string(),
+  declarantExternalId: yup.string(),
   declarantNames: yup.string(),
   declarantTel: yup.string(),
+  declarationType: yup.string(),
   description: yup.string(),
   // factTypes: yup.array().of(yup.string()),
   factTypes: yup
@@ -87,32 +82,40 @@ const schemaJSToDB = yup.object({
   fgOthers: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
-  fgOthersPrecision: yup.string(),
   fgStealWithBreakins: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
+
   fgStealWithoutBreakins: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
+
   fpDiscriminations: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
+
   fpGroups: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
-  fpHarassments: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
+
+  // fpHarassments: yup
+  //   .string()
+  //   .transform((_, originalValue) => JSON.stringify(originalValue)),
   fpNoRespects: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
+
   fpOthers: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
-  fpOthersPrecision: yup.string(),
+
+  // fpOthersPrecision: yup.string(),
   fpPhysicalViolences: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
+
+  // fgOthersPrecision: yup.string(),
+  fpPhysicalViolencesPrecision: yup.string(),
   fpPsychologicalViolences: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
@@ -157,29 +160,25 @@ const schemaJSToDB = yup.object({
     .transform((_, originalValue) => JSON.stringify(originalValue)),
   thirdParty: yup.string(),
   town: yup.string().required(),
-  // victims: yup.array().of(
-  //   yup.object({
-  //     ITTDays: yup.number(),
-  //     age: getValueFromSelect(),
-  //     gender: getValueFromSelect(),
-  //     healthJob: getValueFromSelect(),
-  //     hospitalizationDays: yup.number(),
-  //     sickLeaveDays: yup.number(),
-  //     type: getValueFromSelect(),
-  //   }),
   victims: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
 })
 
 // TODO do the schema in reverse. Beware of rNotApparent, if true, set it to "Pas de motif apparent"
-const schemaDBToJS = {}
+const schemaDB = yup.object({
+  r_not_apparent: yup
+    .string()
+    .transform((_, originalValue) =>
+      originalValue ? "Pas de motif apparent" : "",
+    ),
+})
 
-export const { castJSToDB, validateJS } = common.build({
+export const { castJSToDB, castDBToJS, validateJS } = common.build({
   entityName: "declarations",
   mappingJStoDB,
-  schemaDBToJS,
-  schemaJSToDB,
+  schemaDB,
+  schemaJS,
 })
 
 /*
