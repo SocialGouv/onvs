@@ -82,7 +82,7 @@ const Step1Page = () => {
   const location = watch("location")
 
   useEffect(() => {
-    // Clean otherLocation when location changed and is equals to Autre
+    // Clean otherLocation when location has changed and is not equal to Autre
     if (location !== "Autre") {
       setValue("otherLocation", "")
     }

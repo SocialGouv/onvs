@@ -82,8 +82,11 @@ exports.up = function (knex) {
         table.boolean("r_not_apparent")
 
         table.jsonb("victims")
-        table.string("third_party")
+        table.jsonb("third_party")
+        table.string("third_party_precision")
+
         table.string("pursuit")
+        table.string("pursuit_precision")
         table.jsonb("pursuit_by")
         table.jsonb("authors")
 

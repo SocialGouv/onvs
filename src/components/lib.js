@@ -244,6 +244,7 @@ export const Option = ({
   error,
   hidden,
   info,
+  onChangePrecision,
 }) => {
   return (
     <div className={hidden ? "hidden" : ""}>
@@ -283,6 +284,7 @@ export const Option = ({
               ref={register()}
               aria-invalid={error ? "true" : "false"}
               autoComplete="off"
+              onChange={onChangePrecision}
             />
           </div>
         </>
@@ -298,6 +300,7 @@ Option.propTypes = {
   hidden: PropTypes.bool,
   info: PropTypes.string,
   name: PropTypes.string,
+  onChangePrecision: PropTypes.func,
   placeholder: PropTypes.string,
   precision: PropTypes.string,
   register: PropTypes.func,

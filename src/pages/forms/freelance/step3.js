@@ -14,6 +14,7 @@ import {
   Title1,
 } from "@/components/lib"
 import { Stepper } from "@/components/Stepper"
+import Info from "@/components/svg/info"
 import { useScrollTop } from "@/hooks/useScrollTop"
 import { update } from "@/lib/pages/form"
 import { hasData } from "@/utils/misc"
@@ -118,7 +119,10 @@ const Step3Page = () => {
               <Option value="De donner des informations médicales à une tierce personne non référent médical" />
               <Option value="De soins" />
               <Option value="De donner un RDV (délai, horaire)" />
-              <Option value="De vente pour non-conformité des droits" />
+              <Option
+                value="De vente pour non-conformité des droits"
+                info="Pièce justificative manquante, falsifiée, périmée (carte vitale, ordonnance, etc.)  - à valider avec pharmaciens"
+              />
               <Option value="De vente pour d’autres raisons (hors stupéfiants)" />
             </Options>
           </div>
@@ -151,7 +155,10 @@ const Step3Page = () => {
               <Option value="Retard du patient" />
               <Option value="Temps d’attente jugé excessif par le patient/résident/accompagnant/famille" />
               <Option value="Ordre de passage entre patients" />
-              <Option value="Non-respect des conditions de séjour" />
+              <Option
+                value="Non-respect des conditions de séjour"
+                info="règlement intérieur - droits et devoirs des patients, des accompagnants dans un établissement"
+              />
               <Option value="Frustation/contrariété (pas de sortie, pas de cigarettes, pas de nourriture supplémentaire, etc.)" />
             </Options>
           </div>
@@ -197,8 +204,14 @@ const Step3Page = () => {
               register={register}
               color="text-purple-600"
             >
-              <Option value="Atteinte au principe de laïcité" />
-              <Option value="Radicalisation" />
+              <Option
+                value="Atteinte au principe de laïcité"
+                info="À ne pas confondre avec la radicalisation (Voir item suivant). L’atteinte à la laïcité est le non-respect des devoirs de neutralité, de dignité, de réserve, d’exécuter ses fonctions. Ex. :  ne pas vouloir serrer la main d’une personne du sexe opposé, ne pas vouloir soigner une personne du sexe opposé, refuser d’être dans la salle d’attente avec une personne d’un autre sexe, ne pas vouloir se faire soigner ou qu’un tiers refuse qu’un membre de sa famille soit soigné par un soignant du sexe opposé, installer un coin prière dans une partie de l’établissement, etc. Dans le privé on peut retrouver ces attitudes également : Ex. : ne pas retirer son voile sur le fauteuil du dentiste, etc."
+              />
+              <Option
+                value="Radicalisation"
+                info=" À ne pas confondre avec l’atteinte au principe de laïcité. «La radicalisation est un processus par lequel un individu ou un groupe adopte des velléités de violence, directement liées à une idéologie extrémiste à contenu politique, social ou religieux qui conteste l’ordre établi sur le plan politique, social ou culturel. » Les trois critères cumulatifs de la radicalisation violente sont donc : => Un processus marqué par des ruptures comportementales ; => L’adhésion à une idéologie extrémiste ; => L’adoption de la violence (risque de passage à l’acte, soutien, apologie."
+              />
               <Option value="Caisse (vol de caisse, rendu de monnaie, etc.)" />
               <Option value="Réaction face à la douleur du soin" />
               <Option value="Patient sous stupéfiants" />
@@ -219,7 +232,12 @@ const Step3Page = () => {
                       value="Pas de motif apparent"
                       ref={register}
                     />
-                    <span className="ml-2">Pas de motif apparent</span>
+                    <span className="mx-2">Pas de motif apparent</span>
+                    <Info
+                      title="Ex :
+- Dans le cadre d’un fait constaté de dégradation de la porte d’entrée de la boutique ou du cabinet, de l’officine, de son véhicule ou encore le vol d’un objet mobilier que vous constatez sans connaître l’auteur ou sans raison apparente.
+- Une personne dans un état second (TPN, alcoolisée, droguée, encore sous l’effet de l’anesthésie) qui sera virulente sans raison apparente."
+                    />
                   </label>
                 </div>
               </div>

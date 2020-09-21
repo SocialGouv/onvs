@@ -47,6 +47,7 @@ const mappingJStoDB = {
   rNotApparent: "r_not_apparent",
   rOthers: "r_others",
   thirdParty: "third_party",
+  thirdPartyPrecision: "third_party_precision",
   town: "town",
   victims: "victims",
 }
@@ -134,6 +135,7 @@ const schemaJS = yup.object({
   pursuitBy: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
+  pursuitPrecision: yup.string(),
   rCausePatients: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
@@ -158,7 +160,10 @@ const schemaJS = yup.object({
   rOthers: yup
     .string()
     .transform((_, originalValue) => JSON.stringify(originalValue)),
-  thirdParty: yup.string(),
+  thirdParty: yup
+    .string()
+    .transform((_, originalValue) => JSON.stringify(originalValue)),
+  thirdPartyPrecision: yup.string(),
   town: yup.string().required(),
   victims: yup
     .string()

@@ -44,7 +44,22 @@ const schema = yup.object({
       ? schema.required("La plainte doit être précisée")
       : schema
   }),
-  thirdParty: yup.string(),
+  pursuitPrecision: yup.string().when("pursuit", (pursuit, schema) => {
+    return pursuit === "Autre"
+      ? schema
+          .required("Le champ Autre doit être précisé")
+          .min(5, "Le champ Autre doit être précisé")
+      : yup.string().nullable(true)
+  }),
+  thirdParty: yup.array(yup.string()).default(() => []),
+  thirdPartyPrecision: yup.string().when("thirdParty", (thirdParty, schema) => {
+    return thirdParty.includes("Autre")
+      ? schema
+          .required("Le champ Autre doit être précisé")
+          .min(5, "Le champ Autre doit être précisé")
+      : yup.string().nullable(true)
+  }),
+
   victims: yup
     .array(
       yup.object({
@@ -536,18 +551,24 @@ Author.propTypes = {
 }
 
 const Step4Page = () => {
+  const nbRender = React.useRef(0)
+  nbRender.current++
+  console.log("nbRender.current", nbRender.current)
+
   useScrollTop()
   const router = useRouter()
 
   const { action, state } = useStateMachine(update)
   const [phase, setPhase] = React.useState(1)
 
-  const { control, errors, handleSubmit, register, watch } = useForm({
+  const { control, errors, handleSubmit, register, setValue, watch } = useForm({
     defaultValues: {
       authors: state?.form?.authors || [{}],
       pursuit: state?.form?.pursuit,
       pursuitBy: state?.form?.pursuitBy || [],
+      pursuitPrecision: state?.form?.pursuitPrecision,
       thirdParty: state?.form?.thirdParty,
+      thirdPartyPrecision: state?.form?.thirdPartyPrecision,
       victims: state?.form?.victims || [{}],
     },
     resolver: yupResolver(schema),
@@ -556,11 +577,33 @@ const Step4Page = () => {
   useEffectToast(errors)
 
   const watchPursuit = watch("pursuit")
+  const watchThirdParty = watch("thirdParty")
 
   React.useEffect(() => {
     // Si le champ pursuit est rempli, c'est qu'on n'affiche pas la page pour la 1ère fois, i.e. tout doit être déplié
     if (state?.form?.pursuit) setPhase(3)
   }, [state?.form?.pursuit, setPhase])
+
+  React.useEffect(() => {
+    // Clean precision when pursuit has changed and is not equal to Autre
+    console.log("watchPursuit", watchPursuit)
+    if (watchPursuit !== "Autre") {
+      setValue("pursuitPrecision", "")
+    }
+  }, [setValue, watchPursuit])
+
+  React.useEffect(() => {
+    // Clean precision when thirdParty has changed and is not equal to Autre
+    console.log("watchThirdParty", watchThirdParty)
+    if (watchThirdParty?.length && !watchThirdParty?.includes("Autre")) {
+      setValue("thirdPartyPrecision", "")
+    }
+  }, [setValue, watchThirdParty])
+
+  const ensureOtherThirdPartyIsChecked = () => {
+    if (!watchThirdParty?.includes("Autre"))
+      setValue("thirdParty", [...watchThirdParty, "Autre"])
+  }
 
   const onSubmit = (data) => {
     // We can't do it in yup validation (with transform) because this part of the form is not present so it is not carry on by react hook form...
@@ -639,6 +682,26 @@ const Step4Page = () => {
                       />
                       <span className="ml-2">Autre</span>
                     </label>
+                    <div
+                      className={`inline-block py-2 border-b-2  ${
+                        errors.pursuitPrecision?.message
+                          ? "border-red-500"
+                          : "border-blue-400"
+                      }`}
+                    >
+                      <input
+                        className={`px-2 mr-3 leading-tight bg-transparent border-none focus:outline-none`}
+                        type="text"
+                        id="pursuitPrecision"
+                        name="pursuitPrecision"
+                        placeholder="Ajouter un lieu"
+                        onChange={() => setValue("pursuit", "Autre")}
+                        ref={register}
+                        aria-invalid={
+                          errors.pursuitPrecision?.message ? "true" : "false"
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -693,7 +756,11 @@ const Step4Page = () => {
                 <Option value="Personnel hospitalier" />
                 <Option value="Service de sécurité interne" />
                 <Option value="Forces de l'ordre" />
-                <Option value="Autre" />
+                <Option
+                  value="Autre"
+                  precision={"thirdPartyPrecision"}
+                  onChangePrecision={ensureOtherThirdPartyIsChecked}
+                />
               </Options>
               <div className="flex justify-center w-full my-16 space-x-4">
                 <Link href="/forms/freelance/step3">

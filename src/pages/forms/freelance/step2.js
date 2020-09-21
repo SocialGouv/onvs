@@ -56,32 +56,35 @@ const Step2Page = () => {
   useScrollTop()
   const router = useRouter()
   const { action, state } = useStateMachine(update)
-  const { errors, handleSubmit, register, setError, watch } = useForm({
-    defaultValues: {
-      factTypes: state?.form?.factTypes,
-      fgDeteriorations: state?.form?.fgDeteriorations,
-      fgGroups: state?.form?.fgGroups,
-      fgOthers: state?.form?.fgOthers,
-      fgStealWithBreakins: state?.form?.fgStealWithBreakins,
-      fgStealWithoutBreakins: state?.form?.fgStealWithoutBreakins,
-      fpDiscriminations: state?.form?.fpDiscriminations,
-      fpGroups: state?.form?.fpGroups,
-      fpNoRespects: state?.form?.fpNoRespects,
-      fpOthers: state?.form?.fpOthers,
-      fpPhysicalViolences: state?.form?.fpPhysicalViolences,
-      fpPhysicalViolencesPrecision: state?.form?.fpPhysicalViolencesPrecision,
-      fpPsychologicalViolences: state?.form?.fpPsychologicalViolences,
-      fpSexualViolences: state?.form?.fpSexualViolences,
-      fpSpokenViolences: state?.form?.fpSpokenViolences,
+  const { errors, handleSubmit, register, setError, setValue, watch } = useForm(
+    {
+      defaultValues: {
+        factTypes: state?.form?.factTypes,
+        fgDeteriorations: state?.form?.fgDeteriorations,
+        fgGroups: state?.form?.fgGroups,
+        fgOthers: state?.form?.fgOthers,
+        fgStealWithBreakins: state?.form?.fgStealWithBreakins,
+        fgStealWithoutBreakins: state?.form?.fgStealWithoutBreakins,
+        fpDiscriminations: state?.form?.fpDiscriminations,
+        fpGroups: state?.form?.fpGroups,
+        fpNoRespects: state?.form?.fpNoRespects,
+        fpOthers: state?.form?.fpOthers,
+        fpPhysicalViolences: state?.form?.fpPhysicalViolences,
+        fpPhysicalViolencesPrecision: state?.form?.fpPhysicalViolencesPrecision,
+        fpPsychologicalViolences: state?.form?.fpPsychologicalViolences,
+        fpSexualViolences: state?.form?.fpSexualViolences,
+        fpSpokenViolences: state?.form?.fpSpokenViolences,
+      },
+      resolver: yupResolver(schema),
     },
-    resolver: yupResolver(schema),
-  })
+  )
 
   useEffectToast(errors)
 
   const factTypes = watch("factTypes")
   const fpGroups = watch("fpGroups")
   const fgGroups = watch("fgGroups")
+  const fpPhysicalViolences = watch("fpPhysicalViolences")
 
   const onSubmit = (data) => {
     if (data?.factTypes?.includes("Atteinte aux personnes")) {
@@ -122,6 +125,14 @@ const Step2Page = () => {
     action(data)
 
     router.push("/forms/freelance/step3")
+  }
+
+  const ensureOtherFpPhysicalViolencesIsChecked = () => {
+    if (!fpPhysicalViolences?.includes("Autre fait qualifié de crime"))
+      setValue("thirdParty", [
+        ...fpPhysicalViolences,
+        "Autre fait qualifié de crime",
+      ])
   }
 
   return (
@@ -273,6 +284,9 @@ const Step2Page = () => {
                       value="Autre fait qualifié de crime"
                       info="Meurtre et tentative, violences volontaires entraînant mutilation ou infirmité permanente, enlèvement, séquestration"
                       precision={"fpPhysicalViolencesPrecision"}
+                      onChangePrecision={
+                        ensureOtherFpPhysicalViolencesIsChecked
+                      }
                     />
                   </Options>
                 </>
