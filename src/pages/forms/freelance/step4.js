@@ -601,8 +601,9 @@ const Step4Page = () => {
   }, [setValue, watchThirdParty])
 
   const ensureOtherThirdPartyIsChecked = () => {
+    const thirdParty = watchThirdParty?.length ? watchThirdParty : []
     if (!watchThirdParty?.includes("Autre"))
-      setValue("thirdParty", [...watchThirdParty, "Autre"])
+      setValue("thirdParty", [...thirdParty, "Autre"])
   }
 
   const onSubmit = (data) => {

@@ -128,9 +128,13 @@ const Step2Page = () => {
   }
 
   const ensureOtherFpPhysicalViolencesIsChecked = () => {
+    const physicalViolences = fpPhysicalViolences?.length
+      ? fpPhysicalViolences
+      : []
+
     if (!fpPhysicalViolences?.includes("Autre fait qualifié de crime"))
       setValue("thirdParty", [
-        ...fpPhysicalViolences,
+        ...physicalViolences,
         "Autre fait qualifié de crime",
       ])
   }

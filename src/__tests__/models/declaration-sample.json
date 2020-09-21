@@ -80,7 +80,7 @@
         "ITTDays": 0
       }
     ],
-    "thirdParty": "Autre",
+    "thirdParty": ["Autre"],
     "pursuit": "Plainte",
     "pursuitBy": ["L'ordre"],
     "authors": [
