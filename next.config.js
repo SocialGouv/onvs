@@ -37,6 +37,11 @@ const nextConfig = {
     // Will be available on both server and client. Needs getInitialProps on page to be available
     TEST_CURRENT_DATE: process.env.TEST_CURRENT_DATE,
   },
+  serverRuntimeConfig: {
+    // Will only be available on the server side. Needs getInitialProps on page to be available
+    DATABASE_URL: process.env.DATABASE_URL,
+    POSTGRES_SSL: process.env.POSTGRES_SSL,
+  },
   webpack: (config, { isServer, buildId }) => {
     config.plugins.push(
       new webpack.DefinePlugin({

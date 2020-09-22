@@ -20,6 +20,7 @@ COPY --from=builder /app/scripts/server.js ./scripts/server.js
 COPY --from=builder /app/src/lib/sentry.js ./src/lib/sentry.js
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/.env ./.env
 
 # Build-time variables for the frontend
 ARG SENTRY_DSN
