@@ -21,6 +21,8 @@ COPY --from=builder /app/src/lib/sentry.js ./src/lib/sentry.js
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
+# Mandatory for having src/knex/migrations and seeds
+COPY --from=builder /app/src ./src
 COPY --from=builder /app/.env ./.env
 COPY --from=builder /app/knexfile.js ./knexfile.js
 COPY --from=builder /app/next.config.js ./next.config.js
