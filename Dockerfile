@@ -15,39 +15,17 @@ FROM node:12-alpine
 WORKDIR /app
 
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/.env ./.env
 COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/knexfile.js ./knexfile.js
 COPY --from=builder /app/scripts/server.js ./scripts/server.js
 COPY --from=builder /app/src/lib/sentry.js ./src/lib/sentry.js
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-# Mandatory for having src/knex/migrations and seeds
 COPY --from=builder /app/src ./src
-COPY --from=builder /app/.env ./.env
-COPY --from=builder /app/knexfile.js ./knexfile.js
-COPY --from=builder /app/next.config.js ./next.config.js
 
-# Build-time variables for the frontend
-ARG SENTRY_DSN
-ENV SENTRY_DSN=$SENTRY_DSN
-
-ARG SENTRY_TOKEN
-ENV SENTRY_TOKEN=$SENTRY_TOKEN
-
-ARG MATOMO_URL
-ENV MATOMO_URL=$MATOMO_URL
-
-ARG MATOMO_SITE_ID
-ENV MATOMO_SITE_ID=$MATOMO_SITE_ID
-
-ARG POSTGRES_HOST
-ENV POSTGRES_HOST=$POSTGRES_HOST
-
-ARG JWT_SECRET
-ENV JWT_SECRET=$JWT_SECRET
-
-ARG TEST_CURRENT_DATE
-ENV TEST_CURRENT_DATE=$TEST_CURRENT_DATE
+# env vars are handled by the .env file at the root and with .dotenv in the code
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
