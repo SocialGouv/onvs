@@ -2,7 +2,7 @@ version: "3"
 services:
    db:
       restart: always
-      image: postgres:12.1
+      image: postgres:13.0
       healthcheck:
          test: ["CMD-SHELL", "pg_isready -U onvs"]
          interval: 5s
