@@ -15,7 +15,7 @@ FROM node:12-alpine
 WORKDIR /app
 
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/.env ./.env
+#COPY --from=builder /app/.env ./.env
 COPY --from=builder /app/next.config.js ./next.config.js
 COPY --from=builder /app/knexfile.js ./knexfile.js
 COPY --from=builder /app/scripts/server.js ./scripts/server.js
