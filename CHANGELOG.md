@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/SocialGouv/onvs/compare/v2.0.0...v2.0.1) (2020-09-25)
+
+
+### Bug Fixes
+
+* **release:** trigger path ([3fb21d0](https://github.com/SocialGouv/onvs/commit/3fb21d04543b33c72232e38ecf24f3635ba2ed2a))
+
 # 1.0.0 (2020-09-25)
 
 
