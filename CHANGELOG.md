@@ -1,3 +1,12 @@
+## [2.0.5](https://github.com/SocialGouv/onvs/compare/v2.0.4...v2.0.5) (2020-09-25)
+
+
+### Bug Fixes
+
+* Expose DB secrets to app. ([c6cffdf](https://github.com/SocialGouv/onvs/commit/c6cffdfe7345e65f1c56ab074b645f44988b6644))
+* Expose DB secrets to app. ([52afbbc](https://github.com/SocialGouv/onvs/commit/52afbbcd93b90b6f39d53293da04ef11afd63ba5))
+* Fix imports for DB env variable exposure. ([35e3a84](https://github.com/SocialGouv/onvs/commit/35e3a84f9f0eff67cbc92c31cf433985a8ef73a7))
+
 ## [2.0.4](https://github.com/SocialGouv/onvs/compare/v2.0.3...v2.0.4) (2020-09-25)
 
 
