@@ -12,6 +12,14 @@ class MyDocument extends Document {
       <Html lang="fr">
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
+          <script
+            type="text/javascript"
+            src="/tarteaucitron/tarteaucitron.js"
+          />
+          <script
+            type="text/javascript"
+            src="/tarteaucitron/initTarteaucitron.js"
+          />
         </Head>
         <body>
           <Main />

@@ -47,17 +47,23 @@ const schema = yup.object({
   pursuitPrecision: yup.string().when("pursuit", (pursuit, schema) => {
     return pursuit === "Autre"
       ? schema
-          .required("Le champ Autre doit être précisé")
-          .min(5, "Le champ Autre doit être précisé")
-      : yup.string().nullable(true)
+          .required("Le champ Autre poursuites judiciaires doit être précisé")
+          .min(1, "Le champ Autre poursuites judiciaires doit être précisé")
+      : yup
+          .string()
+          .nullable(true)
+          .transform(() => "")
   }),
   thirdParty: yup.array(yup.string()).default(() => []),
   thirdPartyPrecision: yup.string().when("thirdParty", (thirdParty, schema) => {
     return thirdParty.includes("Autre")
       ? schema
-          .required("Le champ Autre doit être précisé")
-          .min(5, "Le champ Autre doit être précisé")
-      : yup.string().nullable(true)
+          .required("Le champ Autre tiers doit être précisé")
+          .min(1, "Le champ Autre tiers doit être précisé")
+      : yup
+          .string()
+          .nullable(true)
+          .transform(() => "")
   }),
 
   victims: yup
@@ -531,7 +537,7 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => (
         name={`authors[${number}].discernmentTroubles`}
         register={register}
       >
-        <Option value="Trouble psychique ou neuropsychique" />
+        <Option value="Trouble psychique ou neuropsychique (TPN)" />
         <Option value="Prise d’alcool" />
         <Option value="Prise de produits stupéfiants" />
         <Option value="Prise de médicaments" />

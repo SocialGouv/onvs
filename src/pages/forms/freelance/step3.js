@@ -1,9 +1,11 @@
+import { yupResolver } from "@hookform/resolvers"
 import { useStateMachine } from "little-state-machine"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
 import { useForm } from "react-hook-form"
 import { useToasts } from "react-toast-notifications"
+import * as yup from "yup"
 
 import { Layout } from "@/components/Layout"
 import {
@@ -15,11 +17,25 @@ import {
 } from "@/components/lib"
 import { Stepper } from "@/components/Stepper"
 import Info from "@/components/svg/info"
+import { useEffectToast } from "@/hooks/useEffectToast"
 import { useScrollTop } from "@/hooks/useScrollTop"
 import { update } from "@/lib/pages/form"
 import { hasData } from "@/utils/misc"
 
 import { toastConfig } from "../../../config"
+
+const schema = yup.object({
+  rOthersPrecision: yup.string().when("rOthers", (rOthers, schema) => {
+    return rOthers.includes("Autre")
+      ? schema
+          .required("Le champ Autre doit être précisé")
+          .min(1, "Le champ Autre doit être précisé")
+      : yup
+          .string()
+          .nullable(true)
+          .transform(() => "")
+  }),
+})
 
 const Step3Page = () => {
   useScrollTop()
@@ -28,7 +44,7 @@ const Step3Page = () => {
 
   const { action, state } = useStateMachine(update)
 
-  const { handleSubmit, register, setValue, watch } = useForm({
+  const { errors, handleSubmit, register, setValue, watch } = useForm({
     defaultValues: {
       rCausePatients: state?.form?.rCausePatients,
       rCauseProfessionals: state?.form?.rCauseProfessionals,
@@ -38,10 +54,15 @@ const Step3Page = () => {
       rLifeRules: state?.form?.rLifeRules,
       rNotApparent: state?.form?.rNotApparent,
       rOthers: state?.form?.rOthers,
+      rOthersPrecision: state?.form?.rOthersPrecision,
     },
+    resolver: yupResolver(schema),
   })
 
+  useEffectToast(errors)
+
   const watchReasonNotApparent = watch("rNotApparent")
+  const watchROthers = watch("rOthers")
 
   React.useEffect(() => {
     if (watchReasonNotApparent === "Pas de motif apparent") {
@@ -52,6 +73,7 @@ const Step3Page = () => {
       setValue("rFalsifications", [])
       setValue("rLifeRules", [])
       setValue("rOthers", [])
+      setValue("rOthersPrecision", "")
     }
   }, [watchReasonNotApparent, setValue])
 
@@ -72,6 +94,14 @@ const Step3Page = () => {
     action(data)
 
     router.push("/forms/freelance/step4")
+  }
+
+  const ensureOptionIsChecked = () => {
+    const rOthers = watchROthers?.length ? watchROthers : []
+    console.log("ensureOptionIsChecked -> rOthers", rOthers)
+
+    if (!watchROthers?.includes("Autre"))
+      setValue("rOthers", [...rOthers, "Autre"])
   }
 
   return (
@@ -215,7 +245,11 @@ const Step3Page = () => {
               <Option value="Caisse (vol de caisse, rendu de monnaie, etc.)" />
               <Option value="Réaction face à la douleur du soin" />
               <Option value="Patient sous stupéfiants" />
-              <Option value="Autre" />
+              <Option
+                value="Autre"
+                precision={"rOthersPrecision"}
+                onChangePrecision={ensureOptionIsChecked}
+              />
             </Options>
           </div>
 

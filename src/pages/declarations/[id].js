@@ -202,8 +202,16 @@ const ReasonsPart = ({ data }) => {
       )}
       {!!data.rOthers?.length && (
         <p>
-          <span className="inline-block w-48 font-bold">Autre motifs</span>
+          <span className="inline-block w-48 font-bold">Motifs divers</span>
           {data.rOthers.join(", ")}
+        </p>
+      )}
+      {!!data.rOthersPrecision && (
+        <p>
+          <span className="inline-block w-48 font-bold">
+            Précision autre motif
+          </span>
+          {data.rOthersPrecision}
         </p>
       )}
     </>

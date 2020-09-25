@@ -39,6 +39,7 @@
     "rFalsifications": [],
     "rDeficientCommunications": [],
     "rOthers": ["Autre"],
+    "rOthersPrecision": "Mon autre motif",
     "rNotApparent": false,
     "victims": [
       {
