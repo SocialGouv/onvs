@@ -50,7 +50,7 @@
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
-    "@hookform/devtools": "^2.0.4",
+    "@hookform/devtools": "^2.2.1",
     "@socialgouv/eslint-config-react": "^1.21.0",
     "@socialgouv/eslint-config-recommended": "^1.21.0",
     "@tailwindcss/custom-forms": "^0.2.1",
