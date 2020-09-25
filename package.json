@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node scripts/server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node scripts/server.js",
+    "start": "yarn migrate:latest && NODE_ENV=production node scripts/server.js",
     "lint": "eslint src/**/*.js",
     "test": "jest",
     "migrate:make": "node -r dotenv/config ./node_modules/knex/bin/cli migrate:make name_migration",
