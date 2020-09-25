@@ -9,3 +9,4 @@ data:
   SENTRY_DSN: "https://e70207cd7a2c4ecdb99849c212a964bf@sentry.fabrique.social.gouv.fr/40"
   MATOMO_URL: "https://matomo.fabrique.social.gouv.fr/"
   MATOMO_SITE_ID: "25"
+  POSTGRES_SSL: "true"
