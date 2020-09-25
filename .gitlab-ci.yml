@@ -7,10 +7,21 @@
 
 include:
   - project: SocialGouv/gitlab-ci-yml
-    file: /autodevops_simple_app.yml
-    ref: v15.5.0
+    file: /autodevops.yml
+    ref: v17.16.0
 
 variables:
-  PROJECT: "sample-next-app"
-  PORT: 4000
-  VALUES_FILE: ./.k8s.app.values.yml
+  AUTO_DEVOPS_RELEASE_AUTO: "🔖"
+  #AUTO_DEVOPS_PRODUCTION_AUTO: "🚀"
+  NOTIFY_DISABLED: 1
+
+Lint:
+  rules:
+    - when: never
+
+Register image:
+  extends: .autodevops_register_image
+  variables:
+    DOCKER_BUILD_ARGS: >-
+      --shm-size 512M
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/app
