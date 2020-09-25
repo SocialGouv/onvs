@@ -1,6 +1,7 @@
 import env from "@kosko/env"
-
+import { ok } from "assert"
 import { create } from "@socialgouv/kosko-charts/components/app"
+import { Deployment } from "kubernetes-models/apps/v1/Deployment"
 import { addPostgresUserSecret } from "@socialgouv/kosko-charts/utils/addPostgresUserSecret"
 
 const manifests = create("app", {
@@ -23,11 +24,11 @@ const manifests = create("app", {
 })
 
 // DEV: add secret to access DB
-const hasuraDeployment = manifests.find(
+const appDeployment = manifests.find(
   (manifest): manifest is Deployment => manifest.kind === "Deployment",
 )
-ok(hasuraDeployment)
+ok(appDeployment)
 
-addPostgresUserSecret(hasuraDeployment)
+addPostgresUserSecret(appDeployment)
 
 export default manifests
