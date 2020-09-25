@@ -60,17 +60,14 @@ exports.up = function (knex) {
         table.jsonb("fp_sexual_violences")
         table.jsonb("fp_psychological_violences")
         table.jsonb("fp_discriminations")
-        // table.jsonb("fp_harassments")
         table.jsonb("fp_no_respects")
         table.jsonb("fp_others")
-        // table.string("fp_others_precision")
 
         table.jsonb("fg_groups")
         table.jsonb("fg_deteriorations")
         table.jsonb("fg_steal_without_breakins")
         table.jsonb("fg_steal_with_breakins")
         table.jsonb("fg_others")
-        // table.string("fg_others_precision")
 
         table.jsonb("r_cause_patients")
         table.jsonb("r_cause_professionals")
@@ -79,6 +76,7 @@ exports.up = function (knex) {
         table.jsonb("r_falsifications")
         table.jsonb("r_deficient_communications")
         table.jsonb("r_others")
+        table.string("r_others_precision")
         table.boolean("r_not_apparent")
 
         table.jsonb("victims")

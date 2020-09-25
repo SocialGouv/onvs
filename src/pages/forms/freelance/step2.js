@@ -44,8 +44,11 @@ const schema = yup.object({
       return fpPhysicalViolences.includes("Autre fait qualifié de crime")
         ? schema
             .required("Le champ Autre fait qualifié de crime doit être précisé")
-            .min(5, "Le champ Autre fait qualifié de crime doit être précisé")
-        : yup.string().nullable(true)
+            .min(1, "Le champ Autre fait qualifié de crime doit être précisé")
+        : yup
+            .string()
+            .nullable(true)
+            .transform(() => "")
     }),
   fpPsychologicalViolences: yup.array(yup.string()).default(() => []),
   fpSexualViolences: yup.array(yup.string()).default(() => []),
@@ -133,7 +136,7 @@ const Step2Page = () => {
       : []
 
     if (!fpPhysicalViolences?.includes("Autre fait qualifié de crime"))
-      setValue("thirdParty", [
+      setValue("fpPhysicalViolences", [
         ...physicalViolences,
         "Autre fait qualifié de crime",
       ])
