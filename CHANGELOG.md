@@ -1,3 +1,10 @@
+## [2.0.6](https://github.com/SocialGouv/onvs/compare/v2.0.5...v2.0.6) (2020-09-25)
+
+
+### Bug Fixes
+
+* Expose API_URL & POSTGRES_SSL env vars. ([3a3e994](https://github.com/SocialGouv/onvs/commit/3a3e9944e089149b95d70f1b8e0c412f27ddabd9))
+
 ## [2.0.5](https://github.com/SocialGouv/onvs/compare/v2.0.4...v2.0.5) (2020-09-25)
 
 
