@@ -1,6 +1,7 @@
 import env from "@kosko/env"
 
 import { create } from "@socialgouv/kosko-charts/components/app"
+import { addPostgresUserSecret } from "../../utils/addPostgresUserSecret"
 
 const manifests = create("app", {
   env,
@@ -20,5 +21,13 @@ const manifests = create("app", {
     },
   },
 })
+
+// DEV: add secret to access DB
+const hasuraDeployment = manifests.find(
+  (manifest): manifest is Deployment => manifest.kind === "Deployment",
+)
+ok(hasuraDeployment)
+
+addPostgresUserSecret(hasuraDeployment)
 
 export default manifests
