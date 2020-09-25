@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/SocialGouv/onvs/compare/v2.0.3...v2.0.4) (2020-09-25)
+
+
+### Bug Fixes
+
+* Fix dev sealed secrets. ([8816b89](https://github.com/SocialGouv/onvs/commit/8816b8947990d8549408eda92cd494cfa44c473b))
+
 ## [2.0.3](https://github.com/SocialGouv/onvs/compare/v2.0.2...v2.0.3) (2020-09-25)
 
 
