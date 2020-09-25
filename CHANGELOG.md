@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/SocialGouv/onvs/compare/v2.0.2...v2.0.3) (2020-09-25)
+
+
+### Bug Fixes
+
+* Add test prod database to sealed secrets. ([68c7f6f](https://github.com/SocialGouv/onvs/commit/68c7f6fa22a92bed5cef951f79f5b269ff18bc5f))
+
 ## [2.0.2](https://github.com/SocialGouv/onvs/compare/v2.0.1...v2.0.2) (2020-09-25)
 
 
