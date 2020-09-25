@@ -1,9 +1,9 @@
 const { join } = require("path")
 
-// if (process.env.POSTGRES_SSL && process.env.POSTGRES_SSL === "true") {
-//   const pg = require("pg")
-//   pg.defaults.ssl = true
-// }
+if (process.env.POSTGRES_SSL && process.env.POSTGRES_SSL === "true") {
+  const pg = require("pg")
+  pg.defaults.ssl = true
+}
 
 const knexConfig = {
   development: {
