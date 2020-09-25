@@ -1,7 +1,7 @@
 import env from "@kosko/env"
 
 import { create } from "@socialgouv/kosko-charts/components/app"
-import { addPostgresUserSecret } from "../../utils/addPostgresUserSecret"
+import { addPostgresUserSecret } from "@socialgouv/kosko-charts/utils/addPostgresUserSecret"
 
 const manifests = create("app", {
   env,
