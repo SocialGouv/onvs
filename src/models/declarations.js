@@ -46,6 +46,7 @@ const mappingJStoDB = {
   rLifeRules: "r_life_rules",
   rNotApparent: "r_not_apparent",
   rOthers: "r_others",
+  rOthersPrecision: "r_others_precision",
   thirdParty: "third_party",
   thirdPartyPrecision: "third_party_precision",
   town: "town",
@@ -58,10 +59,12 @@ const getValueFromSelect = () =>
     return originalValue?.value || ""
   })
 
+const yupJson = yup
+  .string()
+  .transform((_, originalValue) => JSON.stringify(originalValue))
+
 const schemaJS = yup.object({
-  authors: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
+  authors: yupJson,
   date: yup.string().required(),
   declarantContactAgreement: yup.string(),
   declarantEmail: yup.string(),
@@ -70,104 +73,47 @@ const schemaJS = yup.object({
   declarantTel: yup.string(),
   declarationType: yup.string(),
   description: yup.string(),
-  // factTypes: yup.array().of(yup.string()),
-  factTypes: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-  fgDeteriorations: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-  fgGroups: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-  fgOthers: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-  fgStealWithBreakins: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
 
-  fgStealWithoutBreakins: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
+  factTypes: yupJson,
+  fgDeteriorations: yupJson,
+  fgGroups: yupJson,
+  fgOthers: yupJson,
+  fgStealWithBreakins: yupJson,
+  fgStealWithoutBreakins: yupJson,
 
-  fpDiscriminations: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-
-  fpGroups: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-
-  // fpHarassments: yup
-  //   .string()
-  //   .transform((_, originalValue) => JSON.stringify(originalValue)),
-  fpNoRespects: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-
-  fpOthers: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-
-  // fpOthersPrecision: yup.string(),
-  fpPhysicalViolences: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-
-  // fgOthersPrecision: yup.string(),
+  fpDiscriminations: yupJson,
+  fpGroups: yupJson,
+  fpNoRespects: yupJson,
+  fpOthers: yupJson,
+  fpPhysicalViolences: yupJson,
   fpPhysicalViolencesPrecision: yup.string(),
-  fpPsychologicalViolences: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-  fpSexualViolences: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-  fpSpokenViolences: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
+  fpPsychologicalViolences: yupJson,
+  fpSexualViolences: yupJson,
+  fpSpokenViolences: yupJson,
+
   hour: getValueFromSelect(),
   id: yup.string(),
   job: getValueFromSelect(),
   location: yup.string().required(),
   otherLocation: yup.string(),
   pursuit: yup.string(),
-  pursuitBy: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
+  pursuitBy: yupJson,
   pursuitPrecision: yup.string(),
-  rCausePatients: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
 
-  rCauseProfessionals: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-  rDeficientCommunications: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-  rDiscords: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-  rFalsifications: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-
-  rLifeRules: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
+  rCausePatients: yupJson,
+  rCauseProfessionals: yupJson,
+  rDeficientCommunications: yupJson,
+  rDiscords: yupJson,
+  rFalsifications: yupJson,
+  rLifeRules: yupJson,
   rNotApparent: yup.boolean().transform((_, originalValue) => !!originalValue),
-  rOthers: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
-  thirdParty: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
+  rOthers: yupJson,
+  rOthersPrecision: yup.string(),
+
+  thirdParty: yupJson,
   thirdPartyPrecision: yup.string(),
   town: yup.string().required(),
-  victims: yup
-    .string()
-    .transform((_, originalValue) => JSON.stringify(originalValue)),
+  victims: yupJson,
 })
 
 // TODO do the schema in reverse. Beware of rNotApparent, if true, set it to "Pas de motif apparent"
