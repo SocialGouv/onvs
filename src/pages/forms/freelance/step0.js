@@ -17,7 +17,7 @@ import {
 import { Stepper } from "@/components/Stepper"
 import { useEffectToast } from "@/hooks/useEffectToast"
 import { useScrollTop } from "@/hooks/useScrollTop"
-import update from "@/lib/pages/form"
+import { update } from "@/lib/pages/form"
 
 import { selectConfig } from "../../../config"
 
@@ -70,6 +70,7 @@ const Step0Page = () => {
 
   const { control, errors, handleSubmit } = useForm({
     defaultValues: {
+      declarationType: "libéral",
       job: state?.form?.job || null,
     },
     resolver: yupResolver(schema),

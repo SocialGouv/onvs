@@ -1,7 +1,9 @@
 import PropTypes from "prop-types"
 import React from "react"
 
+// import Modal from "@/components/Modal"
 import AddIcon from "@/components/svg/add"
+import Info from "@/components/svg/info"
 import MinusIcon from "@/components/svg/minus"
 
 export const PrimaryButtton = ({
@@ -207,6 +209,7 @@ export const Options = ({
 }) => {
   if (!children) return null
 
+  // Iterate over children and set on them the factorized properties of their ancestor
   const expandedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
       return React.cloneElement(child, { color, disabled, name, register })
@@ -239,9 +242,12 @@ export const Option = ({
   precision,
   placeholder,
   error,
+  hidden,
+  info,
+  onChangePrecision,
 }) => {
   return (
-    <div>
+    <div className={hidden ? "hidden" : ""}>
       <label className="inline-flex items-center">
         <input
           type="checkbox"
@@ -251,7 +257,16 @@ export const Option = ({
           ref={register}
           disabled={disabled}
         />
-        <span className={`ml-2 ${disabled ? "opacity-50" : ""}`}>{value}</span>
+        <span className={`ml-2 ${disabled ? "opacity-50" : ""}`}>
+          {value}&nbsp;
+          {/* <Modal
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            title="Hop hop!"
+            content="Bla blab et trilili et tralala!! "
+          /> */}
+          {info && <Info title={info} />}
+        </span>
       </label>
       {precision && (
         <>
@@ -268,6 +283,8 @@ export const Option = ({
               placeholder={placeholder}
               ref={register()}
               aria-invalid={error ? "true" : "false"}
+              autoComplete="off"
+              onChange={onChangePrecision}
             />
           </div>
         </>
@@ -280,7 +297,10 @@ Option.propTypes = {
   color: PropTypes.string,
   disabled: PropTypes.bool,
   error: PropTypes.string,
+  hidden: PropTypes.bool,
+  info: PropTypes.string,
   name: PropTypes.string,
+  onChangePrecision: PropTypes.func,
   placeholder: PropTypes.string,
   precision: PropTypes.string,
   register: PropTypes.func,

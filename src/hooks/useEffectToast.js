@@ -5,31 +5,52 @@ import { isEmpty } from "@/utils/misc"
 
 import { toastConfig } from "../config"
 
-// Display, as a toast, yup error messages
-export const useEffectToast = (errors) => {
+/**
+ * Display error as a toast
+ *
+ * @param {*} error error in the form of an object
+ */
+export const useEffectToast = (error) => {
   const { addToast } = useToasts()
 
+  const message = error?.message ? (
+    <>
+      {error.message}{" "}
+      {error.emoji && (
+        <span role="img" aria-hidden="true">
+          {error.emoji}
+        </span>
+      )}
+    </>
+  ) : (
+    <>
+      Oops ! Des erreurs se sont glissées dans la page...{" "}
+      <span role="img" aria-hidden="true">
+        😕👇
+      </span>
+    </>
+  )
+
   React.useEffect(() => {
-    if (!isEmpty(errors)) {
+    if (!isEmpty(error)) {
       addToast(
         <div className="text-lg">
-          Oops ! Des erreurs se sont glissées dans la page...{" "}
-          <span role="img" aria-hidden="true">
-            😕👇
-          </span>
+          {message}
           <br />
-          {Object.keys(errors)?.map((err, index) => {
-            return (
-              errors[err].message && (
-                <ul key={index} className="ml-5">
-                  <li className="list-disc">{errors[err].message}</li>
-                </ul>
+          <ul className="ml-5">
+            {Object.keys(error)?.map((key, index) => {
+              return (
+                error[key].message && (
+                  <li key={index} className="list-disc">
+                    {error[key].message}
+                  </li>
+                )
               )
-            )
-          })}
+            })}
+          </ul>
         </div>,
         toastConfig.error,
       )
     }
-  }, [errors, addToast])
+  }, [error, addToast])
 }

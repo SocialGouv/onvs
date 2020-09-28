@@ -11,7 +11,7 @@ import { OutlineButton, PrimaryButtton, Title1, Title2 } from "@/components/lib"
 import { Stepper } from "@/components/Stepper"
 import { useEffectToast } from "@/hooks/useEffectToast"
 import { useScrollTop } from "@/hooks/useScrollTop"
-import update from "@/lib/pages/form"
+import { update } from "@/lib/pages/form"
 
 const schema = yup.object({
   declarantContactAgreement: yup
@@ -27,7 +27,7 @@ const schema = yup.object({
         .required("L'e-mail est à renseigner")
         .email("L'e-mail est mal formé"),
   }),
-  declarantId: yup.string().when("declarantContactAgreement", {
+  declarantExternalId: yup.string().when("declarantContactAgreement", {
     is: "true",
     otherwise: (schema) => schema.transform(() => ""),
     then: (schema) =>
@@ -62,7 +62,7 @@ const Step5Page = () => {
     defaultValues: {
       declarantContactAgreement: state?.form?.declarantContactAgreement,
       declarantEmail: state?.form?.declarantEmail,
-      declarantId: state?.form?.declarantId,
+      declarantExternalId: state?.form?.declarantExternalId,
       declarantNames: state?.form?.declarantNames,
       declarantTel: state?.form?.declarantTel,
       description: state?.form?.description,
@@ -77,7 +77,7 @@ const Step5Page = () => {
   React.useEffect(() => {
     if (declarantContactAgreement === "false") {
       setValue("declarantEmail", "")
-      setValue("declarantId", "")
+      setValue("declarantExternalId", "")
       setValue("declarantNames", "")
       setValue("declarantTel", "")
     }
@@ -165,15 +165,15 @@ const Step5Page = () => {
                     <div className="flex-1">
                       <label
                         className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-                        htmlFor="declarantId"
+                        htmlFor="declarantExternalId"
                       >
                         Numéro RPPS ou ADELI
                       </label>
                       <input
                         className="w-full form-input"
                         type="tel"
-                        id="declarantId"
-                        name="declarantId"
+                        id="declarantExternalId"
+                        name="declarantExternalId"
                         placeholder="Numéro à 9 ou 11 chiffres"
                         ref={register}
                       />

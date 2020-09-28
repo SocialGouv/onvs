@@ -1,31 +1,20 @@
-# sample next.js app [![pipeline status](https://gitlab.factory.social.gouv.fr/SocialGouv/sample-next-app/badges/master/pipeline.svg)](https://gitlab.factory.social.gouv.fr/SocialGouv/sample-next-app/commits/master)
+# ONVS
 
-https://sample-next-app.fabrique.social.gouv.Fr
+ONVS is the Observatoire National des Violences en Santé, a web app to declare any violence for medical people in France.
 
-A sample SSR Next.js app with :
+### 👔 Install
 
-- ✅ sentry
-- ✅ matomo
-- ✅ jest tests
-- ✅ [@SocialGouv linters](https://github.com/SocialGouv/linters/)
-- ✅ [@SocialGouv bootstrap](https://github.com/SocialGouv/bootstrap)
-- ✅ @SocialGouv polyfill.io
-- ✅ precommit hooks
-- ✅ docker build
-- ✅ gitlab-ci
-  - ✅ quality
-  - ✅ docker build+push
-  - ✅ releases + changelog
-  - ✅ features-branches envs
-  - ✅ prod env
+First, install git, yarn, docker, docker-compose with brew on Mac OS.
 
-## Production
+Then, run the containers with docker-compose.
+
+docker-compose up --build -d
+
+Then, the DB is exposed on port 5435 and the app is accessible on port 80.
 
 ### Env vars
 
 ⚠ You need to set client-side browser `process.env` variables **at build time**.
-
-In docker this is done with `--build-arg`.
 
 | Var            | desc                       | build time | run time |
 | -------------- | -------------------------- | :--------: | :------: |
@@ -34,17 +23,15 @@ In docker this is done with `--build-arg`.
 | SENTRY_TOKEN   | token to allow sourcemaps  |     ✅     |
 | MATOMO_URL     | URL to your piwik instance |     ✅     |
 | MATOMO_SITE_ID | site id on piwik instance  |     ✅     |
+| DATABASE_URL   | URL of Postgres DB         |     ✅     |
+| API_URL        | URL of the API             |     ✅     |
 
-### Docker build
+NB: the API is also provided by this app. So, API_URL must be the same domain name that the app itself.
+For example, the stage environement is https://onvs-dev.fabrique.social.gouv.fr/ for the frontend. So use `https://onvs-dev.fabrique.social.gouv.fr/api` as the `API_URL`.
 
-```sh
-yarn build # to build a .next directory with the full app
-docker-compose up --build -d
-```
+The easiest solution is to populate the `.env` file at root of the project. See `.env.sample` for example of this.
 
-The app is avaialable on port 80.
-
-Avec Docker seul (à vérifier)
+Directly with Docker, you can use:
 
 ```
 docker build \
@@ -55,14 +42,35 @@ docker build \
   . -t onvs-app
 ```
 
-### Docker run
+### Build the project
 
 ```sh
-docker run -it --init --rm -p 3000:3000 onvs-app
+yarn build # to build a .next directory with the full app
+docker-compose up --build -d
+
+# or just run the app with
+docker-compose up --build -d app
 ```
 
-## Tips
+You can use the db container inside the docker-compose.yml.
+In this case, the DATABASE_URL looks like `postgres://onvs:the-passowrd@db:5432/onvs`
 
-- 3rd party libs (ex: some of @sindresorhus modules) may not be ES3 compatible (breaks IE11) and wont be babelified by Next.js. You can locally import the code, make a PR to the upstream project to [publish babelified version](https://github.com/elijahmanor/cross-var/pull/7/files) or use [next-transpile-modules](https://github.com/martpie/next-transpile-modules)
-- 3rd party libs may needs to be fixed to handle SSR correctly
-- Follow https://github.com/zeit/next.js/tree/canary/examples/
+Then start the project with `yarn start`.
+
+The app is avaialable on port 80.
+
+### Develop
+
+You can profit of the hot reload for development time, thanks to Next, with the command:
+
+`yarn dev`
+
+### Troubleshoot
+
+How to see the logs ?
+
+```sh
+docker-compose logs -f
+# or just for app container
+docker-compose logs -f app
+```

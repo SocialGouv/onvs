@@ -47,11 +47,14 @@ app.prepare().then(() => {
       console.log("Debug -----------")
 
       console.log(`Package ${pack.name}: ${pack.version}`)
-      console.log(`process.env.PORT: ${process.env.PORT}`)
+      console.log(`process.env.API_URL: ${process.env.API_URL}`)
+      console.log(`process.env.PORT: ${port}`)
       console.log(`process.env.SENTRY_DSN: ${process.env.SENTRY_DSN}`)
       console.log(`process.env.SENTRY_TOKEN: ${process.env.SENTRY_TOKEN}`)
       console.log(`process.env.MATOMO_URL: ${process.env.MATOMO_URL}`)
       console.log(`process.env.MATOMO_SITE_ID: ${process.env.MATOMO_SITE_ID}`)
+      // console.log(`process.env.POSTGRES_SSL: ${process.env.POSTGRES_SSL}`)
+      console.log(`process.env.DATABASE_URL: ${process.env.DATABASE_URL}`)
       console.log(
         `process.env.TEST_CURRENT_DATE: ${process.env.TEST_CURRENT_DATE}`,
       )

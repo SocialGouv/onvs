@@ -2,8 +2,11 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
+      "@/clients/*": ["clients/*"],
       "@/components/*": ["components/*"],
+      "@/models/*": ["models/*"],
       "@/pages/*": ["pages/*"],
+      "@/services/*": ["services/*"],
       "@/hooks/*": ["hooks/*"],
       "@/lib/*": ["lib/*"],
       "@/utils/*": ["utils/*"],

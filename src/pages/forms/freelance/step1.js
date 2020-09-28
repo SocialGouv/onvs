@@ -20,7 +20,7 @@ import {
 import { Stepper } from "@/components/Stepper"
 import { useEffectToast } from "@/hooks/useEffectToast"
 import { useScrollTop } from "@/hooks/useScrollTop"
-import update from "@/lib/pages/form"
+import { update } from "@/lib/pages/form"
 
 import { selectConfig } from "../../../config"
 
@@ -82,7 +82,7 @@ const Step1Page = () => {
   const location = watch("location")
 
   useEffect(() => {
-    // Clean otherLocation when location changed and is equals to Autre
+    // Clean otherLocation when location has changed and is not equal to Autre
     if (location !== "Autre") {
       setValue("otherLocation", "")
     }

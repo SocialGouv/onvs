@@ -19,8 +19,11 @@
     "import/resolver": {
       "alias": {
         "map": [
+          ["@/clients", "./src/clients"],
           ["@/components", "./src/components"],
+          ["@/models", "./src/models"],
           ["@/pages", "./src/pages"],
+          ["@/services", "./src/services"],
           ["@/hooks", "./src/hooks"],
           ["@/lib", "./src/lib"],
           ["@/utils", "./src/utils"],

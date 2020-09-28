@@ -62,3 +62,15 @@ export function initMatomo({
 export function matopush(args) {
   window._paq.push(args)
 }
+
+/**
+ * Matomo tracker
+ *
+ * @param {*} category category name (see CATEGORIES above)
+ * @param {*} action action applied on the entity (see ACTIONS above)
+ * @param {*} name (optionnel) entity (if any)
+ * @param {*} value (optionnel) value of entity (if any)
+ */
+export const trackEvent = (category, action, name, value) => {
+  matopush(["trackEvent", category, action, name, value])
+}
