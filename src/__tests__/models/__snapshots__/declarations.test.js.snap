@@ -36,6 +36,7 @@ Object {
   "r_falsifications": "[]",
   "r_life_rules": "[]",
   "r_others": "[\\"Autre\\"]",
+  "r_others_precision": "Mon autre motif",
   "third_party": "[\\"Autre\\"]",
   "town": "vincennes",
   "victims": "[{\\"type\\":{\\"label\\":\\"Étudiant en santé\\",\\"value\\":\\"Étudiant en santé\\"},\\"gender\\":{\\"label\\":\\"Masculin\\",\\"value\\":\\"Masculin\\"},\\"age\\":{\\"label\\":\\"- de 18 ans\\",\\"value\\":\\"- de 18 ans\\"},\\"sickLeaveDays\\":1,\\"hospitalizationDays\\":0,\\"ITTDays\\":0,\\"healthJob\\":{\\"label\\":\\"Ambulancier\\",\\"value\\":\\"Ambulancier\\"}},{\\"type\\":{\\"label\\":\\"Détenu\\",\\"value\\":\\"Détenu\\"},\\"gender\\":{\\"label\\":\\"Féminin\\",\\"value\\":\\"Féminin\\"},\\"age\\":{\\"label\\":\\"- de 18 ans\\",\\"value\\":\\"- de 18 ans\\"},\\"sickLeaveDays\\":1,\\"hospitalizationDays\\":0,\\"ITTDays\\":0}]",
