@@ -8,7 +8,7 @@ import DoctorsIcon from "@/components/svg/doctors"
 const FreelanceCard = () => {
   const router = useRouter()
 
-  const goToStep0 = () => router.push("/forms/freelance/step0")
+  const goToStep0 = () => router.push("/declarations/liberal/etape0")
 
   const keyPress = (event, fn) => event.key === "Enter" && fn(event)
 

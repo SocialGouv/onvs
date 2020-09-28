@@ -85,7 +85,7 @@ const Step5Page = () => {
 
   const onSubmit = (data) => {
     action(data)
-    router.push("/forms/freelance/confirmation")
+    router.push("/declarations/liberal/confirmation")
   }
 
   return (
@@ -236,7 +236,7 @@ const Step5Page = () => {
             </div>
 
             <div className="flex justify-center w-full my-16 space-x-4">
-              <Link href="/forms/freelance/step4">
+              <Link href="/declarations/liberal/etape4">
                 <a>
                   <OutlineButton type="button">Précédent</OutlineButton>
                 </a>

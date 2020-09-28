@@ -127,7 +127,7 @@ const Step2Page = () => {
 
     action(data)
 
-    router.push("/forms/freelance/step3")
+    router.push("/declarations/liberal/etape3")
   }
 
   const ensureOtherFpPhysicalViolencesIsChecked = () => {
@@ -540,7 +540,7 @@ const Step2Page = () => {
           )}
           {!!factTypes?.length && (
             <div className="flex justify-center w-full my-16 space-x-4">
-              <Link href="/forms/freelance/step1">
+              <Link href="/declarations/liberal/etape1">
                 <a>
                   <OutlineButton type="button">Précédent</OutlineButton>
                 </a>

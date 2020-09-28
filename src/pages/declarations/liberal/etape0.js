@@ -81,7 +81,7 @@ const Step0Page = () => {
   const onSubmit = (data) => {
     action(data)
 
-    router.push("/forms/freelance/step1")
+    router.push("/declarations/liberal/etape1")
   }
 
   return (

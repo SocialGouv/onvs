@@ -93,7 +93,7 @@ const Step3Page = () => {
 
     action(data)
 
-    router.push("/forms/freelance/step4")
+    router.push("/declarations/liberal/etape4")
   }
 
   const ensureOptionIsChecked = () => {
@@ -279,7 +279,7 @@ const Step3Page = () => {
           </div>
 
           <div className="flex justify-center w-full my-16 space-x-4">
-            <Link href="/forms/freelance/step2">
+            <Link href="/declarations/liberal/etape2">
               <a>
                 <OutlineButton type="button">Précédent</OutlineButton>
               </a>

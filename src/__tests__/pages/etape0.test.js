@@ -6,7 +6,7 @@ import selectEvent from "react-select-event"
 import * as reactToasts from "react-toast-notifications"
 
 import { useScrollTop } from "@/hooks/useScrollTop"
-import Step0Page from "@/pages/forms/freelance/step0"
+import Step0Page from "@/pages/declarations/liberal/etape0"
 
 jest.mock("react-toast-notifications")
 jest.mock("@/hooks/useScrollTop")
@@ -51,7 +51,7 @@ test("should display an error when no job are chosen", async () => {
   expect(push).not.toHaveBeenCalled()
 })
 
-test("it should go to step1 if a job is correctly selected", async () => {
+test("it should go to etape1 if a job is correctly selected", async () => {
   // to be sure that mocks are reset
   expect(addToast).not.toHaveBeenCalled()
 
@@ -63,7 +63,7 @@ test("it should go to step1 if a job is correctly selected", async () => {
 
   await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
 
-  expect(push).toHaveBeenCalledWith("/forms/freelance/step1")
+  expect(push).toHaveBeenCalledWith("/declarations/liberal/etape1")
 
   expect(addToast).not.toHaveBeenCalled()
 })
