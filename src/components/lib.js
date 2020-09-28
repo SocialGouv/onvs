@@ -382,12 +382,12 @@ RadioInput.propTypes = {
 
 export const InputError = ({ error }) => {
   return error ? (
-    <span role="alert" className="text-red-500">
+    <div role="alert" className="text-red-500">
       <span role="img" aria-label="Warning">
         ⚠️
       </span>{" "}
       {error}
-    </span>
+    </div>
   ) : null
 }
 

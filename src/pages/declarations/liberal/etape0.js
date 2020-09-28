@@ -97,7 +97,9 @@ const Step0Page = () => {
         >
           <div className="max-w-sm m-auto mt-8">
             <label
-              className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+              className={`block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase ${
+                errors?.job && "text-red-500"
+              }`}
               htmlFor="job"
             >
               Profession
@@ -114,7 +116,7 @@ const Step0Page = () => {
               control={control}
               styles={selectConfig}
               placeholder="Tapez les premières lettres"
-              aria-invalid={!!errors.job?.message}
+              aria-invalid={!!errors?.job?.message}
             />
 
             <InputError error={errors?.job?.message} />

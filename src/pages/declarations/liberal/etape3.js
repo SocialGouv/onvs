@@ -249,6 +249,7 @@ const Step3Page = () => {
                 value="Autre"
                 precision={"rOthersPrecision"}
                 onChangePrecision={ensureOptionIsChecked}
+                error={errors?.rOthersPrecision?.message}
               />
             </Options>
           </div>

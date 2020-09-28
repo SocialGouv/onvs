@@ -257,10 +257,10 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
               styles={customStyles}
               defaultValue={type || null}
               noOptionsMessage={() => "Aucun élément"}
-              aria-invalid={!!errors.victims?.[number]?.type?.message}
+              aria-invalid={!!errors?.victims?.[number]?.type?.message}
             />
 
-            <InputError error={errors.victims?.[number]?.type?.message} />
+            <InputError error={errors?.victims?.[number]?.type?.message} />
           </div>
         </div>
         <div className="flex-1">
@@ -282,10 +282,10 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
             styles={customStyles}
             defaultValue={data?.gender || null}
             noOptionsMessage={() => "Aucun élément"}
-            aria-invalid={!!errors.victims?.[number]?.gender?.message}
+            aria-invalid={!!errors?.victims?.[number]?.gender?.message}
           />
 
-          <InputError error={errors.victims?.[number]?.gender?.message} />
+          <InputError error={errors?.victims?.[number]?.gender?.message} />
         </div>
 
         <div className="flex-1">
@@ -307,10 +307,10 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
             styles={customStyles}
             defaultValue={data?.age || null}
             noOptionsMessage={() => "Aucun élément"}
-            aria-invalid={!!errors.victims?.[number]?.age?.message}
+            aria-invalid={!!errors?.victims?.[number]?.age?.message}
           />
 
-          <InputError error={errors.victims?.[number]?.age?.message} />
+          <InputError error={errors?.victims?.[number]?.age?.message} />
         </div>
       </div>
 
@@ -338,11 +338,11 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
                 styles={customStyles}
                 defaultValue={data?.type || null}
                 noOptionsMessage={() => "Aucun élément"}
-                aria-invalid={!!errors.victims?.[number]?.healthJob?.message}
+                aria-invalid={!!errors?.victims?.[number]?.healthJob?.message}
               />
 
               <InputError
-                error={errors.victims?.[number]?.healthJob?.message}
+                error={errors?.victims?.[number]?.healthJob?.message}
               />
             </div>
           </div>
@@ -475,10 +475,10 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => (
           styles={customStyles}
           defaultValue={data?.type || null}
           noOptionsMessage={() => "Aucun élément"}
-          aria-invalid={!!errors.authors?.[number]?.type?.message}
+          aria-invalid={!!errors?.authors?.[number]?.type?.message}
         />
 
-        <InputError error={errors.authors?.[number]?.type?.message} />
+        <InputError error={errors?.authors?.[number]?.type?.message} />
       </div>
       <div className="flex-1">
         <label
@@ -499,10 +499,10 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => (
           styles={customStyles}
           defaultValue={data?.gender || null}
           noOptionsMessage={() => "Aucun élément"}
-          aria-invalid={!!errors.authors?.[number]?.gender?.message}
+          aria-invalid={!!errors?.authors?.[number]?.gender?.message}
         />
 
-        <InputError error={errors.authors?.[number]?.gender?.message} />
+        <InputError error={errors?.authors?.[number]?.gender?.message} />
       </div>
 
       <div className="flex-1">
@@ -524,10 +524,10 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => (
           styles={customStyles}
           defaultValue={data?.age || null}
           noOptionsMessage={() => "Aucun élément"}
-          aria-invalid={!!errors.authors?.[number]?.age?.message}
+          aria-invalid={!!errors?.authors?.[number]?.age?.message}
         />
 
-        <InputError error={errors.authors?.[number]?.age?.message} />
+        <InputError error={errors?.authors?.[number]?.age?.message} />
       </div>
     </div>
 
@@ -691,7 +691,7 @@ const Step4Page = () => {
                     </label>
                     <div
                       className={`inline-block py-2 border-b-2  ${
-                        errors.pursuitPrecision?.message
+                        errors?.pursuitPrecision?.message
                           ? "border-red-500"
                           : "border-blue-400"
                       }`}
@@ -705,7 +705,7 @@ const Step4Page = () => {
                         onChange={() => setValue("pursuit", "Autre")}
                         ref={register}
                         aria-invalid={
-                          errors.pursuitPrecision?.message ? "true" : "false"
+                          errors?.pursuitPrecision?.message ? "true" : "false"
                         }
                       />
                     </div>
@@ -722,7 +722,7 @@ const Step4Page = () => {
                       <Option value="L'ordre" />
                     </Options>
 
-                    <InputError error={errors.pursuitBy?.message} />
+                    <InputError error={errors?.pursuitBy?.message} />
                   </div>
                 )}
               </div>
@@ -767,6 +767,7 @@ const Step4Page = () => {
                   value="Autre"
                   precision={"thirdPartyPrecision"}
                   onChangePrecision={ensureOtherThirdPartyIsChecked}
+                  error={errors?.thirdPartyPrecision?.message}
                 />
               </Options>
               <div className="flex justify-center w-full my-16 space-x-4">

@@ -125,7 +125,7 @@ const Step1Page = () => {
                 id="date"
                 name="date"
                 ref={register}
-                aria-invalid={!!errors.date?.message}
+                aria-invalid={!!errors?.date?.message}
               />
 
               <InputError error={errors?.date?.message} />
@@ -164,7 +164,7 @@ const Step1Page = () => {
                 name="town"
                 placeholder="Tapez les premières lettres"
                 ref={register}
-                aria-invalid={!!errors.town?.message}
+                aria-invalid={!!errors?.town?.message}
               />
 
               <InputError error={errors?.town?.message} />
@@ -235,7 +235,7 @@ const Step1Page = () => {
                   </label>
                   <div
                     className={`inline-block py-2 border-b-2  ${
-                      errors.otherLocation?.message
+                      errors?.otherLocation?.message
                         ? "border-red-500"
                         : "border-blue-400"
                     }`}
@@ -249,7 +249,7 @@ const Step1Page = () => {
                       onChange={() => setValue("location", "Autre")}
                       ref={register}
                       aria-invalid={
-                        errors.otherLocation?.message ? "true" : "false"
+                        errors?.otherLocation?.message ? "true" : "false"
                       }
                     />
                   </div>

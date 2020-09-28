@@ -7,7 +7,13 @@ import { useForm } from "react-hook-form"
 import * as yup from "yup"
 
 import { Layout } from "@/components/Layout"
-import { OutlineButton, PrimaryButtton, Title1, Title2 } from "@/components/lib"
+import {
+  InputError,
+  OutlineButton,
+  PrimaryButtton,
+  Title1,
+  Title2,
+} from "@/components/lib"
 import { Stepper } from "@/components/Stepper"
 import { useEffectToast } from "@/hooks/useEffectToast"
 import { useScrollTop } from "@/hooks/useScrollTop"
@@ -114,7 +120,11 @@ const Step5Page = () => {
             </i>
 
             <textarea
-              className="w-full h-24 mt-8 form-textarea"
+              className={`w-full h-24 mt-8 form-textarea ${
+                errors?.description?.message
+                  ? "border-red-500"
+                  : "border-blue-400"
+              }`}
               placeholder="Description de l’événement en ajoutant, si besoin, votre ressenti et le contexte."
               name="description"
               ref={register}
@@ -148,34 +158,49 @@ const Step5Page = () => {
                   <div className="flex mt-6 ml-10 space-x-6">
                     <div className="flex-1">
                       <label
-                        className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+                        className={`block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase ${
+                          errors?.declarantNames && "text-red-500"
+                        }`}
                         htmlFor="Prénom & nom"
                       >
                         Prénom & Nom
                       </label>
                       <input
-                        className="w-full form-input"
                         type="text"
                         id="declarantNames"
                         name="declarantNames"
                         placeholder="Ex: Marie-Odile Graguet"
                         ref={register}
+                        className={`w-full form-input ${
+                          errors?.declarantNames && "border-red-600"
+                        }`}
+                        aria-invalid={!!errors?.declarantNames?.message}
                       />
+
+                      <InputError error={errors?.declarantNames?.message} />
                     </div>
                     <div className="flex-1">
                       <label
-                        className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+                        className={`block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase ${
+                          errors?.declarantExternalId && "text-red-500"
+                        }`}
                         htmlFor="declarantExternalId"
                       >
                         Numéro RPPS ou ADELI
                       </label>
                       <input
-                        className="w-full form-input"
                         type="tel"
                         id="declarantExternalId"
                         name="declarantExternalId"
                         placeholder="Numéro à 9 ou 11 chiffres"
                         ref={register}
+                        className={`w-full form-input ${
+                          errors?.declarantExternalId && "border-red-600"
+                        }`}
+                        aria-invalid={!!errors?.declarantExternalId?.message}
+                      />
+                      <InputError
+                        error={errors?.declarantExternalId?.message}
                       />
                     </div>
                   </div>
@@ -183,35 +208,47 @@ const Step5Page = () => {
                   <div className="flex mt-8 ml-10 space-x-6">
                     <div className="flex-1">
                       <label
-                        className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+                        className={`block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase ${
+                          errors?.declarantEmail && "text-red-500"
+                        }`}
                         htmlFor="declarantEmail"
                       >
                         E-mail
                       </label>
                       <input
-                        className="w-full form-input"
                         type="email"
                         id="declarantEmail"
                         name="declarantEmail"
                         placeholder="adresse@mail.com"
                         ref={register}
+                        className={`w-full form-input ${
+                          errors?.declarantEmail && "border-red-600"
+                        }`}
+                        aria-invalid={!!errors?.declarantEmail?.message}
                       />
+                      <InputError error={errors?.declarantEmail?.message} />
                     </div>
                     <div className="flex-1">
                       <label
-                        className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+                        className={`block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase ${
+                          errors?.declarantTel && "text-red-500"
+                        }`}
                         htmlFor="declarantTel"
                       >
                         Numéro de téléphone
                       </label>
                       <input
-                        className="w-full form-input"
                         type="tel"
                         id="declarantTel"
                         name="declarantTel"
                         placeholder="Ex: 0605040302"
                         ref={register}
+                        className={`w-full form-input ${
+                          errors?.declarantTel && "border-red-600"
+                        }`}
+                        aria-invalid={!!errors?.declarantTel?.message}
                       />
+                      <InputError error={errors?.declarantTel?.message} />
                     </div>
                   </div>
                 </>
