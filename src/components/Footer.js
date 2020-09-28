@@ -1,3 +1,4 @@
+import Link from "next/link"
 import React from "react"
 
 import Marianne from "@/components/svg/marianne"
@@ -16,10 +17,19 @@ const Footer = () => {
             Observatoire national des violences en santé.
           </div>
         </div>
-        <div>Qui somme-nous ?</div>
-        <div>Mentions légales</div>
-        <div>FAQ</div>
-        <div>Contactez-nous</div>
+        <div>
+          <Link href="/apropos">
+            <a>Qui somme-nous ?</a>
+          </Link>
+        </div>
+        <div>
+          <Link href="/mentions">
+            <a>Mentions légales</a>
+          </Link>
+        </div>
+        <div>
+          <a href="mailto:dgos-onvs@sante.gouv.fr">Contactez&#8209;nous</a>
+        </div>
       </div>
     </footer>
   )
