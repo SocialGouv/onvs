@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
-    "@commitlint/config-conventional": "^9.1.2",
+    "@commitlint/config-conventional": "^11.0.0",
     "@hookform/devtools": "^2.0.4",
     "@socialgouv/eslint-config-react": "^1.33.0",
     "@socialgouv/eslint-config-recommended": "^1.33.0",
