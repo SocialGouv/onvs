@@ -453,7 +453,7 @@ Attention: une personne souffrant d’un Trouble Psychique ou Neuro-psychique (T
                     <Option
                       value="Tags, graffitis, autres salissures"
                       info="Avec caractère ou non injurieux envers quelqu’un ou établissement/cabinet/officine.
-Si en plus le tag/graffiti a un caractère injurieux envers quelqu’un ou établissement/cabinet/officine, cocher la case correspondante dans la rubrique: La victime a subi une violence verbale."
+Si en plus le tag/graffiti a un caractère injurieux envers quelqu’un ou établissement/cabinet/officine, cocher la case correspondante dans la rubrique : La victime a subi une violence verbale."
                     />
                     <Option
                       value="Squat et occupation"

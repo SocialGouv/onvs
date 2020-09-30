@@ -131,7 +131,7 @@ const Step0Page = () => {
             </p>
 
             <p className="mt-8">
-              <i>Temps estimé: 4 minutes</i>
+              <i>Temps estimé : 4 minutes</i>
             </p>
           </div>
 
