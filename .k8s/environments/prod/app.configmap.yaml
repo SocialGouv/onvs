@@ -1,0 +1,12 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: app-configmap
+data:
+  NODE_ENV: "production"
+  PORT: "3000"
+  SENTRY_TOKEN: "toto"
+  SENTRY_DSN: "https://e70207cd7a2c4ecdb99849c212a964bf@sentry.fabrique.social.gouv.fr/40"
+  MATOMO_URL: "https://matomo.fabrique.social.gouv.fr/"
+  MATOMO_SITE_ID: "25"
+  POSTGRES_SSL: "true"
