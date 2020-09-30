@@ -242,11 +242,13 @@ const VictimsAuthorsPart = ({ data }) => {
             {victim.sickLeaveDays}
           </p>
           <p>
-            <span className="inline-block w-48 ">Jours d'hospitalisation</span>
+            <span className="inline-block w-48 ">
+              {"Jours d'hospitalisation"}
+            </span>
             {victim.hospitalizationDays}
           </p>
           <p>
-            <span className="inline-block w-48 ">Jours d'ITT</span>
+            <span className="inline-block w-48 ">{"Jours d'ITT"}</span>
             {victim.ITTDays}
           </p>
         </div>
@@ -273,16 +275,24 @@ const VictimsAuthorsPart = ({ data }) => {
             {author.type.label} de genre {author.gender.label} et âgé de{" "}
             {author.age.label}
           </p>
-          {!!data.discernmentTroubles?.length && (
-            <p>
-              <span className="inline-block w-48 ">
-                Altération du discernement
-              </span>
-              {data.discernmentTroubles.join(", ")}
-            </p>
-          )}
+          <p>
+            <span className="inline-block w-48 ">
+              Altération du discernement
+            </span>
+            {author.discernmentTroublesIsPresent}
+            {!!author.discernmentTroubles?.length &&
+              ` (${author.discernmentTroubles.join(", ")})`}
+          </p>
         </div>
       ))}
+
+      {data.thirdPartyIsPresent && (
+        <p>
+          <span className="inline-block w-48 ">Intervention de tiers</span>
+          {data.thirdPartyIsPresent}
+          {!!data.thirdParty?.length && ` (${data.thirdParty.join(", ")})`}
+        </p>
+      )}
     </>
   )
 }

@@ -153,9 +153,17 @@ const Step2Page = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="w-10/12 m-auto text-gray-900"
         >
-          <Title2 className="mt-12 mb-8">
+          <Title2 className="mt-12 mb-6">
             De quel(s) type(s) d’atteinte s’agit-il ?
           </Title2>
+
+          <p className="mb-8">
+            <i>
+              Vous pouvez être victime des deux types d’atteintes (cocher alors
+              les deux cases).
+            </i>
+          </p>
+
           <div className="mt-4">
             <div className="mt-2 space-y-2">
               <div>
@@ -249,7 +257,9 @@ const Step2Page = () => {
                   >
                     <Option
                       value="Injure, provocation, outrage"
-                      info="Paroles contre la personne ou sa profession, gestes obscènes ou de provocation pour mépriser, rabaisser, intimider ou chercher la bagarre, parler très près du visage, cracher par terre (si crachat au visage ou sur la personne cocher violence volontaire sans arme).  En revanche, si menace verbale ou par geste explicite de mort et/ou d’atteinte à l’intégrité physique : cocher menace de mort et d’atteinte à l’intégrité physique."
+                      info="Paroles contre la personne ou sa profession, gestes obscènes ou de provocation pour mépriser, rabaisser, intimider ou chercher la bagarre, parler très près du visage, cracher par terre.
+Si crachat au visage ou sur la personne cocher violence volontaire sans arme.
+Si menace verbale ou par geste explicite de mort et/ou d’atteinte à l’intégrité physique : cocher menace de mort et d’atteinte à l’intégrité physique."
                     />
                     <Option
                       value="Propos discriminatoire"
@@ -261,7 +271,8 @@ const Step2Page = () => {
                     />
                     <Option
                       value="Menace avec arme par nature ou par destination"
-                      info="Arme par nature : arme à feu ; arme blanche dont les objets contondants: poing américain, tonfa, nunchaku, etc. ; bombe lacrymogène... Arme par destination : objet qui va être utilisé comme arme soit par détournement de son usage naturel à des fins de violence (canne de marche, chaise, clé, couverts, déambulateur, etc.) soit parce que l’auteur a délibérément transformé l’objet dans le but d’en faire une arme (petite cuillère aiguisée, etc.)."
+                      info="Arme par nature : arme à feu ; arme blanche dont les objets contondants: poing américain, tonfa, nunchaku, etc. ; bombe lacrymogène...
+Arme par destination: objet qui va être utilisé comme arme soit par détournement de son usage naturel à des fins de violence (canne de marche, chaise, clé, couverts, déambulateur, etc.) soit parce que l’auteur a délibérément transformé l’objet dans le but d’en faire une arme (petite cuillère aiguisée, etc.)."
                     />
                   </Options>
                 </>
@@ -281,7 +292,8 @@ const Step2Page = () => {
                     />
                     <Option
                       value="Violence volontaire sans arme"
-                      info="Bousculade, coup, morsure, crachat au visage et sur la personne, saisir une personne à la gorge. Attention : une personne souffrant d’un Trouble Psychique ou Neuro-psychique - TPN), à savoir une abolition partielle ou totale de son discernement, est considérée comme commettant une violence volontaire (cocher également la case TPN). Une personne sous l’emprise manifeste d’alcool ou de stupéfiants commet une violence volontaire car c’est elle qui s’est mise dans cet état (ne pas cocher la case TPN)."
+                      info="Bousculade, coup, morsure, crachat au visage et sur la personne, saisir une personne à la gorge.
+Attention: une personne souffrant d’un Trouble Psychique ou Neuro-psychique (TPN), à savoir une abolition partielle ou totale de son discernement, est considérée comme commettant une violence volontaire (cocher également la case TPN). Une personne sous l’emprise manifeste d’alcool ou de stupéfiants commet une violence volontaire car c’est elle qui s’est mise dans cet état (ne pas cocher la case TPN)."
                     />
                     <Option
                       value="Violence volontaire avec arme par nature ou par destination"
@@ -440,7 +452,8 @@ const Step2Page = () => {
                     />
                     <Option
                       value="Tags, graffitis, autres salissures"
-                      info="Avec caractère ou non injurieux envers quelqu’un ou établissement/cabinet/officine."
+                      info="Avec caractère ou non injurieux envers quelqu’un ou établissement/cabinet/officine.
+Si en plus le tag/graffiti a un caractère injurieux envers quelqu’un ou établissement/cabinet/officine, cocher la case correspondante dans la rubrique: La victime a subi une violence verbale."
                     />
                     <Option
                       value="Squat et occupation"

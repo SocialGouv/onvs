@@ -328,14 +328,14 @@ export const Counter = ({ value = 0, onChange }) => {
     <div className="flex items-center justify-center mb-4 text-center">
       <MinusIcon
         onClick={substract}
-        className="w-8 h-8 p-1 mr-4 bg-blue-100 rounded-full"
+        className="w-8 h-8 p-1 mr-2 bg-blue-100 rounded-full"
         tabIndex="0"
         onKeyPress={(e) => keyPress(e, substract)}
       />
       <span className="w-12">{value}</span>
       <AddIcon
         onClick={add}
-        className="w-8 h-8 p-1 ml-4 bg-blue-100 rounded-full"
+        className="w-8 h-8 p-1 ml-2 bg-blue-100 rounded-full"
         tabIndex="0"
         onKeyPress={(e) => keyPress(e, add)}
       />
@@ -355,13 +355,14 @@ export const RadioInput = ({
   value,
   register,
   defaultChecked = false,
+  error,
 }) => {
   return (
     <div>
       <label className="inline-flex items-center">
         <input
           type="radio"
-          className="form-radio"
+          className={`form-radio ${error && "border-red-500"}`}
           name={name}
           value={value}
           ref={register}
@@ -375,6 +376,7 @@ export const RadioInput = ({
 
 RadioInput.propTypes = {
   defaultChecked: PropTypes.bool,
+  error: PropTypes.object,
   name: PropTypes.string.isRequired,
   register: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,

@@ -109,7 +109,7 @@ const Step5Page = () => {
         >
           <>
             <Title2 className="mt-8 mb-4">
-              {"Description plus détaillée de l'incident"}
+              {"Description plus détaillée de l'événement"}
             </Title2>
 
             <i>

@@ -108,7 +108,7 @@ const Step1Page = () => {
           className="w-10/12 m-auto text-gray-900"
         >
           <Title2 className="mt-12 mb-8">
-            Quand et dans quelle ville l’incident s’est-il déroulé ?
+            {"Quand et dans quelle ville l'événement s’est-il déroulé ?"}
           </Title2>
 
           <div className="flex mt-4 space-x-6">

@@ -60,7 +60,7 @@ yarn start
 
 Then, go to the app at [http://localhost:3030/](http://localhost:3030/).
 
-### 🏋️‍♂️Run the tests
+### 🏋️‍♂️ Run the tests
 
 There is some Jest tests, which can be run with :
 
@@ -68,7 +68,7 @@ There is some Jest tests, which can be run with :
 yarn run test
 ```
 
-### 🧯Troubleshoot
+### 🧯 Troubleshoot
 
 _How can I see the logs ?_
 

@@ -24,7 +24,7 @@ export const useEffectToast = (error) => {
     </>
   ) : (
     <>
-      Oops ! Des erreurs se sont glissées dans la page...{" "}
+      Oups ! Des erreurs se sont glissées dans la page...{" "}
       <span role="img" aria-hidden="true">
         😕👇
       </span>

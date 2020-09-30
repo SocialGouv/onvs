@@ -98,7 +98,6 @@ const Step3Page = () => {
 
   const ensureOptionIsChecked = () => {
     const rOthers = watchROthers?.length ? watchROthers : []
-    console.log("ensureOptionIsChecked -> rOthers", rOthers)
 
     if (!watchROthers?.includes("Autre"))
       setValue("rOthers", [...rOthers, "Autre"])

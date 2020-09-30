@@ -16,6 +16,7 @@ import {
   Options,
   OutlineButton,
   PrimaryButtton,
+  RadioInput,
   Title1,
   Title2,
 } from "@/components/lib"
@@ -32,16 +33,31 @@ const schema = yup.object({
     .array(
       yup.object({
         age: yup.object().nullable().required("L'âge est à renseigner"),
+        discernmentTroubles: yup
+          .array(yup.string())
+          .when(
+            "discernmentTroublesIsPresent",
+            (discernmentTroublesIsPresent, schema) => {
+              return discernmentTroublesIsPresent === "Oui"
+                ? schema
+                    .required("Veuillez cocher une case")
+                    .min(1, "Veuillez cocher une case")
+                : schema.transform(() => [])
+            },
+          ),
+        discernmentTroublesIsPresent: yup
+          .string()
+          .required("L'altération du discernement est à renseigner"),
         gender: yup.object().nullable().required("Le genre est à renseigner"),
         type: yup.object().nullable().required("Le type est à renseigner"),
       }),
     )
-    .min(1, "Au moins une victime est à renseigner")
-    .required("Au moins une victime est à renseigner"),
+    .min(1, "Au moins un auteur est à renseigner")
+    .required("Au moins un auteur est à renseigner"),
   pursuit: yup.string(),
   pursuitBy: yup.array(yup.string()).when("pursuit", (pursuit, schema) => {
     return pursuit === "Plainte"
-      ? schema.required("La plainte doit être précisée")
+      ? schema.required("Préciser qui a déposé la plainte")
       : schema
   }),
   pursuitPrecision: yup.string().when("pursuit", (pursuit, schema) => {
@@ -49,21 +65,26 @@ const schema = yup.object({
       ? schema
           .required("Le champ Autre poursuites judiciaires doit être précisé")
           .min(1, "Le champ Autre poursuites judiciaires doit être précisé")
-      : yup
-          .string()
-          .nullable(true)
-          .transform(() => "")
+      : yup.string().transform(() => "")
   }),
-  thirdParty: yup.array(yup.string()).default(() => []),
+  thirdParty: yup
+    .array(yup.string())
+    .when("thirdPartyIsPresent", (thirdPartyIsPresent, schema) => {
+      return thirdPartyIsPresent === "Oui"
+        ? schema
+            .required("Au moins un tiers est à renseigner")
+            .min(1, "Au moins un tiers est à renseigner")
+        : schema.transform(() => [])
+    }),
+  thirdPartyIsPresent: yup
+    .string()
+    .required("Veuillez préciser si un tiers est intervenu"),
   thirdPartyPrecision: yup.string().when("thirdParty", (thirdParty, schema) => {
-    return thirdParty.includes("Autre")
+    return thirdParty?.includes("Autre")
       ? schema
           .required("Le champ Autre tiers doit être précisé")
           .min(1, "Le champ Autre tiers doit être précisé")
-      : yup
-          .string()
-          .nullable(true)
-          .transform(() => "")
+      : schema.transform(() => "")
   }),
 
   victims: yup
@@ -86,13 +107,12 @@ const schema = yup.object({
     .required("Au moins un auteur est à renseigner"),
 })
 
-const ageOptions = [
-  "- de 18 ans",
-  "+ de 18 ans",
-  "non déterminable",
-].map((curr) => ({ label: curr, value: curr }))
+const ageOptions = ["- de 18 ans", "+ de 18 ans"].map((curr) => ({
+  label: curr,
+  value: curr,
+}))
 
-const genderOptions = ["Masculin", "Féminin", "Autre genre"].map((curr) => ({
+const genderOptions = ["Masculin", "Féminin"].map((curr) => ({
   label: curr,
   value: curr,
 }))
@@ -392,7 +412,7 @@ Victim.propTypes = {
   remove: PropTypes.func,
 }
 
-const Authors = ({ control, register, errors }) => {
+const Authors = ({ control, register, errors, watchValue }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "authors",
@@ -410,6 +430,7 @@ const Authors = ({ control, register, errors }) => {
             remove={() => remove(index)}
             register={register}
             errors={errors}
+            watchValue={watchValue?.[index]}
           />
         ))}
       </div>
@@ -432,9 +453,18 @@ Authors.propTypes = {
   control: PropTypes.object.isRequired,
   errors: PropTypes.object,
   register: PropTypes.func.isRequired,
+  watchValue: PropTypes.array,
 }
 
-const Author = ({ data, control, number = 0, remove, register, errors }) => (
+const Author = ({
+  data,
+  control,
+  number = 0,
+  remove,
+  register,
+  errors,
+  watchValue,
+}) => (
   <div className="px-10 py-6 my-5 bg-gray-100 rounded-md shadow-md">
     <Title2 className="mb-4">
       {number + 1 + suffix(number + 1)} auteur
@@ -532,17 +562,45 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => (
     </div>
 
     <div className="mt-12">
-      <b>Altération du discernement</b> <i>(optionnel)</i>
-      <Options
-        name={`authors[${number}].discernmentTroubles`}
-        register={register}
-      >
-        <Option value="Trouble psychique ou neuropsychique (TPN)" />
-        <Option value="Prise d’alcool" />
-        <Option value="Prise de produits stupéfiants" />
-        <Option value="Prise de médicaments" />
-        <Option value="Effet de l’anesthésie" />
-      </Options>
+      <div className="flex">
+        <b className="mr-8">Altération du discernement</b>
+
+        <div className="inline-flex flex-row items-end space-x-8">
+          <RadioInput
+            name={`authors[${number}].discernmentTroublesIsPresent`}
+            value="Oui"
+            register={register()}
+          />
+          <RadioInput
+            name={`authors[${number}].discernmentTroublesIsPresent`}
+            value="Non"
+            register={register()}
+          />
+        </div>
+      </div>
+
+      <InputError
+        error={errors?.authors?.[number]?.discernmentTroublesIsPresent?.message}
+      />
+
+      {watchValue?.discernmentTroublesIsPresent === "Oui" && (
+        <>
+          <Options
+            name={`authors[${number}].discernmentTroubles`}
+            register={register()}
+          >
+            <Option value="Trouble psychique ou neuropsychique (TPN)" />
+            <Option value="Prise d’alcool" />
+            <Option value="Prise de produits stupéfiants" />
+            <Option value="Prise de médicaments" />
+            <Option value="Effet de l’anesthésie" />
+          </Options>
+
+          <InputError
+            error={errors?.authors?.[number]?.discernmentTroubles?.message}
+          />
+        </>
+      )}
     </div>
   </div>
 )
@@ -554,13 +612,10 @@ Author.propTypes = {
   number: PropTypes.number,
   register: PropTypes.func,
   remove: PropTypes.func,
+  watchValue: PropTypes.object,
 }
 
 const Step4Page = () => {
-  const nbRender = React.useRef(0)
-  nbRender.current++
-  console.log("nbRender.current", nbRender.current)
-
   useScrollTop()
   const router = useRouter()
 
@@ -574,6 +629,7 @@ const Step4Page = () => {
       pursuitBy: state?.form?.pursuitBy || [],
       pursuitPrecision: state?.form?.pursuitPrecision,
       thirdParty: state?.form?.thirdParty,
+      thirdPartyIsPresent: state?.form?.thirdPartyIsPresent,
       thirdPartyPrecision: state?.form?.thirdPartyPrecision,
       victims: state?.form?.victims || [{}],
     },
@@ -584,6 +640,8 @@ const Step4Page = () => {
 
   const watchPursuit = watch("pursuit")
   const watchThirdParty = watch("thirdParty")
+  const watchThirdPartyIsPresent = watch("thirdPartyIsPresent")
+  const watchAuthors = watch("authors", state?.form?.authors || [{}])
 
   React.useEffect(() => {
     // Si le champ pursuit est rempli, c'est qu'on n'affiche pas la page pour la 1ère fois, i.e. tout doit être déplié
@@ -592,7 +650,6 @@ const Step4Page = () => {
 
   React.useEffect(() => {
     // Clean precision when pursuit has changed and is not equal to Autre
-    console.log("watchPursuit", watchPursuit)
     if (watchPursuit !== "Autre") {
       setValue("pursuitPrecision", "")
     }
@@ -600,7 +657,6 @@ const Step4Page = () => {
 
   React.useEffect(() => {
     // Clean precision when thirdParty has changed and is not equal to Autre
-    console.log("watchThirdParty", watchThirdParty)
     if (watchThirdParty?.length && !watchThirdParty?.includes("Autre")) {
       setValue("thirdPartyPrecision", "")
     }
@@ -615,6 +671,7 @@ const Step4Page = () => {
   const onSubmit = (data) => {
     // We can't do it in yup validation (with transform) because this part of the form is not present so it is not carry on by react hook form...
     if (data?.pursuit !== "Plainte") data.pursuitBy = []
+    if (data?.thirdPartyIsPresent === "Non") data.thirdParty = []
 
     action(data)
     router.push("/declarations/liberal/etape5")
@@ -740,7 +797,12 @@ const Step4Page = () => {
               <Title1 className="mt-16">
                 Qui a été <b>auteur</b> de la violence ?
               </Title1>
-              <Authors control={control} register={register} errors={errors} />
+              <Authors
+                control={control}
+                register={register}
+                errors={errors}
+                watchValue={watchAuthors}
+              />
               {phase === 2 && (
                 <div className="flex justify-center w-full my-16 space-x-4">
                   <PrimaryButtton onClick={() => setPhase(3)}>
@@ -754,22 +816,43 @@ const Step4Page = () => {
           {phase === 3 && (
             <>
               <Title1 className="mt-16">
-                Quelles ont été les <b>autres personnes</b> impliquées ?
+                {"D'autres personnes ont-elles été impliquées ?"}
               </Title1>
-              <Title2 className="mt-8 mb-4">
-                Intervention de tiers (optionnel)
+              <Title2 className="flex mt-8 mb-4">
+                <span className="mr-8">Intervention de tiers</span>
+                <div className="inline-flex flex-row items-end space-x-8">
+                  <RadioInput
+                    name="thirdPartyIsPresent"
+                    value="Oui"
+                    register={register}
+                  />
+                  <RadioInput
+                    name="thirdPartyIsPresent"
+                    value="Non"
+                    register={register}
+                  />
+                </div>
               </Title2>
-              <Options name="thirdParty" register={register}>
-                <Option value="Personnel hospitalier" />
-                <Option value="Service de sécurité interne" />
-                <Option value="Forces de l'ordre" />
-                <Option
-                  value="Autre"
-                  precision={"thirdPartyPrecision"}
-                  onChangePrecision={ensureOtherThirdPartyIsChecked}
-                  error={errors?.thirdPartyPrecision?.message}
-                />
-              </Options>
+
+              <InputError error={errors?.thirdPartyIsPresent?.message} />
+
+              {watchThirdPartyIsPresent === "Oui" && (
+                <>
+                  <Options name="thirdParty" register={register}>
+                    <Option value="Personnel hospitalier" />
+                    <Option value="Service de sécurité-sûreté" />
+                    <Option value="Forces de l'ordre (police et gendarmerie nationales, police municipale)" />
+                    <Option value="Sapeurs-pompiers" />
+                    <Option
+                      value="Autre"
+                      precision={"thirdPartyPrecision"}
+                      onChangePrecision={ensureOtherThirdPartyIsChecked}
+                      error={errors?.thirdPartyPrecision?.message}
+                    />
+                  </Options>
+                  <InputError error={errors?.thirdParty?.message} />
+                </>
+              )}
               <div className="flex justify-center w-full my-16 space-x-4">
                 <Link href="/declarations/liberal/etape3">
                   <a>

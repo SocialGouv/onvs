@@ -33,11 +33,12 @@ const FreelanceCard = () => {
       </TitleCard>
 
       <SubTitleCard>
-        Vous n’avez pas besoin de compte pour remonter un incident de violence.
+        Vous n’avez pas besoin de compte <br />
+        pour remonter un signalement de violence.
       </SubTitleCard>
       <DoctorsIcon className="mx-auto mt-5" />
       <SubTitleCard className="mt-8">
-        Votre déclaration pourra être réalisée de manière anonyme.
+        Votre déclaration pourra être effectuée de manière anonyme.
       </SubTitleCard>
       <div className="my-6 text-center">
         <PrimaryButtton type="submit">Déclarer</PrimaryButtton>
