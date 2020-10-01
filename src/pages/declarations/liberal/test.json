@@ -47,6 +47,7 @@
       }
     ],
     "thirdParty": "",
+    "thirdPartyIsPresent": false,
     "pursuit": "Non",
     "authors": [
       {

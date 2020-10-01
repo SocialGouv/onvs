@@ -7,7 +7,7 @@ import React from "react"
 import * as reactToasts from "react-toast-notifications"
 
 import { useScrollTop } from "@/hooks/useScrollTop"
-import Step1Page from "@/pages/forms/freelance/step1"
+import Step1Page from "@/pages/declarations/liberal/etape1"
 
 jest.mock("react-toast-notifications")
 jest.mock("@/hooks/useScrollTop")
@@ -34,7 +34,7 @@ beforeAll(() => {
   }))
 })
 
-test("the step1 should display an error on town if not present", async () => {
+test("the etape1 should display an error on town if not present", async () => {
   render(<Step1Page />)
 
   expect(useScrollTop).toHaveBeenCalled()
@@ -57,7 +57,7 @@ test("the step1 should display an error on town if not present", async () => {
   ).toBeNull()
 })
 
-test("the step1 should display an error on Autre if no precision is present", async () => {
+test("the etape1 should display an error on Autre if no precision is present", async () => {
   render(<Step1Page />)
 
   userEvent.type(screen.getByLabelText(/ville/i), "Vincennes")
@@ -75,7 +75,7 @@ test("the step1 should display an error on Autre if no precision is present", as
   expect(addToast).toHaveBeenCalled()
 })
 
-test("the step1 should route to step2 if all informations are present", async () => {
+test("the etape1 should route to etape2 if all informations are present", async () => {
   render(<Step1Page />)
 
   userEvent.type(screen.getByLabelText(/ville/i), "Vincennes")
@@ -87,6 +87,6 @@ test("the step1 should route to step2 if all informations are present", async ()
   fireEvent.click(screen.queryByText(/suivant/i))
 
   await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
-  expect(push).toHaveBeenCalledWith("/forms/freelance/step2")
+  expect(push).toHaveBeenCalledWith("/declarations/liberal/etape2")
   expect(action).toHaveBeenCalledTimes(1)
 })

@@ -82,6 +82,7 @@
       }
     ],
     "thirdParty": ["Autre"],
+    "thirdPartyIsPresent": "Non",
     "pursuit": "Plainte",
     "pursuitBy": ["L'ordre"],
     "authors": [

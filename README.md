@@ -1,76 +1,83 @@
+# README
+
+TEST AVEC GARY
+
 # ONVS
 
-ONVS is the Observatoire National des Violences en Santé, a web app to declare any violence for medical people in France.
+ONVS is the `Observatoire National des Violences en Santé`, a web app to declare any violence for medical people in France.
+
+### 🧡 Architecture
+
+The product is composed of :
+
+- a Next.js app, responsible of both the frontend and the API
+- a db container which uses a Postgresql Docker image
+
+This architecture is described in docker configuration files.
 
 ### 👔 Install
 
-First, install git, yarn, docker, docker-compose with brew on Mac OS.
+First, install git, yarn, docker, docker-compose (you can use brew if you are on Mac OS).
 
 Then, run the containers with docker-compose.
 
+```
 docker-compose up --build -d
-
-Then, the DB is exposed on port 5435 and the app is accessible on port 80.
-
-### Env vars
-
-⚠ You need to set client-side browser `process.env` variables **at build time**.
-
-| Var            | desc                       | build time | run time |
-| -------------- | -------------------------- | :--------: | :------: |
-| PORT           | port to run the server on  |            |    ✅    |
-| SENTRY_DSN     | DSN of your sentry project |     ✅     |
-| SENTRY_TOKEN   | token to allow sourcemaps  |     ✅     |
-| MATOMO_URL     | URL to your piwik instance |     ✅     |
-| MATOMO_SITE_ID | site id on piwik instance  |     ✅     |
-| DATABASE_URL   | URL of Postgres DB         |     ✅     |
-| API_URL        | URL of the API             |     ✅     |
-
-NB: the API is also provided by this app. So, API_URL must be the same domain name that the app itself.
-For example, the stage environement is https://onvs-dev.fabrique.social.gouv.fr/ for the frontend. So use `https://onvs-dev.fabrique.social.gouv.fr/api` as the `API_URL`.
-
-The easiest solution is to populate the `.env` file at root of the project. See `.env.sample` for example of this.
-
-Directly with Docker, you can use:
-
-```
-docker build \
-  --build-arg SENTRY_DSN="https://[hash]@url.sentry.com/42" \
-  --build-arg SENTRY_TOKEN="1234" \
-  --build-arg MATOMO_URL="https://url.matomo.com" \
-  --build-arg MATOMO_SITE_ID=42 \
-  . -t onvs-app
 ```
 
-### Build the project
+This will build and run the db container and the app container.
 
-```sh
-yarn build # to build a .next directory with the full app
-docker-compose up --build -d
+Then, on the host machine, the db is exposed on port 5435 and the app is accessible on port 80.
 
-# or just run the app with
-docker-compose up --build -d app
+### 🎛️ Env vars
+
+You need to set `process.env` variables.
+
+[Untitled](https://www.notion.so/a05e88b680f24095aa6b4336d32a06ab)
+
+The easiest solution to set the variables, is to populate the `.env` file at root of the project. See the `.env.sample`file for example of this.
+
+The API is also provided by this app. So, API_URL must be the same domain name that the app itself. For example, the frontend stage environment is `https://onvs-dev.fabrique.social.gouv.fr`. So use `https://onvs-dev.fabrique.social.gouv.fr/api` as the `API_URL`.
+
+### 👩‍🍳 Local development
+
+The developers can benefit of the hot reload provided by Next.js. for an improved DX.
+
+In this case, just configure a db URL in your `.env` file, then
+
+```
+yarn install
+yarn dev
 ```
 
-You can use the db container inside the docker-compose.yml.
-In this case, the DATABASE_URL looks like `postgres://onvs:the-passowrd@db:5432/onvs`
+You can use the db container inside the docker-compose.yml. In this case, the DATABASE_URL looks like `DATABASE_URL=psql://onvs:password@localhost:5435/onvs`.
 
-Then start the project with `yarn start`.
+One step further, if you want to getting close to the production build, you can use
 
-The app is avaialable on port 80.
+```jsx
+yarn install
+yarn build
+yarn start
+```
 
-### Develop
+Then, go to the app at [http://localhost:3030/](http://localhost:3030/).
 
-You can profit of the hot reload for development time, thanks to Next, with the command:
+### 🏋️‍♂️ Run the tests
 
-`yarn dev`
+There is some Jest tests, which can be run with :
 
-### Troubleshoot
+```jsx
+yarn run test
+```
 
-How to see the logs ?
+### 🧯 Troubleshoot
 
-```sh
+_How can I see the logs ?_
+
+```
+# To see the logs for the both containers
 docker-compose logs -f
-# or just for app container
+
+# To see only the app container
 docker-compose logs -f app
 ```

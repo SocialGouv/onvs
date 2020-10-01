@@ -64,7 +64,7 @@ const AuthentCard = () => {
           <div className="text-sm leading-5">
             <Link href="/">
               <a className="font-medium text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline">
-                Mot de passe oublié?
+                Mot de passe oublié ?
               </a>
             </Link>
           </div>
@@ -73,7 +73,7 @@ const AuthentCard = () => {
           <PrimaryButtton type="submit">Se connecter</PrimaryButtton>
         </div>
       </form>
-      <SubTitleCard>{"Vous n'avez pas encore de compte?"}</SubTitleCard>
+      <SubTitleCard>{"Vous n'avez pas encore de compte ?"}</SubTitleCard>
       <div className="mt-4 text-center">
         <OutlineButton>Créer un compte</OutlineButton>
       </div>

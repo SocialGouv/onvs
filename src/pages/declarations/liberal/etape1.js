@@ -93,7 +93,7 @@ const Step1Page = () => {
   const onSubmit = (data) => {
     action(data)
 
-    router.push("/forms/freelance/step2")
+    router.push("/declarations/liberal/etape2")
   }
 
   return (
@@ -108,7 +108,7 @@ const Step1Page = () => {
           className="w-10/12 m-auto text-gray-900"
         >
           <Title2 className="mt-12 mb-8">
-            Quand et dans quelle ville l’incident s’est-il déroulé ?
+            {"Quand et dans quelle ville l'événement s’est-il déroulé ?"}
           </Title2>
 
           <div className="flex mt-4 space-x-6">
@@ -125,7 +125,7 @@ const Step1Page = () => {
                 id="date"
                 name="date"
                 ref={register}
-                aria-invalid={!!errors.date?.message}
+                aria-invalid={!!errors?.date?.message}
               />
 
               <InputError error={errors?.date?.message} />
@@ -164,7 +164,7 @@ const Step1Page = () => {
                 name="town"
                 placeholder="Tapez les premières lettres"
                 ref={register}
-                aria-invalid={!!errors.town?.message}
+                aria-invalid={!!errors?.town?.message}
               />
 
               <InputError error={errors?.town?.message} />
@@ -235,7 +235,7 @@ const Step1Page = () => {
                   </label>
                   <div
                     className={`inline-block py-2 border-b-2  ${
-                      errors.otherLocation?.message
+                      errors?.otherLocation?.message
                         ? "border-red-500"
                         : "border-blue-400"
                     }`}
@@ -249,7 +249,7 @@ const Step1Page = () => {
                       onChange={() => setValue("location", "Autre")}
                       ref={register}
                       aria-invalid={
-                        errors.otherLocation?.message ? "true" : "false"
+                        errors?.otherLocation?.message ? "true" : "false"
                       }
                     />
                   </div>
@@ -261,7 +261,7 @@ const Step1Page = () => {
           </div>
 
           <div className="flex justify-center w-full my-16 space-x-4">
-            <Link href="/forms/freelance/step0">
+            <Link href="/declarations/liberal/etape0">
               <a>
                 <OutlineButton type="button">Précédent</OutlineButton>
               </a>
