@@ -8,7 +8,7 @@ import DoctorsIcon from "@/components/svg/doctors"
 const FreelanceCard = () => {
   const router = useRouter()
 
-  const goToStep0 = () => router.push("/forms/freelance/step0")
+  const goToStep0 = () => router.push("/declarations/liberal/etape0")
 
   const keyPress = (event, fn) => event.key === "Enter" && fn(event)
 
@@ -33,11 +33,12 @@ const FreelanceCard = () => {
       </TitleCard>
 
       <SubTitleCard>
-        Vous n’avez pas besoin de compte pour remonter un incident de violence.
+        Vous n’avez pas besoin de compte <br />
+        pour remonter un signalement de violence.
       </SubTitleCard>
       <DoctorsIcon className="mx-auto mt-5" />
       <SubTitleCard className="mt-8">
-        Votre déclaration pourra être réalisée de manière anonyme.
+        Votre déclaration pourra être effectuée de manière anonyme.
       </SubTitleCard>
       <div className="my-6 text-center">
         <PrimaryButtton type="submit">Déclarer</PrimaryButtton>

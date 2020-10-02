@@ -81,6 +81,7 @@ exports.up = function (knex) {
 
         table.jsonb("victims")
         table.jsonb("third_party")
+        table.string("third_party_is_present")
         table.string("third_party_precision")
 
         table.string("pursuit")

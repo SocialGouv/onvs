@@ -48,6 +48,7 @@ const mappingJStoDB = {
   rOthers: "r_others",
   rOthersPrecision: "r_others_precision",
   thirdParty: "third_party",
+  thirdPartyIsPresent: "third_party_is_present",
   thirdPartyPrecision: "third_party_precision",
   town: "town",
   victims: "victims",
@@ -111,6 +112,7 @@ const schemaJS = yup.object({
   rOthersPrecision: yup.string(),
 
   thirdParty: yupJson,
+  thirdPartyIsPresent: yup.string(),
   thirdPartyPrecision: yup.string(),
   town: yup.string().required(),
   victims: yupJson,

@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/SocialGouv/onvs/compare/v2.0.6...v2.1.0) (2020-10-01)
+
+
+### Features
+
+* new pages and improve yup validations ([8705878](https://github.com/SocialGouv/onvs/commit/8705878f78611a1a7e2e28f728692f598c70f891))
+
 ## [2.0.6](https://github.com/SocialGouv/onvs/compare/v2.0.5...v2.0.6) (2020-09-25)
 
 
