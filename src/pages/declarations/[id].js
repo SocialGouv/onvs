@@ -232,7 +232,7 @@ const VictimsAuthorsPart = ({ data }) => {
               Victime #{index + 1}
             </span>
             {victim.type.label} de genre {victim.gender.label} et âgé de{" "}
-            {victim.age.label}
+            {victim.age.age}
             {victim.healthJob && (
               <>&nbsp;dont la profession est {victim.healthJob.label}</>
             )}
@@ -273,7 +273,10 @@ const VictimsAuthorsPart = ({ data }) => {
               Auteur #{index + 1}
             </span>
             {author.type.label} de genre {author.gender.label} et âgé de{" "}
-            {author.age.label}
+            {author.age.age}
+            {author.healthJob && (
+              <>&nbsp;dont la profession est {author.healthJob.label}</>
+            )}
           </p>
           <p>
             <span className="inline-block w-48 ">
@@ -337,7 +340,7 @@ const FinalPrecisionsPart = ({ data }) => {
 }
 
 DatePart.propTypes = {
-  data: PropTypes.object.required,
+  data: PropTypes.object,
 }
 
 FactsPart.propTypes = DatePart.propTypes
