@@ -32,7 +32,9 @@ const IndexPage = () => {
         }}
         className="relative"
       >
-        <HeroTitle>Observatoire national des violences en santé</HeroTitle>
+        <HeroTitle>
+          Observatoire national des violences en santé (test)
+        </HeroTitle>
         {/* <button onClick={toggleModal}>Toggle modal</button> */}
         <Modal
           openModal={openModal}
