@@ -7,6 +7,10 @@ const DECLARATION_ENDPOINT = "declarations"
 export const createDeclaration = async (declaration) => {
   console.log("API_URL", API_URL)
   console.log("process.env.API_URL", process.env.API_URL)
+  console.log(
+    "process.env.NEXT_PUBLIC_API_URL",
+    process.env.NEXT_PUBLIC_API_URL,
+  )
 
   return fetcher(`${API_URL}/${DECLARATION_ENDPOINT}`, {
     body: JSON.stringify(declaration?.form),
@@ -17,6 +21,10 @@ export const createDeclaration = async (declaration) => {
 export const findDeclaration = async (id) => {
   console.log("API_URL", API_URL)
   console.log("process.env.API_URL", process.env.API_URL)
+  console.log(
+    "process.env.NEXT_PUBLIC_API_URL",
+    process.env.NEXT_PUBLIC_API_URL,
+  )
 
   return fetcher(`${API_URL}/${DECLARATION_ENDPOINT}/${id}`, {
     headers: { "Content-Type": "application/json" },

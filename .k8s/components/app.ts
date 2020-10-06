@@ -33,7 +33,7 @@ const appDeployment = manifests.find(
 ok(appDeployment)
 
 const apiUrl = new EnvVar({
-  name: "API_URL",
+  name: "NEXT_PUBLIC_API_URL",
   value: `https://${getIngressHost(manifests)}/api`,
 })
 
