@@ -6,14 +6,18 @@ import * as Sentry from "@sentry/node"
 // import Nav from "../components/Nav"
 import { createStore, StateMachineProvider } from "little-state-machine"
 import App from "next/app"
+import getConfig from "next/config"
 import Head from "next/head"
 import React from "react"
 import { ToastProvider } from "react-toast-notifications"
 
 import { initMatomo } from "@/lib/matomo"
 
+// get publicRuntimeConfig variables
+const { publicRuntimeConfig } = getConfig()
+
 Sentry.init({
-  dsn: process.env.SENTRY_DSN,
+  dsn: publicRuntimeConfig.SENTRY_DSN,
 })
 
 createStore({
@@ -23,8 +27,9 @@ createStore({
 class MyApp extends App {
   componentDidMount() {
     initMatomo({
-      piwikUrl: process.env.MATOMO_URL,
-      siteId: process.env.MATOMO_SITE_ID,
+      //piwikUrl: process.env.MATOMO_URL,
+      piwikUrl: publicRuntimeConfig.MATOMO_URL,
+      siteId: publicRuntimeConfig.MATOMO_SITE_ID,
     })
   }
   render() {

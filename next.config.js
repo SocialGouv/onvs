@@ -29,13 +29,13 @@ const withTM = require("next-transpile-modules")([
 
 const nextConfig = {
   env: {
-    MATOMO_SITE_ID: process.env.MATOMO_SITE_ID,
-    MATOMO_URL: process.env.MATOMO_URL,
-    SENTRY_DSN: process.env.SENTRY_DSN,
     TEST_CURRENT_DATE: process.env.TEST_CURRENT_DATE,
   },
   publicRuntimeConfig: {
     // Will be available on both server and client. Needs getInitialProps on page to be available
+    MATOMO_SITE_ID: process.env.MATOMO_SITE_ID,
+    MATOMO_URL: process.env.MATOMO_URL,
+    SENTRY_DSN: process.env.SENTRY_DSN,
   },
   serverRuntimeConfig: {
     // Will only be available on the server side. Needs getInitialProps on page to be available
