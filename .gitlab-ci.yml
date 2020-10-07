@@ -19,6 +19,15 @@ Lint:
   rules:
     - when: never
 
+Build:
+  extends: .autodevops_build
+  variables:
+    # these variables are needed at build time because embedded in the front
+    SENTRY_DSN: https://e70207cd7a2c4ecdb99849c212a964bf@sentry.fabrique.social.gouv.fr/40
+    SENTRY_TOKEN: 1234
+    MATOMO_URL: https://matomo.fabrique.social.gouv.fr
+    MATOMO_SITE_ID: 25
+
 Register image:
   extends: .autodevops_register_image
   variables:
