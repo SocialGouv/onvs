@@ -357,7 +357,10 @@ const ShowDeclarationPage = () => {
     (url, id) => findDeclaration(id),
   )
 
-  if (error) console.error(stringifyError(error))
+  // if (error) console.error("error", error)
+  if (error) console.error(error.info?.error)
+  // if (error) console.error("stringify", stringifyError(error))
+  // if (error) console.error(JSON.stringify(error))
 
   return (
     <>

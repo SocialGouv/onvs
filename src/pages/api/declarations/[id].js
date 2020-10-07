@@ -1,6 +1,7 @@
 import Cors from "micro-cors"
 
 import { create, find } from "@/services/declarations"
+import { stringifyError } from "@/utils/errors"
 
 const UNIQUE_VIOLATION_PG = "23505"
 
@@ -29,9 +30,13 @@ const handler = async (req, res) => {
     }
   } catch (error) {
     console.error("Erreur API", error)
-    if (error?.code === UNIQUE_VIOLATION_PG) res.status(409).json({ error })
-    else if (error.message === "Bad request") res.status(400).end()
-    else res.status(500).json({ error })
+    if (error?.code === UNIQUE_VIOLATION_PG)
+      res
+        .status(409)
+        .json({ error: `Erreur serveur : déclaration déjà présente` })
+    else if (error.message === "Bad request")
+      res.status(400).end(`Erreur serveur : requête HTTP mal formée`)
+    else res.status(500).json({ error: `Erreur serveur` })
   }
 }
 
