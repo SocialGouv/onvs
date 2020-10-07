@@ -47,7 +47,6 @@ app.prepare().then(() => {
       console.log("Debug -----------")
 
       console.log(`Package ${pack.name}: ${pack.version}`)
-      console.log(`process.env.API_URL: ${process.env.API_URL}`)
       console.log(`process.env.PORT: ${port}`)
       console.log(`process.env.SENTRY_DSN: ${process.env.SENTRY_DSN}`)
       console.log(`process.env.SENTRY_TOKEN: ${process.env.SENTRY_TOKEN}`)

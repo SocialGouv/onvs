@@ -35,7 +35,7 @@ You need to set `process.env` variables.
 
 The easiest solution to set the variables, is to populate the `.env` file at root of the project. See the `.env.sample`file for example of this.
 
-The API is also provided by this app. So, API_URL must be the same domain name that the app itself. For example, the frontend stage environment is `https://onvs-dev.fabrique.social.gouv.fr`. So use `https://onvs-dev.fabrique.social.gouv.fr/api` as the `API_URL`.
+The API is also provided by this app. For example, of the frontend stage environment is `https://onvs-dev.fabrique.social.gouv.fr`, the api part is `https://onvs-dev.fabrique.social.gouv.fr/api`.
 
 ### 👩‍🍳 Local development
 

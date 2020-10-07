@@ -32,13 +32,6 @@ const appDeployment = manifests.find(
 )
 ok(appDeployment)
 
-const apiUrl = new EnvVar({
-  name: "NEXT_PUBLIC_API_URL",
-  value: `https://${getIngressHost(manifests)}/api`,
-})
-
-addEnv({ deployment: appDeployment, data: apiUrl })
-
 addPostgresUserSecret(appDeployment)
 
 export default manifests
