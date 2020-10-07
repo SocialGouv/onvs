@@ -8,6 +8,7 @@ import { findDeclaration } from "@/clients/declarations"
 import { Layout } from "@/components/Layout"
 import { OutlineButton, Title1 } from "@/components/lib"
 import Spinner from "@/components/svg/spinner"
+import { stringifyError } from "@/utils/errors"
 
 const DatePart = ({ data }) => {
   return (
@@ -356,6 +357,8 @@ const ShowDeclarationPage = () => {
     (url, id) => findDeclaration(id),
   )
 
+  if (error) console.error(stringifyError(error))
+
   return (
     <>
       <Layout>
@@ -370,7 +373,18 @@ const ShowDeclarationPage = () => {
             </div>
           )}
 
-          {error && <h2>{JSON.stringify(error)}</h2>}
+          {error && (
+            <>
+              <Title1 className="mt-12">
+                {
+                  " Oups, il semble qu'il y ait des problèmes pour récupérer les informations de cette déclaration..."
+                }
+                <span role="img" aria-hidden="true">
+                  🤫
+                </span>
+              </Title1>
+            </>
+          )}
 
           {data && (
             <>
