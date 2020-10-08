@@ -1,3 +1,5 @@
+import { validate as uuidValidate } from "uuid"
+
 import { castDBToJS, castJSToDB } from "@/models/declarations"
 
 import knex from "../../knex/knex"
@@ -10,7 +12,7 @@ export const create = async (declaration) => {
 }
 
 export const find = async ({ id }) => {
-  if (!id) {
+  if (!id || !uuidValidate(id)) {
     throw new Error("Bad request")
   }
 
@@ -18,5 +20,5 @@ export const find = async ({ id }) => {
     .whereNull("declarations.deleted_at")
     .where("declarations.id", id)
 
-  return castDBToJS(declaration)
+  return declaration ? castDBToJS(declaration) : null
 }
