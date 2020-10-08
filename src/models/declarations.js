@@ -64,18 +64,21 @@ const yupJson = yup
   .string()
   .transform((_, originalValue) => JSON.stringify(originalValue))
 
+// TODO ajouter les valeurs possibles pour prévoir le cas des éditteurs qui appellent l'API
+// ex: declarantContactAgreement = Oui ou Non
+// declarantExternalId = 9 ou 11 chiffres, etc..
 const schemaJS = yup.object({
   authors: yupJson,
-  date: yup.string().required(),
-  declarantContactAgreement: yup.string(),
+  date: yup.string().required(), // date
+  declarantContactAgreement: yup.string(), // Oui ou Non
   declarantEmail: yup.string(),
-  declarantExternalId: yup.string(),
+  declarantExternalId: yup.string(), // 9 ou 11 chiffres
   declarantNames: yup.string(),
-  declarantTel: yup.string(),
-  declarationType: yup.string(),
-  description: yup.string(),
+  declarantTel: yup.string(), // 10 chiffres
+  declarationType: yup.string(), // libéral ou ets
+  description: yup.string(), // non vide
 
-  factTypes: yupJson,
+  factTypes: yupJson, // Atteinte aux personnes ou Atteinte aux biens
   fgDeteriorations: yupJson,
   fgGroups: yupJson,
   fgOthers: yupJson,

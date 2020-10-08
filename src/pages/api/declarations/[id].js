@@ -1,6 +1,7 @@
 import Cors from "micro-cors"
 
 import { create, find } from "@/services/declarations"
+import { isEmpty } from "@/utils/object"
 
 const UNIQUE_VIOLATION_PG = "23505"
 
@@ -12,8 +13,10 @@ const handler = async (req, res) => {
       case "GET": {
         const act = await find(req.query)
 
-        if (!act) {
-          res.status(404).json({ message: "Declaration not found" })
+        if (!act || isEmpty(act)) {
+          res
+            .status(404)
+            .json({ error: "Erreur serveur : La déclaration n'existe pas" })
           return
         }
 
@@ -29,9 +32,16 @@ const handler = async (req, res) => {
     }
   } catch (error) {
     console.error("Erreur API", error)
-    if (error?.code === UNIQUE_VIOLATION_PG) res.status(409).json({ error })
-    else if (error.message === "Bad request") res.status(400).end()
-    else res.status(500).json({ error })
+    console.error(`Message :${error.message}:`)
+    if (error?.code === UNIQUE_VIOLATION_PG)
+      res
+        .status(409)
+        .json({ error: `Erreur serveur : déclaration déjà présente` })
+    else if (error.message === "Bad request")
+      res
+        .status(400)
+        .json({ error: "Erreur serveur : requête HTTP mal formée" })
+    else res.status(500).json({ error: `Erreur serveur` })
   }
 }
 

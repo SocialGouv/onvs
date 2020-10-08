@@ -21,3 +21,5 @@ export const renameKeys = (obj, mapping) =>
       .map((oldKey) => [mapping[oldKey], obj[oldKey]])
       .filter((curr) => !!curr[1]),
   )
+
+export const isEmpty = (object) => !Object.keys(object).length

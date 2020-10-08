@@ -8,6 +8,7 @@ import { findDeclaration } from "@/clients/declarations"
 import { Layout } from "@/components/Layout"
 import { OutlineButton, Title1 } from "@/components/lib"
 import Spinner from "@/components/svg/spinner"
+import { stringifyError } from "@/utils/errors"
 
 const DatePart = ({ data }) => {
   return (
@@ -232,7 +233,7 @@ const VictimsAuthorsPart = ({ data }) => {
               Victime #{index + 1}
             </span>
             {victim.type.label} de genre {victim.gender.label} et âgé de{" "}
-            {victim.age.label}
+            {victim.age.age}
             {victim.healthJob && (
               <>&nbsp;dont la profession est {victim.healthJob.label}</>
             )}
@@ -273,7 +274,10 @@ const VictimsAuthorsPart = ({ data }) => {
               Auteur #{index + 1}
             </span>
             {author.type.label} de genre {author.gender.label} et âgé de{" "}
-            {author.age.label}
+            {author.age.age}
+            {author.healthJob && (
+              <>&nbsp;dont la profession est {author.healthJob.label}</>
+            )}
           </p>
           <p>
             <span className="inline-block w-48 ">
@@ -337,7 +341,7 @@ const FinalPrecisionsPart = ({ data }) => {
 }
 
 DatePart.propTypes = {
-  data: PropTypes.object.required,
+  data: PropTypes.object,
 }
 
 FactsPart.propTypes = DatePart.propTypes
@@ -353,6 +357,11 @@ const ShowDeclarationPage = () => {
     (url, id) => findDeclaration(id),
   )
 
+  // if (error) console.error("error", error)
+  if (error) console.error(error.info?.error)
+  // if (error) console.error("stringify", stringifyError(error))
+  // if (error) console.error(JSON.stringify(error))
+
   return (
     <>
       <Layout>
@@ -367,7 +376,18 @@ const ShowDeclarationPage = () => {
             </div>
           )}
 
-          {error && <h2>{JSON.stringify(error)}</h2>}
+          {error && (
+            <>
+              <Title1 className="mt-12">
+                {
+                  " Oups, il semble qu'il y ait des problèmes pour récupérer les informations de cette déclaration..."
+                }
+                <span role="img" aria-hidden="true">
+                  🤫
+                </span>
+              </Title1>
+            </>
+          )}
 
           {data && (
             <>

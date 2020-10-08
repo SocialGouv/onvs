@@ -26,7 +26,7 @@ import { useScrollTop } from "@/hooks/useScrollTop"
 import { update } from "@/lib/pages/form"
 
 const isHealthType = (type) =>
-  ["Étudiant en santé", "Personnel de santé"].includes(type)
+  ["Étudiant en santé", "Professionnel de santé"].includes(type)
 
 const schema = yup.object({
   authors: yup
@@ -49,6 +49,14 @@ const schema = yup.object({
           .string()
           .required("L'altération du discernement est à renseigner"),
         gender: yup.object().nullable().required("Le genre est à renseigner"),
+        healthJob: yup
+          .object()
+          .nullable()
+          .when("type", (type, schema) => {
+            return isHealthType(type?.value)
+              ? schema.required("La profession de santé est à renseigner")
+              : schema
+          }),
         type: yup.object().nullable().required("Le type est à renseigner"),
       }),
     )
@@ -125,7 +133,7 @@ const victimTypeOptions = [
   "Étudiant en santé",
   "Patient/Résident",
   "Personnel administratif et technique",
-  "Personnel de santé",
+  "Professionnel de santé",
   "Prestataire extérieur",
 ].map((curr) => ({ label: curr, value: curr }))
 
@@ -137,7 +145,7 @@ const authorProfileOptions = [
   "Inconnu",
   "Patient/Résident",
   "Personnel administratif et technique",
-  "Personnel de santé",
+  "Professionnel de santé",
   "Prestataire extérieur",
 ].map((curr) => ({ label: curr, value: curr }))
 
@@ -412,7 +420,7 @@ Victim.propTypes = {
   remove: PropTypes.func,
 }
 
-const Authors = ({ control, register, errors, watchValue }) => {
+const Authors = ({ control, register, errors }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "authors",
@@ -430,7 +438,6 @@ const Authors = ({ control, register, errors, watchValue }) => {
             remove={() => remove(index)}
             register={register}
             errors={errors}
-            watchValue={watchValue?.[index]}
           />
         ))}
       </div>
@@ -453,157 +460,199 @@ Authors.propTypes = {
   control: PropTypes.object.isRequired,
   errors: PropTypes.object,
   register: PropTypes.func.isRequired,
-  watchValue: PropTypes.array,
 }
 
-const Author = ({
-  data,
-  control,
-  number = 0,
-  remove,
-  register,
-  errors,
-  watchValue,
-}) => (
-  <div className="px-10 py-6 my-5 bg-gray-100 rounded-md shadow-md">
-    <Title2 className="mb-4">
-      {number + 1 + suffix(number + 1)} auteur
-      {number > 0 && (
-        <div className="inline-block float-right text-sm">
-          <OutlineButton
-            color="red"
-            onClick={remove}
-            tabIndex="0"
-            type="button"
+const Author = ({ data, control, number = 0, remove, register, errors }) => {
+  const type = useWatch({
+    control,
+    name: `authors[${number}].type`,
+  })
+
+  const discernmentTroublesIsPresent = useWatch({
+    control,
+    name: `authors[${number}].discernmentTroublesIsPresent`,
+  })
+
+  return (
+    <div className="px-10 py-6 my-5 bg-gray-100 rounded-md shadow-md">
+      <Title2 className="mb-4">
+        {number + 1 + suffix(number + 1)} auteur
+        {number > 0 && (
+          <div className="inline-block float-right text-sm">
+            <OutlineButton
+              color="red"
+              onClick={remove}
+              tabIndex="0"
+              type="button"
+            >
+              <span className="align-middle">Effacer&nbsp;X</span>
+            </OutlineButton>
+          </div>
+        )}
+      </Title2>
+
+      <b>Profil</b>
+
+      <div className="flex space-x-6">
+        <div className="flex-1">
+          <label
+            className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+            htmlFor={`authors[${number}].type`}
           >
-            <span className="align-middle">Effacer&nbsp;X</span>
-          </OutlineButton>
+            &nbsp;
+          </label>
+
+          <Controller
+            as={Select}
+            control={control}
+            name={`authors[${number}].type`}
+            id={`authors[${number}].type`}
+            instanceId={`authors[${number}].type`}
+            options={authorProfileOptions}
+            placeholder="Choisir..."
+            isClearable={true}
+            styles={customStyles}
+            defaultValue={data?.type || null}
+            noOptionsMessage={() => "Aucun élément"}
+            aria-invalid={!!errors?.authors?.[number]?.type?.message}
+          />
+
+          <InputError error={errors?.authors?.[number]?.type?.message} />
         </div>
-      )}
-    </Title2>
-
-    <b>Profil</b>
-
-    <div className="flex space-x-6">
-      <div className="flex-1">
-        <label
-          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-          htmlFor={`authors[${number}].type`}
-        >
-          &nbsp;
-        </label>
-
-        <Controller
-          as={Select}
-          control={control}
-          name={`authors[${number}].type`}
-          id={`authors[${number}].type`}
-          instanceId={`authors[${number}].type`}
-          options={authorProfileOptions}
-          placeholder="Choisir..."
-          isClearable={true}
-          styles={customStyles}
-          defaultValue={data?.type || null}
-          noOptionsMessage={() => "Aucun élément"}
-          aria-invalid={!!errors?.authors?.[number]?.type?.message}
-        />
-
-        <InputError error={errors?.authors?.[number]?.type?.message} />
-      </div>
-      <div className="flex-1">
-        <label
-          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-          htmlFor={`authors[${number}].gender`}
-        >
-          de genre
-        </label>
-        <Controller
-          as={Select}
-          control={control}
-          name={`authors[${number}].gender`}
-          id={`authors[${number}].gender`}
-          instanceId={`authors[${number}].gender`}
-          options={genderOptions}
-          placeholder="Choisir..."
-          isClearable={true}
-          styles={customStyles}
-          defaultValue={data?.gender || null}
-          noOptionsMessage={() => "Aucun élément"}
-          aria-invalid={!!errors?.authors?.[number]?.gender?.message}
-        />
-
-        <InputError error={errors?.authors?.[number]?.gender?.message} />
-      </div>
-
-      <div className="flex-1">
-        <label
-          className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-          htmlFor={`authors[${number}].age`}
-        >
-          et âgé de
-        </label>
-        <Controller
-          as={Select}
-          control={control}
-          name={`authors[${number}].age`}
-          id={`authors[${number}].age`}
-          instanceId={`authors[${number}].age`}
-          options={ageOptions}
-          placeholder="Choisir..."
-          isClearable={true}
-          styles={customStyles}
-          defaultValue={data?.age || null}
-          noOptionsMessage={() => "Aucun élément"}
-          aria-invalid={!!errors?.authors?.[number]?.age?.message}
-        />
-
-        <InputError error={errors?.authors?.[number]?.age?.message} />
-      </div>
-    </div>
-
-    <div className="mt-12">
-      <div className="flex">
-        <b className="mr-8">Altération du discernement</b>
-
-        <div className="inline-flex flex-row items-end space-x-8">
-          <RadioInput
-            name={`authors[${number}].discernmentTroublesIsPresent`}
-            value="Oui"
-            register={register()}
+        <div className="flex-1">
+          <label
+            className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+            htmlFor={`authors[${number}].gender`}
+          >
+            de genre
+          </label>
+          <Controller
+            as={Select}
+            control={control}
+            name={`authors[${number}].gender`}
+            id={`authors[${number}].gender`}
+            instanceId={`authors[${number}].gender`}
+            options={genderOptions}
+            placeholder="Choisir..."
+            isClearable={true}
+            styles={customStyles}
+            defaultValue={data?.gender || null}
+            noOptionsMessage={() => "Aucun élément"}
+            aria-invalid={!!errors?.authors?.[number]?.gender?.message}
           />
-          <RadioInput
-            name={`authors[${number}].discernmentTroublesIsPresent`}
-            value="Non"
-            register={register()}
+
+          <InputError error={errors?.authors?.[number]?.gender?.message} />
+        </div>
+
+        <div className="flex-1">
+          <label
+            className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
+            htmlFor={`authors[${number}].age`}
+          >
+            et âgé de
+          </label>
+          <Controller
+            as={Select}
+            control={control}
+            name={`authors[${number}].age`}
+            id={`authors[${number}].age`}
+            instanceId={`authors[${number}].age`}
+            options={ageOptions}
+            placeholder="Choisir..."
+            isClearable={true}
+            styles={customStyles}
+            defaultValue={data?.age || null}
+            noOptionsMessage={() => "Aucun élément"}
+            aria-invalid={!!errors?.authors?.[number]?.age?.message}
           />
+
+          <InputError error={errors?.authors?.[number]?.age?.message} />
         </div>
       </div>
 
-      <InputError
-        error={errors?.authors?.[number]?.discernmentTroublesIsPresent?.message}
-      />
+      {isHealthType(type?.value) && (
+        <div className="flex mt-6">
+          <div className="flex items-center flex-1 text-center">
+            <label
+              className="justify-center flex-1 text-xs font-medium text-gray-700 uppercase"
+              htmlFor={`authors[${number}].type`}
+            >
+              dont la profession est&nbsp;
+            </label>
+          </div>
+          <div className="flex-1">
+            <div className="">
+              <Controller
+                as={Select}
+                control={control}
+                name={`authors[${number}].healthJob`}
+                id={`authors[${number}].healthJob`}
+                instanceId={`authors[${number}].healthJob`}
+                options={healthJobOptions}
+                placeholder="Choisir..."
+                isClearable={true}
+                styles={customStyles}
+                defaultValue={data?.type || null}
+                noOptionsMessage={() => "Aucun élément"}
+                aria-invalid={!!errors?.authors?.[number]?.healthJob?.message}
+              />
 
-      {watchValue?.discernmentTroublesIsPresent === "Oui" && (
-        <>
-          <Options
-            name={`authors[${number}].discernmentTroubles`}
-            register={register()}
-          >
-            <Option value="Trouble psychique ou neuropsychique (TPN)" />
-            <Option value="Prise d’alcool" />
-            <Option value="Prise de produits stupéfiants" />
-            <Option value="Prise de médicaments" />
-            <Option value="Effet de l’anesthésie" />
-          </Options>
-
-          <InputError
-            error={errors?.authors?.[number]?.discernmentTroubles?.message}
-          />
-        </>
+              <InputError
+                error={errors?.authors?.[number]?.healthJob?.message}
+              />
+            </div>
+          </div>
+        </div>
       )}
+
+      <div className="mt-12">
+        <div className="flex">
+          <b className="mr-8">Altération du discernement</b>
+
+          <div className="inline-flex flex-row items-end space-x-8">
+            <RadioInput
+              name={`authors[${number}].discernmentTroublesIsPresent`}
+              value="Oui"
+              register={register()}
+            />
+            <RadioInput
+              name={`authors[${number}].discernmentTroublesIsPresent`}
+              value="Non"
+              register={register()}
+            />
+          </div>
+        </div>
+
+        <InputError
+          error={
+            errors?.authors?.[number]?.discernmentTroublesIsPresent?.message
+          }
+        />
+
+        {discernmentTroublesIsPresent === "Oui" && (
+          <>
+            <i className="text-gray-600">Plusieurs choix possibles</i>
+
+            <Options
+              name={`authors[${number}].discernmentTroubles`}
+              register={register()}
+            >
+              <Option value="Trouble psychique ou neuropsychique (TPN)" />
+              <Option value="Prise d’alcool" />
+              <Option value="Prise de produits stupéfiants" />
+              <Option value="Prise de médicaments" />
+              <Option value="Effet de l’anesthésie" />
+            </Options>
+
+            <InputError
+              error={errors?.authors?.[number]?.discernmentTroubles?.message}
+            />
+          </>
+        )}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 Author.propTypes = {
   control: PropTypes.object,
@@ -612,7 +661,6 @@ Author.propTypes = {
   number: PropTypes.number,
   register: PropTypes.func,
   remove: PropTypes.func,
-  watchValue: PropTypes.object,
 }
 
 const Step4Page = () => {
@@ -641,7 +689,6 @@ const Step4Page = () => {
   const watchPursuit = watch("pursuit")
   const watchThirdParty = watch("thirdParty")
   const watchThirdPartyIsPresent = watch("thirdPartyIsPresent")
-  const watchAuthors = watch("authors", state?.form?.authors || [{}])
 
   React.useEffect(() => {
     // Si le champ pursuit est rempli, c'est qu'on n'affiche pas la page pour la 1ère fois, i.e. tout doit être déplié
@@ -797,12 +844,7 @@ const Step4Page = () => {
               <Title1 className="mt-16">
                 Qui a été <b>auteur</b> de la violence ?
               </Title1>
-              <Authors
-                control={control}
-                register={register}
-                errors={errors}
-                watchValue={watchAuthors}
-              />
+              <Authors control={control} register={register} errors={errors} />
               {phase === 2 && (
                 <div className="flex justify-center w-full my-16 space-x-4">
                   <PrimaryButtton onClick={() => setPhase(3)}>
@@ -818,7 +860,7 @@ const Step4Page = () => {
               <Title1 className="mt-16">
                 {"D'autres personnes ont-elles été impliquées ?"}
               </Title1>
-              <Title2 className="flex mt-8 mb-4">
+              <Title2 className="flex mt-8 mb-2">
                 <span className="mr-8">Intervention de tiers</span>
                 <div className="inline-flex flex-row items-end space-x-8">
                   <RadioInput
@@ -838,6 +880,8 @@ const Step4Page = () => {
 
               {watchThirdPartyIsPresent === "Oui" && (
                 <>
+                  <i className="text-gray-600">Plusieurs choix possibles</i>
+
                   <Options name="thirdParty" register={register}>
                     <Option value="Personnel hospitalier" />
                     <Option value="Service de sécurité-sûreté" />

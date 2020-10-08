@@ -13,6 +13,10 @@ import { toastConfig } from "../config"
 export const useEffectToast = (error) => {
   const { addToast } = useToasts()
 
+  if (error && Object.keys(error).length) {
+    console.error("Erreur", error)
+  }
+
   const message = error?.message ? (
     <>
       {error.message}{" "}

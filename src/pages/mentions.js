@@ -3,7 +3,23 @@ import React from "react"
 import { Layout } from "@/components/Layout"
 import { Title1, Title2 } from "@/components/lib"
 
+const debug = () => {
+  console.log(`NEXT_PUBLIC_SENTRY_DSN: ${process.env.NEXT_PUBLIC_SENTRY_DSN}`)
+  console.log(
+    `NEXT_PUBLIC_SENTRY_TOKEN: ${process.env.NEXT_PUBLIC_SENTRY_TOKEN}`,
+  )
+  console.log(`NEXT_PUBLIC_MATOMO_URL: ${process.env.NEXT_PUBLIC_MATOMO_URL}`)
+  console.log(
+    `NEXT_PUBLIC_MATOMO_SITE_ID: ${process.env.NEXT_PUBLIC_MATOMO_SITE_ID}`,
+  )
+  console.log(`DATABASE_URL: ${process.env.DATABASE_URL}`)
+  console.log(`TEST_CURRENT_DATE: ${process.env.TEST_CURRENT_DATE}`)
+}
+
 const MentionsPage = () => {
+  // To see values of build time variables (those in server.js are runtime variables et they can be not synchronized)
+  debug()
+
   return (
     <>
       <Layout>

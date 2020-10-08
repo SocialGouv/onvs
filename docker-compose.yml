@@ -1,4 +1,4 @@
-version: "3"
+version: "3.6"
 services:
   db:
     restart: always
@@ -19,9 +19,12 @@ services:
     restart: always
     build:
       context: .
+      shm_size: 512M
       # env vars are handled by the .env file at the root and with .dotenv in the code
     ports:
       - 80:3030
+    env_file:
+      - .env
 
 volumes:
   onvs-pgdata:
