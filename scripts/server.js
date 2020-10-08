@@ -45,6 +45,9 @@ app.prepare().then(() => {
         throw err
       }
       console.log("Debug -----------")
+      console.log(
+        "Run time variables (cf. index pour les build time variables)",
+      )
 
       console.log(`Package ${pack.name}: ${pack.version}`)
       console.log(`process.env.PORT: ${port}`)

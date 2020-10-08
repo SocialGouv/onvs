@@ -1,7 +1,6 @@
 import Cors from "micro-cors"
 
 import { create, find } from "@/services/declarations"
-import { stringifyError } from "@/utils/errors"
 
 const UNIQUE_VIOLATION_PG = "23505"
 
