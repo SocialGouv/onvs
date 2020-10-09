@@ -1,6 +1,2 @@
-import getConfig from "next/config"
-
-const { publicRuntimeConfig } = getConfig() || {}
-
-export const API_URL =
-  publicRuntimeConfig?.API_URL || "http://localhost:3030/api"
+// TODO: make it a function with context as argument, and return http://localhost in case of SSR
+export const API_URL = "/api"

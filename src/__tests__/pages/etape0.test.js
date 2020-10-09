@@ -16,6 +16,8 @@ const addToast = jest.fn()
 const action = jest.fn()
 const push = jest.fn()
 
+const originalConsoleError = console.error
+
 beforeAll(() => {
   /* eslint-disable no-import-assign*/
   reactToasts.useToasts = jest.fn()
@@ -31,6 +33,12 @@ beforeAll(() => {
   nextRouter.useRouter.mockImplementation(() => ({
     push,
   }))
+
+  console.error = jest.fn()
+})
+
+afterAll(() => {
+  console.error = originalConsoleError
 })
 
 beforeEach(() => {
