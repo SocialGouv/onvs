@@ -31,11 +31,17 @@ Then, on the host machine, the db is exposed on port 5435 and the app is accessi
 
 You need to set `process.env` variables.
 
-[Untitled](https://www.notion.so/a05e88b680f24095aa6b4336d32a06ab)
+- PORT port to run the server on
+- DATABASE_URL URL of Postgres DB
+- POSTGRES_SSL true if the database uses a db URL with https
+- SENTRY_DSN DSN of your sentry project
+- SENTRY_TOKEN token to allow sourcemaps
+- MATOMO_URL URL to your piwik instance
+- MATOMO_SITE_ID site id on piwik instance
 
 The easiest solution to set the variables, is to populate the `.env` file at root of the project. See the `.env.sample`file for example of this.
 
-The API is also provided by this app. For example, of the frontend stage environment is `https://onvs-dev.fabrique.social.gouv.fr`, the api part is `https://onvs-dev.fabrique.social.gouv.fr/api`.
+The API is also provided by this product. For example, of the frontend stage environment is `https://onvs-dev.fabrique.social.gouv.fr`, the api part is `https://onvs-dev.fabrique.social.gouv.fr/api`.
 
 ### 👩‍🍳 Local development
 
