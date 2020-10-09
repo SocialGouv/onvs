@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/SocialGouv/onvs/compare/v2.1.1...v2.1.2) (2020-10-09)
+
+
+### Bug Fixes
+
+* add missing healthz.js, necessary for k8s probe ([b669923](https://github.com/SocialGouv/onvs/commit/b669923e59f0b94335930e266ceb84d765dcb126))
+
 ## [2.1.1](https://github.com/SocialGouv/onvs/compare/v2.1.0...v2.1.1) (2020-10-09)
 
 
