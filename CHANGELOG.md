@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/SocialGouv/onvs/compare/v2.1.0...v2.1.1) (2020-10-09)
+
+
+### Bug Fixes
+
+* test for release and gitlab deployment ([a6f051a](https://github.com/SocialGouv/onvs/commit/a6f051a7b18a9238bf25fbc2a1321d5f3ad3ffda))
+
 # [2.1.0](https://github.com/SocialGouv/onvs/compare/v2.0.6...v2.1.0) (2020-10-01)
 
 
