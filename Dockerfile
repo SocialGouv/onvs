@@ -11,7 +11,7 @@ COPY scripts/ ./scripts/
 COPY src/lib/ ./src/lib/
 COPY src/knex/ ./src/knex/
 COPY .next/ ./.next
-COPY public/ ./
+COPY public/ ./public/
 
 USER node
 
