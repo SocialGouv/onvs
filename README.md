@@ -85,3 +85,5 @@ docker-compose logs -f
 # To see only the app container
 docker-compose logs -f app
 ```
+
+In k8s environments, go to Rancher, select the pod and clic on View logs.
