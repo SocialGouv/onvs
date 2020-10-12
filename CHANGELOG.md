@@ -1,3 +1,10 @@
+## [2.1.3](https://github.com/SocialGouv/onvs/compare/v2.1.2...v2.1.3) (2020-10-12)
+
+
+### Bug Fixes
+
+* **k8s:** preprod + prod secrets ([#69](https://github.com/SocialGouv/onvs/issues/69)) ([e185619](https://github.com/SocialGouv/onvs/commit/e185619283e8e085882bdce639747e9147235ff1))
+
 ## [2.1.2](https://github.com/SocialGouv/onvs/compare/v2.1.1...v2.1.2) (2020-10-09)
 
 
