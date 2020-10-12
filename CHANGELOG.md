@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/SocialGouv/onvs/compare/v2.1.3...v2.2.0) (2020-10-12)
+
+
+### Features
+
+* test knex migration behavior in k8s context ([#70](https://github.com/SocialGouv/onvs/issues/70)) ([cd56bf1](https://github.com/SocialGouv/onvs/commit/cd56bf14690c9511fddfb1334bdf77c9f6a74649))
+
 ## [2.1.3](https://github.com/SocialGouv/onvs/compare/v2.1.2...v2.1.3) (2020-10-12)
 
 
