@@ -1,3 +1,4 @@
+import { format, parse, parseISO } from "date-fns"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import PropTypes from "prop-types"
@@ -8,17 +9,30 @@ import { findDeclaration } from "@/clients/declarations"
 import { Layout } from "@/components/Layout"
 import { OutlineButton, Title1 } from "@/components/lib"
 import Spinner from "@/components/svg/spinner"
-import { stringifyError } from "@/utils/errors"
 
 const DatePart = ({ data }) => {
   return (
     <>
-      <Title1 className="mt-12 mb-8">
+      <Title1 className="mt-6 mb-4">
         <b>Date & lieu</b>
       </Title1>
       <p>
-        <span className="inline-block w-48 font-bold">Date</span>
-        {data.date}
+        <span className="inline-block w-48 font-bold">
+          Date de la déclaration
+        </span>
+        {format(parseISO(data.createdAt), "dd/MM/yyyy")}
+      </p>
+      <p>
+        <span className="inline-block w-48 font-bold">
+          Profession du déclarant
+        </span>
+        {data.job}
+      </p>
+      <p>
+        <span className="inline-block w-48 mt-4 font-bold">
+          {"Date de l'évènement"}
+        </span>
+        {format(parse(data.date, "yyyy-MM-dd", new Date()), "dd/MM/yyyy")}
       </p>
       <p>
         <span className="inline-block w-48 font-bold">Horaire</span>
@@ -45,7 +59,7 @@ const DatePart = ({ data }) => {
 const FactsPart = ({ data }) => {
   return (
     <>
-      <Title1 className="mt-12 mb-8">
+      <Title1 className="mt-6 mb-4">
         <b>Faits</b>
       </Title1>
       {data.factTypes?.includes("Atteinte aux personnes") && (
@@ -110,7 +124,7 @@ const FactsPart = ({ data }) => {
       )}
       {data.factTypes?.includes("Atteinte aux biens") && (
         <>
-          <span className="inline-block w-48 mt-8 font-bold">
+          <span className="inline-block w-48 font-bold">
             Atteinte aux biens
           </span>
 
@@ -151,9 +165,14 @@ const FactsPart = ({ data }) => {
 const ReasonsPart = ({ data }) => {
   return (
     <>
-      <Title1 className="mt-12 mb-8">
+      <Title1 className="mt-6 mb-4">
         <b>Motifs</b>
       </Title1>
+      {data.rNotApparent && (
+        <p>
+          <span className="inline-block w-48">Pas de motif apparent</span>
+        </p>
+      )}
       {!!data.rCausePatients?.length && (
         <p>
           <span className="inline-block w-48 font-bold">
@@ -222,8 +241,8 @@ const ReasonsPart = ({ data }) => {
 const VictimsAuthorsPart = ({ data }) => {
   return (
     <>
-      <Title1 className="mt-12 mb-8">
-        <b>Victimes</b>
+      <Title1 className="mb-4">
+        <b>Victimes & auteurs</b>
       </Title1>
 
       {data.victims?.map((victim, index) => (
@@ -233,7 +252,7 @@ const VictimsAuthorsPart = ({ data }) => {
               Victime #{index + 1}
             </span>
             {victim.type.label} de sexe {victim.gender.label} et âgé de{" "}
-            {victim.age.age}
+            {victim.age.label}
             {victim.healthJob && (
               <>&nbsp;dont la profession est {victim.healthJob.label}</>
             )}
@@ -274,7 +293,7 @@ const VictimsAuthorsPart = ({ data }) => {
               Auteur #{index + 1}
             </span>
             {author.type.label} de sexe {author.gender.label} et âgé de{" "}
-            {author.age.age}
+            {author.age.label}
             {author.healthJob && (
               <>&nbsp;dont la profession est {author.healthJob.label}</>
             )}
@@ -304,7 +323,7 @@ const VictimsAuthorsPart = ({ data }) => {
 const FinalPrecisionsPart = ({ data }) => {
   return (
     <>
-      <Title1 className="mt-12 mb-8">
+      <Title1 className="mt-6 mb-4">
         <b>Précisions</b>
       </Title1>
 
