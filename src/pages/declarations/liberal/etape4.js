@@ -48,7 +48,10 @@ const schema = yup.object({
         discernmentTroublesIsPresent: yup
           .string()
           .required("L'altération du discernement est à renseigner"),
-        gender: yup.object().nullable().required("Le genre est à renseigner"),
+        gender: yup
+          .object()
+          .nullable()
+          .required("Le champ sexe est à renseigner"),
         healthJob: yup
           .object()
           .nullable()
@@ -71,8 +74,8 @@ const schema = yup.object({
   pursuitPrecision: yup.string().when("pursuit", (pursuit, schema) => {
     return pursuit === "Autre"
       ? schema
-          .required("Le champ Autre poursuites judiciaires doit être précisé")
-          .min(1, "Le champ Autre poursuites judiciaires doit être précisé")
+          .required("Le champ Autre suites judiciaires doit être précisé")
+          .min(1, "Le champ Autre suites judiciaires doit être précisé")
       : yup.string().transform(() => "")
   }),
   thirdParty: yup
@@ -99,7 +102,10 @@ const schema = yup.object({
     .array(
       yup.object({
         age: yup.object().nullable().required("L'âge est à renseigner"),
-        gender: yup.object().nullable().required("Le genre est à renseigner"),
+        gender: yup
+          .object()
+          .nullable()
+          .required("Le champ sexe est à renseigner"),
         healthJob: yup
           .object()
           .nullable()
@@ -296,7 +302,7 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
             className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
             htmlFor={`victims[${number}].gender`}
           >
-            de genre
+            de sexe
           </label>
           <Controller
             as={Select}
@@ -524,7 +530,7 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
             className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
             htmlFor={`authors[${number}].gender`}
           >
-            de genre
+            de sexe
           </label>
           <Controller
             as={Select}
@@ -740,7 +746,7 @@ const Step4Page = () => {
           <>
             <Victims control={control} errors={errors} />
             <Title2 className="mt-12">
-              Y’a-t-il eu des poursuites judiciaires ?
+              Y’a-t-il eu des suites judiciaires ?
             </Title2>
             <div className="mt-4">
               <div className="block mt-3">

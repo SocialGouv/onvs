@@ -232,7 +232,7 @@ const VictimsAuthorsPart = ({ data }) => {
             <span className="inline-block w-48 font-bold">
               Victime #{index + 1}
             </span>
-            {victim.type.label} de genre {victim.gender.label} et âgé de{" "}
+            {victim.type.label} de sexe {victim.gender.label} et âgé de{" "}
             {victim.age.age}
             {victim.healthJob && (
               <>&nbsp;dont la profession est {victim.healthJob.label}</>
@@ -273,7 +273,7 @@ const VictimsAuthorsPart = ({ data }) => {
             <span className="inline-block w-48 font-bold">
               Auteur #{index + 1}
             </span>
-            {author.type.label} de genre {author.gender.label} et âgé de{" "}
+            {author.type.label} de sexe {author.gender.label} et âgé de{" "}
             {author.age.age}
             {author.healthJob && (
               <>&nbsp;dont la profession est {author.healthJob.label}</>
