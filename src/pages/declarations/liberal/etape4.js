@@ -65,19 +65,19 @@ const schema = yup.object({
     )
     .min(1, "Au moins un auteur est à renseigner")
     .required("Au moins un auteur est à renseigner"),
-  pursuit: yup.string(),
+  pursuit: yup.string().required("Les suites judiciaires sont à renseigner"),
   pursuitBy: yup.array(yup.string()).when("pursuit", (pursuit, schema) => {
     return pursuit === "Plainte"
       ? schema.required("Préciser qui a déposé la plainte")
       : schema
   }),
-  pursuitPrecision: yup.string().when("pursuit", (pursuit, schema) => {
-    return pursuit === "Autre"
-      ? schema
-          .required("Le champ Autre suites judiciaires doit être précisé")
-          .min(1, "Le champ Autre suites judiciaires doit être précisé")
-      : yup.string().transform(() => "")
-  }),
+  // pursuitPrecision: yup.string().when("pursuit", (pursuit, schema) => {
+  //   return pursuit === "Autre"
+  //     ? schema
+  //         .required("Le champ Autre suites judiciaires doit être précisé")
+  //         .min(1, "Le champ Autre suites judiciaires doit être précisé")
+  //     : yup.string().transform(() => "")
+  // }),
   thirdParty: yup
     .array(yup.string())
     .when("thirdPartyIsPresent", (thirdPartyIsPresent, schema) => {
@@ -759,7 +759,6 @@ const Step4Page = () => {
                         name="pursuit"
                         value="Non"
                         ref={register}
-                        defaultChecked
                       />
                       <span className="ml-2">Non</span>
                     </label>
@@ -788,7 +787,7 @@ const Step4Page = () => {
                       <span className="ml-2">Plainte</span>
                     </label>
                   </div>
-                  <div>
+                  {/* <div>
                     <label className="inline-flex items-center">
                       <input
                         type="radio"
@@ -819,7 +818,7 @@ const Step4Page = () => {
                         }
                       />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {watchPursuit === "Plainte" && (

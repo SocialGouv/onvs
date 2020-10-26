@@ -256,13 +256,13 @@ const VictimsAuthorsPart = ({ data }) => {
       ))}
       {data.pursuit && (
         <p>
-          <span className="inline-block w-48 ">Poursuites judiciaires</span>
+          <span className="inline-block w-48 ">Suites judiciaires</span>
           {data.pursuit}
         </p>
       )}
       {!!data.pursuitBy.length && (
         <p>
-          <span className="inline-block w-48 ">Poursuites par</span>
+          <span className="inline-block w-48 ">Par</span>
           {data.pursuitBy.join(", ")}
         </p>
       )}
