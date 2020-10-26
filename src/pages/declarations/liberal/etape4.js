@@ -95,6 +95,11 @@ const schema = yup.object({
       ? schema
           .required("Le champ Autre tiers doit être précisé")
           .min(1, "Le champ Autre tiers doit être précisé")
+          .max(
+            255,
+            ({ max }) =>
+              `Le champ Autre tiers ne doit pas dépasser ${max} caractères`,
+          )
       : schema.transform(() => "")
   }),
 

@@ -30,6 +30,11 @@ const schema = yup.object({
       ? schema
           .required("Le champ Autre doit être précisé")
           .min(1, "Le champ Autre doit être précisé")
+          .max(
+            255,
+            ({ max }) =>
+              `Le champ Autre ne doit pas dépasser ${max} caractères`,
+          )
       : yup
           .string()
           .nullable(true)

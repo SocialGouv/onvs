@@ -55,7 +55,14 @@ const schema = yup.object().shape({
   location: yup.string().required("Le lieu est à renseigner"),
   otherLocation: yup.string().when("location", {
     is: "Autre",
-    then: yup.string().required('Le champ "Autre lieu" doit être précisé'),
+    then: yup
+      .string()
+      .required('Le champ "Autre lieu" doit être précisé')
+      .max(
+        255,
+        ({ max }) =>
+          `Le champ "Autre lieu" ne doit pas dépasser ${max} caractères`,
+      ),
   }),
   town: yup.string().required("La ville est à renseigner"),
 })
