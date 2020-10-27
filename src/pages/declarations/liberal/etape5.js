@@ -120,7 +120,7 @@ const Step5Page = () => {
             </i>
 
             <textarea
-              className={`w-full h-24 mt-8 form-textarea ${
+              className={`w-full mt-8 form-textarea ${
                 errors?.description?.message
                   ? "border-red-500"
                   : "border-blue-400"
@@ -128,6 +128,7 @@ const Step5Page = () => {
               placeholder="Description de l’événement en ajoutant, si besoin, votre ressenti et le contexte."
               name="description"
               ref={register}
+              style={{ height: "300px" }}
             />
 
             <Title2 className="mt-10">

@@ -11,6 +11,7 @@ const validate = (schema, entityName = "") => async (model) => {
     return value
   } catch (error) {
     console.error(error)
+    console.error("Modèle JS : ", model)
     throw new Error(
       `Données invalides ${entityName ? ` (${entityName} modèle)` : ""}`,
     )

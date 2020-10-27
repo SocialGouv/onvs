@@ -5,6 +5,7 @@ import * as common from "./common"
 // Mapping keys from JS model to DB model
 const mappingJStoDB = {
   authors: "authors",
+  createdAt: "created_at",
   date: "date",
   declarantContactAgreement: "declarant_contact_agreement",
   declarantEmail: "declarant_email",
@@ -64,11 +65,12 @@ const yupJson = yup
   .string()
   .transform((_, originalValue) => JSON.stringify(originalValue))
 
-// TODO ajouter les valeurs possibles pour prévoir le cas des éditteurs qui appellent l'API
+// TODO ajouter les valeurs possibles pour prévoir le cas des éditeurs qui appellent l'API
 // ex: declarantContactAgreement = Oui ou Non
 // declarantExternalId = 9 ou 11 chiffres, etc..
 const schemaJS = yup.object({
   authors: yupJson,
+  createdAt: yup.string(),
   date: yup.string().required(), // date
   declarantContactAgreement: yup.string(), // Oui ou Non
   declarantEmail: yup.string(),
