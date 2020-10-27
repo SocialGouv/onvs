@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/SocialGouv/onvs/compare/v2.2.1...v2.2.2) (2020-10-27)
+
+
+### Bug Fixes
+
+* bug on description field when description is superior to 255 characters ([#75](https://github.com/SocialGouv/onvs/issues/75)) ([dad5e3e](https://github.com/SocialGouv/onvs/commit/dad5e3e70d5c943a3b56baeeebb65b34b113943d))
+
 ## [2.2.1](https://github.com/SocialGouv/onvs/compare/v2.2.0...v2.2.1) (2020-10-12)
 
 
