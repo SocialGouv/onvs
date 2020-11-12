@@ -19,7 +19,7 @@ const Footer = () => {
         </div>
         <div>
           <Link href="/apropos">
-            <a>Qui somme-nous ?</a>
+            <a>Qui sommes-nous ?</a>
           </Link>
         </div>
         <div>
