@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/SocialGouv/onvs/compare/v2.2.2...v2.3.0) (2020-11-12)
+
+
+### Features
+
+* **mentions:** new content for mentions page ([#84](https://github.com/SocialGouv/onvs/issues/84)) ([f602e4e](https://github.com/SocialGouv/onvs/commit/f602e4e2d331754368670c3f6a3c45a3d7e3d5f9))
+
 ## [2.2.2](https://github.com/SocialGouv/onvs/compare/v2.2.1...v2.2.2) (2020-10-27)
 
 
