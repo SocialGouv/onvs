@@ -33,7 +33,7 @@
     "knex": "^0.21.8",
     "little-state-machine": "^3.1.2",
     "micro-cors": "^0.1.1",
-    "next": "^9.5.5",
+    "next": "^10.0.3",
     "next-compose-plugins": "^2.2.0",
     "next-transpile-modules": "^4.0.2",
     "pg": "^8.3.3",
