@@ -1,12 +1,1 @@
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: app-configmap
-data:
-  NODE_ENV: "production"
-  PORT: "3000"
-  NEXT_PUBLIC_SENTRY_TOKEN: "toto"
-  NEXT_PUBLIC_SENTRY_DSN: "https://e70207cd7a2c4ecdb99849c212a964bf@sentry.fabrique.social.gouv.fr/40"
-  NEXT_PUBLIC_MATOMO_URL: "https://matomo.fabrique.social.gouv.fr/"
-  NEXT_PUBLIC_MATOMO_SITE_ID: "25"
-  POSTGRES_SSL: "true"
+../dev/app.configmap.yaml
