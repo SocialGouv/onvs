@@ -25,6 +25,11 @@ services:
       - 80:3030
     env_file:
       - .env
-
+  smtp:
+    restart: always
+    image: jijiechen/papercut:latest
+    ports:
+      - "25:25"
+      - "37408:37408"
 volumes:
   onvs-pgdata:

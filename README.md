@@ -19,7 +19,7 @@ First, install git, yarn, docker, docker-compose (you can use brew if you are on
 
 Then, run the containers with docker-compose.
 
-```
+```shell script
 docker-compose up --build -d
 ```
 
@@ -38,6 +38,14 @@ You need to set `process.env` variables.
 - SENTRY_TOKEN token to allow sourcemaps
 - MATOMO_URL URL to your piwik instance
 - MATOMO_SITE_ID site id on piwik instance
+- MAIL_HOST Mailing server config
+- MAIL_PORT
+- MAIL_USERNAME
+- MAIL_PASSWORD
+- MAIL_USE_TLS defaults to true
+- MAIL_FROM email sender
+- MAIL_TO email recipients as a comma separated string
+- REPORT_EMAIL_CRON the cron-like configuration for email reporting
 
 The easiest solution to set the variables, is to populate the `.env` file at root of the project. See the `.env.sample`file for example of this.
 
@@ -49,7 +57,7 @@ The developers can benefit of the hot reload provided by Next.js. for an improve
 
 In this case, just configure a db URL in your `.env` file, then
 
-```
+```shell script
 yarn install
 yarn dev
 ```
@@ -58,7 +66,7 @@ You can use the db container inside the docker-compose.yml. In this case, the DA
 
 One step further, if you want to getting close to the production build, you can use
 
-```jsx
+```shell script
 yarn install
 yarn build
 yarn start
@@ -70,7 +78,7 @@ Then, go to the app at [http://localhost:3030/](http://localhost:3030/).
 
 There is some Jest tests, which can be run with :
 
-```jsx
+```shell script
 yarn run test
 ```
 
@@ -78,7 +86,7 @@ yarn run test
 
 _How can I see the logs ?_
 
-```
+```shell script
 # To see the logs for the both containers
 docker-compose logs -f
 
@@ -87,3 +95,7 @@ docker-compose logs -f app
 ```
 
 In k8s environments, go to Rancher, select the pod and clic on View logs.
+
+### 📧 Debuging emails
+
+A fake SMTP server is setup in docker-compose file. It can be accessed at http://localhost:37408/. 

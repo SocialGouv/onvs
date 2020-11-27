@@ -1,5 +1,6 @@
 require("dotenv").config()
 
+require("../src/scheduler")
 const pack = require("../package.json")
 
 const next = require("next")
