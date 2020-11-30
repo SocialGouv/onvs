@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/SocialGouv/onvs/compare/v2.3.0...v2.4.0) (2020-11-30)
+
+
+### Features
+
+* add api endpoint to trigger email reporting ([#87](https://github.com/SocialGouv/onvs/issues/87)) ([e261287](https://github.com/SocialGouv/onvs/commit/e261287fb7c86685306fbdea09db26df5a540c02))
+
 # [2.3.0](https://github.com/SocialGouv/onvs/compare/v2.2.2...v2.3.0) (2020-11-12)
 
 
