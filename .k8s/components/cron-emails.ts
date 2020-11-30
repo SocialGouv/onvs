@@ -6,7 +6,7 @@ const manifests = []
 
 if (env.env === "prod") {
   const HOST = process.env.CI_ENVIRONMENT_URL
-
+  ok(HOST);
   const cronJob = new CronJob({
     metadata: {
       name: "onvs-email-alerts",
