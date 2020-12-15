@@ -8,6 +8,12 @@ dotenv.config()
 const METHODS = ["POST", "OPTIONS"]
 const token = process.env.MAIL_WEBHOOK_TOKEN
 
+const parseTokenFromHeader = (authorizationHeader) =>
+  authorizationHeader.split(/\s+/)[1]
+
+const getTokenFromHeaders = (headers) =>
+  headers.authorization ? parseTokenFromHeader(headers.authorization) : null
+
 const handler = async (req, res) => {
   if (!token) {
     return res.status(500).json({
@@ -15,10 +21,9 @@ const handler = async (req, res) => {
     })
   }
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.split(/\s+/)[1] !== token
-  ) {
+  const requestToken = getTokenFromHeaders(req.headers)
+
+  if (token !== requestToken) {
     return res.status(403).json({
       message: "Wrong token provided",
     })
