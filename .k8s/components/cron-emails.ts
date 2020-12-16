@@ -24,8 +24,11 @@ if (env.env === "prod") {
                   image: `curlimages/curl:7.73.0`,
                   command: [
                     "curl",
+                    "-X",
+                    "POST",
+                    "-I",
                     "-H",
-                    `Authorisation: Bearer $(MAIL_WEBHOOK_TOKEN)`,
+                    `Authorization: Bearer $(MAIL_WEBHOOK_TOKEN)`,
                     `${HOST}/api/send-report`,
                   ],
                   envFrom: [
