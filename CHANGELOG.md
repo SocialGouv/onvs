@@ -1,3 +1,10 @@
+## [2.4.2](https://github.com/SocialGouv/onvs/compare/v2.4.1...v2.4.2) (2020-12-16)
+
+
+### Bug Fixes
+
+* remove use tls parameter crashing production email config ([#89](https://github.com/SocialGouv/onvs/issues/89)) ([a843096](https://github.com/SocialGouv/onvs/commit/a843096701e69f0c8b4fc35ff86a87b89dc45d3f))
+
 ## [2.4.1](https://github.com/SocialGouv/onvs/compare/v2.4.0...v2.4.1) (2020-12-16)
 
 
