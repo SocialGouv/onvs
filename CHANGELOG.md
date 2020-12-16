@@ -1,3 +1,10 @@
+## [2.4.1](https://github.com/SocialGouv/onvs/compare/v2.4.0...v2.4.1) (2020-12-16)
+
+
+### Bug Fixes
+
+* fix security and cron job ([#88](https://github.com/SocialGouv/onvs/issues/88)) ([5b410cc](https://github.com/SocialGouv/onvs/commit/5b410ccd022a5e5c4b5aea609593c10291b59bd5))
+
 # [2.4.0](https://github.com/SocialGouv/onvs/compare/v2.3.0...v2.4.0) (2020-11-30)
 
 
