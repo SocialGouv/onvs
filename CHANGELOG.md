@@ -1,3 +1,10 @@
+## [2.4.3](https://github.com/SocialGouv/onvs/compare/v2.4.2...v2.4.3) (2020-12-17)
+
+
+### Bug Fixes
+
+* fix production emails not being delivered ([#90](https://github.com/SocialGouv/onvs/issues/90)) ([f81e4ab](https://github.com/SocialGouv/onvs/commit/f81e4abfb94b42bdf73d27be4099bcc20cb1ae29))
+
 ## [2.4.2](https://github.com/SocialGouv/onvs/compare/v2.4.1...v2.4.2) (2020-12-16)
 
 
