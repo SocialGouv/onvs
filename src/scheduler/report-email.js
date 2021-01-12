@@ -1,4 +1,5 @@
 import { format } from "date-fns"
+import { compose, groupBy, join, map, toPairs } from "lodash/fp"
 import ObjectsToCsv from "objects-to-csv"
 
 import { sendReportEmail } from "@/services/email"
@@ -18,14 +19,33 @@ const makeCsvAttachment = (csv) => [
 
 const formatDate = (date) => format(date, "dd/MM/yyyy")
 
-const makeEmailContent = (startDate) =>
+const makeEmailContent = (startDate, declarations) =>
   `Voici les déclarations de violences du ${formatDate(
     startDate,
   )} au ${formatDate(
     new Date(),
   )}. Vous pouvez en prendre connaissance et les envoyer aux ordres concernés.
+  
+${makeDeclarationList(declarations)}
 
 Ceci est un mail automatique, merci de ne pas y répondre.`
+
+const getDeclarationLink = (declaration) =>
+  `https://onvs.fabrique.social.gouv.fr/declarations/${declaration.id}`
+
+const getDeclarationLinkTextsFromDeclarations = (declarations) =>
+  declarations.map(getDeclarationLink).join("\n")
+
+const makeJobDeclarationList = (job, declarations) => `${job} :
+${getDeclarationLinkTextsFromDeclarations(declarations)}
+`
+
+const makeDeclarationList = compose(
+  join("\n"),
+  map(([job, declarations]) => makeJobDeclarationList(job, declarations)),
+  toPairs,
+  groupBy("job"),
+)
 
 export const sendReportEmailTask = async () => {
   const latestReportDate = await getLatestReportDate()
@@ -38,14 +58,13 @@ export const sendReportEmailTask = async () => {
 
   const csv = await new ObjectsToCsv(
     declarations.map((declaration) => ({
-      link:
-        "https://onvs.fabrique.social.gouv.fr/declarations/" + declaration.id,
+      link: getDeclarationLink(declaration),
       ...declaration,
     })),
   ).toString()
 
   const csvAttachment = makeCsvAttachment(csv)
-  const content = makeEmailContent(latestReportDate)
+  const content = makeEmailContent(latestReportDate, declarations)
 
   try {
     await sendReportEmail("Rapport hebdomadaire ONVS", content, csvAttachment)
