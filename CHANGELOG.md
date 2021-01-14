@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/SocialGouv/onvs/compare/v2.4.3...v2.5.0) (2021-01-14)
+
+
+### Features
+
+* add declarations list to report email ([#91](https://github.com/SocialGouv/onvs/issues/91)) ([ea1570d](https://github.com/SocialGouv/onvs/commit/ea1570d1dc0eac3baa7b700c1a0f325e1c5210ad))
+
 ## [2.4.3](https://github.com/SocialGouv/onvs/compare/v2.4.2...v2.4.3) (2020-12-17)
 
 
