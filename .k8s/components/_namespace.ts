@@ -1,5 +1,5 @@
-import { createNamespace } from "@socialgouv/kosko-charts/utils/createNamespace";
+import { createNamespace } from "@socialgouv/kosko-charts/components/namespace"
 
-const manifests = createNamespace();
+const manifests = createNamespace()
 
-export default manifests;
+export default manifests
