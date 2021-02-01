@@ -1,0 +1,26 @@
+name: ONVS
+homepage: https://onvs.fabrique.social.gouv.fr
+
+# List your code repos
+repositories:
+  onvs: https://github.com/SocialGouv/onvs
+
+# List all docs links
+documentation:
+
+
+# List all the tools used by the team
+tools:
+  sentry: https://sentry.fabrique.social.gouv.fr/incubateur/onvs
+  matomo: https://matomo.fabrique.social.gouv.fr
+
+# Overall technical stack
+stack:
+  frontend:
+    - NextJS
+  api:
+    - NextJS
+    - PostgreSQL
+    - knex
+  ci:
+    - Gitlab-ci
