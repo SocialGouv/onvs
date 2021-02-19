@@ -99,3 +99,15 @@ In k8s environments, go to Rancher, select the pod and clic on View logs.
 ### 📧 Debuging emails
 
 A fake SMTP server is setup in docker-compose file. It can be accessed at http://localhost:37408/. 
+
+### Updating email adresses
+
+Email adresses are stored in k8s sealed secrets. To update them, you need to generate the key using theses commands :
+
+```
+# Dev/Preprod
+sre-seal MAIL_TO=email1@email.com,email2@email.com
+
+# Prod
+sre-seal --namespace onvs --name app-sealed-secret --context prod2 MAIL_TO=email1@email.com,email2@email.com
+```
