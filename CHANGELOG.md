@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/SocialGouv/onvs/compare/v2.5.0...v2.6.0) (2021-02-19)
+
+
+### Features
+
+* trigger release ([3e3da98](https://github.com/SocialGouv/onvs/commit/3e3da9831fb884b20cba71673bf0c6a1b850bef0))
+
 # [2.5.0](https://github.com/SocialGouv/onvs/compare/v2.4.3...v2.5.0) (2021-01-14)
 
 
