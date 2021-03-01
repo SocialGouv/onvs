@@ -53,8 +53,8 @@
     "yup": "^0.29.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^9.1.2",
-    "@commitlint/config-conventional": "^9.1.2",
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
     "@hookform/devtools": "^2.0.5",
     "@socialgouv/eslint-config-react": "^1.33.0",
     "@socialgouv/eslint-config-recommended": "^1.33.0",
