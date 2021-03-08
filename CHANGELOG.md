@@ -1,3 +1,10 @@
+## [2.6.2](https://github.com/SocialGouv/onvs/compare/v2.6.1...v2.6.2) (2021-03-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency knex to ^0.21.19 ([#102](https://github.com/SocialGouv/onvs/issues/102)) ([d7f1d20](https://github.com/SocialGouv/onvs/commit/d7f1d20129b757671d65ebd15c40f9df5bfe0091))
+
 ## [2.6.1](https://github.com/SocialGouv/onvs/compare/v2.6.0...v2.6.1) (2021-02-22)
 
 
