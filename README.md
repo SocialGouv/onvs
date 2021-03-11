@@ -61,22 +61,21 @@ The `docker-compose` has a db container which runs a Postgres instance.
 
 To run this db container (and not the app): `docker-compose up --build -d db`
 
-
 Next, the first time, you need to build a database.
 
-1. Connect to postgres instance
+1.  Connect to postgres instance
 
 ```shell
 psql postgres://user:password@localhost:5435
 ```
 
-2. Create the new user onvs
+2.  Create the new user onvs
 
 ```sql
 create user onvs with encrypted password 'hmpHQCK7qG6^Lk5M'; # change the password with whatever you want
 ```
 
-3. Create the database onvs
+3.  Create the database onvs
 
 ```sql
 create database onvs with owner onvs encoding 'UTF8';
@@ -84,19 +83,19 @@ create database onvs with owner onvs encoding 'UTF8';
 
 Now you have a database and a user to administer it.
 
-4. Add in `.env` the variable DATABASE_URL with the correponding connection string
+4.  Add in `.env` the variable DATABASE_URL with the correponding connection string
 
 ```.env
 DATABASE_URL=psql://onvs:hmpHQCK7qG6^Lk5M@localhost:5435/onvs
 ```
 
-4. Now build the tables of the onvs db
+5.  Now build the tables of the onvs db
 
 ```shell
 yarn migrate:latest
 ```
 
-5. And a minimal set of data (not yet implemented)
+6.  And a minimal set of data (not yet implemented)
 
 ```shell
 yarn seed:run:dev
@@ -122,7 +121,6 @@ yarn install
 yarn build
 yarn start
 ```
-
 
 ### 🏋️‍♂️ Run the tests
 
