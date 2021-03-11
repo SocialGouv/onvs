@@ -3,66 +3,81 @@ import * as stateMachine from "little-state-machine"
 import * as nextRouter from "next/router"
 import React from "react"
 import selectEvent from "react-select-event"
-import * as reactToasts from "react-toast-notifications"
 
-import { useScrollTop } from "@/hooks/useScrollTop"
+import * as mockToast from "../../hooks/useEffectToast"
+import * as mockScrollTop from "@/hooks/useScrollTop"
+
 import Step0Page from "@/pages/declarations/liberal/etape0"
+import { mockRouterImplementation } from "@/utils/test-utils"
 
-jest.mock("react-toast-notifications")
-jest.mock("@/hooks/useScrollTop")
-jest.mock("little-state-machine")
-
-const addToast = jest.fn()
-const action = jest.fn()
-const push = jest.fn()
-
-const originalConsoleError = console.error
+const push = jest.fn(() => Promise.resolve(true))
 
 beforeAll(() => {
-  /* eslint-disable no-import-assign*/
-  reactToasts.useToasts = jest.fn()
-
-  reactToasts.useToasts.mockImplementation(() => ({
-    addToast,
-  }))
-
-  stateMachine.useStateMachine = jest.fn()
-  stateMachine.useStateMachine.mockImplementation(() => ({ action }))
-
-  nextRouter.useRouter = jest.fn()
-  nextRouter.useRouter.mockImplementation(() => ({
-    push,
-  }))
-
-  console.error = jest.fn()
+  jest.spyOn(nextRouter, "useRouter")
+  jest.spyOn(mockToast, "useEffectToast")
+  jest.spyOn(stateMachine, "useStateMachine")
+  jest.spyOn(mockScrollTop, "useScrollTop")
+  jest.spyOn(window, "scrollTo")
 })
 
 afterAll(() => {
-  console.error = originalConsoleError
+  jest.restoreAllMocks()
 })
 
 beforeEach(() => {
+  mockToast.useEffectToast.mockReturnValue({ addToast: jest.fn() })
+
+  stateMachine.useStateMachine.mockReturnValue({ action: jest.fn(), state: {} })
+
+  nextRouter.useRouter.mockReturnValue({
+    ...mockRouterImplementation,
+    push,
+    query: {},
+  })
+
+  window.scrollTo = jest.fn()
+})
+
+afterEach(() => {
   jest.clearAllMocks()
 })
 
 test("should display an error when no job are chosen", async () => {
   render(<Step0Page />)
 
-  expect(useScrollTop).toHaveBeenCalled()
+  expect(mockScrollTop.useScrollTop).toHaveBeenCalled()
 
   fireEvent.click(screen.getByText(/Commencer/i))
 
   await screen.findByText(/La profession est à renseigner/i)
 
-  expect(addToast).toHaveBeenCalled()
+  expect(mockToast.useEffectToast.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {},
+      ],
+      Array [
+        Object {
+          "job": Object {
+            "message": "La profession est à renseigner",
+            "type": "required",
+          },
+        },
+      ],
+    ]
+  `)
 
-  expect(push).not.toHaveBeenCalled()
+  expect(push.mock).toMatchInlineSnapshot(`
+    Object {
+      "calls": Array [],
+      "instances": Array [],
+      "invocationCallOrder": Array [],
+      "results": Array [],
+    }
+  `)
 })
 
 test("it should go to etape1 if a job is correctly selected", async () => {
-  // to be sure that mocks are reset
-  expect(addToast).not.toHaveBeenCalled()
-
   render(<Step0Page />)
 
   await selectEvent.select(screen.getByLabelText("job"), ["Médecin"])
@@ -72,6 +87,4 @@ test("it should go to etape1 if a job is correctly selected", async () => {
   await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
 
   expect(push).toHaveBeenCalledWith("/declarations/liberal/etape1")
-
-  expect(addToast).not.toHaveBeenCalled()
 })

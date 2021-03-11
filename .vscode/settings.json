@@ -1,9 +1,8 @@
 {
-  "eslint.enable": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "workbench.colorCustomizations": {
     "statusBar.background": "#63ace5" // Change this color!
   }

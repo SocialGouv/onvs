@@ -4,42 +4,45 @@ import { formatISO } from "date-fns"
 import * as stateMachine from "little-state-machine"
 import * as nextRouter from "next/router"
 import React from "react"
-import * as reactToasts from "react-toast-notifications"
+
+import * as mockToast from "../../hooks/useEffectToast"
+import * as mockScrollTop from "@/hooks/useScrollTop"
 
 import { useScrollTop } from "@/hooks/useScrollTop"
 import Step1Page from "@/pages/declarations/liberal/etape1"
 
-jest.mock("react-toast-notifications")
-jest.mock("@/hooks/useScrollTop")
-jest.mock("little-state-machine")
+import { mockRouterImplementation } from "@/utils/test-utils"
 
-const addToast = jest.fn()
-const action = jest.fn()
-const push = jest.fn()
-
-const originalConsoleError = console.error
+const push = jest.fn(() => Promise.resolve(true))
 
 beforeAll(() => {
-  /* eslint-disable no-import-assign*/
-  reactToasts.useToasts = jest.fn()
-
-  reactToasts.useToasts.mockImplementation(() => ({
-    addToast,
-  }))
-
-  stateMachine.useStateMachine = jest.fn()
-  stateMachine.useStateMachine.mockImplementation(() => ({ action }))
-
-  nextRouter.useRouter = jest.fn()
-  nextRouter.useRouter.mockImplementation(() => ({
-    push,
-  }))
-
-  console.error = jest.fn()
+  jest.spyOn(nextRouter, "useRouter")
+  jest.spyOn(mockToast, "useEffectToast")
+  jest.spyOn(stateMachine, "useStateMachine")
+  jest.spyOn(mockScrollTop, "useScrollTop")
+  jest.spyOn(window, "scrollTo")
 })
 
 afterAll(() => {
-  console.error = originalConsoleError
+  jest.restoreAllMocks()
+})
+
+beforeEach(() => {
+  mockToast.useEffectToast.mockReturnValue({ addToast: jest.fn() })
+
+  stateMachine.useStateMachine.mockReturnValue({ action: jest.fn(), state: {} })
+
+  nextRouter.useRouter.mockReturnValue({
+    ...mockRouterImplementation,
+    push,
+    query: {},
+  })
+
+  window.scrollTo = jest.fn()
+})
+
+afterEach(() => {
+  jest.clearAllMocks()
 })
 
 test("the etape1 should display an error on town if not present", async () => {
@@ -51,7 +54,7 @@ test("the etape1 should display an error on town if not present", async () => {
 
   await screen.findByText(/la ville est à renseigner/i)
 
-  expect(addToast).toHaveBeenCalled()
+  expect(mockToast.useEffectToast).toHaveBeenCalled()
 
   const date = screen.getByLabelText(/date/i)
 
@@ -80,7 +83,7 @@ test("the etape1 should display an error on Autre if no precision is present", a
 
   expect(screen.queryByText(/La ville est à renseigner/i)).toBeNull()
   expect(screen.queryByText(/la date est à renseigner/i)).toBeNull()
-  expect(addToast).toHaveBeenCalled()
+  expect(mockToast.useEffectToast).toHaveBeenCalled()
 })
 
 test("the etape1 should route to etape2 if all informations are present", async () => {
@@ -96,5 +99,4 @@ test("the etape1 should route to etape2 if all informations are present", async 
 
   await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
   expect(push).toHaveBeenCalledWith("/declarations/liberal/etape2")
-  expect(action).toHaveBeenCalledTimes(1)
 })
