@@ -206,13 +206,22 @@ export const Options = ({
   color = "text-indigo-600",
   disabled = false,
   children,
+  allChecked = [],
 }) => {
   if (!children) return null
+
+  // TODO: gérer la liste des options cockés en tant que contexte plutôt que passer le paramètre allChecked
 
   // Iterate over children and set on them the factorized properties of their ancestor
   const expandedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, { color, disabled, name, register })
+      return React.cloneElement(child, {
+        allChecked,
+        color,
+        disabled,
+        name,
+        register,
+      })
     }
     return child // It should not happen.
   })
@@ -225,6 +234,7 @@ export const Options = ({
 }
 
 Options.propTypes = {
+  allChecked: PropTypes.arrayOf(PropTypes.string),
   children: PropTypes.node,
   color: PropTypes.string,
   disabled: PropTypes.bool,
@@ -233,6 +243,7 @@ Options.propTypes = {
   values: PropTypes.array,
 }
 
+//TODO: séparer les options checkbox et les options text (p. ex. defaultChecked ne fonctionne pas pour les inputs text)
 export const Option = ({
   disabled = false,
   color = "text-indigo-600",
@@ -245,7 +256,10 @@ export const Option = ({
   hidden,
   info,
   onChangePrecision,
+  allChecked,
 }) => {
+  const isChecked = allChecked.includes(value)
+
   return (
     <div className={hidden ? "hidden" : ""}>
       <label className="inline-flex items-center">
@@ -256,6 +270,7 @@ export const Option = ({
           value={value}
           ref={register}
           disabled={disabled}
+          defaultChecked={isChecked}
         />
         <span className={`ml-2 ${disabled ? "opacity-50" : ""}`}>
           {value}&nbsp;
@@ -294,6 +309,7 @@ export const Option = ({
 }
 
 Option.propTypes = {
+  allChecked: PropTypes.arrayOf(String),
   color: PropTypes.string,
   disabled: PropTypes.bool,
   error: PropTypes.string,
@@ -362,7 +378,7 @@ export const RadioInput = ({
       <label className="inline-flex items-center">
         <input
           type="radio"
-          className={`form-radio ${error && "border-red-500"}`}
+          className={`form-radio ${error ? "border-red-500" : ""}`}
           name={name}
           value={value}
           ref={register}
