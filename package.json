@@ -48,7 +48,7 @@
     "react-toast-notifications": "^2.4.3",
     "rough-notation": "^0.5.1",
     "sentry-testkit": "^3.2.4",
-    "swr": "^0.3.11",
+    "swr": "^0.5.2",
     "uuid": "^8.3.2",
     "yup": "^0.32.9"
   },
