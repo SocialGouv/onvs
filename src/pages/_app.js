@@ -1,9 +1,6 @@
-// import { DevTool } from "little-state-machine-devtools"
-//import "@socialgouv/bootstrap.core/dist/socialgouv-bootstrap.min.css"
 import "../styles/index.css"
 
 import * as Sentry from "@sentry/node"
-// import Nav from "../components/Nav"
 import { createStore, StateMachineProvider } from "little-state-machine"
 import App from "next/app"
 import Head from "next/head"
@@ -36,14 +33,10 @@ class MyApp extends App {
 
     return (
       <StateMachineProvider>
-        {/* <DevTool /> */}
-
         <ToastProvider>
           <Head>
             <title>ONVS</title>
           </Head>
-          {/* <Nav /> */}
-          {/* <div className="container min-h-screen px-4 mx-auto"> */}
           <div className="min-h-screen">
             <Component {...modifiedPageProps} />{" "}
           </div>

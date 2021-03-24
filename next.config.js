@@ -1,9 +1,10 @@
 const webpack = require("webpack")
 const withPlugins = require("next-compose-plugins")
 const withSourceMaps = require("@zeit/next-source-maps")
-const withTM = require("next-transpile-modules")([
-  "little-state-machine-devtools",
-])
+
+// const withTM = require("next-transpile-modules")([
+//   "little-state-machine-devtools",
+// ])
 
 const nextConfig = {
   env: {
@@ -31,4 +32,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withPlugins([[withSourceMaps], [withTM]], nextConfig)
+module.exports = withPlugins([[withSourceMaps]], nextConfig)
