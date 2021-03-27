@@ -23,3 +23,15 @@ export const renameKeys = (obj, mapping) =>
   )
 
 export const isEmpty = (object) => !Object.keys(object).length
+
+export function flatObject(object, keys) {
+  const res = keys.reduce((acc, key) => {
+    const props = object[key]
+    return {
+      ...acc,
+      ...props,
+    }
+  }, {})
+
+  return res
+}

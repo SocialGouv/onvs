@@ -1,5 +1,5 @@
-import { useStateMachine } from "little-state-machine"
-import React, { useEffect, useState } from "react"
+// import { useStateMachine } from "little-state-machine"
+import React, { useState } from "react"
 
 import AuthentCard from "@/components/AuthentCard"
 import Footer from "@/components/Footer"
@@ -7,15 +7,14 @@ import FreelanceCard from "@/components/FreelanceCard"
 import { HeroTitle } from "@/components/lib"
 import Modal from "@/components/Modal"
 import Wave from "@/components/svg/wave"
-import { resetFreelance } from "@/lib/pages/form"
 
 const IndexPage = () => {
-  const { action } = useStateMachine(resetFreelance)
+  // const { action } = useStateMachine(resetFreelance)
   const [openModal, setOpenModal] = useState(false)
 
-  useEffect(() => {
-    action()
-  }, [action])
+  // useEffect(() => {
+  //   action()
+  // }, [action])
 
   // const toggleModal = () => {
   //   setOpenModal((state) => !state)
