@@ -1,145 +1,59 @@
-import { yupResolver } from "@hookform/resolvers"
-import { StateMachineProvider, useStateMachine } from "little-state-machine"
+import { useStateMachine } from "little-state-machine"
+import { useRouter } from "next/router"
 import PropTypes from "prop-types"
 import React from "react"
-import { useForm } from "react-hook-form"
 
-import {
-  DeclarationPageContext,
-  useDeclarationForm,
-} from "@/hooks/useDeclarationContext"
-import { useEffectToast } from "@/hooks/useEffectToast"
+import { DeclarationPageContext } from "@/hooks/useDeclarationContext"
+import { getComponentForStep, getOrderedSteps } from "@/utils/stepFlows"
 
-import { OutlineButton, PrimaryButtton } from "../lib"
-import { formReducer } from "./state-machine"
+import { formReducer } from "./formReducer"
 
-const orderedSteps = [
-  { component: Step0, name: "job" },
-  { component: Step1, name: "dateLocation" },
-  { component: Step0, name: "facts" },
-  { component: Step0, name: "motives" },
-  { component: Step0, name: "precision" },
-  { component: Step0, name: "confirmation" },
-]
-
-function NavigationButtons({ goPrevious, onSubmit }) {
-  return (
-    <div className="flex justify-center w-full my-8 space-x-4">
-      <OutlineButton type="button" onClick={goPrevious}>
-        Retour
-      </OutlineButton>
-      <PrimaryButtton onClick={onSubmit}>Suivant</PrimaryButtton>
-    </div>
-  )
-}
-
-NavigationButtons.propTypes = {
-  goPrevious: PropTypes.func,
-  onSubmit: PropTypes.func,
-}
-
-function Step0() {
-  // profession
-  const { state, onSubmit, step, goPrevious } = useDeclarationForm()
-  const { errors, handleSubmit, register } = useForm({
-    defaultValues: state?.steps?.job,
-    // resolver: yupResolver(schema),
-  })
-
-  // useEffectToast(errors)
-
-  return (
-    <>
-      <h1>Dans Step 0 : profession</h1>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-10/12 m-auto text-gray-900"
-      >
-        <label>
-          Nom profession
-          <input name="job" className="mx-2 form-input" ref={register} />
-        </label>
-
-        <NavigationButtons goPrevious={goPrevious} />
-      </form>
-    </>
-  )
-}
-
-// export const resetFreelance = reset("libéral")
-// export const resetETS = reset("ETS")
-
-function Step1() {
-  // profession
-  const { state, onSubmit, step, goPrevious } = useDeclarationForm()
-  const { errors, handleSubmit, register } = useForm({
-    defaultValues: state?.dateLocation,
-    // resolver: yupResolver(schema),
-  })
-
-  // useEffectToast(errors)
-
-  return (
-    <>
-      <h1>Dans Step 1 : Date & lieu</h1>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-10/12 m-auto text-gray-900"
-      >
-        <label>
-          Ville
-          <input name="job" className="mx-2 form-input" ref={register} />
-        </label>
-
-        <NavigationButtons goPrevious={goPrevious} />
-      </form>
-    </>
-  )
-}
-
-const getComponentForStep = (step) =>
-  orderedSteps.filter((elt) => elt.name === step).map((elt) => elt.component)[0]
-
-export function WizardForm() {
+export function WizardForm({ step, job, jobPrecision }) {
+  const router = useRouter()
+  const orderedSteps = getOrderedSteps({ job, jobPrecision })
   const { action, state } = useStateMachine(formReducer(orderedSteps))
-  console.log({ state })
 
-  const { currentStep = orderedSteps?.[0].name } = state
+  const DynamicComponent = getComponentForStep({ job, jobPrecision, step })
 
-  console.log({ currentStep })
-
-  const Component = getComponentForStep(currentStep)
-
-  console.log("component", Component)
+  const suffixUrl = `/${job}${jobPrecision ? `/${jobPrecision}` : ""}`
 
   function onSubmit(data) {
-    console.log({ data })
     const payload = {
       data,
       event: { name: "SUBMIT" },
-      step: currentStep,
+      step,
     }
     action(payload)
+
+    router.push(`/declaration/etape/${step + 1}${suffixUrl}`)
   }
 
   function goPrevious() {
-    action({
-      event: {
-        name: "PREVIOUS",
-      },
-    })
+    if (step === 0) {
+      reset()
+      return
+    }
+    router.push(`/declaration/etape/${Math.max(0, step - 1)}${suffixUrl}`)
+  }
+
+  function reset() {
+    action({ event: { name: "RESET" } })
+    router.push(`/`)
   }
 
   return (
-    <StateMachineProvider>
+    <>
       <DeclarationPageContext.Provider
-        value={{ goPrevious, onSubmit, state, step: currentStep }}
+        value={{ goPrevious, onSubmit, orderedSteps, state, step }}
       >
-        {/* <Component /> */}
+        <DynamicComponent key={step} />
       </DeclarationPageContext.Provider>
-      <PrimaryButtton onClick={() => action({ event: { name: "RESET" } })}>
-        Reset form
-      </PrimaryButtton>
-    </StateMachineProvider>
+    </>
   )
+}
+
+WizardForm.propTypes = {
+  job: PropTypes.string.isRequired,
+  jobPrecision: PropTypes.string,
+  step: PropTypes.number.isRequired,
 }

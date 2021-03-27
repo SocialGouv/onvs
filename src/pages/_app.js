@@ -13,9 +13,12 @@ Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 })
 
-createStore({
-  form: {},
-})
+function log(store) {
+  console.log("Form state in session storage", store)
+  return store
+}
+
+createStore({}, { middleWares: [log] })
 
 class MyApp extends App {
   componentDidMount() {
@@ -32,16 +35,18 @@ class MyApp extends App {
     const modifiedPageProps = { ...pageProps, err }
 
     return (
-      <StateMachineProvider>
-        <ToastProvider>
-          <Head>
-            <title>ONVS</title>
-          </Head>
-          <div className="min-h-screen">
-            <Component {...modifiedPageProps} />{" "}
-          </div>
-        </ToastProvider>
-      </StateMachineProvider>
+      <>
+        <Head>
+          <title>ONVS</title>
+        </Head>
+        <div className="min-h-screen">
+          <StateMachineProvider>
+            <ToastProvider>
+              <Component {...modifiedPageProps} />{" "}
+            </ToastProvider>
+          </StateMachineProvider>
+        </div>
+      </>
     )
   }
 }
