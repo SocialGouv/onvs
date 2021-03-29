@@ -24,7 +24,7 @@ const FormComponent = ({ onSubmit, children, title }) => {
   return (
     <Layout>
       <div className="max-w-4xl m-auto mb-8">
-        <Stepper step={step} />
+        <Stepper step={step} orderedSteps={orderedSteps} />
 
         <Title1 className="mt-4">{title}</Title1>
 

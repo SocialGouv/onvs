@@ -1,4 +1,5 @@
 module.exports = {
+  plugins: [require("@tailwindcss/forms")],
   purge: ["./src/components/**/*.js", "./src/pages/**/*.js"],
   theme: {
     extend: {},
@@ -8,5 +9,4 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [require("@tailwindcss/custom-forms")],
 }
