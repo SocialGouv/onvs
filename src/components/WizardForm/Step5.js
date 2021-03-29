@@ -4,7 +4,6 @@ import * as yup from "yup"
 
 import { InputError, Title2 } from "@/components/lib"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
-import { useEffectToast } from "@/hooks/useEffectToast"
 import { useScrollTop } from "@/hooks/useScrollTop"
 
 import FormComponent from "./FormComponent"
@@ -72,8 +71,6 @@ const Step5Page = () => {
 
     resolver: yupResolver(schema),
   })
-
-  useEffectToast(errors)
 
   const declarantContactAgreement = watch("declarantContactAgreement")
 

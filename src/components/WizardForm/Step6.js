@@ -13,7 +13,6 @@ const Confirmation = () => {
   const [warning, setWarning] = useState()
 
   useEffect(() => {
-    console.log("dans use effect")
     const create = async (declaration) => {
       try {
         await createDeclaration({

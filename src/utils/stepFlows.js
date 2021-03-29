@@ -4,33 +4,46 @@ import Step2 from "@/components/WizardForm/Step2"
 import Step3 from "@/components/WizardForm/Step3"
 import Step4 from "@/components/WizardForm/Step4"
 import Step5 from "@/components/WizardForm/Step5"
+import Step5Hospital from "@/components/WizardForm/Step5Hospital"
 import Step6 from "@/components/WizardForm/Step6"
 
-const genericOrderedSteps = [
+export const startFlowUrl = "/declaration/etape/0"
+
+export const firstStepUrl = (flow) =>
+  flow ? `${startFlowUrl}/${flow}` : startFlowUrl
+
+// The last step of all flows is supposed to be the confirmation page.
+// A step with no label, will not be present in the "breadcrumb"'s flow (see Stepper component).
+
+// default flow (for most liberal jobs)
+const defaultOrderedSteps = [
   { component: Step0, name: "job" },
-  { component: Step1, name: "dateLocation" },
-  { component: Step2, name: "facts" },
-  { component: Step3, name: "reasons" },
-  { component: Step4, name: "victimsAuthors" },
-  { component: Step5, name: "precision" },
+  { component: Step1, label: "Date et Lieu", name: "dateLocation" },
+  { component: Step2, label: "Faits", name: "facts" },
+  { component: Step3, label: "Motifs", name: "reasons" },
+  { component: Step4, label: "Victimes et Auteurs", name: "victimsAuthors" },
+  { component: Step5, label: "Précisions", name: "precision" },
   { component: Step6, name: "confirmation" },
 ]
 
-//orderedSteps.filter((elt) => elt.name === step).map((elt) => elt.component)[0]
-//TODO : make it dynamic with job and jobPrecision
-export const getComponentForStep = ({ step }) =>
-  genericOrderedSteps[step].component
+// flow for ETS
+const hostpitalOrderedSteps = [
+  { component: Step1, label: "Date et Lieu", name: "dateLocation" },
+  { component: Step2, label: "Faits", name: "facts" },
+  { component: Step3, label: "Motifs", name: "reasons" },
+  { component: Step4, label: "Victimes et Auteurs", name: "victimsAuthors" },
+  { component: Step5Hospital, label: "Précisions", name: "precision" },
+  { component: Step6, name: "confirmation" },
+]
 
-// const formsByJob = {
-//   "Pharmacien/Industrie": indusryPharmarcist,
-//   "Pharmacien/Officine": dispensaryPharmacist,
-
-//   default: generic,
-// }
-
-//TODO : make it dynamic with job and jobPrecision
-export function getOrderedSteps() {
-  //TODO faire l'aiguillage sur les formulaires spécifiques
-
-  return genericOrderedSteps
+// matching for specific flows
+const flows = {
+  ets: hostpitalOrderedSteps,
+  //   "Pharmacien/Industrie": indusryPharmarcist,
+  //   "Pharmacien/Officine": dispensaryPharmacist,
 }
+
+export const getComponentForStep = ({ step, job }) =>
+  flows[job]?.[step]?.component || defaultOrderedSteps[step].component
+
+export const getOrderedSteps = ({ job }) => flows[job] || defaultOrderedSteps
