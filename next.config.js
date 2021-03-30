@@ -2,10 +2,6 @@ const webpack = require("webpack")
 const withPlugins = require("next-compose-plugins")
 const withSourceMaps = require("@zeit/next-source-maps")
 
-// const withTM = require("next-transpile-modules")([
-//   "little-state-machine-devtools",
-// ])
-
 const withMDX = require("@next/mdx")({
   extension: /\.mdx?$/,
 })
@@ -13,6 +9,10 @@ const withMDX = require("@next/mdx")({
 const nextConfig = {
   env: {
     TEST_CURRENT_DATE: process.env.TEST_CURRENT_DATE,
+  },
+  future: {
+    strictPostcssConfiguration: true,
+    webpack5: true,
   },
   publicRuntimeConfig: {
     // Will be available on both server and client. Needs getInitialProps on page to be available
