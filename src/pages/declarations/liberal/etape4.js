@@ -28,6 +28,10 @@ import { update } from "@/lib/pages/form"
 const isHealthType = (type) =>
   ["Étudiant en santé", "Professionnel de santé"].includes(type)
 
+const pursuitOptions = ["Non", "Main courante", "Plainte"]
+
+const ouiNonOptions = ["Oui", "Non"]
+
 const schema = yup.object({
   authors: yup
     .array(
@@ -46,7 +50,8 @@ const schema = yup.object({
             },
           ),
         discernmentTroublesIsPresent: yup
-          .string()
+          .mixed()
+          .oneOf(ouiNonOptions, "L'altération du discernement est à renseigner")
           .required("L'altération du discernement est à renseigner"),
         gender: yup
           .object()
@@ -65,7 +70,10 @@ const schema = yup.object({
     )
     .min(1, "Au moins un auteur est à renseigner")
     .required("Au moins un auteur est à renseigner"),
-  pursuit: yup.string().required("Les suites judiciaires sont à renseigner"),
+  pursuit: yup
+    .mixed()
+    .oneOf(pursuitOptions, "Les suites judiciaires sont à renseigner")
+    .required("Les suites judiciaires sont à renseigner"),
   pursuitBy: yup.array(yup.string()).when("pursuit", (pursuit, schema) => {
     return pursuit === "Plainte"
       ? schema.required("Préciser qui a déposé la plainte")
@@ -88,7 +96,8 @@ const schema = yup.object({
         : schema.transform(() => [])
     }),
   thirdPartyIsPresent: yup
-    .string()
+    .mixed()
+    .oneOf(ouiNonOptions, "Veuillez préciser si un tiers est intervenu")
     .required("Veuillez préciser si un tiers est intervenu"),
   thirdPartyPrecision: yup.string().when("thirdParty", (thirdParty, schema) => {
     return thirdParty?.includes("Autre")
@@ -625,11 +634,13 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
               name={`authors[${number}].discernmentTroublesIsPresent`}
               value="Oui"
               register={register()}
+              defaultChecked={data?.discernmentTroublesIsPresent === "Oui"}
             />
             <RadioInput
               name={`authors[${number}].discernmentTroublesIsPresent`}
               value="Non"
               register={register()}
+              defaultChecked={data?.discernmentTroublesIsPresent === "Non"}
             />
           </div>
         </div>
@@ -647,6 +658,7 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
             <Options
               name={`authors[${number}].discernmentTroubles`}
               register={register()}
+              allChecked={data?.discernmentTroubles}
             >
               <Option value="Trouble psychique ou neuropsychique (TPN)" />
               <Option value="Prise d’alcool" />
@@ -756,74 +768,16 @@ const Step4Page = () => {
             <div className="mt-4">
               <div className="block mt-3">
                 <div className="mt-2 space-y-2">
-                  <div>
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        className="form-radio"
-                        name="pursuit"
-                        value="Non"
-                        ref={register}
-                      />
-                      <span className="ml-2">Non</span>
-                    </label>
-                  </div>
-                  <div>
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        className="form-radio"
-                        name="pursuit"
-                        value="Main courante"
-                        ref={register}
-                      />
-                      <span className="ml-2">Main courante</span>
-                    </label>
-                  </div>
-                  <div>
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        className="form-radio"
-                        name="pursuit"
-                        value="Plainte"
-                        ref={register}
-                      />
-                      <span className="ml-2">Plainte</span>
-                    </label>
-                  </div>
-                  {/* <div>
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        className="form-radio"
-                        name="pursuit"
-                        value="Autre"
-                        ref={register}
-                      />
-                      <span className="ml-2">Autre</span>
-                    </label>
-                    <div
-                      className={`inline-block py-2 border-b-2  ${
-                        errors?.pursuitPrecision?.message
-                          ? "border-red-500"
-                          : "border-blue-400"
-                      }`}
-                    >
-                      <input
-                        className={`px-2 mr-3 leading-tight bg-transparent border-none focus:outline-none`}
-                        type="text"
-                        id="pursuitPrecision"
-                        name="pursuitPrecision"
-                        placeholder="Ajouter un lieu"
-                        onChange={() => setValue("pursuit", "Autre")}
-                        ref={register}
-                        aria-invalid={
-                          errors?.pursuitPrecision?.message ? "true" : "false"
-                        }
-                      />
-                    </div>
-                  </div> */}
+                  {pursuitOptions.map((pursuit) => (
+                    <RadioInput
+                      key={pursuit}
+                      name="pursuit"
+                      value={pursuit}
+                      register={register}
+                    />
+                  ))}
+
+                  <InputError error={errors?.pursuit?.message} />
                 </div>
 
                 {watchPursuit === "Plainte" && (

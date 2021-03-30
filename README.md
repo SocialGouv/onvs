@@ -25,6 +25,9 @@ docker-compose up --build -d
 
 This will build and run the db container and the app container.
 
+Note : the `-d` will run this container in daemon mode. That is to say the containers will be re run at every start of your computer.
+It may be convenient to set this daemon mode only for the db container. In this case, do `docker-compose up --build -d db`.
+
 Then, on the host machine, the db is exposed on port 5435 and the app is accessible on port 80.
 
 ### 🎛️ Env vars
@@ -47,11 +50,58 @@ You need to set `process.env` variables.
 - MAIL_TO email recipients as a comma separated string
 - MAIL_WEBHOOK_TOKEN token used to authenticate the cron for the email webhook
 
-The easiest solution to set the variables, is to populate the `.env` file at root of the project. See the `.env.sample`file for example of this.
+The easiest solution to set the variables, is to populate the `.env` file at root of the project. See the `.env.sample` for a file example of this.
 
-The API is also provided by this product. For example, of the frontend stage environment is `https://onvs-dev.fabrique.social.gouv.fr`, the api part is `https://onvs-dev.fabrique.social.gouv.fr/api`.
+The product provide also an API on top of the frontend. You can deduce the URL of the API after the name of the app.
+For example, if the frontend stage environment is `https://onvs-dev.fabrique.social.gouv.fr`, the api part is `https://onvs-dev.fabrique.social.gouv.fr/api`.
 
 ### 👩‍🍳 Local development
+
+The `docker-compose` has a db container which runs a Postgres instance.
+
+To run this db container (and not the app): `docker-compose up --build -d db`
+
+Next, the first time, you need to build a database.
+
+1.  Connect to postgres instance
+
+```shell
+psql postgres://user:password@localhost:5435
+```
+
+2.  Create the new user onvs
+
+```sql
+create user onvs with encrypted password 'hmpHQCK7qG6^Lk5M'; # change the password with whatever you want
+```
+
+3.  Create the database onvs
+
+```sql
+create database onvs with owner onvs encoding 'UTF8';
+```
+
+Now you have a database and a user to administer it.
+
+4.  Add in `.env` the variable DATABASE_URL with the correponding connection string
+
+```.env
+DATABASE_URL=psql://onvs:hmpHQCK7qG6^Lk5M@localhost:5435/onvs
+```
+
+5.  Now build the tables of the onvs db
+
+```shell
+yarn migrate:latest
+```
+
+6.  And a minimal set of data (not yet implemented)
+
+```shell
+yarn seed:run:dev
+```
+
+One step further, if you want to getting close to the production build, you can use
 
 The developers can benefit of the hot reload provided by Next.js. for an improved DX.
 
@@ -62,17 +112,15 @@ yarn install
 yarn dev
 ```
 
-You can use the db container inside the docker-compose.yml. In this case, the DATABASE_URL looks like `DATABASE_URL=psql://onvs:password@localhost:5435/onvs`.
+Then, go to the app at [http://localhost:3030/](http://localhost:3030/).
 
-One step further, if you want to getting close to the production build, you can use
+In this mode, you will have the best DX with fast refresh. On the other hand, if you want to test a final build, like it will be on the CI/CD/production environement, do :
 
 ```shell script
 yarn install
 yarn build
 yarn start
 ```
-
-Then, go to the app at [http://localhost:3030/](http://localhost:3030/).
 
 ### 🏋️‍♂️ Run the tests
 
@@ -98,7 +146,7 @@ In k8s environments, go to Rancher, select the pod and clic on View logs.
 
 ### 📧 Debuging emails
 
-A fake SMTP server is setup in docker-compose file. It can be accessed at http://localhost:37408/. 
+A fake SMTP server is setup in docker-compose file. It can be accessed at http://localhost:37408/.
 
 ### Updating email adresses
 
