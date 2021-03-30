@@ -1,3 +1,10 @@
+# [2.7.0](https://github.com/SocialGouv/onvs/compare/v2.6.2...v2.7.0) (2021-03-30)
+
+
+### Features
+
+* update outdated libs ([#104](https://github.com/SocialGouv/onvs/issues/104)) ([7f8d92f](https://github.com/SocialGouv/onvs/commit/7f8d92fd201ba35f4b4aee41ab9a68ac5fa59742))
+
 ## [2.6.2](https://github.com/SocialGouv/onvs/compare/v2.6.1...v2.6.2) (2021-03-08)
 
 
