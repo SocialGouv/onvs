@@ -89,7 +89,7 @@ const ConfirmationPage = () => {
               <div className="flex justify-center w-full my-16 space-x-4">
                 <Link
                   href="/declarations/[id]"
-                  as={`/declarations/${state.form.id}`}
+                  as={`/declarations/${state?.form?.id}`}
                 >
                   <a>
                     <PrimaryButtton>
