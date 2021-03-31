@@ -28,6 +28,6 @@ tarteaucitron.init({
   useExternalCss: false /* Change the default readmore link */,
 })
 
-tarteaucitron.user.hotjarId = 1992621
-tarteaucitron.user.HotjarSv = 6
-;(tarteaucitron.job = tarteaucitron.job || []).push("hotjar")
+// tarteaucitron.user.hotjarId = 1992621
+// tarteaucitron.user.HotjarSv = 6
+// ;(tarteaucitron.job = tarteaucitron.job || []).push("hotjar")
