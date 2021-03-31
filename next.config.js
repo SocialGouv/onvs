@@ -6,6 +6,10 @@ const withSourceMaps = require("@zeit/next-source-maps")
 //   "little-state-machine-devtools",
 // ])
 
+const withMDX = require("@next/mdx")({
+  extension: /\.mdx?$/,
+})
+
 const nextConfig = {
   env: {
     TEST_CURRENT_DATE: process.env.TEST_CURRENT_DATE,
@@ -32,4 +36,15 @@ const nextConfig = {
   },
 }
 
-module.exports = withPlugins([[withSourceMaps]], nextConfig)
+module.exports = withPlugins(
+  [
+    [withSourceMaps],
+    [
+      withMDX,
+      {
+        pageExtensions: ["js", "jsx", "md", "mdx"],
+      },
+    ],
+  ],
+  nextConfig,
+)
