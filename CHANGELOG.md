@@ -1,3 +1,10 @@
+# [2.8.0](https://github.com/SocialGouv/onvs/compare/v2.7.0...v2.8.0) (2021-03-31)
+
+
+### Features
+
+* add RGPD files ([#107](https://github.com/SocialGouv/onvs/issues/107)) ([c7517f6](https://github.com/SocialGouv/onvs/commit/c7517f659b3cfe96660a8db9bbb28a1d3acff062))
+
 # [2.7.0](https://github.com/SocialGouv/onvs/compare/v2.6.2...v2.7.0) (2021-03-30)
 
 
