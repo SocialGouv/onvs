@@ -20,7 +20,10 @@
     "k8s": "yarn --silent --cwd .k8s"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.0",
     "@hookform/resolvers": "^0.1.1",
+    "@mdx-js/loader": "^1.6.22",
+    "@next/mdx": "^10.1.2",
     "@sentry/browser": "^6.2.2",
     "@sentry/integrations": "^6.2.2",
     "@sentry/node": "^6.2.2",
