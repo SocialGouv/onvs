@@ -1,3 +1,4 @@
+import Link from "next/link"
 import PropTypes from "prop-types"
 import React from "react"
 
@@ -6,11 +7,13 @@ import Footer from "./Footer"
 const Header = () => (
   <header className="text-gray-700 body-font">
     <div className="container flex flex-col flex-wrap items-center p-5 mx-auto md:flex-row">
-      <a className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0">
-        <span className="ml-3 text-xl font-bold text-gray-900 font-evolventa">
-          {"ONVS | Observatoire national des violences en santé"}
-        </span>
-      </a>
+      <Link href="/">
+        <a className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0">
+          <span className="ml-3 text-xl font-bold text-gray-900 font-evolventa">
+            {"ONVS | Observatoire national des violences en santé"}
+          </span>
+        </a>
+      </Link>
     </div>
   </header>
 )
