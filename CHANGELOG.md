@@ -1,3 +1,10 @@
+# [2.9.0](https://github.com/SocialGouv/onvs/compare/v2.8.0...v2.9.0) (2021-03-31)
+
+
+### Features
+
+* remove tarteaucitron + hotjar ([#108](https://github.com/SocialGouv/onvs/issues/108)) ([0a56a9b](https://github.com/SocialGouv/onvs/commit/0a56a9b2c260e159431efb4a9e5c23dd3e432dc6))
+
 # [2.8.0](https://github.com/SocialGouv/onvs/compare/v2.7.0...v2.8.0) (2021-03-31)
 
 
