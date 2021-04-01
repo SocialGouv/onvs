@@ -1,3 +1,10 @@
+## [2.9.1](https://github.com/SocialGouv/onvs/compare/v2.9.0...v2.9.1) (2021-04-01)
+
+
+### Bug Fixes
+
+* **k8s:** fix preprod PG user ([#113](https://github.com/SocialGouv/onvs/issues/113)) ([bec85ea](https://github.com/SocialGouv/onvs/commit/bec85ea6f527fa4beac509bfd023ff35c0e375f2))
+
 # [2.9.0](https://github.com/SocialGouv/onvs/compare/v2.8.0...v2.9.0) (2021-03-31)
 
 
