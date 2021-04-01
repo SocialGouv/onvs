@@ -1,3 +1,10 @@
+## [2.9.2](https://github.com/SocialGouv/onvs/compare/v2.9.1...v2.9.2) (2021-04-01)
+
+
+### Bug Fixes
+
+* **k8s:** fix preprod PGUSER ([#114](https://github.com/SocialGouv/onvs/issues/114)) ([5fb0000](https://github.com/SocialGouv/onvs/commit/5fb0000c80bde500c9039dcfb87be5fb4cf5a757))
+
 ## [2.9.1](https://github.com/SocialGouv/onvs/compare/v2.9.0...v2.9.1) (2021-04-01)
 
 
