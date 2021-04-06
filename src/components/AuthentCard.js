@@ -13,6 +13,7 @@ import {
 } from "@/components/lib"
 import { RoughNotation } from "@/components/RoughNotation"
 import Hospital from "@/components/svg/hospital.js"
+import { isOpenFeature } from "@/utils/feature"
 
 const AuthentCard = () => {
   const router = useRouter()
@@ -20,7 +21,7 @@ const AuthentCard = () => {
   function handleSubmit(event) {
     event.preventDefault()
 
-    router.push("/hospital")
+    if (isOpenFeature("ETS_FORM")) router.push("/hospital")
   }
 
   return (
