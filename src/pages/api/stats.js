@@ -3,8 +3,10 @@ import Cors from "micro-cors"
 
 import { FORMAT_DATE } from "@/utils/constants"
 
-import { version } from "../../../package.json"
+import packageJson from "../../../package.json"
 import knex from "../../knex/knex"
+
+const { version } = packageJson
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
