@@ -8,16 +8,17 @@ import * as yup from "yup"
 import { InputError, RadioInput, Title2 } from "@/components/lib"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
+import { buildSelectOptions } from "@/utils/select"
 
 import { selectConfig } from "../../config"
 import FormComponent from "./FormComponent"
 
-const hoursOptions = [
+export const hoursOptions = buildSelectOptions([
   "Matin (7h-12h)",
   "Après-midi (12h-19h)",
   "Soirée (19h-00h)",
   "Nuit (00h-7h)",
-].map((label) => ({ label, value: label }))
+])
 
 const schema = yup.object().shape({
   date: yup
