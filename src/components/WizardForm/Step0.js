@@ -7,11 +7,12 @@ import * as yup from "yup"
 import { InputError } from "@/components/lib"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
+import { buildSelectOptions } from "@/utils/select"
 
 import { selectConfig } from "../../config"
 import FormComponent from "./FormComponent"
 
-const jobsOptions = [
+const jobsOptions = buildSelectOptions([
   "Assistant dentaire",
   "Assistant de service social",
   "Audioprothésiste",
@@ -40,7 +41,7 @@ const jobsOptions = [
   "Psychothérapeute",
   "Sage-femme",
   "Technicien de laboratoire",
-].map((label) => ({ label, value: label }))
+])
 
 const schema = yup.object().shape({
   job: yup
