@@ -3,10 +3,9 @@ import React from "react"
 import * as yup from "yup"
 
 import { Title2 } from "@/components/lib"
+import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
-
-import FormComponent from "./FormComponent"
 
 const schema = yup.object({
   description: yup.string().required("La description doit être renseignée"),

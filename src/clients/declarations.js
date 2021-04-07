@@ -9,6 +9,7 @@ export const createDeclaration = async ({ declaration, keys }) => {
   const data = flatObject(declaration?.steps, keys)
   // Reminder : the id is generated client side, to prevent multiple submits
   data.id = declaration.id
+  data.declarationType = declaration.declarationType
 
   return fetcher(`${API_URL}/${DECLARATION_ENDPOINT}`, {
     body: JSON.stringify(data),

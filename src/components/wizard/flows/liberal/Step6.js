@@ -87,10 +87,7 @@ const Confirmation = () => {
               </p>
 
               <div className="flex justify-center w-full my-16 space-x-4">
-                <Link
-                  href="/declarations/[id]"
-                  as={`/declarations/${state.id}`}
-                >
+                <Link href="/declaration/[id]" as={`/declaration/${state.id}`}>
                   <a>
                     <PrimaryButtton>
                       Télécharger le récapitulatif

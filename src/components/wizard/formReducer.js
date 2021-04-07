@@ -6,28 +6,28 @@ function buildEmptyState() {
     id: uuid(),
     step: 0,
     steps: {},
-
-    type: "",
   }
 }
 
-const buildStateFn = (orderedSteps) => ({ state, step, data }) => {
+const buildStateFn = (flow) => ({ state, step, data }) => {
+  const { steps, declarationType } = flow
   return {
     ...state,
+    declarationType: state.declarationType || declarationType, // keep the original declarationType to help debug problem
     step,
     steps: {
       ...state.steps,
-      [orderedSteps[step].name]: {
+      [steps[step].name]: {
         ...data,
       },
     },
   }
 }
 
-export const formReducer = (orderedSteps) => (state, payload) => {
+export const formReducer = (flow) => (state, payload) => {
   const { step, data, event } = payload
 
-  const buildState = buildStateFn(orderedSteps)
+  const buildState = buildStateFn(flow)
 
   switch (event.name) {
     case "RESET":

@@ -1,13 +1,18 @@
+import { yupResolver } from "@hookform/resolvers"
 import React from "react"
 import { Controller } from "react-hook-form"
 import Select from "react-select"
 import * as yup from "yup"
 
-import { InputError, Title1 } from "@/components/lib"
+import { InputError } from "@/components/lib"
+import FormComponent from "@/components/wizard/FormComponent"
+import { useDeclarationForm } from "@/hooks/useDeclarationContext"
+import { useScrollTop } from "@/hooks/useScrollTop"
+import { buildSelectOptions } from "@/utils/select"
 
-import { selectConfig } from "../../../config"
+import { selectConfig } from "../../../../config"
 
-const jobsOptions = [
+const jobsOptions = buildSelectOptions([
   "Assistant dentaire",
   "Assistant de service social",
   "Audioprothésiste",
@@ -36,42 +41,33 @@ const jobsOptions = [
   "Psychothérapeute",
   "Sage-femme",
   "Technicien de laboratoire",
-].map((label) => ({ label, value: label }))
+])
 
-const jobsPrecisionOptions = {
-  Pharmacien: ["Officine", "Industrie"].map((label) => ({
-    label,
-    value: label,
-  })),
-}
-
-export const title = "Quelle est votre profession ?"
-
-export const schema = yup.object().shape({
+const schema = yup.object().shape({
   job: yup
     .object()
     .shape({
-      label: yup.string(),
-      value: yup.string(),
+      label: yup.string().required("La profession est à renseigner"),
+      value: yup.string().required("La profession est à renseigner"),
     })
     .nullable(true) // to consider null as an object and let required validate and displays the appropriate message
     .required("La profession est à renseigner"),
 })
 
-export const buildDefaultValues = (state) => ({
-  declarationType: "libéral",
-  job: state?.form?.job || null,
-})
-
-export const Component = ({ control, errors, watch }) => {
-  const job = watch("job")
-
-  console.log({ job })
+const Step0 = () => {
+  useScrollTop()
+  const { onSubmit, handleSubmit, errors, control } = useDeclarationForm({
+    defaultValuesFromState: (state) => ({
+      job: state?.steps?.job?.job || null,
+    }),
+    resolver: yupResolver(schema),
+  })
 
   return (
-    <>
-      <Title1>Dans le step 0 générique</Title1>
-
+    <FormComponent
+      onSubmit={handleSubmit(onSubmit)}
+      title="Quelle est votre profession ?"
+    >
       <div className="max-w-sm m-auto mt-8">
         <label
           className={`block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase ${
@@ -99,35 +95,6 @@ export const Component = ({ control, errors, watch }) => {
         <InputError error={errors?.job?.message} />
       </div>
 
-      {jobsPrecisionOptions[job?.label] && (
-        <div className="max-w-sm m-auto mt-8">
-          <label
-            className={`block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase ${
-              errors?.job && "text-red-500"
-            }`}
-            htmlFor="job"
-          >
-            Précision sur la profession
-          </label>
-
-          <Controller
-            as={Select}
-            options={jobsPrecisionOptions[job?.label]}
-            name="jobPrecision"
-            id="jobPrecision"
-            instanceId="jobPrecision"
-            aria-label="jobPrecision"
-            isClearable="true"
-            control={control}
-            styles={selectConfig}
-            placeholder="Tapez les premières lettres"
-            aria-invalid={!!errors?.jobPrecision?.message}
-          />
-
-          <InputError error={errors?.jobPrecision?.message} />
-        </div>
-      )}
-
       <div className="mt-12 text-center">
         <p>
           Cette information nous permettra de vous proposer des réponses
@@ -140,6 +107,8 @@ export const Component = ({ control, errors, watch }) => {
           <i>Temps estimé : 4 minutes</i>
         </p>
       </div>
-    </>
+    </FormComponent>
   )
 }
+
+export default Step0

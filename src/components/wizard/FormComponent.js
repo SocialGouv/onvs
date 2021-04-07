@@ -1,11 +1,11 @@
 import PropTypes from "prop-types"
 import React from "react"
 
+import { Layout } from "@/components/Layout"
+import { Title1 } from "@/components/lib"
+import { Stepper } from "@/components/Stepper"
 import { useDeclarationContext } from "@/hooks/useDeclarationContext"
 
-import { Layout } from "../Layout"
-import { Title1 } from "../lib"
-import { Stepper } from "../Stepper"
 import NavigationButtons from "./NavigationButtons"
 
 const FormComponent = ({ onSubmit, children, title }) => {

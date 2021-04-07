@@ -4,10 +4,9 @@ import * as yup from "yup"
 
 import { Group, Groups, Option, Options, Title2 } from "@/components/lib"
 import Info from "@/components/svg/info"
+import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
-
-import FormComponent from "./FormComponent"
 
 const schema = yup.object({
   factTypes: yup
