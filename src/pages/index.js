@@ -8,7 +8,7 @@ import FreelanceCard from "@/components/FreelanceCard"
 import { HeroTitle } from "@/components/lib"
 import Modal from "@/components/Modal"
 import Wave from "@/components/svg/wave"
-import { formReducer } from "@/components/WizardForm/formReducer"
+import { formReducer } from "@/components/wizard/formReducer"
 
 const IndexPage = () => {
   const { action } = useStateMachine(formReducer())

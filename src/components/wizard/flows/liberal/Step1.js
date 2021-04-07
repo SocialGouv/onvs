@@ -6,12 +6,12 @@ import Select from "react-select"
 import * as yup from "yup"
 
 import { InputError, RadioInput, Title2 } from "@/components/lib"
+import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
 import { buildSelectOptions } from "@/utils/select"
 
-import { selectConfig } from "../../config"
-import FormComponent from "./FormComponent"
+import { selectConfig } from "../../../../config"
 
 export const hoursOptions = buildSelectOptions([
   "Matin (7h-12h)",

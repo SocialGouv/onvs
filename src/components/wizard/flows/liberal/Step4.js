@@ -16,10 +16,9 @@ import {
   Title1,
   Title2,
 } from "@/components/lib"
+import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
-
-import FormComponent from "./FormComponent"
 
 const isHealthType = (type) =>
   ["Étudiant en santé", "Professionnel de santé"].includes(type)

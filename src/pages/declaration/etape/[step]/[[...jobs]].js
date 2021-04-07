@@ -1,6 +1,6 @@
 import React from "react"
 
-import { WizardForm } from "@/components/WizardForm"
+import { WizardForm } from "@/components/wizard"
 
 const maxStep = 6
 

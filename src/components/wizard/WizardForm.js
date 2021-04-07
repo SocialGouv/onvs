@@ -3,15 +3,15 @@ import { useRouter } from "next/router"
 import PropTypes from "prop-types"
 import React from "react"
 
+import { getComponentForStep, getFlow } from "@/components/wizard/stepFlows"
 import { DeclarationPageContext } from "@/hooks/useDeclarationContext"
-import { getComponentForStep, getOrderedSteps } from "@/utils/stepFlows"
 
 import { formReducer } from "./formReducer"
 
 export function WizardForm({ step, job, jobPrecision }) {
   const router = useRouter()
-  const orderedSteps = getOrderedSteps({ job, jobPrecision })
-  const { action, state } = useStateMachine(formReducer(orderedSteps))
+  const flow = getFlow({ job, jobPrecision })
+  const { action, state } = useStateMachine(formReducer(flow))
 
   const DynamicComponent = getComponentForStep({ job, jobPrecision, step })
 
@@ -44,7 +44,7 @@ export function WizardForm({ step, job, jobPrecision }) {
   return (
     <>
       <DeclarationPageContext.Provider
-        value={{ goPrevious, onSubmit, orderedSteps, state, step }}
+        value={{ goPrevious, onSubmit, orderedSteps: flow.steps, state, step }}
       >
         <DynamicComponent key={step} />
       </DeclarationPageContext.Provider>

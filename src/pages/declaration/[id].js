@@ -42,14 +42,30 @@ const DatePart = ({ data }) => {
         <span className="inline-block w-48 font-bold">Ville</span>
         {data.town}
       </p>
-      <p>
-        <span className="inline-block w-48 font-bold">Précision lieu</span>
-        {data.location}
-      </p>
+      {/* Those data doesn't exist for hospital flow */}
+      {data.location && (
+        <p>
+          <span className="inline-block w-48 font-bold">Précision lieu</span>
+          {data.location}
+        </p>
+      )}
       {data.otherLocation && (
         <p>
           <span className="inline-block w-48 font-bold">Autre</span>
           {data.otherLocation}
+        </p>
+      )}
+      {/* Those data only exist for hospital flow */}
+      {data.locationMain && (
+        <p>
+          <span className="inline-block w-48 font-bold">Lieu principal</span>
+          {data.locationMain}
+        </p>
+      )}
+      {data.locationSecondary && (
+        <p>
+          <span className="inline-block w-48 font-bold">Lieu secondaire</span>
+          {data.locationSecondary}
         </p>
       )}
     </>
@@ -331,10 +347,13 @@ const FinalPrecisionsPart = ({ data }) => {
         <span className="inline-block w-48 font-bold">Description</span>
         {data.description}
       </p>
-      <p>
-        <span className="inline-block w-48 font-bold">Consentement</span>
-        {data.declarantContactAgreement === "true" ? "Oui" : "Non"}
-      </p>
+      {/* Those data doesn't exist for hospital flow */}
+      {["true", "false"].includes(data.declarantContactAgreement) && (
+        <p>
+          <span className="inline-block w-48 font-bold">Consentement</span>
+          {data.declarantContactAgreement === "true" ? "Oui" : "Non"}
+        </p>
+      )}
       {data.declarantContactAgreement === "true" && (
         <>
           <p>

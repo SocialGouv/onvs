@@ -23,6 +23,16 @@ const cast = (schema, mapping, entityName) => async (model) => {
   return renameKeys(res, mapping)
 }
 
+/**
+ * Builder of helpers to validate, cast between JS model objects and db objects.
+ *
+ * @param mappingJStoDB object with corresponding names between JS objects model and db columns.
+ * @param schemaJS validation schema for JS model objects
+ * @param schemaDB validation schema for db objects
+ * @param entityName name of the entity
+ *
+ * @returns object with helpers
+ */
 export const build = ({ mappingJStoDB, schemaJS, schemaDB, entityName }) => {
   const mappingDBToJS = revertObject(mappingJStoDB)
 

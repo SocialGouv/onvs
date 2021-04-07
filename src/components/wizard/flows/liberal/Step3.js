@@ -5,12 +5,12 @@ import * as yup from "yup"
 
 import { Option, Options } from "@/components/lib"
 import Info from "@/components/svg/info"
+import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
 import { hasData } from "@/utils/misc"
 
-import { toastConfig } from "../../config"
-import FormComponent from "./FormComponent"
+import { toastConfig } from "../../../../config"
 
 const schema = yup.object({
   rOthersPrecision: yup.string().when("rOthers", (rOthers, schema) => {
