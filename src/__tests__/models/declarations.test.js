@@ -1,4 +1,4 @@
-import { castJSToDB, validateJS } from "@/models/declarations"
+import { castJSToDB, validateJS } from "@/models/declarations/liberal"
 
 import declarationSample from "./declaration-sample.json"
 

@@ -1,8 +1,8 @@
-import * as hospital from "@/models/declarations/hospital"
+import * as ets from "@/models/declarations/ets"
 import * as liberal from "@/models/declarations/liberal"
 
 const helpers = {
-  hospital,
+  ets,
   liberal,
 }
 

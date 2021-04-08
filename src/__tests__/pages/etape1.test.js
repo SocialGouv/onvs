@@ -5,13 +5,12 @@ import * as stateMachine from "little-state-machine"
 import * as nextRouter from "next/router"
 import React from "react"
 
-import * as mockToast from "../../hooks/useEffectToast"
+import { Step1 } from "@/components/wizard/flows/liberal"
 import * as mockScrollTop from "@/hooks/useScrollTop"
-
 import { useScrollTop } from "@/hooks/useScrollTop"
-import Step1Page from "@/pages/declarations/liberal/etape1"
-
 import { mockRouterImplementation } from "@/utils/test-utils"
+
+import * as mockToast from "../../hooks/useEffectToast"
 
 const push = jest.fn(() => Promise.resolve(true))
 
@@ -46,7 +45,7 @@ afterEach(() => {
 })
 
 test("the etape1 should display an error on town if not present", async () => {
-  render(<Step1Page />)
+  render(<Step1 />)
 
   expect(useScrollTop).toHaveBeenCalled()
 
@@ -69,7 +68,7 @@ test("the etape1 should display an error on town if not present", async () => {
 })
 
 test("the etape1 should display an error on Autre if no precision is present", async () => {
-  render(<Step1Page />)
+  render(<Step1 />)
 
   userEvent.type(screen.getByLabelText(/ville/i), "Vincennes")
 
@@ -87,7 +86,7 @@ test("the etape1 should display an error on Autre if no precision is present", a
 })
 
 test("the etape1 should route to etape2 if all informations are present", async () => {
-  render(<Step1Page />)
+  render(<Step1 />)
 
   userEvent.type(screen.getByLabelText(/ville/i), "Vincennes")
 

@@ -18,7 +18,7 @@ export async function getServerSideProps({ query }) {
     }
 
   return {
-    props: { job, jobPrecision, step },
+    props: { jobOrType: job, jobPrecision, step },
   }
 }
 

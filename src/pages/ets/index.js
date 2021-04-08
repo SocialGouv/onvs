@@ -5,12 +5,14 @@ import {
   UserCircleIcon,
   ViewListIcon,
 } from "@heroicons/react/outline"
+import { useStateMachine } from "little-state-machine"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import PropTypes from "prop-types"
 import React from "react"
 
 import { PrimaryButtton, Title1 } from "@/components/lib"
+import { formReducer } from "@/components/wizard/formReducer"
 import { firstStepUrl } from "@/components/wizard/stepFlows"
 
 function MenuItem({ url, jsxIcon: Icon, title, disabled = false }) {
@@ -90,11 +92,11 @@ function ProfileMenu() {
             </Link>
           )}
         </Menu.Item>
-        <Menu.Item disabled>
+        {/* <Menu.Item disabled>
           <span className="block px-4 py-2 text-sm text-gray-700 opacity-75">
             Invite a friend (coming soon!)
           </span>
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu.Items>
     </Menu>
   )
@@ -141,6 +143,19 @@ function SideBar() {
 function HospitalHomePage() {
   const router = useRouter()
 
+  const { action } = useStateMachine(formReducer)
+
+  function initEtsForm() {
+    const payload = {
+      declarationType: "ets",
+      event: { name: "INIT" },
+      step: 0,
+    }
+    action(payload)
+
+    router.push(firstStepUrl("ets"))
+  }
+
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100">
       {/* Static sidebar for desktop */}
@@ -177,11 +192,7 @@ function HospitalHomePage() {
 
                 <p className="mb-8">Temps estimé : 4 minutes.</p>
 
-                <PrimaryButtton
-                  onClick={() => router.push(firstStepUrl("ets"))}
-                >
-                  Déclarer
-                </PrimaryButtton>
+                <PrimaryButtton onClick={initEtsForm}>Déclarer</PrimaryButtton>
               </div>
               {/* /End replace */}
             </div>

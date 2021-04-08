@@ -4,11 +4,11 @@ import * as nextRouter from "next/router"
 import React from "react"
 import selectEvent from "react-select-event"
 
-import * as mockToast from "../../hooks/useEffectToast"
+import { Step0 } from "@/components/wizard/flows/liberal"
 import * as mockScrollTop from "@/hooks/useScrollTop"
-
-import Step0Page from "@/pages/declarations/liberal/etape0"
 import { mockRouterImplementation } from "@/utils/test-utils"
+
+import * as mockToast from "../../hooks/useEffectToast"
 
 const push = jest.fn(() => Promise.resolve(true))
 
@@ -43,7 +43,7 @@ afterEach(() => {
 })
 
 test("should display an error when no job are chosen", async () => {
-  render(<Step0Page />)
+  render(<Step0 />)
 
   expect(mockScrollTop.useScrollTop).toHaveBeenCalled()
 
@@ -78,7 +78,7 @@ test("should display an error when no job are chosen", async () => {
 })
 
 test("it should go to etape1 if a job is correctly selected", async () => {
-  render(<Step0Page />)
+  render(<Step0 />)
 
   await selectEvent.select(screen.getByLabelText("job"), ["Médecin"])
 
