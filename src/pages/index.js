@@ -11,7 +11,7 @@ import Wave from "@/components/svg/wave"
 import { formReducer } from "@/components/wizard/formReducer"
 
 const IndexPage = () => {
-  const { action } = useStateMachine(formReducer())
+  const { action } = useStateMachine(formReducer)
   const [openModal, setOpenModal] = useState(false)
 
   React.useEffect(() => {

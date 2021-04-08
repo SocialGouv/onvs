@@ -56,7 +56,7 @@ const schema = yup.object().shape({
 
 const Step0 = () => {
   useScrollTop()
-  const { onSubmit, handleSubmit, errors, control } = useDeclarationForm({
+  const { onInit, handleSubmit, errors, control } = useDeclarationForm({
     defaultValuesFromState: (state) => ({
       job: state?.steps?.job?.job || null,
     }),
@@ -65,7 +65,7 @@ const Step0 = () => {
 
   return (
     <FormComponent
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onInit)}
       title="Quelle est votre profession ?"
     >
       <div className="max-w-sm m-auto mt-8">

@@ -4,13 +4,13 @@ import React from "react"
 import { PrimaryButtton, SubTitleCard, TitleCard } from "@/components/lib"
 import { RoughNotation } from "@/components/RoughNotation"
 import DoctorsIcon from "@/components/svg/doctors"
-import { firstStepUrl } from "@/components/wizard/stepFlows"
+import { startDeclarationUrl } from "@/components/wizard/stepFlows"
 import { onEnterKeyPress } from "@/utils/events"
 
 const FreelanceCard = () => {
   const router = useRouter()
 
-  const goToStep0 = () => router.push(firstStepUrl())
+  const goToStep0 = () => router.push(startDeclarationUrl)
 
   return (
     <div

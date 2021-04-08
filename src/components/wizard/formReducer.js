@@ -9,31 +9,35 @@ function buildEmptyState() {
   }
 }
 
-const buildStateFn = (flow) => ({ state, step, data }) => {
-  const { steps, declarationType } = flow
+const buildState = ({ state, step, data, stepName }) => {
   return {
     ...state,
-    declarationType: state.declarationType || declarationType, // keep the original declarationType to help debug problem
     step,
     steps: {
       ...state.steps,
-      [steps[step].name]: {
+      [stepName]: {
         ...data,
       },
     },
   }
 }
 
-export const formReducer = (flow) => (state, payload) => {
-  const { step, data, event } = payload
+export const formReducer = (state, payload) => {
+  const { step, data, event, declarationType, stepName } = payload
 
-  const buildState = buildStateFn(flow)
+  console.log("event.name", event.name)
 
   switch (event.name) {
     case "RESET":
       return { ...buildEmptyState() }
+    case "INIT": {
+      return {
+        ...buildEmptyState(),
+        declarationType,
+      }
+    }
     case "SUBMIT": {
-      return buildState({ data, state, step })
+      return buildState({ data, state, step, stepName })
     }
     case "GOTO": {
       const step = event.step

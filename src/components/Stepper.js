@@ -29,7 +29,7 @@ export const Stepper = ({ step, orderedSteps = [] }) => {
             return (
               <Tab
                 key={element.name}
-                selected={index === step}
+                selected={index === step - 1}
               >{`${formatIndex}/ ${element.label}`}</Tab>
             )
           }

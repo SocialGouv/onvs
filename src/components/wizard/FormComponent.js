@@ -33,7 +33,7 @@ const FormComponent = ({ onSubmit, children, title }) => {
           <NavigationButtons
             goPrevious={goPrevious}
             isFinalStep={isFinalStep}
-            isFirstStep={step === 0}
+            isFirstStep={step === 1}
           />
         </form>
       </div>

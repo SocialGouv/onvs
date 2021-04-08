@@ -1,7 +1,8 @@
-import * as hospital from "@/components/wizard/flows/hospital"
+import * as hospital from "@/components/wizard/flows/ets"
 import * as liberal from "@/components/wizard/flows/liberal"
 
-export const startFlowUrl = "/declaration/etape/0"
+export const startDeclarationUrl = "/declaration"
+export const startFlowUrl = "/declaration/etape/1"
 
 export const firstStepUrl = (flow) =>
   flow ? `${startFlowUrl}/${flow}` : startFlowUrl
@@ -11,7 +12,18 @@ export const firstStepUrl = (flow) =>
 
 // flow for most liberal jobs (default flow)
 const liberalOrderedSteps = [
-  { component: liberal.Step0, name: "job" },
+  { component: liberal.Step1, label: "Date et Lieu", name: "dateLocation" },
+  { component: liberal.Step2, label: "Faits", name: "facts" },
+  { component: liberal.Step3, label: "Motifs", name: "reasons" },
+  {
+    component: liberal.Step4,
+    label: "Victimes et Auteurs",
+    name: "victimsAuthors",
+  },
+  { component: liberal.Step5, label: "Précisions", name: "precision" },
+  { component: liberal.Step6, name: "confirmation" },
+]
+const indusryPharmarcistOrderedSteps = [
   { component: liberal.Step1, label: "Date et Lieu", name: "dateLocation" },
   { component: liberal.Step2, label: "Faits", name: "facts" },
   { component: liberal.Step3, label: "Motifs", name: "reasons" },
@@ -44,29 +56,57 @@ const hostpitalOrderedSteps = [
 
 // matching for specific flows
 const flows = {
-  ets: { declarationType: "hospital", steps: hostpitalOrderedSteps },
-  liberal: { declarationType: "liberal", steps: liberalOrderedSteps },
-  //   "Pharmacien/Industrie": indusryPharmarcist,
+  ets: {
+    declarationType: "ets",
+    steps: hostpitalOrderedSteps,
+  },
+  liberal: {
+    declarationType: "liberal",
+    steps: liberalOrderedSteps,
+  },
+  pharmacien: {
+    declarationType: "pharmacien",
+    steps: indusryPharmarcistOrderedSteps,
+  },
+  "pharmacien/industrie": {
+    declarationType: "pharmacien/industrie",
+    steps: indusryPharmarcistOrderedSteps,
+  },
   //   "Pharmacien/Officine": dispensaryPharmacist,
 }
 
-// TODO: rechercher avec job/joPrecision. Si on ne trouve pas, on recherche avec job. Si toujours pas, throw Error
-export const getFlow = ({ job = "liberal" }) => {
-  const flow = flows[job]
+const defaultFlow = flows.liberal
 
-  if (!flow) {
-    throw new Error(`No ${job} flow found.`)
-  }
+export const getFlowWithCriteria = ({ job, jobPrecision }) => {
+  // for the start of all liberal flows, start with the liberal generic flow.
+  // The flow may change later if user choose a job which has its own flow.
+  if (!job) return defaultFlow
 
-  return flow
+  // Search if a flow job/precision exists, if not search with just job.
+  // const jobAndPrecision = jobPrecision ? job + "/" + jobPrecision : job
+  const jobAndPrecision = buildDeclarationType({
+    job: job?.toLowerCase(),
+    jobPrecision: jobPrecision?.toLowerCase(),
+  })
+
+  return flows[jobAndPrecision] || flows[job] || defaultFlow
 }
 
-export const getComponentForStep = ({ step, job }) => {
-  const component = getFlow({ job }).steps[step]?.component
+export const getFlow = (declarationType) => {
+  if (!declarationType) return defaultFlow
+
+  return flows[declarationType] || defaultFlow
+}
+
+export const getComponentForStep = ({ step, declarationType }) => {
+  const component = getFlow(declarationType).steps?.[step - 1]?.component
 
   if (!component) {
-    throw new Error(`No step ${step} for ${job} flow.`)
+    throw new Error(`No step ${step - 1} for ${declarationType} flow.`)
   }
 
   return component
 }
+
+export const buildDeclarationType = ({ job, jobPrecision }) =>
+  `${job}${jobPrecision ? `/${jobPrecision}` : ""}`

@@ -21,7 +21,7 @@ const AuthentCard = () => {
   function handleSubmit(event) {
     event.preventDefault()
 
-    if (isOpenFeature("ETS_FORM")) router.push("/hospital")
+    if (isOpenFeature("ETS_FORM")) router.push("/ets")
   }
 
   return (
