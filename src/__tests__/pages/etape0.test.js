@@ -4,7 +4,7 @@ import * as nextRouter from "next/router"
 import React from "react"
 import selectEvent from "react-select-event"
 
-import { Step0 } from "@/components/wizard/flows/liberal"
+import { WizardForm } from "@/components/wizard"
 import * as mockScrollTop from "@/hooks/useScrollTop"
 import { mockRouterImplementation } from "@/utils/test-utils"
 
@@ -43,11 +43,11 @@ afterEach(() => {
 })
 
 test("should display an error when no job are chosen", async () => {
-  render(<Step0 />)
+  render(<WizardForm step={0} jobOrType="" jobPrecision="" />)
 
   expect(mockScrollTop.useScrollTop).toHaveBeenCalled()
 
-  fireEvent.click(screen.getByText(/Commencer/i))
+  fireEvent.click(screen.getByText(/suivant/i))
 
   await screen.findByText(/La profession est à renseigner/i)
 
@@ -67,24 +67,29 @@ test("should display an error when no job are chosen", async () => {
     ]
   `)
 
-  expect(push.mock).toMatchInlineSnapshot(`
-    Object {
-      "calls": Array [],
-      "instances": Array [],
-      "invocationCallOrder": Array [],
-      "results": Array [],
-    }
-  `)
+  expect(push).not.toHaveBeenCalled()
 })
 
 test("it should go to etape1 if a job is correctly selected", async () => {
-  render(<Step0 />)
+  render(<WizardForm step={0} />)
 
   await selectEvent.select(screen.getByLabelText("job"), ["Médecin"])
 
-  fireEvent.click(screen.getByText(/commencer/i))
+  fireEvent.click(screen.getByText(/suivant/i))
 
   await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
 
-  expect(push).toHaveBeenCalledWith("/declarations/liberal/etape1")
+  expect(push).toHaveBeenCalledWith("/declaration/etape/1/liberal")
+})
+
+test("it should go to etape1 with pharmacien flow if this job is selected", async () => {
+  render(<WizardForm step={0} />)
+
+  await selectEvent.select(screen.getByLabelText("job"), ["Pharmacien"])
+
+  fireEvent.click(screen.getByText(/suivant/i))
+
+  await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
+
+  expect(push).toHaveBeenCalledWith("/declaration/etape/1/pharmacien")
 })
