@@ -44,32 +44,32 @@ app.prepare().then(() => {
       if (err) {
         throw err
       }
-      console.log("Debug -----------")
-      console.log(
+      console.debug("Debug -----------")
+      console.debug(
         "Run time variables (cf. index pour les build time variables)",
       )
 
-      console.log(`Package ${pack.name}: ${pack.version}`)
-      console.log(`process.env.PORT: ${port}`)
-      console.log(
+      console.debug(`Package ${pack.name}: ${pack.version}`)
+      console.debug(`process.env.PORT: ${port}`)
+      console.debug(
         `process.env.NEXT_PUBLIC_SENTRY_DSN: ${process.env.NEXT_PUBLIC_SENTRY_DSN}`,
       )
-      console.log(
+      console.debug(
         `process.env.NEXT_PUBLIC_SENTRY_TOKEN: ${process.env.NEXT_PUBLIC_SENTRY_TOKEN}`,
       )
-      console.log(
+      console.debug(
         `process.env.NEXT_PUBLIC_MATOMO_URL: ${process.env.NEXT_PUBLIC_MATOMO_URL}`,
       )
-      console.log(
+      console.debug(
         `process.env.NEXT_PUBLIC_MATOMO_SITE_ID: ${process.env.NEXT_PUBLIC_MATOMO_SITE_ID}`,
       )
-      // console.log(`process.env.POSTGRES_SSL: ${process.env.POSTGRES_SSL}`)
-      console.log(`process.env.DATABASE_URL: ${process.env.DATABASE_URL}`)
-      console.log(
+      // console.debug(`process.env.POSTGRES_SSL: ${process.env.POSTGRES_SSL}`)
+      console.debug(`process.env.DATABASE_URL: ${process.env.DATABASE_URL}`)
+      console.debug(
         `process.env.TEST_CURRENT_DATE: ${process.env.TEST_CURRENT_DATE}`,
       )
       // eslint-disable-next-line no-console
-      console.log(`> Ready on http://localhost:${port}`)
-      console.log("-----------------")
+      console.debug(`> Ready on http://localhost:${port}`)
+      console.debug("-----------------")
     })
 })
