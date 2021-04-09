@@ -1,3 +1,10 @@
+## [2.9.3](https://github.com/SocialGouv/onvs/compare/v2.9.2...v2.9.3) (2021-04-09)
+
+
+### Bug Fixes
+
+* docker version ([#116](https://github.com/SocialGouv/onvs/issues/116)) ([915f436](https://github.com/SocialGouv/onvs/commit/915f436bf6ae2d77de1115fd4b89a1e261e87869))
+
 ## [2.9.2](https://github.com/SocialGouv/onvs/compare/v2.9.1...v2.9.2) (2021-04-01)
 
 
