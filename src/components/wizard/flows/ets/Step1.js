@@ -129,7 +129,7 @@ const Step1 = () => {
       date:
         state?.steps?.dateLocation?.date ||
         formatISO(new Date(), { representation: "date" }),
-      hour: state?.steps?.dateLocation?.hour || null,
+      hour: state?.steps?.dateLocation?.hour || hoursOptions?.[0],
       locationMain: state?.steps?.dateLocation?.locationMain || null,
       locationSecondary: state?.steps?.dateLocation?.locationSecondary || null,
       town: state?.steps?.dateLocation?.town,
