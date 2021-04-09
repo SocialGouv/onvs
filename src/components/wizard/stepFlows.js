@@ -64,10 +64,10 @@ const flows = {
     declarationType: "liberal",
     steps: liberalOrderedSteps,
   },
-  pharmacien: {
-    declarationType: "pharmacien",
-    steps: indusryPharmarcistOrderedSteps,
-  },
+  // pharmacien: {
+  //   declarationType: "pharmacien",
+  //   steps: indusryPharmarcistOrderedSteps,
+  // },
   "pharmacien/industrie": {
     declarationType: "pharmacien/industrie",
     steps: indusryPharmarcistOrderedSteps,
