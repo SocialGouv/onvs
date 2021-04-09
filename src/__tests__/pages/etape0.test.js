@@ -82,14 +82,16 @@ test("it should go to etape1 if a job is correctly selected", async () => {
   expect(push).toHaveBeenCalledWith("/declaration/etape/1/liberal")
 })
 
-test("it should go to etape1 with pharmacien flow if this job is selected", async () => {
-  render(<WizardForm step={0} />)
+//  TODO: Decomment this test when pharmacien flow is enable
 
-  await selectEvent.select(screen.getByLabelText("job"), ["Pharmacien"])
+// test("it should go to etape1 with pharmacien flow if this job is selected", async () => {
+//   render(<WizardForm step={0} />)
 
-  fireEvent.click(screen.getByText(/suivant/i))
+//   await selectEvent.select(screen.getByLabelText("job"), ["Pharmacien"])
 
-  await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
+//   fireEvent.click(screen.getByText(/suivant/i))
 
-  expect(push).toHaveBeenCalledWith("/declaration/etape/1/pharmacien")
-})
+//   await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
+
+//   expect(push).toHaveBeenCalledWith("/declaration/etape/1/pharmacien")
+// })
