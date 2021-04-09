@@ -14,7 +14,7 @@ Sentry.init({
 })
 
 function log(store) {
-  console.log("Form state in session storage", store)
+  console.debug("Form state in session storage", store)
   return store
 }
 

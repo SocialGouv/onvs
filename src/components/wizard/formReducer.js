@@ -25,7 +25,7 @@ const buildState = ({ state, step, data, stepName }) => {
 export const formReducer = (state, payload) => {
   const { step, data, event, declarationType, stepName } = payload
 
-  console.log("event.name", event.name)
+  console.debug("event.name", event.name)
 
   switch (event.name) {
     case "RESET":
