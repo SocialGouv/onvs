@@ -1,0 +1,3 @@
+# Envoi des rapports hebdomadaires par mail
+POST http://localhost:3030/api/send-report
+Authorization: Bearer 96bFX1cfiJTqrt42sZMWA3xa9ePoCuNg1r7E4Wyb
