@@ -6,3 +6,5 @@ node_modules
 # package-lock.json is unnecessary since we use yarn.lock
 package-lock.json
 yarn-error.log
+.secrets.yaml
+.temp-secrets/

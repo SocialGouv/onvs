@@ -11,5 +11,3 @@ data:
   NEXT_PUBLIC_MATOMO_SITE_ID: "25"
   POSTGRES_SSL: "true"
   MAIL_WEBHOOK_TOKEN: "superSecret"
-  MAIL_TO: onvs-alerts@test.com
-  MAIL_FROM: "ONVS <noreply@fabrique.social.gouv.fr>"
