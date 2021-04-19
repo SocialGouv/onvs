@@ -130,6 +130,19 @@ There is some Jest tests, which can be run with :
 yarn run test
 ```
 
+### 🤐 Secrets
+
+Les fichiers sealed-secrets.yaml peuvent être générés à partir du script `sealed-secrets`.
+
+```shell
+yarn sealed-secrets
+```
+
+Pour cela, il faut avoir un fichier `.secrets.yml` (qui ne sera pas commit) à la racine du projet, contenant les secrets non chiffrés.
+
+Les fichiers seront générés dans un répertoire temporaire `.temp-secrets`.
+Il faut ensuite, reporter le contenu dans le répertoire `.k8s/environments`.
+
 ### 🧯 Troubleshoot
 
 _How can I see the logs ?_
