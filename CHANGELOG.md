@@ -1,3 +1,10 @@
+# [2.10.0](https://github.com/SocialGouv/onvs/compare/v2.9.4...v2.10.0) (2021-04-19)
+
+
+### Features
+
+* add new mail in MAIL_TO prod configuration ([#118](https://github.com/SocialGouv/onvs/issues/118)) ([df78eff](https://github.com/SocialGouv/onvs/commit/df78effd24c9b28090a7f104ca803fb523d250a5))
+
 ## [2.9.4](https://github.com/SocialGouv/onvs/compare/v2.9.3...v2.9.4) (2021-04-09)
 
 
