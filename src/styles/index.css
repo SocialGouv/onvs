@@ -122,8 +122,4 @@
   input[type='checkbox'] {
     @apply border-gray-300 rounded;
   }
-
-  input[id='react-select*'] {
-    box-shadow: none;
-  }
 }

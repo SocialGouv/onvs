@@ -98,8 +98,8 @@ const Step5Page = () => {
       </i>
 
       <textarea
-        className={`w-full mt-8 form-textarea ${
-          errors?.description?.message ? "border-red-500" : "border-blue-400"
+        className={`w-full mt-8 form-textarea rounded ${
+          errors?.description?.message ? "border-red-500" : "border-gray-300"
         }`}
         placeholder="Description de l’événement en ajoutant, si besoin, votre ressenti et le contexte."
         name="description"
