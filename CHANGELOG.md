@@ -1,3 +1,10 @@
+# [2.11.0](https://github.com/SocialGouv/onvs/compare/v2.10.0...v2.11.0) (2021-04-21)
+
+
+### Features
+
+* new generic form system (for adding specificities for different jobs) ([#105](https://github.com/SocialGouv/onvs/issues/105)) ([4de8eaf](https://github.com/SocialGouv/onvs/commit/4de8eaf983a2f27211fefea7a97c6794551edbe9))
+
 # [2.10.0](https://github.com/SocialGouv/onvs/compare/v2.9.4...v2.10.0) (2021-04-19)
 
 
