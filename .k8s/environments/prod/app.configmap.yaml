@@ -11,4 +11,3 @@ data:
   NEXT_PUBLIC_MATOMO_SITE_ID: "25"
   POSTGRES_SSL: "true"
   MAIL_FROM: "ONVS <noreply@fabrique.social.gouv.fr>"
-  NEXT_PUBLIC_FEATURE_ETS_FORM: "off"
