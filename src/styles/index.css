@@ -106,4 +106,24 @@
     line-height: 1.15;
   }
 
+  input[type='text'], input[type='date'], input[type='tel'], input[type='email']{
+    @apply py-2 border-gray-300 rounded;
+  }
+
+  /* Remove box-shadow in react select added by Tailwind reset forms */
+  input[type='text']:focus {
+    box-shadow: none;
+  }
+
+  input[type='radio'] {
+    @apply border-gray-300;
+  }
+
+  input[type='checkbox'] {
+    @apply border-gray-300 rounded;
+  }
+
+  input[id='react-select*'] {
+    box-shadow: none;
+  }
 }
