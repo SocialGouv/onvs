@@ -70,6 +70,10 @@ app.prepare().then(() => {
       )
       // eslint-disable-next-line no-console
       console.debug(`> Ready on http://localhost:${port}`)
+      console.debug(
+        "NEXT_PUBLIC_FEATURE_ETS_FORM",
+        process.env.NEXT_PUBLIC_FEATURE_ETS_FORM || "undefined",
+      )
       console.debug("-----------------")
     })
 })

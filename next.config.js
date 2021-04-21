@@ -14,9 +14,6 @@ const nextConfig = {
     strictPostcssConfiguration: true,
     webpack5: true,
   },
-  publicRuntimeConfig: {
-    // Will be available on both server and client. Needs getInitialProps on page to be available
-  },
   serverRuntimeConfig: {
     // Will only be available on the server side. Needs getInitialProps on page to be available
   },
