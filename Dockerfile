@@ -10,6 +10,7 @@ COPY next.config.js knexfile.js  ./
 COPY scripts/ ./scripts/
 COPY src/lib/ ./src/lib/
 COPY src/knex/ ./src/knex/
+COPY src/fonts/ ./src/fonts/
 COPY .next/ ./.next
 COPY public/ ./public/
 
