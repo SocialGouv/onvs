@@ -20,8 +20,14 @@ const AuthentCard = () => {
   function handleSubmit(event) {
     event.preventDefault()
 
-    if (/on/i.test(process.env.NEXT_PUBLIC_FEATURE_ETS_FORM))
+    if (/on/i.test(process.env.NEXT_PUBLIC_FEATURE_ETS_FORM)) {
       router.push("/ets")
+    } else {
+      console.log(
+        "Feature NEXT_PUBLIC_FEATURE_ETS_FORM is " +
+          process.env.NEXT_PUBLIC_FEATURE_ETS_FORM,
+      )
+    }
   }
 
   return (
