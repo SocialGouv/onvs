@@ -1,6 +1,6 @@
 import * as yup from "yup"
 
-import * as common from "./common"
+import * as common from "../common"
 
 // Mapping keys from JS model to DB model
 const mappingJStoDB = {
@@ -133,7 +133,7 @@ const schemaDB = yup.object({
 })
 
 export const { castJSToDB, castDBToJS, validateJS } = common.build({
-  entityName: "declarations",
+  entityName: "declarations/liberal",
   mappingJStoDB,
   schemaDB,
   schemaJS,

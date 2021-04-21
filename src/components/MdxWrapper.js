@@ -62,9 +62,17 @@ const Strong = ({ children }) => <span className="font-medium">{children}</span>
 Heading1.propTypes = {
   children: PropTypes.node.isRequired,
 }
-
-Strong.propTypes = BulletList.propTypes = OrderedList.propTypes = Paragraph.propTypes = Heading5.propTypes = Heading4.propTypes = Heading3.propTypes = Heading2.propTypes =
-  Heading1.propTypes
+Heading2.propTypes = Heading1.propTypes
+Heading3.propTypes = Heading1.propTypes
+Heading4.propTypes = Heading1.propTypes
+Heading5.propTypes = Heading1.propTypes
+Paragraph.propTypes = Heading1.propTypes
+BulletList.propTypes = Heading1.propTypes
+OrderedList.propTypes = Heading1.propTypes
+Table.propTypes = Heading1.propTypes
+Cell.propTypes = Heading1.propTypes
+Anchor.propTypes = Heading1.propTypes
+Strong.propTypes = Heading1.propTypes
 
 const mdComponents = {
   a: Anchor,

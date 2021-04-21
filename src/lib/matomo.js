@@ -47,7 +47,7 @@ export function initMatomo({
       matopush(["setCustomUrl", pathname])
       matopush(["setDocumentTitle", document.title])
       matopush(["deleteCustomVariables", "page"])
-      matopush(["setGenerationTimeMs", 0])
+      // matopush(["setGenerationTimeMs", 0])
       if (/^\/recherche/.test(pathname)) {
         matopush(["trackSiteSearch", q, source])
       } else {

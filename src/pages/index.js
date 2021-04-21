@@ -1,5 +1,6 @@
+// import { useStateMachine } from "little-state-machine"
 import { useStateMachine } from "little-state-machine"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 
 import AuthentCard from "@/components/AuthentCard"
 import Footer from "@/components/Footer"
@@ -7,14 +8,14 @@ import FreelanceCard from "@/components/FreelanceCard"
 import { HeroTitle } from "@/components/lib"
 import Modal from "@/components/Modal"
 import Wave from "@/components/svg/wave"
-import { resetFreelance } from "@/lib/pages/form"
+import { formReducer } from "@/components/wizard/formReducer"
 
 const IndexPage = () => {
-  const { action } = useStateMachine(resetFreelance)
+  const { action } = useStateMachine(formReducer)
   const [openModal, setOpenModal] = useState(false)
 
-  useEffect(() => {
-    action()
+  React.useEffect(() => {
+    action({ event: { name: "RESET" } })
   }, [action])
 
   // const toggleModal = () => {
@@ -44,7 +45,7 @@ const IndexPage = () => {
       </div>
       <div className="flex items-center justify-center w-full">
         <div className="flex flex-wrap items-stretch justify-center w-full min-h-full py-6 space-x-0 space-y-8 lg:space-y-0 lg:space-x-8">
-          <AuthentCard />
+          <AuthentCard flow="ets" />
           <FreelanceCard />
         </div>
       </div>

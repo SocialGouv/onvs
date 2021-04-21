@@ -1,22 +1,24 @@
-import { useStateMachine } from "little-state-machine"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
 
 import { createDeclaration } from "@/clients/declarations"
 import { Layout } from "@/components/Layout"
 import { OutlineButton, PrimaryButtton, Title1 } from "@/components/lib"
-import { useEffectToast } from "@/hooks/useEffectToast"
-import { update } from "@/lib/pages/form"
+import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 
-const ConfirmationPage = () => {
-  const { state } = useStateMachine(update)
+const Confirmation = () => {
+  const { state, orderedSteps } = useDeclarationForm()
+
   const [error, setError] = useState()
   const [warning, setWarning] = useState()
 
   useEffect(() => {
     const create = async (declaration) => {
       try {
-        await createDeclaration(declaration)
+        await createDeclaration({
+          declaration,
+          keys: orderedSteps.map((step) => step.name),
+        })
       } catch (error) {
         console.error(error)
 
@@ -34,9 +36,7 @@ const ConfirmationPage = () => {
       }
     }
     create(state)
-  }, [state])
-
-  useEffectToast(error)
+  }, [state, orderedSteps])
 
   return (
     <Layout>
@@ -87,10 +87,7 @@ const ConfirmationPage = () => {
               </p>
 
               <div className="flex justify-center w-full my-16 space-x-4">
-                <Link
-                  href="/declarations/[id]"
-                  as={`/declarations/${state.form.id}`}
-                >
+                <Link href="/declaration/[id]" as={`/declaration/${state.id}`}>
                   <a>
                     <PrimaryButtton>
                       Télécharger le récapitulatif
@@ -113,4 +110,4 @@ const ConfirmationPage = () => {
   )
 }
 
-export default ConfirmationPage
+export default Confirmation

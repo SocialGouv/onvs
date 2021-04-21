@@ -1,4 +1,4 @@
-import { castJSToDB, validateJS } from "@/models/declarations"
+import { castJSToDB, validateJS } from "@/models/declarations/liberal"
 
 import declarationSample from "./declaration-sample.json"
 
@@ -38,7 +38,7 @@ test("A incorrect declaration", async () => {
   }
 
   await expect(validateJS(declaration)).rejects.toMatchInlineSnapshot(
-    `[Error: Données invalides  (declarations modèle)]`,
+    `[Error: Données invalides  (declarations/liberal modèle)]`,
   )
   console.error = consoleErrorLegacy
 })

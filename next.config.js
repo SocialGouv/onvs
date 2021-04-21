@@ -2,10 +2,6 @@ const webpack = require("webpack")
 const withPlugins = require("next-compose-plugins")
 const withSourceMaps = require("@zeit/next-source-maps")
 
-// const withTM = require("next-transpile-modules")([
-//   "little-state-machine-devtools",
-// ])
-
 const withMDX = require("@next/mdx")({
   extension: /\.mdx?$/,
 })
@@ -14,9 +10,11 @@ const nextConfig = {
   env: {
     TEST_CURRENT_DATE: process.env.TEST_CURRENT_DATE,
   },
-  publicRuntimeConfig: {
-    // Will be available on both server and client. Needs getInitialProps on page to be available
-  },
+  // Seems to break import of fonts
+  // future: {
+  //   strictPostcssConfiguration: true,
+  //   webpack5: true,
+  // },
   serverRuntimeConfig: {
     // Will only be available on the server side. Needs getInitialProps on page to be available
   },

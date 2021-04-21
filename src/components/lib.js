@@ -15,7 +15,7 @@ export const PrimaryButtton = ({
 }) => (
   <button
     type={type}
-    className={`px-6 py-2 font-bold uppercase text-sm tracking-wider font-source text-white bg-blue-600 rounded ${className}`}
+    className={`px-6 py-2 font-bold uppercase text-sm tracking-wider font-source text-white bg-blue-500 rounded ${className}`}
     onClick={onClick}
     tabIndex={tabIndex}
   >
@@ -38,8 +38,8 @@ export const OutlineButton = ({
 }) => {
   const colorStyle =
     color === "red"
-      ? "text-red-500 border-red-500 hover:text-white hover:bg-red-500"
-      : "text-blue-600 border-blue-600 hover:text-white hover:bg-blue-600"
+      ? "text-red-500 border-red-500 hover:text-white hover:bg-red-400"
+      : "text-blue-600 border-blue-500 hover:text-white hover:bg-blue-500"
   return (
     <button
       type={type}

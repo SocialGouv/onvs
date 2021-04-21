@@ -20,6 +20,7 @@
     "k8s": "yarn --silent --cwd .k8s"
   },
   "dependencies": {
+    "@headlessui/react": "^0.3.1",
     "@heroicons/react": "^1.0.0",
     "@hookform/resolvers": "^0.1.1",
     "@mdx-js/loader": "^1.6.22",
@@ -38,7 +39,7 @@
     "little-state-machine": "^3.1.4",
     "lodash": "^4.17.21",
     "micro-cors": "^0.1.1",
-    "next": "^10.0.9",
+    "next": "^10.1.2",
     "next-compose-plugins": "^2.2.1",
     "nodemailer": "^6.4.18",
     "objects-to-csv": "^1.3.6",
@@ -61,10 +62,11 @@
     "@socialgouv/eslint-config-react": "^1.33.0",
     "@socialgouv/eslint-config-recommended": "^1.33.0",
     "@socialgouv/sre-secrets": "^1.1.7",
-    "@tailwindcss/custom-forms": "^0.2.1",
+    "@tailwindcss/forms": "^0.3.2",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.0.4",
     "@testing-library/user-event": "^12.1.10",
+    "autoprefixer": "^10.2.5",
     "eslint": "^7.6.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^8.1.0",
@@ -73,10 +75,10 @@
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.3.8",
     "jest-cli": "^26.2.2",
-    "postcss-preset-env": "^6.7.0",
+    "postcss": "^8.2.8",
     "prettier": "^2.0.5",
     "react-select-event": "^5.0.0",
-    "tailwindcss": "^1.6.3"
+    "tailwindcss": "^2.0.4"
   },
   "husky": {
     "hooks": {

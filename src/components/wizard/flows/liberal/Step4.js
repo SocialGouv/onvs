@@ -1,14 +1,10 @@
 import { yupResolver } from "@hookform/resolvers"
-import { useStateMachine } from "little-state-machine"
-import Link from "next/link"
-import { useRouter } from "next/router"
 import PropTypes from "prop-types"
 import React from "react"
-import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form"
+import { Controller, useFieldArray, useWatch } from "react-hook-form"
 import Select from "react-select"
 import * as yup from "yup"
 
-import { Layout } from "@/components/Layout"
 import {
   Counter,
   InputError,
@@ -20,10 +16,9 @@ import {
   Title1,
   Title2,
 } from "@/components/lib"
-import { Stepper } from "@/components/Stepper"
-import { useEffectToast } from "@/hooks/useEffectToast"
+import FormComponent from "@/components/wizard/FormComponent"
+import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
-import { update } from "@/lib/pages/form"
 
 const isHealthType = (type) =>
   ["Étudiant en santé", "Professionnel de santé"].includes(type)
@@ -688,26 +683,30 @@ Author.propTypes = {
 
 const Step4Page = () => {
   useScrollTop()
-  const router = useRouter()
-
-  const { action, state } = useStateMachine(update)
-  const [phase, setPhase] = React.useState(1)
-
-  const { control, errors, handleSubmit, register, setValue, watch } = useForm({
-    defaultValues: {
-      authors: state?.form?.authors || [{}],
-      pursuit: state?.form?.pursuit,
-      pursuitBy: state?.form?.pursuitBy || [],
-      pursuitPrecision: state?.form?.pursuitPrecision,
-      thirdParty: state?.form?.thirdParty,
-      thirdPartyIsPresent: state?.form?.thirdPartyIsPresent,
-      thirdPartyPrecision: state?.form?.thirdPartyPrecision,
-      victims: state?.form?.victims || [{}],
-    },
+  const {
+    onSubmit: originalOnSubmit,
+    handleSubmit,
+    errors,
+    control,
+    setValue,
+    state,
+    watch,
+    register,
+  } = useDeclarationForm({
+    defaultValuesFromState: (state) => ({
+      authors: state?.steps?.victimsAuthors?.authors || [{}],
+      pursuit: state?.steps?.victimsAuthors?.pursuit,
+      pursuitBy: state?.steps?.victimsAuthors?.pursuitBy || [],
+      pursuitPrecision: state?.steps?.victimsAuthors?.pursuitPrecision,
+      thirdParty: state?.steps?.victimsAuthors?.thirdParty,
+      thirdPartyIsPresent: state?.steps?.victimsAuthors?.thirdPartyIsPresent,
+      thirdPartyPrecision: state?.steps?.victimsAuthors?.thirdPartyPrecision,
+      victims: state?.steps?.victimsAuthors?.victims || [{}],
+    }),
     resolver: yupResolver(schema),
   })
 
-  useEffectToast(errors)
+  const [phase, setPhase] = React.useState(1)
 
   const watchPursuit = watch("pursuit")
   const watchThirdParty = watch("thirdParty")
@@ -743,137 +742,118 @@ const Step4Page = () => {
     if (data?.pursuit !== "Plainte") data.pursuitBy = []
     if (data?.thirdPartyIsPresent === "Non") data.thirdParty = []
 
-    action(data)
-    router.push("/declarations/liberal/etape5")
+    originalOnSubmit(data)
   }
 
   return (
-    <Layout>
-      <div className="max-w-4xl m-auto mb-8">
-        <Stepper step={4} />
-
-        <Title1 className="mt-4">
+    <FormComponent
+      onSubmit={handleSubmit(onSubmit)}
+      title={
+        <span>
           Qui a été <b>victime</b> ?
-        </Title1>
+        </span>
+      }
+    >
+      <>
+        <Victims control={control} errors={errors} />
+        <Title2 className="mt-12">Y’a-t-il eu des suites judiciaires ?</Title2>
+        <div className="mt-4">
+          <div className="block mt-3">
+            <div className="mt-2 space-y-2">
+              {pursuitOptions.map((pursuit) => (
+                <RadioInput
+                  key={pursuit}
+                  name="pursuit"
+                  value={pursuit}
+                  register={register}
+                />
+              ))}
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="w-10/12 m-auto text-gray-900"
-        >
-          <>
-            <Victims control={control} errors={errors} />
-            <Title2 className="mt-12">
-              Y’a-t-il eu des suites judiciaires ?
-            </Title2>
-            <div className="mt-4">
-              <div className="block mt-3">
-                <div className="mt-2 space-y-2">
-                  {pursuitOptions.map((pursuit) => (
-                    <RadioInput
-                      key={pursuit}
-                      name="pursuit"
-                      value={pursuit}
-                      register={register}
-                    />
-                  ))}
-
-                  <InputError error={errors?.pursuit?.message} />
-                </div>
-
-                {watchPursuit === "Plainte" && (
-                  <div>
-                    <Title2 className="mt-12">Par...</Title2>
-
-                    <Options name="pursuitBy" register={register}>
-                      <Option value="La (les) victime(s)" />
-                      <Option value="L'établissement" />
-                      <Option value="L'ordre" />
-                    </Options>
-
-                    <InputError error={errors?.pursuitBy?.message} />
-                  </div>
-                )}
-              </div>
+              <InputError error={errors?.pursuit?.message} />
             </div>
-          </>
-          {phase === 1 && (
+
+            {watchPursuit === "Plainte" && (
+              <div>
+                <Title2 className="mt-12">Par...</Title2>
+
+                <Options name="pursuitBy" register={register}>
+                  <Option value="La (les) victime(s)" />
+                  <Option value="L'établissement" />
+                  <Option value="L'ordre" />
+                </Options>
+
+                <InputError error={errors?.pursuitBy?.message} />
+              </div>
+            )}
+          </div>
+        </div>
+      </>
+      {phase === 1 && (
+        <div className="flex justify-center w-full my-16 space-x-4">
+          <PrimaryButtton onClick={() => setPhase(2)}>Suivant</PrimaryButtton>
+        </div>
+      )}
+      {phase >= 2 && (
+        <>
+          <Title1 className="mt-16">
+            Qui a été <b>auteur</b> de la violence ?
+          </Title1>
+          <Authors control={control} register={register} errors={errors} />
+          {phase === 2 && (
             <div className="flex justify-center w-full my-16 space-x-4">
-              <PrimaryButtton onClick={() => setPhase(2)}>
+              <PrimaryButtton onClick={() => setPhase(3)}>
                 Suivant
               </PrimaryButtton>
             </div>
           )}
-          {phase >= 2 && (
+        </>
+      )}
+
+      {phase === 3 && (
+        <>
+          <Title1 className="mt-16">
+            {"D'autres personnes ont-elles été impliquées ?"}
+          </Title1>
+          <Title2 className="flex mt-8 mb-2">
+            <span className="mr-8">Intervention de tiers</span>
+            <div className="inline-flex flex-row items-end space-x-8">
+              <RadioInput
+                name="thirdPartyIsPresent"
+                value="Oui"
+                register={register}
+              />
+              <RadioInput
+                name="thirdPartyIsPresent"
+                value="Non"
+                register={register}
+              />
+            </div>
+          </Title2>
+
+          <InputError error={errors?.thirdPartyIsPresent?.message} />
+
+          {watchThirdPartyIsPresent === "Oui" && (
             <>
-              <Title1 className="mt-16">
-                Qui a été <b>auteur</b> de la violence ?
-              </Title1>
-              <Authors control={control} register={register} errors={errors} />
-              {phase === 2 && (
-                <div className="flex justify-center w-full my-16 space-x-4">
-                  <PrimaryButtton onClick={() => setPhase(3)}>
-                    Suivant
-                  </PrimaryButtton>
-                </div>
-              )}
+              <i className="text-gray-600">Plusieurs choix possibles</i>
+
+              <Options name="thirdParty" register={register}>
+                <Option value="Personnel hospitalier" />
+                <Option value="Service de sécurité-sûreté" />
+                <Option value="Forces de l'ordre (police et gendarmerie nationales, police municipale)" />
+                <Option value="Sapeurs-pompiers" />
+                <Option
+                  value="Autre"
+                  precision={"thirdPartyPrecision"}
+                  onChangePrecision={ensureOtherThirdPartyIsChecked}
+                  error={errors?.thirdPartyPrecision?.message}
+                />
+              </Options>
+              <InputError error={errors?.thirdParty?.message} />
             </>
           )}
-
-          {phase === 3 && (
-            <>
-              <Title1 className="mt-16">
-                {"D'autres personnes ont-elles été impliquées ?"}
-              </Title1>
-              <Title2 className="flex mt-8 mb-2">
-                <span className="mr-8">Intervention de tiers</span>
-                <div className="inline-flex flex-row items-end space-x-8">
-                  <RadioInput
-                    name="thirdPartyIsPresent"
-                    value="Oui"
-                    register={register}
-                  />
-                  <RadioInput
-                    name="thirdPartyIsPresent"
-                    value="Non"
-                    register={register}
-                  />
-                </div>
-              </Title2>
-
-              <InputError error={errors?.thirdPartyIsPresent?.message} />
-
-              {watchThirdPartyIsPresent === "Oui" && (
-                <>
-                  <i className="text-gray-600">Plusieurs choix possibles</i>
-
-                  <Options name="thirdParty" register={register}>
-                    <Option value="Personnel hospitalier" />
-                    <Option value="Service de sécurité-sûreté" />
-                    <Option value="Forces de l'ordre (police et gendarmerie nationales, police municipale)" />
-                    <Option value="Sapeurs-pompiers" />
-                    <Option
-                      value="Autre"
-                      precision={"thirdPartyPrecision"}
-                      onChangePrecision={ensureOtherThirdPartyIsChecked}
-                      error={errors?.thirdPartyPrecision?.message}
-                    />
-                  </Options>
-                  <InputError error={errors?.thirdParty?.message} />
-                </>
-              )}
-              <div className="flex justify-center w-full my-16 space-x-4">
-                <Link href="/declarations/liberal/etape3">
-                  <a>
-                    <OutlineButton type="button">Précédent</OutlineButton>
-                  </a>
-                </Link>
-                <PrimaryButtton>Suivant</PrimaryButtton>
-              </div>
-            </>
-          )}
-        </form>
-      </div>
-    </Layout>
+        </>
+      )}
+    </FormComponent>
   )
 }
 

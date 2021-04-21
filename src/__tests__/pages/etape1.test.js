@@ -5,13 +5,12 @@ import * as stateMachine from "little-state-machine"
 import * as nextRouter from "next/router"
 import React from "react"
 
-import * as mockToast from "../../hooks/useEffectToast"
+import { WizardForm } from "@/components/wizard"
 import * as mockScrollTop from "@/hooks/useScrollTop"
-
 import { useScrollTop } from "@/hooks/useScrollTop"
-import Step1Page from "@/pages/declarations/liberal/etape1"
-
 import { mockRouterImplementation } from "@/utils/test-utils"
+
+import * as mockToast from "../../hooks/useEffectToast"
 
 const push = jest.fn(() => Promise.resolve(true))
 
@@ -30,7 +29,10 @@ afterAll(() => {
 beforeEach(() => {
   mockToast.useEffectToast.mockReturnValue({ addToast: jest.fn() })
 
-  stateMachine.useStateMachine.mockReturnValue({ action: jest.fn(), state: {} })
+  stateMachine.useStateMachine.mockReturnValue({
+    action: jest.fn(),
+    state: {},
+  })
 
   nextRouter.useRouter.mockReturnValue({
     ...mockRouterImplementation,
@@ -46,7 +48,7 @@ afterEach(() => {
 })
 
 test("the etape1 should display an error on town if not present", async () => {
-  render(<Step1Page />)
+  render(<WizardForm step={1} jobOrType="ets" jobPrecision="" />)
 
   expect(useScrollTop).toHaveBeenCalled()
 
@@ -54,6 +56,7 @@ test("the etape1 should display an error on town if not present", async () => {
 
   await screen.findByText(/la ville est à renseigner/i)
 
+  // useless because useEffectToast is always called at least with no errors for first render. TODO: check haveBeenCalledWith
   expect(mockToast.useEffectToast).toHaveBeenCalled()
 
   const date = screen.getByLabelText(/date/i)
@@ -68,8 +71,8 @@ test("the etape1 should display an error on town if not present", async () => {
   ).toBeNull()
 })
 
-test("the etape1 should display an error on Autre if no precision is present", async () => {
-  render(<Step1Page />)
+test("the etape1 of liberal flow should display an error on Autre if no precision is present", async () => {
+  render(<WizardForm step={1} jobOrType="liberal" jobPrecision="" />)
 
   userEvent.type(screen.getByLabelText(/ville/i), "Vincennes")
 
@@ -83,11 +86,17 @@ test("the etape1 should display an error on Autre if no precision is present", a
 
   expect(screen.queryByText(/La ville est à renseigner/i)).toBeNull()
   expect(screen.queryByText(/la date est à renseigner/i)).toBeNull()
-  expect(mockToast.useEffectToast).toHaveBeenCalled()
 })
 
 test("the etape1 should route to etape2 if all informations are present", async () => {
-  render(<Step1Page />)
+  const declarationType = "pharmacien"
+
+  stateMachine.useStateMachine.mockReturnValue({
+    action: jest.fn(),
+    state: { declarationType },
+  })
+
+  render(<WizardForm step={1} jobOrType="pharmacien" jobPrecision="" />)
 
   userEvent.type(screen.getByLabelText(/ville/i), "Vincennes")
 
@@ -97,6 +106,9 @@ test("the etape1 should route to etape2 if all informations are present", async 
 
   fireEvent.click(screen.queryByText(/suivant/i))
 
-  await waitFor(() => expect(push).toHaveBeenCalledTimes(1))
-  expect(push).toHaveBeenCalledWith("/declarations/liberal/etape2")
+  await waitFor(() =>
+    expect(push).toHaveBeenCalledWith(
+      `/declaration/etape/2/${declarationType}`,
+    ),
+  )
 })

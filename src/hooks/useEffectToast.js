@@ -17,28 +17,32 @@ export const useEffectToast = (error) => {
     console.error("Erreur", error)
   }
 
-  const message = error?.message ? (
-    <>
-      {error.message}{" "}
-      {error.emoji && (
-        <span role="img" aria-hidden="true">
-          {error.emoji}
-        </span>
-      )}
-    </>
-  ) : (
-    <>
-      Oups ! Des erreurs se sont glissées dans la page...{" "}
-      <span role="img" aria-hidden="true">
-        😕👇
-      </span>
-    </>
+  const message = React.useMemo(
+    () =>
+      error?.message ? (
+        <>
+          {error.message}{" "}
+          {error.emoji && (
+            <span role="img" aria-hidden="true">
+              {error.emoji}
+            </span>
+          )}
+        </>
+      ) : (
+        <>
+          Oups ! Des erreurs se sont glissées dans la page...{" "}
+          <span role="img" aria-hidden="true">
+            😕👇
+          </span>
+        </>
+      ),
+    [error],
   )
 
   React.useEffect(() => {
     if (!isEmpty(error)) {
       addToast(
-        <div className="text-lg">
+        <div className="text-lg" data-testid="toast-message">
           {message}
           <br />
           <ul className="ml-5">
@@ -56,5 +60,5 @@ export const useEffectToast = (error) => {
         toastConfig.error,
       )
     }
-  }, [error, addToast])
+  }, [error, addToast, message])
 }

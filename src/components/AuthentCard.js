@@ -1,4 +1,6 @@
 import Link from "next/link"
+import { useRouter } from "next/router"
+import PropTypes from "prop-types"
 import React from "react"
 
 import {
@@ -11,10 +13,21 @@ import {
 } from "@/components/lib"
 import { RoughNotation } from "@/components/RoughNotation"
 import Hospital from "@/components/svg/hospital.js"
+import { isOpenFeature } from "@/utils/feature"
 
 const AuthentCard = () => {
+  const router = useRouter()
+
+  function handleSubmit(event) {
+    event.preventDefault()
+
+    if (isOpenFeature("FEATURE_ETS_FORM")) {
+      router.push("/ets")
+    }
+  }
+
   return (
-    <div className="w-full max-w-md px-4 py-2 text-gray-700 transition duration-500 ease-in transform bg-gray-200 border rounded shadow hover:scale-105 hover:border-gray-400">
+    <div className="w-full max-w-md px-4 py-2 text-gray-700 transition duration-500 ease-in transform bg-gray-100 border rounded shadow hover:scale-105 hover:border-gray-300">
       <Hospital className="w-auto h-12 mx-auto" alt="hôpital" />
       <TitleCard>
         <RoughNotation
@@ -29,7 +42,7 @@ const AuthentCard = () => {
         </RoughNotation>
       </TitleCard>
       <SubTitleCard>Connectez-vous à votre compte</SubTitleCard>
-      <form className="mt-5" action="#">
+      <form className="mt-5" onSubmit={handleSubmit} noValidate>
         <label htmlFor="email">Adresse courriel</label>
         <div>
           <Input
@@ -79,6 +92,10 @@ const AuthentCard = () => {
       </div>
     </div>
   )
+}
+
+AuthentCard.propTypes = {
+  flow: PropTypes.string,
 }
 
 export default AuthentCard
