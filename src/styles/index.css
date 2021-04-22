@@ -92,6 +92,27 @@
     src: url("/fonts/evolventa/Evolventa-Bold.ttf");
   }
 
+  @font-face {
+    font-family: "Marianne";
+    font-weight: 800;
+    src: url("/fonts/marianne/Marianne-Bold.woff2");
+  }
+  @font-face {
+    font-family: "Marianne";
+    font-weight: 300;
+    src: url("/fonts/marianne/Marianne-Light.woff2");
+  }
+  @font-face {
+    font-family: "Marianne";
+    font-weight: 500;
+    src: url("/fonts/marianne/Marianne-Medium.woff2");
+  }
+  @font-face {
+    font-family: "Marianne";
+    font-weight: 400;
+    src: url("/fonts/marianne/Marianne-Regular.woff2");
+  }
+
   .btn-blue {
     @apply px-4 py-2 font-bold text-white bg-blue-500 rounded;
   }

@@ -5,6 +5,7 @@ module.exports = {
     extend: {},
     fontFamily: {
       evolventa: ["Evolventa"],
+      marianne: ["Marianne"],
       source: ["Source Sans Pro"],
     },
   },

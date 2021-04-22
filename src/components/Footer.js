@@ -13,7 +13,7 @@ const Footer = () => {
               <Marianne className="w-24" />
             </a>
           </div>
-          <div className="my-2 text-lg font-light text-black font-source ">
+          <div className="my-2 text-lg font-bold text-black font-marianne ">
             {"Direction générale de l'offre de soins"}
           </div>
         </div>
