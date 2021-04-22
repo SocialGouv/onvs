@@ -9,7 +9,6 @@ test("kosko generate --dev", async () => {
   expect(
     await getEnvManifests("dev", "", {
       ...project("onvs").dev,
-      KUBE_NAMESPACE: "onvs-171-master-dev2",
       RANCHER_PROJECT_ID: "c-bd7z2:p-ngv88",
     })
   ).toMatchSnapshot();

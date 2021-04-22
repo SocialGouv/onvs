@@ -1,5 +1,4 @@
 import env from "@kosko/env"
-import { ok } from "assert"
 import { create } from "@socialgouv/kosko-charts/components/app"
 
 const manifests = create("app", {

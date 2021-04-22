@@ -19,10 +19,6 @@ Lint:
   rules:
     - when: never
 
-K8S Test:
-  rules:
-    - when: never
-
 Register image:
   extends: .autodevops_register_image
   variables:

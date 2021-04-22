@@ -9,7 +9,6 @@ test("kosko generate --preprod", async () => {
   expect(
     await getEnvManifests("preprod", "", {
       ...project("onvs").preprod,
-      KUBE_NAMESPACE: "onvs-171-preprod-dev2",
       RANCHER_PROJECT_ID: "c-bd7z2:p-ngv88",
     })
   ).toMatchSnapshot();
