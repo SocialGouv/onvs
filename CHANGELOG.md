@@ -1,3 +1,10 @@
+## [2.12.2](https://github.com/SocialGouv/onvs/compare/v2.12.1...v2.12.2) (2021-04-22)
+
+
+### Bug Fixes
+
+* job data was missing ([#126](https://github.com/SocialGouv/onvs/issues/126)) ([aa608ad](https://github.com/SocialGouv/onvs/commit/aa608ad33307ba06472612fe11765dcc15e70111))
+
 ## [2.12.1](https://github.com/SocialGouv/onvs/compare/v2.12.0...v2.12.1) (2021-04-22)
 
 
