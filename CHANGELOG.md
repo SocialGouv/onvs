@@ -1,3 +1,11 @@
+## [2.12.1](https://github.com/SocialGouv/onvs/compare/v2.12.0...v2.12.1) (2021-04-22)
+
+
+### Bug Fixes
+
+* error in SSR with WizardForm and dynamic steps ([#121](https://github.com/SocialGouv/onvs/issues/121)) ([8f7290e](https://github.com/SocialGouv/onvs/commit/8f7290e1a1515f8ee7096ae3a43bb72a595c3e80)), closes [#125](https://github.com/SocialGouv/onvs/issues/125)
+* **gitlab:** update to SocialGouv/gitlab-ci-yml@v21.0.2 ([9fe7149](https://github.com/SocialGouv/onvs/commit/9fe7149d84cb9c5a23df9c353c443d0601bcba94))
+
 # [2.12.0](https://github.com/SocialGouv/onvs/compare/v2.11.0...v2.12.0) (2021-04-22)
 
 
