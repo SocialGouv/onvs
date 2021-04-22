@@ -1,0 +1,319 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`kosko generate --prod 1`] = `
+"---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-onvs
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+  labels:
+    app: app
+    application: onvs
+    owner: onvs
+    team: onvs
+  name: app
+  namespace: onvs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-onvs
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+      labels:
+        app: app
+        application: onvs
+        owner: onvs
+        team: onvs
+    spec:
+      containers:
+        - image: registry.gitlab.factory.social.gouv.fr/socialgouv/onvs/app:1.2.3
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: app
+          ports:
+            - containerPort: 3000
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+          envFrom:
+            - secretRef:
+                name: azure-pg-user
+            - secretRef:
+                name: app-sealed-secret
+            - configMapRef:
+                name: app-configmap
+      initContainers:
+        - env:
+            - name: WAIT_FOR_RETRIES
+              value: '24'
+          envFrom:
+            - secretRef:
+                name: azure-pg-user
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:5.0.1
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-onvs
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+  name: app-sealed-secret
+  namespace: onvs
+  labels:
+    application: onvs
+    owner: onvs
+    team: onvs
+spec:
+  encryptedData:
+    MAIL_HOST: >-
+      AgCW4AQK/e7PGEE5FYT/sAy8OGGPSYPKixEWpkF7DIlC+SzB2LYPLTcIAZLoAzv0HANAfSsNyZxqEu6zEmjPlk4usSkb5kI5Mqptl9vq9UrRk8EocNHB+SRVzskzYgXDSn9e2Q2m8XOgjc3nKVKni73TyIljrRlUR7LFxFZ0NUbYrnCrUCUbtpVIzMJ92g8e1XzbQVkkt9nJTdhgUaPYgjTXKkcWWR5e68h+Md7JT5AhjxINEmwsuhHnzX7ZJf90DS/aKu9RiFOMegW+A/+7lr26/D5+oXgq2uZCT6Gq86OLLvytVN8zYFkDA+83ykLNkzwxHuPyI96rbVZqDPs/vXInvZ05hrEHBFL8E8JnSyYLrQI2xRvszmJsLnU+uqsutSUwzo5FiTbfQOHdK8mmuMesvCQ+jPx1YjA/PdjrNlcvd1zOCgoiE6edLMjzMZanXSVoisQfOW7j7VNRuIZ7ZTkDv1OFdGAACCze9+YNMS8q+rcvQ3AK5Ub2Tvkuj4XXWsNtgpIKa2NVewdQjdVBjtua1Athly+ZJ0q58kKuo04Y90cU1pYtV8homYzIi2Iyy7tOtxejKQYygqEhJiDJyMTmjbyl7zxXbUJlSrkvmcvDNAuMJmChF7kD1unZPDjh4hHAURYfUrlVzyk0mUfnvngJTC9USZ3RfcYdUkoENeUbW9RIJTbYIXqaOxAVxGR/cxHEmzL9+0GCUnMV6CadoBDb6Q==
+    MAIL_PORT: >-
+      AgBhZ3uK7i/IeceGBvJFc7DXCN9sjTfPpgVUlnUAaYUvumK5wkj+ll5FSNRO72fgW7vDJl4qj9KuSlvmTowcW51lmecJioKvlccvJpIMOipqBTNYgtc6KXiTCC4JG5AJabC1hm3JruVJaFoUZvlzEojfhZ8mfFMCd56oYa95wbo/e2SngDRDs1URhZqtqJrTTgrU+8h3D3wHtlBGPpaVXNPBwGP+D/6StT+Mc+mNcbEh41QoQrfA0O1xC0EQHyApmTCZx1bAYykkVH0Qsr2H5460DOhnVyFNM7mLjsfgN1PuTHgL96YFdQyLJSs9BBTaOojg2yIWY8GtVZO8JOu/7vEcFnPhmpK5yhmLHwY1m98OryhL5Ih7DXFTQ/jP7XmxT28cTnbiV1LIR7REkz0hEL/GCvtacd8XXv03dbbCBjRFyRi2s3nHtuAWAXc9FdOJOzh9EauaqgnIu+X3SeVome7Vt1uQlPSElwO8sl5SvJkeEM5knTne8LxdmJcnQe33yv326erAkWt7JeYf/D2lrvfB6XLGRXVzizXMLlNiHA6y1+6BGYxsnhrNVK1G+1OxSLT+oNtL8Vd9ybgAbd++RcBvfh7rZZ4DOMzSy7OY2Ma+nbqIkBdC/nvsNdd629ez0LyF8uyTnE8TK8wC6/anu6kK4WYWzjI0tye+aOlrqa/ViMVhfu0CToX7dvtjnq1NavipyWc=
+    MAIL_USERNAME: >-
+      AgCMhY6xQ+ka1Y1OgdVfHsFB8codaMfL19Pip08TevB40C6aOQUwadbKfs2tnFkmzGC2nvLABvXZAFbTR03RRyGqF+2O9h9H706oEfZGP4xvYkEHZaKtjAF8ijlGrOAPlFBQgbnwMYkd9dIRDJoI5AC4fjRDHLUm3805JO2NGI9IkMQIDzr2nnK/h3UFTGv/Tyw6rs74abnw/Eu0Tuk3b5HhZVdwn8Hkax1kQQ3nVxtN0xbbnO/w5NKQ7K9rsx7XhT/xZvgTsuFiNX0WChBbP250BO8PXdE8ugKF61uujpIxVCtpj32VoElwMvY9Es5yW0uJCon7Zb0og2Y4RYIxtjz88iUr3jaE/16YIQftZP7RAaO8OKkuf+SZ+OU2n3L6ruV5LGt3ZUSDUQ1fxKDzmpAOMoYyrmyadBnZvETWpNE9GGRZVr0Xy0xR2HW/rX1SPDuh0RTiimCRJYtNlKX6pfmfqe6AEUWm6YFv2Ti1t6d0S4CXAv+a0cv6MGtHAHuxNnuz9Riw9F2gWFEif0HTktGzkIe7XIRdXXTYmGHOP8x5dxHN3971KI1ZFzfTlmc/nlwhmNVka4h9QLR4zyfUR4LWJ1d5EsfSC9rvkKsicsdnMWyS49xAW1TRIkMNEUmJxQbLvr2NCpF6OQTuraaEHd0g6dh3RPm6MPPxkIMPdHggJfbLiUlIsY/onGFR0Lx9OLqTlsJMmPyS0++fknIonFkk2GcP2Rw51y91/hozpkJYGA==
+    MAIL_PASSWORD: >-
+      AgBR4ucJwB9iy+/qt8NojTSruK6x5jixf0oDclPOL5tipd56ta6pGpjX71yvoHVS2p0o8y8YP/Dm9WPC/5WW7HYSEHqRDgGDHDc+AVP4PnAw80N/tDw1oiryL3hQD8fl+4dui0NMtCWquX2LIo5m0qNjAysvVlTLrEd+GuILkVzCJ43MS/HNbiLdoBXYCyO/bdVd3RSAf/9M7zV2haUyVbr07Gv/QFs7DczcFLXdGW3ASe9JDi3DqigDI6k8Wms4WNYtrgfynq+Bj1gXQjTyBONb8ItanpPXIgM4VSjuudaOhzNeZnf6Xgt1wwtOdpVIWwA+cbJJfXA7mWVo6B9+ur6INNZaa5Qe7M2AGts+k9f3PZde1IYVYsLeI7zCfhpnueTt4bA7pYFBnvk6aiZJ7em29Tnnt9O/TMn9qtBYURFay1VQviE306Sc7HNMDzUlkoWZ8fvQYK6DDRzTxQiIcken+5iWg7lJQQlbQs4Jop1MiQESvtWBMhO98bImumOzAUu7/yibOkmHdbOSnweVFnfTNg0mSuu9h3DOndN3p6aVNrabMu+V1cL4CVtT92/kjizZtjzz6TMCZD0t0rh8Zg3YVvTWf2sOe7xw2TkuR3jzTCZHmgs19TCyS06tAuiurmVtqqthQXJ+eVX6iCkMGZ3o1gEdw3PxJ6DPUgkVSs2k8ZJHa0avtK8URMiFT0SqABV+HI83lQH5iCQc/Ac+e/b+8KCSUVftyMKTC99eSCGDfg==
+    MAIL_TO: >-
+      AgBX8B0+608MhIIUcFOSeMKyqAipfkC3712AkQRfG/ePu6i+aDnxcEzN4d+4UOWwXdDJZVYxxhYsANzR/+J8w5KPhrV/Q2rcdgET7tYy8tysI2VK5GkJp17ITgwdTN2Kugn7ZfSr4O0etwuw/O9zzXqXclXfqgcemqko/3/whHwc+s/pABqENgtzSPQs77fez9fGDiyntCKEd2El3fOWwIHBlaNnJmdnRXtbDC+wxGucVBs9WA/1JdAlLOvtUwFau28+WGj50kpSh/ogWmJPmZcIbL2LC2cQ7yn1w9lTGKsipZnnd51V1Ff8bEzaAO00rH3CQhPAVNQUcCcpTQNbb4u4Jdjjivrf55wmrAvERAEknSnUkoIszoDbfBGgDjddYQa1hE22BxCXwuQourODRxzeQQJlL6OrnxD79cExpM90gpN+VpmjI4Mhhre0C8bSsj3TcqLlNEbf8U8Vp5q8oAClKYhAn0g9f32JZV44L2+XYTzbz1HmYX8ZGgyqSwru11F3MeWbZmVbAUpomRzBjeczF+yKFG+G846J0jPXxGNWzNJgk57BjcHeTctBrXpJnQjvOGGxRKpP8U/QtzE9fW8DrBXu3gzcD/es8Z3DywwOOvuj5JKCGObgK/mZWYMaxW8cxq8/D3rMDdPbEek/RkUusQfde90HpdSzFE1toShNdyn3rC6e4IXC00bK8bJdhSreqw1kvJcEB6s4GlrlaRl5Zeg5KGCYjSZjNjPeyO4JnC14kXFaSJ/WgY+JLfo2sXlR3zxWWIc/7nrq
+    MAIL_WEBHOOK_TOKEN: >-
+      AgBdZs5VNP9Db2WqDakTA+O+uiPsJw1vvmsc9rYMFFdjCxSlQPZHuez8BzrbEjVgKZJnELM1AkRDQaMTCsvp+JtRG321RwG6UwHL+w+iPuRceFnS8scdGGilJVOMtrCQYRfhzGG+cOyhwtFND+K86UQ0j/CfIdZ+o/16fLMN///7BAX83iqc52g+7A+idfO7pZyJzsvKOQ3t2/bCDRPCu80w76wgt+KRxiGOS6IereMyMk/uxy04NBb+X622jvPSG31PoqYU5nVWMVP3YXECU82VlrFeWqb/h4xPU23q7TckhdqNBoy8k2k3KKw1uKbBT2ZieFs7xZuz+6yvtJbVNV9yppXWVcK3rKr1NbCepK1lnkcy83lgVYElt+lX0RWyqLUBYzbkgEa0tbQFTGrxZ6xsLx2MwFlrwpQIOaG0GZ0LCrI4RcN5siNSQD7f9QA7GtfNBZolM/p2MGPG0ItN+WHAYPYGjiSu0RyPQDRa/gzWb8vcgK/4DOoTDIQ/zTyjVM7QnjyDUfQbNkrK+TmeX+RAi6Wp650RJZWJiOQ+3fOlc6oi+mJWtiKILB2qG3g2QKM7Fw2i7HWhiCHKcvVLEwE++0QFWkLn7cLN8IVFOg+iOtWanT+kGRkMg2/y8GX84dETb0IsmuIrLXZrdc0yWaiCCoarg9JLIskhpN5u6UHUDDhmv7pQDBiQLyGn4sO2k0heVt/BX8JzMgGFTeO81YhFKTpnciMOtYbtQuWvpmyqdfuFDDqlZHIJ
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-onvs
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+      name: app-sealed-secret
+      labels:
+        application: onvs
+        owner: onvs
+        team: onvs
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-onvs
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+  labels:
+    application: onvs
+    owner: onvs
+    team: onvs
+  namespace: onvs
+data:
+  NODE_ENV: production
+  PORT: '3000'
+  NEXT_PUBLIC_SENTRY_TOKEN: toto
+  NEXT_PUBLIC_SENTRY_DSN: https://e70207cd7a2c4ecdb99849c212a964bf@sentry.fabrique.social.gouv.fr/40
+  NEXT_PUBLIC_MATOMO_URL: https://matomo.fabrique.social.gouv.fr/
+  NEXT_PUBLIC_MATOMO_SITE_ID: '25'
+  POSTGRES_SSL: 'true'
+  MAIL_FROM: ONVS <noreply@fabrique.social.gouv.fr>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: app
+    application: onvs
+    owner: onvs
+    team: onvs
+  name: app
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-onvs
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+  namespace: onvs
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+  selector:
+    app: app
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/tls-acme: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-onvs
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+  labels:
+    app: app
+    application: onvs
+    owner: onvs
+    team: onvs
+  name: app
+  namespace: onvs
+spec:
+  rules:
+    - host: onvs.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              serviceName: app
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - onvs.fabrique.social.gouv.fr
+      secretName: app-crt
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-onvs
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+  labels:
+    application: onvs
+    owner: onvs
+    team: onvs
+    app: onvs-email-alerts
+  name: onvs-email-alerts
+  namespace: onvs
+spec:
+  schedule: 30 17 * * FRI
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            app.gitlab.com/app: socialgouv-onvs
+            app.gitlab.com/env: prod2
+            app.gitlab.com/env.name: prod2
+            kapp.k14s.io/disable-default-ownership-label-rules: ''
+            kapp.k14s.io/disable-default-label-scoping-rules: ''
+          labels:
+            application: onvs
+            owner: onvs
+            team: onvs
+            app: onvs-email-alerts
+        spec:
+          containers:
+            - name: send-email-alert
+              image: curlimages/curl:7.73.0
+              command:
+                - curl
+                - '-X'
+                - POST
+                - '-I'
+                - '-H'
+                - 'Authorization: Bearer $(MAIL_WEBHOOK_TOKEN)'
+                - https://onvs.fabrique.social.gouv.fr/api/send-report
+              envFrom:
+                - secretRef:
+                    name: app-sealed-secret
+          restartPolicy: Never
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    app.gitlab.com/app: socialgouv-onvs
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
+  name: azure-pg-user
+  namespace: onvs
+  labels:
+    application: onvs
+    owner: onvs
+    team: onvs
+spec:
+  encryptedData:
+    DATABASE_URL: >-
+      AgCJRsfIi0CAGJH992sWqzr2Ue5AdYpyik3BVJlLhewf+PX+lXVo9i20ovdY42OWIWsBVWQ8mkM2WujOpBtMPlzPQSPR7ZypVQRE0u1gtrSptxHLSlKzTqeX/61Y7BAWMDctqddF1J5bvRZWXjznOQJB2ajFWYdIU3f1ISiFxld1FNEOLWBJgrciw9RiiwDT/QQMBX4WQvRcMrIcf2Iwcgg9pfxPar3vjgKkOkL/bqwnAHqE4GWoNbxKXyLCxG3KXdrCVFJ3XJEcgHCM8r1K3qDMswTvOq9HpG1z39lAoftbuhQHMyWL49ZR7PKXP6wXW7LHS0yq8TCoKP5TLlSD4vinM1xd1OQUDoOzChGR3RpZuTkzrhN4i2fCZkfELCB76Zx7E1ZSCkoRz7a/R5EfeDU8U7v5zlED9vneH2YoypzWFLQGSJz9yBfsp88g6V3vudffwX+VYNa0rH4XT9snNgHCqWgtlpm4LZEgjD7EM64T/jmKU/04PViAeQInowM36d8OJN1XhS5rWKQqVqkbljxW5rbt9dNl/bAhqs8OtT8Y5uDoFDsbMcPye/XNMXvCB4suNweIQ2nwtiOVGGowsH0fJx+e/+BLZKlXaah3RP3BabCaeOzPhf/YxS/8pbT/M/NkzVkMQ8gciR28Ru+nw0Y2my7joSPaTvb0y/XNHCslvZYP085rU5x+6CfCFIymaOEq2eEA8xobmK7SWp3mibBIwFoPjyez9Kl7FS0SOhEOW+f2BAQnb4qSwYFgqwr6ZWdPSDofXI37pkJpgJgJ7Tl3kwnYT/XQF503ylIY9O0AbLaEFNKTQlsAomhourDIH694jPqIUU9GLbgncBUZKb/AmJpbSNWirQ==
+    PGDATABASE: >-
+      AgAh916YclEtUPs+ch3/paYrG/cUhRE77HIWkM9fhJkB3j2VjO2FXVnnSDX476Cm8jmBcX/0maFveYT38olG5GdtvTd/knwEtU64FZP3ZI4EOETgMlREq2sMM8mEXUfXAY0AN1vfi6kmDcpJs93L1PaT/FhEGitlItN/YLJRID3nRSinArUnmO2DseTgtVkp4zPh8sCqz+6Z7ONqL1+ChXdPxZ0h7dZm9AuZVPid9SeOzFA2m0RYgkaRpUwOP83uzhYWXsj7RIQiFTtzgDpihdcox6bsiaoGIz9MkFZuhoInJTvHShngbuy0ukIvKuV+1Myq5FoaVRLCuZnumQ8nYP/M3rsbxz2qhAggp10jTzvTr8ZM8P9zvluhkiytZ22U662dfA/aAdxJla1xx3cka8KLZH3Pn9MKPXIbXqfEDs1fmTW/XDfAl5fbuMuheYRG3Dz4OoHJ8q0Ss/w/TJxHNpUPu1RY39gbaFRjilTWwUChsUqLNXV5BBfGtI8O1B+fb03n7CUspfbyCntv17wHqG4/tQ/xezRbegxVcR0Tj7kodieOYphiEK49/AQMwaJTim9x9gwRWsU/9rzzSFTGUKsMJ/917HTGT8HdPOng3/2OFWVS+MVMU6V2EDKHRbdG0r4Rlc0C03qs9Y8TQJkTAlT68Vey2o9OjC6vIlpnlMBPEUfRTG3VHQTP45pyRoyMUZeiBl5d
+    PGHOST: >-
+      AgCXQ9pRu5Z1RviVnfaqEXARZyoB2PZ2CM9NNmzfmUtt+VCWeJcey9eEnHegYhYuPX84AT+f/ar5qQlAu6ijJmIkuuQX6X2LaK8Op8zN1xBbv6d/h8zGmQ5jiOBt76G7SG0NIxbTTOvPIKaE7hz8XsOX7uURu+PsI5NtYUVP2AYL4vqUfeljuA/yDhJVmrGczpk+DqmR/NRvV4uQ1Sng6t+EVtsQEMxGt4ZSK9Cm/0HWZ+DUvkEyaq5OJiMJDLeZpNa/HVf76N9nTnVV5diPX1OQh5nu6phIy229pEID7SayNyhWSTSOymKiibkVXAB+kyuw8Do/KU2voyBpJBRFjofIQfQoWMl7ItXOaBW2pjnTD3CzUI1o4Als98/cN64H9VOaWBAwSTGigWrfOttm2zmZCgerIURxIfVU6ThzedZxv9la0ANLV1Pq1/HdbkcsoGDIAQNr8c8ApauQaeuD/sBdh6qcPmKz6l/BQH/fdwWMAMX6jPW8t22oqbeGkWu9CjDjo1CfwuklY/DVHWsFAZefbjkYsmeKpgM7iaTRkeJeorV8YOdIxjZXpn2eUvUOw1CS3QE5CDPs5w3ac95ObMTL8MP+Gzeq6herwkrwfGzKNxK7XMEtAX0Og4+EyERSytjQwN7HBq7HFnO369c+PS7trvkn72sDVy9a+sBJ54jCguL/TARKgRzgLBXci+5TI9H0kFUJlOEykg9P1bvVRzF8ksnfeqIYGkqhnPltJFt/GYKygkE13BvWlqA=
+    PGUSER: >-
+      AgCsIT6Ky/EBtTotsZJ6vnvJL034IAMi78w7s4HdVWXIPEw1LU0dgJ8mvJKzPN/zcbQAow0LJuuwnosoCtk8MJShf8H8O1Gtbyp8zmZXMIGqt7LKdYRL24hzGQjcIvkrtobtDLoMJtiPXOFMA20F7i6LsSG/HUrN9weU2XQEAEdXXpclcojPlp3MXZflWWj+h2FW1pWkrRAblO2KTTD95+Ctxi3Nz5e0BkBA6UM6PVt9RFru3jTLOxTjQYYMcx1wOHitdNYvtXP6U/ZR1WufCv4KLMtWFD0Ix9Lqx7u4XXMvXYZlUFz3rpJBlgdN4n0XYXGQqny9FyDu1fzV8XyGpxp9dh0ICK167qjtltQlhrjqFVLpSyqY3TZQ5Usc9Rde6gFbsvI6HjvsUxerqkJdrwilgjVv6/bOpUnVu0fIT7DAx3jdpYR6cDxNXz+MRRtxasYYibho9AntMk3D3wnCf5hEuFJU00jVpRuCO5s4VRC0gjJ7F5Qd0j76bZnARlEGXEkoJzqYhYw8H4vaq03aeFGvGcVX/Y7/a1EQgKiwXd908tAq/Q79ywb8sc/KWYWtXoU7cplpbnBgF/31XSsd9ajazpaIV643sdjTw4COPxj6VD+AinH3z6QmxaSJf2K/it5ZYmvlTJobQN6oiwsqtq6N0fadBaSLN1jdZIAG/R5LosC5m8gTCKnUvsOyJ2UwNVpUWak26xZPcbQ5WrLdIvHiee5C2nl8BakyYa8g0AoZRuYtlQnzusqj0wmKY8ONfA==
+    PGPASSWORD: >-
+      AgCCmVqUnhWN73pBD8rmTeLNvChMlGrhF4tX1EyQOAsGTKW32XP1s2vQ1rfm4FrBWe9JfG7gbrB8mTD4W3D4HezBT3xHPPLWBAoslk4I090jdGkOtNgs1hZ6FIrmCdvfpCARE6voBa/YuAyaVvNSnUMgPUATkleareiRKXwjaBF6s8OQopshuqS8Lj//Wdiyof6UmgxqI8euOhaKyGA4cSccRxOhaFOj5G4Xz0reK20IVQi2JIffM92Ml5/DRwWdvkTn//k6hqSQEhVI2tkm/huUmyYbtDw0eBJE0+G3e1dj75ScjXGdi15uCVkun2c62MlPhnN067KT4SPcmAR7zu0ERTn1AGrb440qY8t8Jk/Otj1+4OHWEODFwEtPt46zV05zAeW183I+RN/Avd88NVdbPX0vmTx6K2zYOnyrC1GrGHsGCfb+KYoXqOAeZk5P8R8dMHa5GTdzD3g3C7fq3n+D3kR06gFrBjhxBTJdaxm4MJZeRqBtbYRY/6Qlid2Jgf6p9AgKBXcN2Gd8E5aWk7LfkNBXRb7Os0ubQvUsncZtewNJtQ67abvLmoCItA0h5QEJibdWBewh+z9HN+oS4el+WH4zTmH2NNpJbrONBdbZ9aplckhvOThHhkdH16pj+htWadqixbILlAh5OWLkMN7U0CXumMA8a68SSn2s5eUMhFZj0gSvxnVM2GTfYt3SyXymWScZC26oGr4WtcNDVovPFWFP3Q==
+    PGSSLMODE: >-
+      AgB+xNo/SvPLKJUaAXyDC2hBqgt7KjFktXZC7YsOuqo7d5EfKZAH20Er16xzZOpwQgK9yj431bfJ8x1j1eEK9fubtU8RrurxQkrPnUcGwmZLBJ6tB7uuUCL3XkF9GIIj5Tg6a6VG7YyRSXGLXZ0Fzi9YCuRWhG+sV2up2oNJqzk68cyn3r/n9idR6coXAVPp5bKIktJE6d6Q4hnH0fkOtI83O/Gl9APeUP+h3qt0ygIj3JlTlCW9SOd4loOk5iehMNrPqOIq8ALdokbEpQ8wIkRuFip1544KiKV4Wv903dnlG4sPuFoAZzExYnIyEIrMLi8jY0a94RyN1Ii+Snxe/U+GRxi0d67w5f3st6alJkWK13UbZ/CBjwso+eAXmbex5k9hHwNNcspB5jVCtS5lMrbiZZzaSvHPvouy/Xkp748wrgFleCkIr5LWWN0VZQIQHcqnbeExvNq4KKnCZ8eiDKaH/inMf5k6qtoS2lF22dRKRTNPfdfr8s/2kMGcMDEG17Lqe4gU4N9zpp7+L1ZlIwm4DRZJs0IJ8wx8IODglvWGWloo2o5x3dJKbKJBc1nCb5nTfTVQeDmksfzxld2fsntxH87P7uk/apfUWDwXWDWvNVMFuYQQXW+oARYu8XoPxPH/eTP6ZgcLiZxdYFN4gWBnvUNYdF47tg6FndfiAexrhMmBFK1zAmhFk7Q1FhPZAMD/3xXTes6l
+  template:
+    metadata:
+      annotations:
+        app.gitlab.com/app: socialgouv-onvs
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
+      name: azure-pg-user
+      labels:
+        application: onvs
+        owner: onvs
+        team: onvs
+    type: Opaque
+"
+`;
