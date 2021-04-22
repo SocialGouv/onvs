@@ -1,0 +1,663 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`kosko generate --preprod 1`] = `
+"---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    field.cattle.io/creatorId: gitlab
+    field.cattle.io/projectId: c-bd7z2:p-7ms8p
+    git/branch: v1.2.3
+    git/remote: >-
+      https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/sample-next-app.git
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    azure-pg-admin-user: sample-next-app
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  name: sample-next-app-85-preprod-dev2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    app: pgweb
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+    component: pgweb
+  name: pgweb
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgweb
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-sample-next-app
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
+      labels:
+        app: pgweb
+        application: v1-2-3-sample-next-app
+        owner: sample-next-app
+        team: sample-next-app
+        cert: wildcard
+        component: pgweb
+    spec:
+      containers:
+        - image: sosedoff/pgweb:0.11.7
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: pgweb
+          ports:
+            - containerPort: 8081
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 5
+          envFrom:
+            - secretRef:
+                name: azure-pg-user
+      initContainers:
+        - env:
+            - name: WAIT_FOR_RETRIES
+              value: '24'
+          envFrom:
+            - secretRef:
+                name: azure-pg-user
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:4.3.1
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: pgweb
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  name: pgweb
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8081
+  selector:
+    app: pgweb
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    app: pgweb
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  name: pgweb
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  rules:
+    - host: pgweb-preprod-sample-next-app.dev2.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              serviceName: pgweb
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - pgweb-preprod-sample-next-app.dev2.fabrique.social.gouv.fr
+      secretName: wildcard-crt
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    app: app
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  name: app
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-sample-next-app
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
+      labels:
+        app: app
+        application: v1-2-3-sample-next-app
+        owner: sample-next-app
+        team: sample-next-app
+        cert: wildcard
+    spec:
+      containers:
+        - image: harbor.fabrique.social.gouv.fr/fabrique/app:1.2.3
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: app
+          ports:
+            - containerPort: 3030
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 50m
+              memory: 128Mi
+            requests:
+              cpu: 1m
+              memory: 64Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+          envFrom:
+            - secretRef:
+                name: app-sealed-secret
+            - configMapRef:
+                name: app-configmap
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  creationTimestamp: null
+  name: app-sealed-secret
+  labels:
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  encryptedData:
+    ACCOUNT_EMAIL_SECRET: >-
+      AgCYU5zQRAGub/7BY2VzhhQ/Y5EtYeWcgdBrHMfOdhK6DLDbkiYTVBvdIVbvUp/AtHP8V3UwT0zoQfKRiECwdH6oJ92GJ2DQ6svTNJH+x4EyQRJTeRMOrx6y+iVAcFx6I5RbT6SdKkpzGztpY4t4pGt3IOUoKNrJRqshj170LQqsw57NyxzSgZ0HONNsHE+HUK6AijgZXBthAfWqlFyrg6WIBY1f/jyuZ7jvzlotTI9JXXSBz8LryNYG7kth2weHcmlQKiqERPbWGFuGwM77hzgFwixjqnrGJEjWXDfsAmBLk+B9nVht2H54pPYCD+cyRea5NeisxnNCAOw10BJHEX1gxgNzSwQDVfOSINWT1a8R81tm7Dz7j3LyKKT+UH8BREHMlu4qv7+D6PjrRXJXtAMGN6Vsz0Hqvf6vlZou7O4ygcAtirRaSPvsuU1FOg2JvwfheUVZ7StBGhsTBWyQ0jw9UqAXcjtcbqfzeOc8sEEe/5xyRJctT+A4s4XNGxiF/Mnaa9XB5OHtz55FUDzy2o0S21JXFjnNs2kmDji3gjPwYJzg+qat7ZcGBNMR4KNvu2SiUoDdQMKzmh7mi4nwqlOv08eJVP8ZzXGS3F8QcsMFXPfrH/53hunKq6gQ61D3+CsCN6Hz89X7FgWnMroMv52gNwtUc0yeQ+klIB2RsY6+NefWx0p+ikxHY9MG64qMPtFNG+RW2TwRgcdbD6CC31GUVmGVLpEF95RF7v1i66H9EvNwiRZCagnZ4qYcrQ==
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgCAqhKgc3PtqkQnkPeR0pAyh5bkICHiNpYkHBwRAhRCSo4kktC4p1/OJapMewk2glYBZHdUIad4JEn1V7/EvfMkWs7Eh7CXLYQB8xdJxbl7tyopNSppQxLA2YkMTPmnja5kGJrf2nvZNR1u7aQ7z5ZuP9KFzPsWTj/pFQiczsoyhNrKJmSeAUMRKophVfgKDdvNuM6ZEuSiR9iGhhrGJVD1gHlQaOW0JKCjweuC0opYdP/rlZOD6BvqzlaYc+dHVYbot7ktDzYT98YCIJdS0sKe0/6+L/CQgWeqAUxZxyPrtOk5BsBOXKNuXIrG9sQQ8SXSykubqYRGdClVv6TlazMXvBtuoind14bkJ1G4Are0FsokIPoJxrYAM1Nd4hKvRJvT3BiiEY2JdqRbmeHyZc+yCYUeUkvbtVIHFHGnSjVzAfriR6mLj4psmUGAtjq7qqaa6fJQb1fRr6pnb6//i6B6NjspyMHNi5uwLCn3Rvrqbq0abgtZCh1PUPZeqA/kAENyg3FunPzxiCdlHJnKch7lQDSkoQDukEGWipUnr9/ICfMuAMlu1uTHqjjGrsZoewqY00MHkPNyFiHVwYmEqY9INfmEH9G5UBLaWTorLyvleJUK60d8ZteFArZlskOs82gtcVhYGtE1TZ3VSn/sGKHdC53BlWJ5b65GKP8bn1xKmuu+ah3+NNWkgTydoKzTjHxOiX3FVeDHyVM9v3Xyv/6/Z8KCvRw9cgbmcX+PkTifzsT/10iGvP+aa/8+3tOmikLHHGpTyALG9YOZ4MPOHR5owd1xI0TUm++0+JgxYfeNny+Ybk0O0x/ikVx+gSDR7MKDD9sI2V6wX8cJKpl6hLFIxFV0EUCwHiWW0N5ZnXJarMMhMWzV+4YaD0c6ZxhDgizvIX6nOs0aEihvFBVBgZuiIiO3RW0fUDel0kcqzg==
+    HASURA_GRAPHQL_JWT_SECRET: >-
+      AgAnThMc6uuayn1BR4rLy65IoFDsv8pzBpphbYxf36e4OJooSi9s2upWe8g3HpVfdb5SthH77uw+64Ks+Tvku1gHrUOOXh89F+RS1mLwBfNhe4Nlf55AosasYsUOjE5mWOd0Czdp723ujL9T1SoZNyGeGyG2ZPxR+clgBJIgX5fRMvfi76SSq5trUasItHflHp+io2leMD8QBB0jukLf8vmHHCZ36S1hwtISj7NMHtiv4bl2AQPj6KjyO2U0AB+Uf+Un21RwCRsXv4mDkKNZAGSMn67IkqLRK02TFJQRz4qn+WrX4DPkgNG+fELYHBK0CSi8orSN07Z0qY4y86IYbXRiqJDDKIXq6jNQ2V3Ffox8uNNPk8BJ4lrxz4Bn9r9/rTWRLS70Uzv+OXViJ2xcb4HxBZFSKucOVK4Gx8kFf5xoKd6LV6g6kbjtYQUR4FGQihvZYsDrr5qGv1rxHO7EkY4o9Hre2iHVQJ08imfDoXscfzeJC9lxo/e5M7LusDtIkzwkMkmsv8WXMlGjfg4JoYiQzVA8oMsmeWQLHNdJUdSkZF8tFc3skvgYEeMuDi89KRiuCOwnShrVLzPzYbWO+7dwnyay5NVvtvNE9kXYn5U4EwGExeLGWoRRrDCOUM9sgwAJF7AcDcQUQ+MWupWacW7YE+VjBMuDmJR+1Gx9qDXGUspG1DkDfKqLCxT1L2RoMlbIfubACEYYbZ5IiooqjwbHCMUzbr4aRNSM2C3KqN8wSlB18xVfrgVpWYqZFtXWjJAgvLbn5Pi6ryaBPy/adnlBpGf1S2EakV9uR6gdpsKR1yTmzNT7MCIiInzvq/KijQCiJwAyqIkpU+tQv+HInHxWZQ==
+    SMTP_EMAIL_PASSWORD: >-
+      AgAGdvTnBpg52nSwcqvGIoTRkxweutFd7x1hbU/HHAH9gxPa4ICT5AOZyb+Ec9OeaSBQjf9T+4qYGC5FngtbhqfSiloVvir2NvXZOUy+O3ME33QCzfw4+nANvHmsngFDVsJdjvSz2ykT9dyNbiyFrqRBhV5RnIAqgTfvXozVOFdFeUVRelL+tZQC0miGdHUOmjjOSh4T8LntBwJOj9lv/oW1g+Vai2zOwfSGFRTeWHv/Y5WYXCiuprOzgrYUEEzxDb/ELD45S5fcwYM4KVezHe1NAWqjPhcVwLq1q4iqSaHBwGBH528pxcFcPUn3u1uK/ip3lsPiA32vi5bFantUoBiL8HfB5NedJMls/3AeyIQl53Ymu55kr/NZ5YugXExs+uCgm3aRE8EyMWnVjvYZ2npSXS9hiTsBm0jyEHOSfdLiuWvGK5r+1zz6mHuBYemQQnLjEpmRhrG5XJyJmHAsRNR1P7H1+3pqSDD8iw0yXinth3URP/4L9JrTaI4Mx2LmDmVj34oGrbMx1Ekqe7t8MjrHy/fIXRqct7X+F+GFjklALzYNuBqNUg+HxbdVKxuo9STbUVhxTXkSvlgOaT9sUiyYFybiqj8vX9VPKhKBxrUmEPue4d63v/ud3YhyHcFENUQ7PKteBUKjzPOaMNi4xvmUi6Wk/sSCBi5BZiin0obLdUGplnmO0rzX9wxllUBS+o14T5m6kWk0b1oUesVOORk9mBR1rUPKHJWCmkFYcoqTjQ==
+    SMTP_EMAIL_USER: >-
+      AgCVO/tUEz52Bt2Az91fIjWN6MYoV+eHqyufJ1N1RzkzgF/sw5DRdpKR5+s9ZOJvPlsEBUoUtd+iH16ZJz/vx4oSR5+KeTg4fXyOIi+jL/AB4hBYP8cQvvC9kXvK4KiS1FXiYvXKATcusvTkHdJZf/CfYB7jyXpyvMdmefiOexjwyieIP//YqPygqgOvi7RGnqohrk2S28YW17/oJA1QatbUh84wNG/6sSAfyy7coYaSU+6gTjHdommuypMRN7QKts/Hj0ZdM8xzXjQ630NzIPjZha6gG++ZDhR2hyo+vGuUESKuE37ifeEJlBhnWr/T9Qm2xE29UDChUpmtGtFz5xoxLabk8eU32qWy3WzclX26D2Ctcl1zy8atbaHq7A5JeWrV9wowhrUMVg/uiDXbt4NTcegHwCfSXl1kqNMVtJl7HijmUBMy+Yf7ntKyhdA6AoLZFQxrypzY3lgIS+2p46Ig1CP/DXakOn7yyoRW+k1KkzKv9E18QlvaRn6coyq705brLLM3/RuISw+FwGbD/VLgiHMIpCarY+Uy+K/c28320DXvoMLopAJekUnbdiPzL7vPLs2ao7BPZ+a0GDvpp+f+/T/EoVIHgiZoHiXEYmc/n2fmYd7Gb0UCa1og2ovhiegLnaFewD2OKMuP/gDuIwvnX9jU093dVupOw1muX0wgB+NH4xl7rTB42nvxLZK6N/ymfqg+LzQnqU+3drEWunSgepvKYem+86aKq2BkoJF+Ng==
+    SMTP_URL: >-
+      AgDVilgKuupA5C2U/aA69wX3hl3Rbv58xFS7WGeUjq7ubq5meZhRyT3QG3Ly1rXzoPCfB3LDC0JDjRMJ1G2jmn9o0znEXYks/49m6hDaKhcwnnlIE/ThBJ/BBqnZtoAjxzoeBSvaEhV/dd/a7GrIQYiswfT8P3LVza4gKdj1li5vs7htCLnZfOrAgAqfXSxILDfHlEk9lmbL5J4JdYlVKesp6XNjcnUWaP2ycc0vW3qWlwrFU2DJw45wZCoE/76hG2s+Tk3VF5Q6kiNJCKTCf88jpeiggxIpntjLJk8nmrr9/aZ8fl8gDWUYV+15UFgh5jSP0nlWlCTmxAMmEL2lwBb9289rt0o3ZM7L+yfzLGD9QTy/Ns0hm2M4Cynwh0SD1ti/lMv/GO73XFShUO2glHM96isPFqvbBdBGua8ksp59W0TYQRMFFHbygZEj4k5K516w3gV4XonZN6INOqKt4s27R9oiOoFup2mQo0ns1sH7XB8q/wXVmro3km/dqToSOFRa/0v+fZNfzlh1X0JlqI+940CQz7I3rusrFDR5kfryVt0A6AP9tjyG9jQAjiM0lwcJgHrDARpNXuo9qzLf0yDK68NrR49XGWNugRuKHEA8Ka7vLmbeIvZOElsfn/ZCpnWrUNcRO/5dvxIQgNRIKiHVcqM1QV6V31YZMa6ZfJI/zhLaWEoOV0svcYrO9jy9H0rRtrMEqXZO0IQ8pYVfHhNxbA==
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-sample-next-app
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
+      creationTimestamp: null
+      name: app-sealed-secret
+      labels:
+        application: v1-2-3-sample-next-app
+        owner: sample-next-app
+        team: sample-next-app
+        cert: wildcard
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  namespace: sample-next-app-85-preprod-dev2
+data:
+  NODE_ENV: production
+  GRAPHQL_ENDPOINT: http://hasura/v1/graphql
+  ACCOUNT_MAIL_SENDER: contact@fabrique.social.gouv.fr
+  FRONTEND_PORT: '3030'
+  PRODUCTION: 'false'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: app
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  name: app
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3030
+  selector:
+    app: app
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    app: app
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  name: app
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  rules:
+    - host: preprod-sample-next-app.dev2.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              serviceName: app
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - preprod-sample-next-app.dev2.fabrique.social.gouv.fr
+      secretName: wildcard-crt
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    app: hasura
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  name: hasura
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hasura
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-sample-next-app
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
+      labels:
+        app: hasura
+        application: v1-2-3-sample-next-app
+        owner: sample-next-app
+        team: sample-next-app
+        cert: wildcard
+    spec:
+      containers:
+        - image: harbor.fabrique.social.gouv.fr/fabrique/hasura:1.2.3
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: hasura
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+          envFrom:
+            - secretRef:
+                name: azure-pg-user
+            - secretRef:
+                name: hasura-sealed-secret
+            - configMapRef:
+                name: hasura-configmap
+      initContainers:
+        - env:
+            - name: WAIT_FOR_RETRIES
+              value: '24'
+          envFrom:
+            - secretRef:
+                name: azure-pg-user
+          image: >-
+            registry.gitlab.factory.social.gouv.fr/socialgouv/docker/wait-for-postgres:4.3.1
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  creationTimestamp: null
+  name: hasura-sealed-secret
+  labels:
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  encryptedData:
+    ACCOUNT_EMAIL_SECRET: >-
+      AgCYU5zQRAGub/7BY2VzhhQ/Y5EtYeWcgdBrHMfOdhK6DLDbkiYTVBvdIVbvUp/AtHP8V3UwT0zoQfKRiECwdH6oJ92GJ2DQ6svTNJH+x4EyQRJTeRMOrx6y+iVAcFx6I5RbT6SdKkpzGztpY4t4pGt3IOUoKNrJRqshj170LQqsw57NyxzSgZ0HONNsHE+HUK6AijgZXBthAfWqlFyrg6WIBY1f/jyuZ7jvzlotTI9JXXSBz8LryNYG7kth2weHcmlQKiqERPbWGFuGwM77hzgFwixjqnrGJEjWXDfsAmBLk+B9nVht2H54pPYCD+cyRea5NeisxnNCAOw10BJHEX1gxgNzSwQDVfOSINWT1a8R81tm7Dz7j3LyKKT+UH8BREHMlu4qv7+D6PjrRXJXtAMGN6Vsz0Hqvf6vlZou7O4ygcAtirRaSPvsuU1FOg2JvwfheUVZ7StBGhsTBWyQ0jw9UqAXcjtcbqfzeOc8sEEe/5xyRJctT+A4s4XNGxiF/Mnaa9XB5OHtz55FUDzy2o0S21JXFjnNs2kmDji3gjPwYJzg+qat7ZcGBNMR4KNvu2SiUoDdQMKzmh7mi4nwqlOv08eJVP8ZzXGS3F8QcsMFXPfrH/53hunKq6gQ61D3+CsCN6Hz89X7FgWnMroMv52gNwtUc0yeQ+klIB2RsY6+NefWx0p+ikxHY9MG64qMPtFNG+RW2TwRgcdbD6CC31GUVmGVLpEF95RF7v1i66H9EvNwiRZCagnZ4qYcrQ==
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgDZX0nGJWSkGYaaTpArKf3L1jsBEzKzsE1qkDIziGJHgVuqdPUhvZwmd6/9yPtkw7ohLh4/yqpQFELURajvHPJy4ZBok5bRhX4eC2tbsEQ+20YmL86KGNUhGSdJ9Ua3m/jV5qEyFnLPBG4cPJL4OjEDNvm/WwJvQfTlXaV4YoZMzlZmPMLFKAQ/8jKoefaIjtTXPq3YSeULlEx94Pv08C5b6o0US4fQwhtBAUOlUmhPEDXo0u4r4yM5w7HGWSCD4Dsb+rHlcRi7ulCCafeaBLITq3BMhzS1eO5XNrLGzh4iDh4rTtv83Y8kFFvb/zXlq/uiPZMoTxaH5eTqYQkCRA3L/2T7hWWiINDB9kbNTIyIZ2uF0W1RLnwgq2VASruNEhxXHYKeQfnhxcqTxGAsTgJgAGhMm17vALEAHt+72L4O822WJw39TB9ozqbnZ0I++ZAmd+kIrZ3Uxp7WfzmM7bKzdqn8L2k0jxHCOKWxChXayONqTFUq9YfJdqSHtNnfi5Bt610SjmD62Vil1hmxIhQv6xmzRwo2pfbhrUj6gNsNdDTrV5fxfZzEOtvwl6C+bPuHmD+qbke78eiJp8A4WIgn1CayHsSoaokH36Q1IW+ETuyQHhz8RMd8ZmrGAeSWUm71SR0nKCWgCwtRX4NhBR5fGR8M7CLTJm3ofrv1fyZ8WKPC7OcnhHmKYBeaw6qku9K+0qRCuvIp/6/dd28SC1obdir77d924ZTkFxUVIAu9J0u0AOEu6UZS
+    HASURA_GRAPHQL_JWT_SECRET: >-
+      AgB0yHuBM57mDtyon+1dEC9PTgejHVGA5uOHbdu5P4tH6CuOgpH2cnbXnBaeD+7d52aCNto7a0qD5TN4MtwMQZbJuyXdH8QIsZSvvVmKK0Tf5dgYBnTqDKfJnaH/frlIyrFrZs9aj84uHpZPMw1jP6Rrn/gHLn6oNdvkJS668c5ALSvjJoNoqT2l+2TC0p4fNq9H/q0HaLkL+s5Jfkb9ZqPevo3sBQKJvGEEZmgld0U6S95hiGRVhEGqLR90ZbnYpKpHXk09fxva/UgRGGniK4yAJ7noeUsB2HZU8+X88I0TeX7vx0+WHAqV65eA14e2BegKI55JPeX8rXte/Iy0KRkyBQ8KtD5jkfTsmdeLMchdnmys7pu4CGiRXyAANT8uWzP0QifqfZhG6fHqZiMPhOa8XM2Z8KhFgtWH0m8IG/OUZCllWeRyAFTcupa5Jsq3jn+Y/0N2sgeALvBEmhGSN8jTAWa4cetoF//1kk67BaLFpLrc9P2nSGqd5HII7HGL1C8kCbV9Fmz/etX705sB9g9Sg0xFVhNqUvwYUOs9h51MQJLn64zO1Bd0q/U8LN3k71tqidJbsEc9P1JX90U6QbGu2FpQrPFAIz3Y0UnAiCfxyfVxwGvciwAQw5yIo8S2/XbB1wyGY/hWCYy0s4qOl11Dj1YpNwe7Xjbq7cnGfxp2BFC5Ps4O42jeSj7mhpUSyacLG6MavSdSPdrnOAMGKD7Gdz7jBd5/EBFhGmN8roCR+8H/Q5kbUlKfS5kEQR3Xkx8uNHqW8mr8ka7Fbn06vlmCDc09L9sXC6rJOXwIsZ6peqD7e1gPnotGfARHh5D07R3x6v491eS/FVCWao19XUHsaA==
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.gitlab.com/app: socialgouv-sample-next-app
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
+      creationTimestamp: null
+      name: hasura-sealed-secret
+      labels:
+        application: v1-2-3-sample-next-app
+        owner: sample-next-app
+        team: sample-next-app
+        cert: wildcard
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hasura-configmap
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  namespace: sample-next-app-85-preprod-dev2
+data:
+  ACCOUNT_EMAIL_WEBHOOK_URL: http://app:80/api/webhooks/account
+  HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
+  HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+  HASURA_GRAPHQL_LOG_LEVEL: debug
+  HASURA_GRAPHQL_NO_OF_RETRIES: '5'
+  HASURA_GRAPHQL_SERVER_PORT: '80'
+  HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hasura
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  name: hasura
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: hasura
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  labels:
+    app: hasura
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  name: hasura
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  rules:
+    - host: hasura-preprod-sample-next-app.dev2.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              serviceName: hasura
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - hasura-preprod-sample-next-app.dev2.fabrique.social.gouv.fr
+      secretName: wildcard-crt
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    app.gitlab.com/app: socialgouv-sample-next-app
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  creationTimestamp: null
+  name: azure-pg-user
+  labels:
+    application: v1-2-3-sample-next-app
+    owner: sample-next-app
+    team: sample-next-app
+    cert: wildcard
+  namespace: sample-next-app-85-preprod-dev2
+spec:
+  encryptedData:
+    DATABASE_URL: >-
+      AgB1sQgiiJ4WL0xBcqfr4L/XgfOAfPfHiVF3EUUmLmo7CqDpv5CwU5oOzB7GoXn+eWIpl5L1IJizVY7KOXm5agBQNktaMFjVn7n5gwrUH4tfB2YspAylXn0SvnXScrIHycFOn+fvdqoQlKK9e7Eqdiw+xVvZaTyFm8368tMkzf/Yl9dVA3Dv5FEuzr97KfSm1k61qlsKTxgmF7EXybIfC4nuc0JwVunO4P6hMQOczk5LYNqS/ephGl8ejnytUUsNFZTZJzVylVFEgto0iH3WC9oWumZrRFd9sUGvkPQq4pBOLW57ndEEM/COZ4oMVJdt3Bmtzhwn0FE4yC3mSIEyvfBeq6/qHWgonx8WXrDbg+2GLYARM5f1IE5D9AxwhJgzNA6ALVwW8RziwX++2mdtnu65LLM2jyiDZAD5thOM8eIqJIPf0ZEkQxybRWGlti+Y3HXkCiG3g9LUvyxYIPuEUGHNeZUIeHGdEt3WDADreLHhgHK36hOlwSHdGfXFiNUXb0tjqoZEoq9x++YftKvkHgVRsCTt3O8WE31Q/OS5nFuNubqCYs2ORg+Fh2IA9VzG1pInYl56szWYDFtf5iRk+XnBJsViLaVxy1j/PHnng6cV0cK26UsDuc1iJVXW32L+aNgE9VpVui2/ofvXz7Iysbdpv8dc4KCjiG3lCi1BS2ac+poG8LAIAYb72zPFhXh7viphftA968EKDVUm4YtzPIkovPKnB4egmDz0yJoXpTQ23a38+OKUzSqHB+DTKQEM2G0wUgxR4f7kmV709Tyodk/ZWeVbW5svL6O8bhjEzqQAX3xHZIlWFMIZiSsHcTYCbg0I0n5ZZSjhpplLyJhNUOBv1p6epx9cifY952Dlkzxu/k8v8t2qEA==
+    HASURA_GRAPHQL_DATABASE_URL: >-
+      AgDQkNPHfR61TBE4Rw117ahUwtg860JRtB6NxMSfkaN3Z4zY7n+vFJAvxr7KPdInOiCeADg3PJFVHbhTo9qxsHKAjnoOOtJNMsRiotauj+WpgIiu8+Fx2hYUGyZxFa43HabB2dcc5boRokV+34sN3VqHbFHYVnqyJifHLPEtw2FDnEezFQ1PJzebCJ3aI6P+yjkJKRtJTcXy6SakAliVJi4cYw8aN9mnB0eYjKyl5ASrDr1QB+6AbhgywusISEHD2IrKPOYe/GfAyNyoLXqjuc44Nta3FLehQpS5yySULREJVII6yw8JQ60Oz1yZzRje2+igMFBFBMlWbnIExDCZr1bM12d1rb4UvngHU+rBQS/kGI4ME/zyohOQ485gTxjtEh6t/K7ESqTLGCxlPQzbX8fY6CTCLVGDQKWua7AVoNCD0VcfOdKG7zr7Kn7SOEzUxX+GIos1Qv9ER9AUyy7hV/4g2oXC+FGO4TX4Fj2Usyi80SRFRG7PsSmA6KMz8tvIgU9naKmee6EzwLFpjuX/1ZACNny3EX0fN4Kjmi1iyzGrV210I4gK3WkYiWlqLX4Sw/JkoZQG3kNhJWw6Wmm8BGTTuoGomXZ8SJYUWW63uJlWfSi+FIrusG83gB+y9gF0sV19/xppRpHPtoeoFlw19Buf2L203kCpUAsot+feCyWZR1N4aV+0oA53xFaFdJbkPU5t6aMyS4QLIuE+85S1N5QFn92aKV+utqMjhMMhSIJ7gkvJcMGWw++oZvT0KIg7wRbTZzS5ScrBIqkHzlWuqLk4GoCy4k30J9PhGyWjxjPceatM97ko688wZ1+P3NgAxfFph6b8qQ/77102CyZmV4A2bo9XOpZPMZhTUpcbpVJuq0OQ74G3mw==
+    PGDATABASE: >-
+      AgAZqbiBqd5RISKXKdsjJDcw4TTIA3hjx+hm4YrLaDvF9tV4vv30WEXpuud/bD+eMm1YylBf5AKwIOTwU9kMyrv1LxW7l7rpKq7D/5RfnGDcN2EB3Pnx/uPfxO/1vqOmzP41r/lfYAnJHe4LTLsDSbW0n/uYHzIYMeV4miILbSJzb+9ahrNTIVy4uBPYGmscH7qAWK5OO6eHtdXTRshLutDkohQ+XUhpTTRo4b7mMzU4nPOtsUMC+KPD2Zpy6dfGvoU1kz2vY1wrVzq0NjxPu+Jk1+3/+yw1dTV66tuy0gprrQ9oKCG0xdeE6s1wVx87Wrvc0S0ZIoKPwM0U4HlQutAbiZ0CCA22K8THVofJwsYVybxly/Vi3Ty6dlIKGQ4nFguEtF9KcL+1EQpB10ywQcC2Fxx2iNzgoZfsgAfs5Jn/rJ5pMy2J0nyMX6jyNhIH+GEIdTmLlMUuZRrLBl8l8U3M8ZABa1e/1FnZOzpnjyf7CFNzi7fiKSLF4xdOKDMYErvtNXGllvmGjA4Ro8AOGftCuNP57lyaYhz7PCZMAseDFVTvv1zE6txwyjqKjPg4AZ+Ml8bq0dNREC1ctNrq2MHFnM9tXAzUfdiBtZHdV5bKBaYpFNlxcuFoTK0crK7E6910l10l4MqvkD3bs5wxUU67WzI0CpEXihSFe9Lg9y/nEMGt6AGsaGGr/P2bAtvIpCmxwhSImtLP
+    PGHOST: >-
+      AgCOomA4siPD7JPT3Up99IBWqT5JnZyv0bZDsP76RNvpJfORqRh/H+3IERummOFuXe8e11AZQ257ldIeSQKKFqbh3y6vd824rde/b22I13d3pg5tJCAWNqzDfcgoheoy0K9wSNA+5a6oRElQdiGgO/GhgiEmPop8Rd9RT9E1xlbRfCCvQnfpk4+nCCbThP6Ke7EmmcSSMl8TxOi+x6D53ZlcTJYIjcXifc5X03KQBiZImoyKTnpsL/APr9nk/O4GVCT99f8KSanXC+4Wt78VfQumiMjOEjUVRg5FnG6uvqiSMTwCoPX3VFP9eKjWTcM4y/8QLALfaDnGfhRqcVJF2Rv00m3rBrZRTXufNb2fdxdxf0NhD3HgYfa7IBZhQ9jJu0uq30QFnuJYQ90tT5Sfo7AmLtRQ4Z6Qnrt/JZfgr3k/qxb3ZSsLQlZ0FwjRDcGRZ61muEQGPUzS9ttbIAyKJLuOAKptwbn8XuBOWZU5O4CvxrJ2EUkROTIo+tZIcsCerGP5wbbgemN98Jh23USGQT4Euvv3tLRvtG4jJ1pThwuSPM/lPXXpQbTftozr/G/Q+LN9oY3WCCUtjKU1UwlcLEi49EOA01BjKpGuI/+TYUb66A/YKdiofcOvgejcXaW2X0xmQGu+Ujv3GfmCCs5UsngJRbtl8NMyhVKGaZW9joL7NX4pgMdVC51Xn4L2J3IAH9F6squbGiXQy8NBxMVZ+ruWZiAOuIPuL7KgjhFI8hr4o7r+gbLwZ7GSINb2ATkC9tSkRA==
+    PGPASSWORD: >-
+      AgBYKjPGLAZbgRH66Y2Cfpwko6OVdah8adb7efOQDhBHrK3AQllBHLlj52eU5xA2uI+BkAYGx8LWaUhU0jYTrdFMl3cXXUqJNIsOjK/aps6aqsVR2zup1m35h3WM01gWRqiPsbFw/PedQeM0FBL6/zUJuKLUprkiXP2ghyZn3r8/+mu1u9BJ7McPS9n8X8clklim3ykcvQuCmEDa8CQPXL/6cLpsNNPBe/R2c7Mia+qWRtGBkb9zFbu1CWUSPEncUvVfzq3josrrNY5uPTWS8UUtANzVvMBjh0oCDTVDL1zozj39XU8i3fiHaWLkSrcAcRUahKgl7RdlGPDLBCFuKSgb+uPG1BSBGE1AM0eFCyR4+xo1y0Y4wFBE+3DvbGQJTLy4R2AcU0iIPpEyygDkuYguGTswX/PbLZK//o1+oKI4d2vkXgAqSchq+muzebdLsL8n6Ua3Xyxe0Yd/uIv41ITcFnphFdThd9tHpOOORckekWAfAmmjZdR+2keejeVei1u+XOrpa/z9H6PXwKxERuBLDmxgCf4UcLRFlQsj2jSgC2i8Z53UBuU95gux5TViynaBGEm2KJXedXni/AY/XqG/PYXdXA3GGDEbeFSQ/KwMf9vLRWrdqtMuXScoGyrtU1kNekLbgOHRbyD7ByYfWu/FSZAQ3/5mkzC36I5VmaCHlNox45G6wij59DERI3bHA1RRcyZGnrZqoJGp7cwcp/9faDSvQ+vh0tORFfpZbV97YC5WVGC2
+    PGSSLMODE: >-
+      AgCC74aFvBk0LCLZlt2QRHI2Clw5fh7rs1CiRlDW/YGe9/sU51n1Y3QHiUrcWVzxH9/wO/KKcUlNqbME2DBGxiFXYxv6NcqMg7C512/WbPu5zxFsKujQqVWTEsiTAAw8/bE9nZx+GyUMAJkRoUoHXbsrlIhHhn8VGjEKbhgh/9X5vKtUykAxMu8J28j/VI0neLCsnHEBlKUhq0N9s5Tq6FoL7gGadlf02sUpMcXE6WJCKNg8YQi8L7Pm/qmoCyErQzPnW6gLtYDFEmXhxxBxNmHm2dLFZjQyQQ9Uyoi15Akfq6aOtTpWuV0NGHdYsICY8CrsD0fdoCa19uewG6S7LHWGUBdrdLXV4REKxpJ4mexwIZlmGze+mOIT8IAx5S7J+0wHLs675Hw4BMawRqKaHSPkvjsn7g79ays8yFE5y4Yip6H6KNa7H1e5e+J+bhngjKPqvqNv3gWiUYHZSFXUuCl9TPwVFJ5r22QJLv9MgVNMnirNOR9U2tmHGTIVSR6Id9mG+A0BMMS450TH9xSsPKTUU7xQNG5u1YmbZ1l1skIMDo5ruZfqnTLV8WybYPzxv/t7/ssP4AcImXpwyFhFCdfbybnCJ4L7RfjmG9RNFAmAaWbNj9enRYy8bSmCTQzucwLYpJpKq00zleDZ8an/Mlw7I/txR7UIiAcIYtl78i42MftiNx0Gn6OSm29dtmVOkIdBLyuwg7Ml
+    PGUSER: >-
+      AgCjilQtPg15KnXAKBPEWUcC6yNyJKUJQedZ6ba8rhH2vb1+N4fS4qzIL1eOH7GwnXd8d2YABi1eepdhnUK0FKv0/XLdEp+0gvRLPqqSUrJZQUtfeRDaqqEj2Yn3GGkk9IwYF8NP21mw2m0odgxtImuvoz+3H4ZdhlBlQNMMGefXi0IDScjj0XU3lrEOXzC3WPmjVh/xjtcVIOfXaFESv/2oC9IMs7vq/Touw+f3gdN/nv+5SeyHd5RFqso0VUXDl8DW62DMX2/eTzLHXwt8Rz0IF1Pbfmv4u+LxWx4pjHvadmyplQraFvSHVEWbxGLIN+GNKh8qw3ApFFuUWgc+aWEmoAPH+C3AcEgNPxMhFve87LfNCS62BnA2lJ7zr3P6iXfTdVBs1tjevB8kcxpKZ8SQ1ymxXc/uGJxScGlpz5fdTFSmDMtWdQl7SaJdJapY5CJXczkn1r6HZ+fFamOohYsr8TcZXez75iGMfIWimx1VeklKZFcKM7Zkpku/Hz31aJx5AmLeZkguXJwJ+K/kDMV4Mo4i2R1iB9QIMKNKvepTK/pQmc49Z8dzKkn8jkkyzpSEK3uFvwVolWKpbNTrKAGY/P7WMOIMpxiL8t+AEV8CdzXqlxPa99cvwL64/MQZfDScDLV/AofxwEILy1rtozxB+v3zPNs56/tMlK2vXrRoMpWvan73qC1+ig85PWG4+OS9YTd4vXzKzqx5kO7oj/anPUKYdAhDwFll8XoVBKg=
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        app.gitlab.com/app: socialgouv-sample-next-app
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
+      creationTimestamp: null
+      name: azure-pg-user
+      labels:
+        application: v1-2-3-sample-next-app
+        owner: sample-next-app
+        team: sample-next-app
+        cert: wildcard
+    type: Opaque
+"
+`;
