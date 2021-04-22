@@ -11,6 +11,11 @@ export const createDeclaration = async ({ declaration, keys }) => {
   data.id = declaration.id
   data.declarationType = declaration.declarationType
 
+  // TODO: see how to better manage job info transfer
+  if (declaration?.steps?.job) {
+    data.job = declaration.steps.job.job
+  }
+
   return fetcher(`${API_URL}/${DECLARATION_ENDPOINT}`, {
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
