@@ -33,6 +33,7 @@ export const formReducer = (state, payload) => {
     case "INIT": {
       return {
         ...buildEmptyState(),
+        ...buildState({ data, state, step, stepName }),
         declarationType,
       }
     }
