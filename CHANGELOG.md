@@ -1,3 +1,10 @@
+# [2.12.0](https://github.com/SocialGouv/onvs/compare/v2.11.0...v2.12.0) (2021-04-22)
+
+
+### Features
+
+* using a Marianne with mention of MASS ([#120](https://github.com/SocialGouv/onvs/issues/120)) ([ccbc535](https://github.com/SocialGouv/onvs/commit/ccbc5357d202a139f665dbc75c7e3d4e0366f77a))
+
 # [2.11.0](https://github.com/SocialGouv/onvs/compare/v2.10.0...v2.11.0) (2021-04-21)
 
 
