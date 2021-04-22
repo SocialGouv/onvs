@@ -10,6 +10,7 @@ import {
 } from "@/components/wizard/stepFlows"
 import { DeclarationPageContext } from "@/hooks/useDeclarationContext"
 
+import { ClientOnly } from "../ClientOnly"
 import { Step0 } from "./flows/liberal"
 import { formReducer } from "./formReducer"
 
@@ -111,7 +112,9 @@ export function WizardForm({ step, jobOrType, jobPrecision }) {
           step,
         }}
       >
-        <DynamicComponent key={step} />
+        <ClientOnly>
+          <DynamicComponent key={step} />
+        </ClientOnly>
       </DeclarationPageContext.Provider>
     </>
   )
