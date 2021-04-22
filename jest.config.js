@@ -14,5 +14,6 @@ module.exports = {
     "<rootDir>/node_modules/",
     "<rootDir>/dist/",
     "<rootDir>/.next/",
+    "<rootDir>/.k8s/",
   ],
 }
