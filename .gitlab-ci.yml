@@ -14,14 +14,13 @@ variables:
   AUTO_DEVOPS_RELEASE_AUTO: "🔖"
   #AUTO_DEVOPS_PRODUCTION_AUTO: "🚀"
   NOTIFY_DISABLED: 1
+  AUTO_DEVOPS_KANIKO: "🐕"
 
 Lint:
   rules:
     - when: never
 
 Register image:
-  extends: .autodevops_register_image
+  extends: .autodevops_register_kaniko_image
   variables:
-    DOCKER_BUILD_ARGS: >-
-      --shm-size 512M
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/app
+    IMAGE_NAME: onvs-app

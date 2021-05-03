@@ -60,7 +60,7 @@ spec:
         cert: wildcard
     spec:
       containers:
-        - image: registry.gitlab.factory.social.gouv.fr/socialgouv/onvs/app:1.2.3
+        - image: harbor.fabrique.social.gouv.fr/onvs/onvs-app:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
