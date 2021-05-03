@@ -1,3 +1,10 @@
+# [2.13.0](https://github.com/SocialGouv/onvs/compare/v2.12.3...v2.13.0) (2021-05-03)
+
+
+### Features
+
+* **ci:** use kaniko + harbor ([#128](https://github.com/SocialGouv/onvs/issues/128)) ([e4cc0a1](https://github.com/SocialGouv/onvs/commit/e4cc0a16f0bcb57de7409089cdf20f317677e789))
+
 ## [2.12.3](https://github.com/SocialGouv/onvs/compare/v2.12.2...v2.12.3) (2021-05-03)
 
 
