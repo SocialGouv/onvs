@@ -10,7 +10,7 @@ const Header = () => (
       <Link href="/">
         <a className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0">
           <span className="ml-3 text-xl font-bold text-gray-900 font-evolventa">
-            {"ONVS | Observatoire national des violences en santé"}
+            {"ONVS | Observatoire National des Violences en Santé"}
           </span>
         </a>
       </Link>

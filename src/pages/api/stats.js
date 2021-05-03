@@ -22,12 +22,12 @@ const handler = async (req, res) => {
 
         const [freelanceCount] = await knex("declarations")
           .whereNull("deleted_at")
-          .where("declaration_type", "libéral")
+          .where("declaration_type", "liberal")
           .count()
 
         const [freelanceCount31Days] = await knex("declarations")
           .whereNull("deleted_at")
-          .where("declaration_type", "libéral")
+          .where("declaration_type", "liberal")
           .whereRaw("created_at > now() - interval '31 days'")
           .count()
 
