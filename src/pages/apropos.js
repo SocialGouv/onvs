@@ -15,7 +15,7 @@ const AProposPage = () => {
           <p className="my-8">
             <i>
               {
-                "L’Observatoire national des violences en santé (ONVS) est placé au sein de la Direction générale de l'offre de soins du Ministère des solidarités et de la santé."
+                "L’Observatoire National des Violences en Santé (ONVS) est placé au sein de la Direction générale de l'offre de soins du Ministère des solidarités et de la santé."
               }
             </i>
           </p>

@@ -54,7 +54,7 @@ export const OutlineButton = ({
 OutlineButton.propTypes = PrimaryButtton.propTypes
 
 export const HeroTitle = ({ children }) => (
-  <h1 className="mt-6 text-2xl font-bold text-blue-200 capitalize md:text-4xl font-evolventa">
+  <h1 className="mt-6 text-2xl font-bold text-blue-200 md:text-4xl font-evolventa">
     {children}
   </h1>
 )
