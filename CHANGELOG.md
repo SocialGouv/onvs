@@ -1,3 +1,10 @@
+## [2.12.3](https://github.com/SocialGouv/onvs/compare/v2.12.2...v2.12.3) (2021-05-03)
+
+
+### Bug Fixes
+
+* cases of title ([#129](https://github.com/SocialGouv/onvs/issues/129)) ([4174550](https://github.com/SocialGouv/onvs/commit/417455042ee7523eeb9a60010d42700744f0439a))
+
 ## [2.12.2](https://github.com/SocialGouv/onvs/compare/v2.12.1...v2.12.2) (2021-04-22)
 
 
