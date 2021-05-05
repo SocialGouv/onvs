@@ -17,7 +17,7 @@ const FormComponent = ({ onSubmit, children, title }) => {
 
   const stepConfirmation = orderedSteps.length - 1
 
-  if (step === stepConfirmation - 1) {
+  if (step === stepConfirmation) {
     isFinalStep = true
   }
 
