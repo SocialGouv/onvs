@@ -1,3 +1,10 @@
+## [2.13.1](https://github.com/SocialGouv/onvs/compare/v2.13.0...v2.13.1) (2021-05-05)
+
+
+### Bug Fixes
+
+* bug in NavigationButtons ([#130](https://github.com/SocialGouv/onvs/issues/130)) ([9b7a6b5](https://github.com/SocialGouv/onvs/commit/9b7a6b5c7794eee69fc4dd4e518495d4c260649f))
+
 # [2.13.0](https://github.com/SocialGouv/onvs/compare/v2.12.3...v2.13.0) (2021-05-03)
 
 
