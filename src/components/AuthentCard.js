@@ -13,16 +13,48 @@ import {
 } from "@/components/lib"
 import { RoughNotation } from "@/components/RoughNotation"
 import Hospital from "@/components/svg/hospital.js"
+import { useEffectToast } from "@/hooks/useEffectToast"
+import useUser from "@/hooks/useUser"
 import { isOpenFeature } from "@/utils/feature"
+import fetcher from "@/utils/fetcher"
 
 const AuthentCard = () => {
   const router = useRouter()
+  const { mutateUser } = useUser({
+    // redirectToIfSuccess: "/private",
+  })
 
-  function handleSubmit(event) {
-    event.preventDefault()
+  const [error, setError] = React.useState("")
 
-    if (isOpenFeature("FEATURE_ETS_FORM")) {
-      router.push("/ets")
+  useEffectToast(error)
+
+  async function handleSubmit(e) {
+    console.log("dans handleSubmit")
+    e.preventDefault()
+
+    if (!isOpenFeature("FEATURE_ETS_FORM")) {
+      return
+    }
+
+    const { email, password } = Object.fromEntries(new FormData(e.target))
+
+    const body = {
+      email,
+      password,
+    }
+
+    try {
+      await mutateUser(
+        fetcher("/api/auth/login", {
+          body: JSON.stringify(body),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        }),
+      )
+      router.push("/private")
+    } catch (error) {
+      console.error("An unexpected error happened:", error)
+      setError({ message: "L'authentification est incrorrecte. 😕" })
     }
   }
 

@@ -14,6 +14,8 @@ import React from "react"
 import { PrimaryButtton, Title1 } from "@/components/lib"
 import { formReducer } from "@/components/wizard/formReducer"
 import { firstStepUrl } from "@/components/wizard/stepFlows"
+import useUser from "@/hooks/useUser"
+import fetcher from "@/utils/fetcher"
 
 function MenuItem({ url, jsxIcon: Icon, title, disabled = false }) {
   return (
@@ -36,6 +38,9 @@ MenuItem.propTypes = {
 }
 
 function ProfileMenu() {
+  const router = useRouter()
+  const { user, mutateUser } = useUser()
+
   return (
     <Menu>
       <Menu.Button>
@@ -80,16 +85,25 @@ function ProfileMenu() {
         <Menu.Item>
           {/* TODO: see why keyevent trigger active css classes, but not the router.push. */}
           {({ active }) => (
-            <Link href="/">
-              <a
-                className={`${
-                  active ? "bg-blue-500 text-white" : "text-gray-700"
-                } block px-4 py-2 text-sm`}
-                href="/"
-              >
-                {"Retour à l'accueil"}
-              </a>
-            </Link>
+            // <Link href="/api/logout">
+            <a
+              href="#"
+              className={`${
+                active ? "bg-blue-500 text-white" : "text-gray-700"
+              } block px-4 py-2 text-sm`}
+              onClick={async (event) => {
+                event.preventDefault()
+
+                mutateUser(
+                  await fetcher("/api/auth/logout", { method: "POST" }),
+                  false,
+                )
+                router.push("/")
+              }}
+            >
+              {"Déconnexion"}
+            </a>
+            // </Link>
           )}
         </Menu.Item>
         {/* <Menu.Item disabled>
