@@ -8,13 +8,14 @@ import React from "react"
 import { ToastProvider } from "react-toast-notifications"
 
 import { initMatomo } from "@/lib/matomo"
+import { logDebug } from "@/utils/logger"
 
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 })
 
 function log(store) {
-  console.debug("Form state in session storage", store)
+  logDebug("Form state in session storage", store)
   return store
 }
 

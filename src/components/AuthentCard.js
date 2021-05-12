@@ -29,7 +29,6 @@ const AuthentCard = () => {
   useEffectToast(error)
 
   async function handleSubmit(e) {
-    console.log("dans handleSubmit")
     e.preventDefault()
 
     if (!isOpenFeature("FEATURE_ETS_FORM")) {

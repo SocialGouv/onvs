@@ -2,7 +2,18 @@ import Router from "next/router"
 import { useEffect } from "react"
 import useSWR from "swr"
 
-export default function useUser({ redirectToIfSuccess = "" } = {}) {
+/**
+ * Hook which returns the user object and the SWR function to mutate it.
+ * It can optionnaly redirect to some configured pages after the result of fetching the user data.
+ *
+ * @param {string} redirectToIfSuccess (optionnal). Page to redirect to in case of success.
+ * @param {string} redirectToIfError (optionnal). Page to redirect to in case of error.
+ * @returns the user
+ */
+export default function useUser({
+  redirectToIfSuccess = "",
+  redirectToIfError = "",
+} = {}) {
   const { data: user, mutate: mutateUser } = useSWR("/api/auth/user")
 
   useEffect(() => {
@@ -14,7 +25,10 @@ export default function useUser({ redirectToIfSuccess = "" } = {}) {
     if (redirectToIfSuccess && user?.isLoggedIn) {
       Router.push(redirectToIfSuccess)
     }
-  }, [user, redirectToIfSuccess])
+    if (redirectToIfError && !user?.isLoggedIn) {
+      Router.push(redirectToIfError)
+    }
+  }, [user, redirectToIfSuccess, redirectToIfError])
 
   return { mutateUser, user }
 }

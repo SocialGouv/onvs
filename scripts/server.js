@@ -49,6 +49,7 @@ app.prepare().then(() => {
         "Run time variables (cf. index pour les build time variables)",
       )
 
+      console.debug(`NODE_ENV: ${process.env.NODE_ENV}`)
       console.debug(`Package ${pack.name}: ${pack.version}`)
       console.debug(`process.env.PORT: ${port}`)
       console.debug(
