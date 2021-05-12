@@ -172,3 +172,19 @@ sre-seal MAIL_TO=email1@email.com,email2@email.com
 # Prod
 sre-seal --namespace onvs --name app-sealed-secret --context prod2 MAIL_TO=email1@email.com,email2@email.com
 ```
+
+### Sealed secrets & Kosko tests
+
+Faire un fichier .secrets.yaml à la racine avec les secrets en clair.
+Lancer `yarn seal-secrets`.
+
+Cela va créer des fichiers dans /.temp-secrets/environments.
+
+Recopier les valeurs de ces champs et les ajouter dans le répertoires .k8s/environemnts.
+
+Ensuite, il faut mettre à jour les snapshots Kosko.
+
+```
+cd .k8s
+yarn && yarn test -u
+```
