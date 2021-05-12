@@ -31,7 +31,7 @@ const AuthentCard = () => {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    if (!isOpenFeature("NEXT_PUBLIC_FEATURE_ETS_FORM")) {
+    if (!isOpenFeature("ETS_FORM")) {
       return
     }
 
