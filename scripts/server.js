@@ -67,9 +67,6 @@ app.prepare().then(() => {
       // console.debug(`process.env.POSTGRES_SSL: ${process.env.POSTGRES_SSL}`)
       console.debug(`process.env.DATABASE_URL: ${process.env.DATABASE_URL}`)
       console.debug(
-        `process.env.NEXT_PUBLIC_FEATURE_ETS_FORM: ${process.env.NEXT_PUBLIC_FEATURE_ETS_FORM}`,
-      )
-      console.debug(
         `process.env.TEST_CURRENT_DATE: ${process.env.TEST_CURRENT_DATE}`,
       )
       // eslint-disable-next-line no-console
