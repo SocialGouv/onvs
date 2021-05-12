@@ -12,3 +12,4 @@ data:
   POSTGRES_SSL: "true"
   MAIL_WEBHOOK_TOKEN: "superSecret"
   MAIL_FROM: "ONVS <noreply@fabrique.social.gouv.fr>"
+  NEXT_PUBLIC_FEATURE_ETS_FORM: "on"
