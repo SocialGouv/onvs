@@ -14,6 +14,7 @@ export default withSession(async (req, res) => {
     await req.session.save()
     return res.json(user)
   } catch (error) {
+    console.error("Error in withSession", error)
     res.status(500).json({ message: "Password is incorrect" })
   }
 })
