@@ -145,11 +145,11 @@ Lancer le script : `yarn run seal-secrets`.
 Les fichiers seront générés dans un répertoire temporaire `.temp-secrets/environments`.
 Il faut ensuite, reporter le contenu dans le répertoire `.k8s/environments`.
 
-Ensuite, il faut mettre à jour les snapshots Kosko.
+Ensuite, il faut mettre à jour les snapshots Jest pour Kosko.
 
 ```
 cd .k8s
-yarn && yarn test -u
+yarn && yarn test -u # le yarn est à faire seulement la 1ère fois, pour récupérer les librairies
 ```
 
 
