@@ -53,7 +53,7 @@ const AuthentCard = () => {
       router.push("/private")
     } catch (error) {
       console.error("An unexpected error happened:", error)
-      setError({ message: "L'authentification est incrorrecte. 😕" })
+      setError({ message: "L'authentification est incorrecte. 😕" })
     }
   }
 
