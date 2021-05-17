@@ -140,8 +140,18 @@ yarn sealed-secrets
 
 Pour cela, il faut avoir un fichier `.secrets.yml` (qui ne sera pas commit) à la racine du projet, contenant les secrets non chiffrés.
 
-Les fichiers seront générés dans un répertoire temporaire `.temp-secrets`.
+Lancer le script : `yarn run seal-secrets`.
+
+Les fichiers seront générés dans un répertoire temporaire `.temp-secrets/environments`.
 Il faut ensuite, reporter le contenu dans le répertoire `.k8s/environments`.
+
+Ensuite, il faut mettre à jour les snapshots Kosko.
+
+```
+cd .k8s
+yarn && yarn test -u
+```
+
 
 ### 🧯 Troubleshoot
 
@@ -161,30 +171,3 @@ In k8s environments, go to Rancher, select the pod and clic on View logs.
 
 A fake SMTP server is setup in docker-compose file. It can be accessed at http://localhost:37408/.
 
-### Updating email adresses
-
-Email adresses are stored in k8s sealed secrets. To update them, you need to generate the key using theses commands :
-
-```
-# Dev/Preprod
-sre-seal MAIL_TO=email1@email.com,email2@email.com
-
-# Prod
-sre-seal --namespace onvs --name app-sealed-secret --context prod2 MAIL_TO=email1@email.com,email2@email.com
-```
-
-### Sealed secrets & Kosko tests
-
-Faire un fichier .secrets.yaml à la racine avec les secrets en clair.
-Lancer `yarn seal-secrets`.
-
-Cela va créer des fichiers dans /.temp-secrets/environments.
-
-Recopier les valeurs de ces champs et les ajouter dans le répertoires .k8s/environemnts.
-
-Ensuite, il faut mettre à jour les snapshots Kosko.
-
-```
-cd .k8s
-yarn && yarn test -u
-```
