@@ -95,7 +95,7 @@ const AuthentCard = () => {
           />
         </div>
         <div className="flex items-center justify-between mt-6">
-          <div className="flex items-center">
+          <div className="flex items-center hidden">
             <Checkbox id="rememberMe" />
             <label
               htmlFor="rememberMe"
@@ -105,7 +105,7 @@ const AuthentCard = () => {
             </label>
           </div>
 
-          <div className="text-sm leading-5">
+          <div className="hidden text-sm leading-5">
             <Link href="/">
               <a className="font-medium text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline">
                 Mot de passe oublié ?
@@ -117,9 +117,11 @@ const AuthentCard = () => {
           <PrimaryButtton type="submit">Se connecter</PrimaryButtton>
         </div>
       </form>
-      <SubTitleCard>{"Vous n'avez pas encore de compte ?"}</SubTitleCard>
-      <div className="mt-4 text-center">
-        <OutlineButton>Créer un compte</OutlineButton>
+      <div className="hidden">
+        <SubTitleCard>{"Vous n'avez pas encore de compte ?"}</SubTitleCard>
+        <div className="mt-4 text-center">
+          <OutlineButton>Créer un compte</OutlineButton>
+        </div>
       </div>
     </div>
   )

@@ -88,12 +88,16 @@ function AvatarMenu() {
 }
 
 function SideBar() {
+  const { user } = useUser()
+
+  const url = user?.isLoggedIn ? "/private" : "/"
+
   return (
     <div className="hidden md:flex md:flex-shrink-0">
       <div className="flex flex-col w-64">
         {/* Sidebar component */}
         <div className="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto bg-white border-r border-gray-200">
-          <Link href="/">
+          <Link href={url}>
             <a className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0">
               <div className="flex items-center flex-shrink-0 px-4">
                 <span className="ml-3 text-xl font-bold text-gray-900 font-evolventa">
