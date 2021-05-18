@@ -1,7 +1,8 @@
 {
   "extends": [
     "@socialgouv/eslint-config-recommended",
-    "@socialgouv/eslint-config-react"
+    "@socialgouv/eslint-config-react",
+    "@socialgouv/eslint-config-typescript"
   ],
   "rules": {
     "jsx-a11y/anchor-is-valid": [
