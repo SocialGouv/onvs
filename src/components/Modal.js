@@ -1,4 +1,4 @@
-import { Transition } from "@tailwindui/react"
+import { Transition } from "@headlessui/react"
 import PropTypes from "prop-types"
 import React, { useCallback, useEffect } from "react"
 
