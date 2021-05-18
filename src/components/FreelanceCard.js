@@ -1,16 +1,16 @@
-import { useRouter } from "next/router"
-import React from "react"
+import { useRouter } from "next/router";
+import React from "react";
 
-import { PrimaryButtton, SubTitleCard, TitleCard } from "@/components/lib"
-import { RoughNotation } from "@/components/RoughNotation"
-import DoctorsIcon from "@/components/svg/doctors"
-import { startDeclarationUrl } from "@/components/wizard/stepFlows"
-import { onEnterKeyPress } from "@/utils/events"
+import { PrimaryButtton, SubTitleCard, TitleCard } from "@/components/lib";
+import { RoughNotation } from "@/components/RoughNotation";
+import DoctorsIcon from "@/components/svg/doctors";
+import { startDeclarationUrl } from "@/components/wizard/stepFlows";
+import { onEnterKeyPress } from "@/utils/events";
 
 const FreelanceCard = () => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const goToStep0 = () => router.push(startDeclarationUrl)
+  const goToStep0 = () => router.push(startDeclarationUrl);
 
   return (
     <div
@@ -44,7 +44,7 @@ const FreelanceCard = () => {
         <PrimaryButtton type="submit">Déclarer</PrimaryButtton>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FreelanceCard
+export default FreelanceCard;

@@ -1,3 +1,3 @@
-import ShowDeclarationPage from "../declaration/[id]"
+import ShowDeclarationPage from "../declaration/[id]";
 
-export default ShowDeclarationPage
+export default ShowDeclarationPage;

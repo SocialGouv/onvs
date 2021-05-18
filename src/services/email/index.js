@@ -1,7 +1,7 @@
-import dotenv from "dotenv"
-import { createTransport } from "nodemailer"
+import dotenv from "dotenv";
+import { createTransport } from "nodemailer";
 
-dotenv.config()
+dotenv.config();
 
 const emailConfig = {
   auth: {
@@ -10,10 +10,10 @@ const emailConfig = {
   },
   host: process.env.MAIL_HOST,
   port: process.env.MAIL_PORT,
-}
+};
 
-const transporter = createTransport(emailConfig)
-const emailRecipients = process.env.MAIL_TO.split(",")
+const transporter = createTransport(emailConfig);
+const emailRecipients = process.env.MAIL_TO.split(",");
 
 export const sendReportEmail = (subject, text, attachments) => {
   const message = {
@@ -22,6 +22,6 @@ export const sendReportEmail = (subject, text, attachments) => {
     subject,
     text,
     to: emailRecipients.length > 0 ? emailRecipients : "email@email.com",
-  }
-  return transporter.sendMail(message)
-}
+  };
+  return transporter.sendMail(message);
+};

@@ -1,16 +1,16 @@
-import Link from "next/link"
-import React, { useEffect, useState } from "react"
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
-import { createDeclaration } from "@/clients/declarations"
-import { Layout } from "@/components/Layout"
-import { OutlineButton, PrimaryButtton, Title1 } from "@/components/lib"
-import { useDeclarationForm } from "@/hooks/useDeclarationContext"
+import { createDeclaration } from "@/clients/declarations";
+import { Layout } from "@/components/Layout";
+import { OutlineButton, PrimaryButtton, Title1 } from "@/components/lib";
+import { useDeclarationForm } from "@/hooks/useDeclarationContext";
 
 const Confirmation = () => {
-  const { state, orderedSteps } = useDeclarationForm()
+  const { state, orderedSteps } = useDeclarationForm();
 
-  const [error, setError] = useState()
-  const [warning, setWarning] = useState()
+  const [error, setError] = useState();
+  const [warning, setWarning] = useState();
 
   useEffect(() => {
     const create = async (declaration) => {
@@ -18,25 +18,25 @@ const Confirmation = () => {
         await createDeclaration({
           declaration,
           keys: orderedSteps.map((step) => step.name),
-        })
+        });
       } catch (error) {
-        console.error(error)
+        console.error(error);
 
         if (error.status === 409) {
           setWarning({
             emoji: "🤫",
             message: "Il semble que la déclaration soit déjà enregistrée.",
-          })
+          });
         } else
           setError({
             emoji: "😕😵",
             message:
               "Malheureusement, la déclaration n'a pas pu être enregistrée.",
-          })
+          });
       }
-    }
-    create(state)
-  }, [state, orderedSteps])
+    };
+    create(state);
+  }, [state, orderedSteps]);
 
   return (
     <Layout>
@@ -107,7 +107,7 @@ const Confirmation = () => {
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default Confirmation
+export default Confirmation;

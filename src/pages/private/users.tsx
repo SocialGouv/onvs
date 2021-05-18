@@ -1,19 +1,19 @@
-import Link from "next/link"
-import React from "react"
+import Link from "next/link";
+import React from "react";
 
-import PrivateLayout from "@/components/PrivateLayout"
+import PrivateLayout from "@/components/PrivateLayout";
 
-import knex from "../../knex/knex"
+import knex from "../../knex/knex";
 
 interface User {
-  last_name: string
-  first_name: string
+  last_name: string;
+  first_name: string;
   // email: string
   // role: string
 }
 
 interface UsersAdministrationProps {
-  users: User[]
+  users: User[];
 }
 
 function UsersAministration({ users }: UsersAdministrationProps) {
@@ -83,17 +83,17 @@ function UsersAministration({ users }: UsersAdministrationProps) {
         </div>
       </div>
     </PrivateLayout>
-  )
+  );
 }
 
-export default UsersAministration
+export default UsersAministration;
 
 export async function getServerSideProps() {
   const users = await knex("users")
     .whereNull("deleted_at")
-    .select("id", "first_name", "last_name", "email", "role")
+    .select("id", "first_name", "last_name", "email", "role");
 
   return {
     props: { users }, // will be passed to the page component as props
-  }
+  };
 }

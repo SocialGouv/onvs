@@ -1,8 +1,8 @@
-import React from "react"
+import React from "react";
 
-import PrivateLayout from "@/components/PrivateLayout"
+import PrivateLayout from "@/components/PrivateLayout";
 
-import knex from "../../../knex/knex"
+import knex from "../../../knex/knex";
 
 const UserPage = ({ user }) => {
   return (
@@ -146,20 +146,20 @@ const UserPage = ({ user }) => {
         </div>
       </form>
     </PrivateLayout>
-  )
-}
+  );
+};
 
 export async function getServerSideProps({ params }) {
-  const { id } = params
+  const { id } = params;
 
   const [user] = await knex("users")
     .where("id", id)
     .whereNull("deleted_at")
-    .select("id", "first_name", "last_name", "email", "role")
+    .select("id", "first_name", "last_name", "email", "role");
 
   return {
     props: { user },
-  }
+  };
 }
 
-export default UserPage
+export default UserPage;

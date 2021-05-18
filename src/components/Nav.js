@@ -1,5 +1,5 @@
-import Link from "next/link"
-import React from "react"
+import Link from "next/link";
+import React from "react";
 
 const Nav = () => (
   <nav className="navbar sgb-navbar-marianne navbar-expand-lg navbar-light bg-light">
@@ -49,6 +49,6 @@ const Nav = () => (
       </ul>
     </div>
   </nav>
-)
+);
 
-export default Nav
+export default Nav;

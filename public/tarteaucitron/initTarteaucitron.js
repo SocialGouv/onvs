@@ -1,6 +1,6 @@
 /* globals tarteaucitron */
-var currentLanguage = document.documentElement.lang
-window.tarteaucitronForceLanguage = currentLanguage
+var currentLanguage = document.documentElement.lang;
+window.tarteaucitronForceLanguage = currentLanguage;
 
 tarteaucitron.init({
   AcceptAllCta: true /* Privacy policy url */,
@@ -26,7 +26,7 @@ tarteaucitron.init({
   showAlertSmall: false /* If false, the tarteaucitron.css file will be loaded */,
 
   useExternalCss: false /* Change the default readmore link */,
-})
+});
 
 // tarteaucitron.user.hotjarId = 1992621
 // tarteaucitron.user.HotjarSv = 6

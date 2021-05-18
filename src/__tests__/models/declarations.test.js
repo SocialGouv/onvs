@@ -1,6 +1,6 @@
-import { castJSToDB, validateJS } from "@/models/declarations/liberal"
+import { castJSToDB, validateJS } from "@/models/declarations/liberal";
 
-import declarationSample from "./declaration-sample.json"
+import declarationSample from "./declaration-sample.json";
 
 test("A correct declaration", async () => {
   const declaration = {
@@ -12,7 +12,7 @@ test("A correct declaration", async () => {
     location: "Cabinet individuel",
     otherLocation: "",
     town: "vincennes",
-  }
+  };
 
   await expect(validateJS(declaration)).resolves.toMatchInlineSnapshot(`
           Object {
@@ -22,12 +22,12 @@ test("A correct declaration", async () => {
             "otherLocation": "",
             "town": "vincennes",
           }
-        `)
-})
+        `);
+});
 
 test("A incorrect declaration", async () => {
-  const consoleErrorLegacy = console.error
-  console.error = jest.fn()
+  const consoleErrorLegacy = console.error;
+  console.error = jest.fn();
 
   const declaration = {
     date: "",
@@ -35,14 +35,14 @@ test("A incorrect declaration", async () => {
     location: "Cabinet individuel",
     otherLocation: "",
     town: "vincennes",
-  }
+  };
 
   await expect(validateJS(declaration)).rejects.toMatchInlineSnapshot(
-    `[Error: Données invalides  (declarations/liberal modèle)]`,
-  )
-  console.error = consoleErrorLegacy
-})
+    `[Error: Données invalides  (declarations/liberal modèle)]`
+  );
+  console.error = consoleErrorLegacy;
+});
 
 test("A full correct declaration", async () => {
-  await expect(castJSToDB(declarationSample?.form)).resolves.toMatchSnapshot()
-})
+  await expect(castJSToDB(declarationSample?.form)).resolves.toMatchSnapshot();
+});

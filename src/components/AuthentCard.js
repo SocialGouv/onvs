@@ -1,7 +1,7 @@
-import Link from "next/link"
-import { useRouter } from "next/router"
-import PropTypes from "prop-types"
-import React from "react"
+import Link from "next/link";
+import { useRouter } from "next/router";
+import PropTypes from "prop-types";
+import React from "react";
 
 import {
   Checkbox,
@@ -10,37 +10,37 @@ import {
   PrimaryButtton,
   SubTitleCard,
   TitleCard,
-} from "@/components/lib"
-import { RoughNotation } from "@/components/RoughNotation"
-import Hospital from "@/components/svg/hospital.js"
-import { useEffectToast } from "@/hooks/useEffectToast"
-import useUser from "@/hooks/useUser"
-import { isOpenFeature } from "@/utils/feature"
-import fetcher from "@/utils/fetcher"
+} from "@/components/lib";
+import { RoughNotation } from "@/components/RoughNotation";
+import Hospital from "@/components/svg/hospital.js";
+import { useEffectToast } from "@/hooks/useEffectToast";
+import useUser from "@/hooks/useUser";
+import { isOpenFeature } from "@/utils/feature";
+import fetcher from "@/utils/fetcher";
 
 const AuthentCard = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { mutateUser } = useUser({
     // redirectToIfSuccess: "/private",
-  })
+  });
 
-  const [error, setError] = React.useState("")
+  const [error, setError] = React.useState("");
 
-  useEffectToast(error)
+  useEffectToast(error);
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!isOpenFeature("FEATURE_ETS_FORM")) {
-      return
+      return;
     }
 
-    const { email, password } = Object.fromEntries(new FormData(e.target))
+    const { email, password } = Object.fromEntries(new FormData(e.target));
 
     const body = {
       email,
       password,
-    }
+    };
 
     try {
       await mutateUser(
@@ -48,12 +48,12 @@ const AuthentCard = () => {
           body: JSON.stringify(body),
           headers: { "Content-Type": "application/json" },
           method: "POST",
-        }),
-      )
-      router.push("/private")
+        })
+      );
+      router.push("/private");
     } catch (error) {
-      console.error("An unexpected error happened:", error)
-      setError({ message: "L'authentification est incorrecte. 😕" })
+      console.error("An unexpected error happened:", error);
+      setError({ message: "L'authentification est incorrecte. 😕" });
     }
   }
 
@@ -124,11 +124,11 @@ const AuthentCard = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 AuthentCard.propTypes = {
   flow: PropTypes.string,
-}
+};
 
-export default AuthentCard
+export default AuthentCard;

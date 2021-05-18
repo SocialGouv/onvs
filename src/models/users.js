@@ -1,6 +1,6 @@
-import * as yup from "yup"
+import * as yup from "yup";
 
-import * as common from "./common"
+import * as common from "./common";
 
 // Mapping keys from JS model to DB model
 const mappingJStoDB = {
@@ -10,7 +10,7 @@ const mappingJStoDB = {
   password: "password",
   role: "role",
   scope: "scope",
-}
+};
 
 const schemaJS = yup.object({
   createdAt: yup.string(),
@@ -19,13 +19,13 @@ const schemaJS = yup.object({
   password: yup.string(),
   role: yup.string(),
   scope: yup.string(),
-})
+});
 
-const schemaDB = yup.object({})
+const schemaDB = yup.object({});
 
 export const { castJSToDB, castDBToJS, validateJS } = common.build({
   entityName: "users",
   mappingJStoDB,
   schemaDB,
   schemaJS,
-})
+});

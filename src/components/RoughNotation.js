@@ -1,6 +1,6 @@
-import PropTypes from "prop-types"
-import React, { useEffect, useRef } from "react"
-import { annotate } from "rough-notation"
+import PropTypes from "prop-types";
+import React, { useEffect, useRef } from "react";
+import { annotate } from "rough-notation";
 
 export const RoughNotation = ({
   children,
@@ -10,7 +10,7 @@ export const RoughNotation = ({
   animationDuration = 1000,
   ...config
 }) => {
-  const ref = useRef(null)
+  const ref = useRef(null);
 
   useEffect(() => {
     const annotation = annotate(ref.current, {
@@ -19,15 +19,15 @@ export const RoughNotation = ({
       color,
       type,
       ...config,
-    })
+    });
     // A bit of randomness, to show annoted elements with different schedule
     setTimeout(() => {
-      annotation.show()
-    }, Math.random() * 1000)
-  }, [ref, type, color, animate, animationDuration, config])
+      annotation.show();
+    }, Math.random() * 1000);
+  }, [ref, type, color, animate, animationDuration, config]);
 
-  return <span ref={ref}>{children}</span>
-}
+  return <span ref={ref}>{children}</span>;
+};
 
 RoughNotation.propTypes = {
   animate: PropTypes.bool,
@@ -35,4 +35,4 @@ RoughNotation.propTypes = {
   children: PropTypes.string,
   color: PropTypes.string,
   type: PropTypes.string,
-}
+};

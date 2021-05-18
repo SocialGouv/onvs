@@ -1,7 +1,7 @@
-import React from "react"
+import React from "react";
 
-import { Layout } from "@/components/Layout"
-import { Title1, Title2 } from "@/components/lib"
+import { Layout } from "@/components/Layout";
+import { Title1, Title2 } from "@/components/lib";
 
 const AProposPage = () => {
   return (
@@ -251,7 +251,7 @@ const AProposPage = () => {
         </div>
       </Layout>
     </>
-  )
-}
+  );
+};
 
-export default AProposPage
+export default AProposPage;

@@ -1,5 +1,5 @@
 // this file is a wrapper with defaults to be used in both API routes and `getServerSideProps` functions
-import { withIronSession } from "next-iron-session"
+import { withIronSession } from "next-iron-session";
 
 export default function withSession(handler) {
   return withIronSession(handler, {
@@ -10,5 +10,5 @@ export default function withSession(handler) {
       secure: process.env.NODE_ENV === "production" ? true : false,
     },
     password: process.env.SECRET_COOKIE_PASSWORD,
-  })
+  });
 }

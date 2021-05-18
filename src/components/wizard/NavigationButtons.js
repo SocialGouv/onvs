@@ -1,7 +1,7 @@
-import PropTypes from "prop-types"
-import React from "react"
+import PropTypes from "prop-types";
+import React from "react";
 
-import { OutlineButton, PrimaryButtton } from "../lib"
+import { OutlineButton, PrimaryButtton } from "../lib";
 
 function NavigationButtons({ goPrevious, onSubmit, isFinalStep, isFirstStep }) {
   return (
@@ -13,7 +13,7 @@ function NavigationButtons({ goPrevious, onSubmit, isFinalStep, isFirstStep }) {
         {isFinalStep ? "Envoyer la déclaration" : "Suivant"}
       </PrimaryButtton>
     </div>
-  )
+  );
 }
 
 NavigationButtons.propTypes = {
@@ -21,6 +21,6 @@ NavigationButtons.propTypes = {
   isFinalStep: PropTypes.bool,
   isFirstStep: PropTypes.bool,
   onSubmit: PropTypes.func,
-}
+};
 
-export default NavigationButtons
+export default NavigationButtons;

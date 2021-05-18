@@ -1,16 +1,16 @@
-import { yupResolver } from "@hookform/resolvers"
-import React from "react"
-import { useToasts } from "react-toast-notifications"
-import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers";
+import React from "react";
+import { useToasts } from "react-toast-notifications";
+import * as yup from "yup";
 
-import { Option, Options } from "@/components/lib"
-import Info from "@/components/svg/info"
-import FormComponent from "@/components/wizard/FormComponent"
-import { useDeclarationForm } from "@/hooks/useDeclarationContext"
-import { useScrollTop } from "@/hooks/useScrollTop"
-import { hasData } from "@/utils/misc"
+import { Option, Options } from "@/components/lib";
+import Info from "@/components/svg/info";
+import FormComponent from "@/components/wizard/FormComponent";
+import { useDeclarationForm } from "@/hooks/useDeclarationContext";
+import { useScrollTop } from "@/hooks/useScrollTop";
+import { hasData } from "@/utils/misc";
 
-import { toastConfig } from "../../../../config"
+import { toastConfig } from "../../../../config";
 
 const schema = yup.object({
   rOthersPrecision: yup.string().when("rOthers", (rOthers, schema) => {
@@ -20,18 +20,17 @@ const schema = yup.object({
           .min(1, "Le champ Autre doit être précisé")
           .max(
             255,
-            ({ max }) =>
-              `Le champ Autre ne doit pas dépasser ${max} caractères`,
+            ({ max }) => `Le champ Autre ne doit pas dépasser ${max} caractères`
           )
       : yup
           .string()
           .nullable(true)
-          .transform(() => "")
+          .transform(() => "");
   }),
-})
+});
 
 const Step3Page = () => {
-  useScrollTop()
+  useScrollTop();
   const {
     onSubmit: originalOnSubmit,
     handleSubmit,
@@ -52,25 +51,25 @@ const Step3Page = () => {
       rOthersPrecision: state?.steps?.reasons?.rOthersPrecision,
     }),
     resolver: yupResolver(schema),
-  })
+  });
 
-  const { addToast } = useToasts()
+  const { addToast } = useToasts();
 
-  const watchReasonNotApparent = watch("rNotApparent")
-  const watchROthers = watch("rOthers")
+  const watchReasonNotApparent = watch("rNotApparent");
+  const watchROthers = watch("rOthers");
 
   React.useEffect(() => {
     if (watchReasonNotApparent === "Pas de motif apparent") {
-      setValue("rCausePatients", [])
-      setValue("rCauseProfessionals", [])
-      setValue("rDeficientCommunications", [])
-      setValue("rDiscords", [])
-      setValue("rFalsifications", [])
-      setValue("rLifeRules", [])
-      setValue("rOthers", [])
-      setValue("rOthersPrecision", "")
+      setValue("rCausePatients", []);
+      setValue("rCauseProfessionals", []);
+      setValue("rDeficientCommunications", []);
+      setValue("rDiscords", []);
+      setValue("rFalsifications", []);
+      setValue("rLifeRules", []);
+      setValue("rOthers", []);
+      setValue("rOthersPrecision", "");
     }
-  }, [watchReasonNotApparent, setValue])
+  }, [watchReasonNotApparent, setValue]);
 
   const onSubmit = (data) => {
     if (!hasData(data)) {
@@ -80,21 +79,21 @@ const Step3Page = () => {
             'Vous devez renseigner un motif ou bien cocher la case "Pas de motif apparent"'
           }
         </div>,
-        toastConfig.error,
-      )
+        toastConfig.error
+      );
 
-      return
+      return;
     }
 
-    originalOnSubmit(data)
-  }
+    originalOnSubmit(data);
+  };
 
   const ensureOptionIsChecked = () => {
-    const rOthers = watchROthers?.length ? watchROthers : []
+    const rOthers = watchROthers?.length ? watchROthers : [];
 
     if (!watchROthers?.includes("Autre"))
-      setValue("rOthers", [...rOthers, "Autre"])
-  }
+      setValue("rOthers", [...rOthers, "Autre"]);
+  };
 
   return (
     <FormComponent
@@ -265,7 +264,7 @@ const Step3Page = () => {
         </div>
       </div>
     </FormComponent>
-  )
-}
+  );
+};
 
-export default Step3Page
+export default Step3Page;

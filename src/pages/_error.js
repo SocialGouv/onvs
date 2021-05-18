@@ -1,17 +1,17 @@
-import Error from "next/error"
-import PropTypes from "prop-types"
-import React from "react"
+import Error from "next/error";
+import PropTypes from "prop-types";
+import React from "react";
 
-import sentry from "@/lib/sentry"
+import sentry from "@/lib/sentry";
 
-const { Sentry } = sentry()
+const { Sentry } = sentry();
 
 const MyError = ({ hasGetInitialPropsRun, statusCode, err }) => {
   if (!hasGetInitialPropsRun && err) {
     // getInitialProps is not called in case of
     // https://github.com/zeit/next.js/issues/8592. As a workaround, we pass
     // err via _app.js so it can be captured
-    Sentry.captureException(err)
+    Sentry.captureException(err);
   }
 
   return (
@@ -20,20 +20,20 @@ const MyError = ({ hasGetInitialPropsRun, statusCode, err }) => {
         Une erreur {statusCode} est apparue ¯\_(ツ)_/¯
       </div>
     </div>
-  )
-}
+  );
+};
 
 MyError.propTypes = {
   err: PropTypes.any,
   hasGetInitialPropsRun: PropTypes.any,
   statusCode: PropTypes.number,
-}
+};
 
 MyError.getInitialProps = async ({ res, err, asPath }) => {
-  const errorInitialProps = await Error.getInitialProps({ err, res })
+  const errorInitialProps = await Error.getInitialProps({ err, res });
   // Workaround for https://github.com/zeit/next.js/issues/8592, mark when
   // getInitialProps has run
-  errorInitialProps.hasGetInitialPropsRun = true
+  errorInitialProps.hasGetInitialPropsRun = true;
 
   if (res) {
     // Running on the server, the response object is available.
@@ -42,9 +42,9 @@ MyError.getInitialProps = async ({ res, err, asPath }) => {
     // threw or returned a Promise that rejected
 
     if (err) {
-      Sentry.captureException(err)
+      Sentry.captureException(err);
 
-      return errorInitialProps
+      return errorInitialProps;
     }
   } else {
     // Running on the client (browser).
@@ -57,9 +57,9 @@ MyError.getInitialProps = async ({ res, err, asPath }) => {
     //    Boundary. Read more about what types of exceptions are caught by Error
     //    Boundaries: https://reactjs.org/docs/error-boundaries.html
     if (err) {
-      Sentry.captureException(err)
+      Sentry.captureException(err);
 
-      return errorInitialProps
+      return errorInitialProps;
     }
   }
 
@@ -69,10 +69,10 @@ MyError.getInitialProps = async ({ res, err, asPath }) => {
   Sentry.captureMessage(
     `_error.js status=${
       res && res.statusCode
-    } getInitialProps missing data at path: ${asPath}`,
-  )
+    } getInitialProps missing data at path: ${asPath}`
+  );
 
-  return errorInitialProps
-}
+  return errorInitialProps;
+};
 
-export default MyError
+export default MyError;

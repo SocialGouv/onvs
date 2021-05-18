@@ -17,4 +17,4 @@ export const mockRouterImplementation = {
   reload: jest.fn(() => Promise.resolve(true)),
   replace: jest.fn(() => Promise.resolve(true)),
   route: "/",
-}
+};

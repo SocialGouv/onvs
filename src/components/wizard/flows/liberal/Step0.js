@@ -1,16 +1,16 @@
-import { yupResolver } from "@hookform/resolvers"
-import React from "react"
-import { Controller } from "react-hook-form"
-import Select from "react-select"
-import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers";
+import React from "react";
+import { Controller } from "react-hook-form";
+import Select from "react-select";
+import * as yup from "yup";
 
-import { InputError } from "@/components/lib"
-import FormComponent from "@/components/wizard/FormComponent"
-import { useDeclarationForm } from "@/hooks/useDeclarationContext"
-import { useScrollTop } from "@/hooks/useScrollTop"
-import { buildSelectOptions } from "@/utils/select"
+import { InputError } from "@/components/lib";
+import FormComponent from "@/components/wizard/FormComponent";
+import { useDeclarationForm } from "@/hooks/useDeclarationContext";
+import { useScrollTop } from "@/hooks/useScrollTop";
+import { buildSelectOptions } from "@/utils/select";
 
-import { selectConfig } from "../../../../config"
+import { selectConfig } from "../../../../config";
 
 const jobsOptions = buildSelectOptions([
   "Assistant dentaire",
@@ -41,7 +41,7 @@ const jobsOptions = buildSelectOptions([
   "Psychothérapeute",
   "Sage-femme",
   "Technicien de laboratoire",
-])
+]);
 
 const schema = yup.object().shape({
   job: yup
@@ -52,16 +52,16 @@ const schema = yup.object().shape({
     })
     .nullable(true) // to consider null as an object and let required validate and displays the appropriate message
     .required("La profession est à renseigner"),
-})
+});
 
 const Step0 = () => {
-  useScrollTop()
+  useScrollTop();
   const { onInit, handleSubmit, errors, control } = useDeclarationForm({
     defaultValuesFromState: (state) => ({
       job: state?.steps?.job?.job || null,
     }),
     resolver: yupResolver(schema),
-  })
+  });
 
   return (
     <FormComponent
@@ -108,7 +108,7 @@ const Step0 = () => {
         </p>
       </div>
     </FormComponent>
-  )
-}
+  );
+};
 
-export default Step0
+export default Step0;

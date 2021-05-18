@@ -22,31 +22,31 @@ tarteaucitron.services.hotjar = {
     "_hjShownFeedbackMessage",
   ],
   js: function () {
-    "use strict"
+    "use strict";
     if (
       tarteaucitron.user.hotjarId === undefined ||
       tarteaucitron.user.HotjarSv === undefined
     ) {
-      return
+      return;
     }
     window.hj =
       window.hj ||
       function () {
-        ;(window.hj.q = window.hj.q || []).push(arguments)
-      }
+        (window.hj.q = window.hj.q || []).push(arguments);
+      };
     window._hjSettings = {
       hjid: tarteaucitron.user.hotjarId,
       hjsv: tarteaucitron.user.HotjarSv,
-    }
-    var uri = "https://static.hotjar.com/c/hotjar-"
-    var extension = ".js?sv="
+    };
+    var uri = "https://static.hotjar.com/c/hotjar-";
+    var extension = ".js?sv=";
     tarteaucitron.addScript(
-      uri + window._hjSettings.hjid + extension + window._hjSettings.hjsv,
-    )
+      uri + window._hjSettings.hjid + extension + window._hjSettings.hjsv
+    );
   },
   key: "hotjar",
   name: "Hotjar",
   needConsent: true,
   type: "analytic",
   uri: "https://help.hotjar.com/hc/en-us/categories/115001323967-About-Hotjar",
-}
+};

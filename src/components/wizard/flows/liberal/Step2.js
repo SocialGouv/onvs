@@ -1,12 +1,12 @@
-import { yupResolver } from "@hookform/resolvers"
-import React from "react"
-import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers";
+import React from "react";
+import * as yup from "yup";
 
-import { Group, Groups, Option, Options, Title2 } from "@/components/lib"
-import Info from "@/components/svg/info"
-import FormComponent from "@/components/wizard/FormComponent"
-import { useDeclarationForm } from "@/hooks/useDeclarationContext"
-import { useScrollTop } from "@/hooks/useScrollTop"
+import { Group, Groups, Option, Options, Title2 } from "@/components/lib";
+import Info from "@/components/svg/info";
+import FormComponent from "@/components/wizard/FormComponent";
+import { useDeclarationForm } from "@/hooks/useDeclarationContext";
+import { useScrollTop } from "@/hooks/useScrollTop";
 
 const schema = yup.object({
   factTypes: yup
@@ -33,20 +33,20 @@ const schema = yup.object({
             .max(
               255,
               ({ max }) =>
-                `Le champ Autre fait ne doit pas dépasser ${max} caractères`,
+                `Le champ Autre fait ne doit pas dépasser ${max} caractères`
             )
         : yup
             .string()
             .nullable(true)
-            .transform(() => "")
+            .transform(() => "");
     }),
   fpPsychologicalViolences: yup.array(yup.string()).default(() => []),
   fpSexualViolences: yup.array(yup.string()).default(() => []),
   fpSpokenViolences: yup.array(yup.string()).default(() => []),
-})
+});
 
 const Step2Page = () => {
-  useScrollTop()
+  useScrollTop();
   const {
     onSubmit: originalOnSubmit,
     handleSubmit,
@@ -74,12 +74,12 @@ const Step2Page = () => {
       fpSpokenViolences: state?.steps?.facts?.fpSpokenViolences,
     }),
     resolver: yupResolver(schema),
-  })
+  });
 
-  const factTypes = watch("factTypes")
-  const fpGroups = watch("fpGroups")
-  const fgGroups = watch("fgGroups")
-  const fpPhysicalViolences = watch("fpPhysicalViolences")
+  const factTypes = watch("factTypes");
+  const fpGroups = watch("fpGroups");
+  const fgGroups = watch("fgGroups");
+  const fpPhysicalViolences = watch("fpPhysicalViolences");
 
   const onSubmit = (data) => {
     if (data?.factTypes?.includes("Atteinte aux personnes")) {
@@ -90,14 +90,14 @@ const Step2Page = () => {
         data?.fpPhysicalViolences.length ||
         data?.fpPsychologicalViolences.length ||
         data?.fpSexualViolences.length ||
-        data?.fpSpokenViolences.length
+        data?.fpSpokenViolences.length;
 
       if (!hasClicked) {
         setError("global", {
           message: "Il faut au moins renseigner une atteinte aux personnes.",
           type: "manual",
-        })
-        return
+        });
+        return;
       }
     }
     if (data?.factTypes?.includes("Atteinte aux biens")) {
@@ -105,32 +105,32 @@ const Step2Page = () => {
         data?.fgDeteriorations.length ||
         data?.fgOthers.length ||
         data?.fgStealWithBreakins.length ||
-        data?.fgStealWithoutBreakins.length
+        data?.fgStealWithoutBreakins.length;
 
       if (!hasClicked) {
         setError("global", {
           message: "Il faut au moins renseigner une atteinte aux biens.",
           type: "manual",
-        })
+        });
 
-        return
+        return;
       }
     }
 
-    originalOnSubmit(data)
-  }
+    originalOnSubmit(data);
+  };
 
   const ensureOtherFpPhysicalViolencesIsChecked = () => {
     const physicalViolences = fpPhysicalViolences?.length
       ? fpPhysicalViolences
-      : []
+      : [];
 
     if (!fpPhysicalViolences?.includes("Autre fait qualifié de crime"))
       setValue("fpPhysicalViolences", [
         ...physicalViolences,
         "Autre fait qualifié de crime",
-      ])
-  }
+      ]);
+  };
 
   return (
     <FormComponent
@@ -319,7 +319,7 @@ Attention: une personne souffrant d’un Trouble Psychique ou Neuro-psychique (T
           )}
 
           {fpGroups.includes(
-            "La victime a subi une violence psychologique",
+            "La victime a subi une violence psychologique"
           ) && (
             <>
               <b>La victime a subi une violence psychologique</b>
@@ -369,7 +369,7 @@ Attention: une personne souffrant d’un Trouble Psychique ou Neuro-psychique (T
           )}
 
           {fpGroups.includes(
-            "Les auteurs n’ont pas respecté les règles du lieu / ont eu un comportement incivique",
+            "Les auteurs n’ont pas respecté les règles du lieu / ont eu un comportement incivique"
           ) && (
             <>
               <b>
@@ -534,7 +534,7 @@ Si en plus le tag/graffiti a un caractère injurieux envers quelqu’un ou étab
         </>
       )}
     </FormComponent>
-  )
-}
+  );
+};
 
-export default Step2Page
+export default Step2Page;

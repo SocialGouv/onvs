@@ -1,7 +1,7 @@
-import Link from "next/link"
-import React from "react"
+import Link from "next/link";
+import React from "react";
 
-import Marianne from "@/components/svg/marianne"
+import Marianne from "@/components/svg/marianne";
 
 const Footer = () => {
   return (
@@ -57,7 +57,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

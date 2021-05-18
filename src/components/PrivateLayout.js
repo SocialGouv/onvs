@@ -1,18 +1,18 @@
-import { Menu } from "@headlessui/react"
+import { Menu } from "@headlessui/react";
 import {
   MenuIcon,
   UserCircleIcon,
   UsersIcon,
   ViewListIcon,
-} from "@heroicons/react/outline"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import PropTypes from "prop-types"
-import React from "react"
+} from "@heroicons/react/outline";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import PropTypes from "prop-types";
+import React from "react";
 
-import HospitalIcon from "@/components/svg/hospital-line"
-import useUser from "@/hooks/useUser"
-import fetcher from "@/utils/fetcher"
+import HospitalIcon from "@/components/svg/hospital-line";
+import useUser from "@/hooks/useUser";
+import fetcher from "@/utils/fetcher";
 
 function MenuItem({ url, jsxIcon: Icon, title, disabled = false }) {
   return (
@@ -24,7 +24,7 @@ function MenuItem({ url, jsxIcon: Icon, title, disabled = false }) {
         {title}
       </a>
     </Link>
-  )
+  );
 }
 
 MenuItem.propTypes = {
@@ -32,11 +32,11 @@ MenuItem.propTypes = {
   jsxIcon: PropTypes.func,
   title: PropTypes.string,
   url: PropTypes.string,
-}
+};
 
 function AvatarMenu() {
-  const router = useRouter()
-  const { mutateUser } = useUser()
+  const router = useRouter();
+  const { mutateUser } = useUser();
 
   return (
     <Menu>
@@ -53,8 +53,8 @@ function AvatarMenu() {
                 active ? "bg-blue-500 text-white" : "text-gray-700"
               } group flex rounded-t-md items-center w-full px-4 py-2 text-sm`}
               onClick={async (event) => {
-                event.preventDefault()
-                router.push("/private/profil")
+                event.preventDefault();
+                router.push("/private/profil");
               }}
             >
               Profil
@@ -70,13 +70,13 @@ function AvatarMenu() {
                 active ? "bg-blue-500 text-white" : "text-gray-700"
               } group flex rounded-b-md items-center w-full px-4 py-2 text-sm`}
               onClick={async (event) => {
-                event.preventDefault()
+                event.preventDefault();
 
                 mutateUser(
                   await fetcher("/api/auth/logout", { method: "POST" }),
-                  false,
-                )
-                router.push("/")
+                  false
+                );
+                router.push("/");
               }}
             >
               {"Déconnexion"}
@@ -86,13 +86,13 @@ function AvatarMenu() {
         </Menu.Item>
       </Menu.Items>
     </Menu>
-  )
+  );
 }
 
 function SideBar() {
-  const { user } = useUser()
+  const { user } = useUser();
 
-  const url = user?.isLoggedIn ? "/private" : "/"
+  const url = user?.isLoggedIn ? "/private" : "/";
 
   return (
     <div className="hidden md:flex md:flex-shrink-0">
@@ -138,7 +138,7 @@ function SideBar() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 /**
@@ -148,12 +148,12 @@ function SideBar() {
  * @param {children} content of the page
  */
 function PrivateLayout({ title, children }) {
-  const { user } = useUser({ redirectToIfError: "/" })
+  const { user } = useUser({ redirectToIfError: "/" });
 
   // Check the user in order to make sure that the render from the server will not render anything.
   // Because the server can't presume if there is an authentified user or not, as this information is in the cookie on the client side.
   if (!user?.isLoggedIn) {
-    return <span>Chargement...</span>
+    return <span>Chargement...</span>;
   }
 
   return (
@@ -189,12 +189,12 @@ function PrivateLayout({ title, children }) {
         </main>
       </div>
     </div>
-  )
+  );
 }
 
 PrivateLayout.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string,
-}
+};
 
-export default PrivateLayout
+export default PrivateLayout;

@@ -1,5 +1,5 @@
-import PropTypes from "prop-types"
-import React from "react"
+import PropTypes from "prop-types";
+import React from "react";
 
 /**
  * This prevent error in SSR for components which renders can't be pre determined in SSR.
@@ -9,16 +9,16 @@ import React from "react"
  * @param {node} children - the children React components
  */
 export function ClientOnly({ children, ...delegated }) {
-  const [hasMounted, setHasMounted] = React.useState(false)
+  const [hasMounted, setHasMounted] = React.useState(false);
   React.useEffect(() => {
-    setHasMounted(true)
-  }, [])
+    setHasMounted(true);
+  }, []);
   if (!hasMounted) {
-    return null
+    return null;
   }
-  return <div {...delegated}>{children}</div>
+  return <div {...delegated}>{children}</div>;
 }
 
 ClientOnly.propTypes = {
   children: PropTypes.node,
-}
+};

@@ -1,8 +1,8 @@
-const { join } = require("path")
+const { join } = require("path");
 
 if (process.env.POSTGRES_SSL && process.env.POSTGRES_SSL === "true") {
-  const pg = require("pg")
-  pg.defaults.ssl = true
+  const pg = require("pg");
+  pg.defaults.ssl = true;
 }
 
 const knexConfig = {
@@ -15,8 +15,8 @@ const knexConfig = {
     pool: {
       afterCreate: function (connection, callback) {
         connection.query("SET timezone = 'Europe/Paris';", function (err) {
-          callback(err, connection)
-        })
+          callback(err, connection);
+        });
       },
       max: 15,
       min: 0,
@@ -34,8 +34,8 @@ const knexConfig = {
     pool: {
       afterCreate: function (connection, callback) {
         connection.query("SET timezone = 'Europe/Paris';", function (err) {
-          callback(err, connection)
-        })
+          callback(err, connection);
+        });
       },
       max: 15,
       min: 0,
@@ -50,8 +50,8 @@ const knexConfig = {
     pool: {
       afterCreate: function (connection, callback) {
         connection.query("SET timezone = 'Europe/Paris';", function (err) {
-          callback(err, connection)
-        })
+          callback(err, connection);
+        });
       },
       max: 15,
       min: 0,
@@ -60,6 +60,6 @@ const knexConfig = {
       directory: join(__dirname, "src/knex/seeds/staging"),
     },
   },
-}
+};
 
-module.exports = knexConfig
+module.exports = knexConfig;

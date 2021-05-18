@@ -4,12 +4,12 @@ export const toastConfig = {
     autoDismiss: true,
     transitionDuration: 400,
   },
-}
+};
 
 export const yupConfig = {
   abortEarly: false,
   strict: false,
-}
+};
 
 export const selectConfig = {
   container: (styles) => ({
@@ -20,4 +20,4 @@ export const selectConfig = {
     ...styles,
     textAlign: "left",
   }),
-}
+};

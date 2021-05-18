@@ -1,17 +1,17 @@
-import { useRouter } from "next/router"
-import React from "react"
+import { useRouter } from "next/router";
+import React from "react";
 
-import { OutlineButton } from "@/components/lib"
-import PrivateLayout from "@/components/PrivateLayout"
-import useUser from "@/hooks/useUser"
+import { OutlineButton } from "@/components/lib";
+import PrivateLayout from "@/components/PrivateLayout";
+import useUser from "@/hooks/useUser";
 
 const ProfilePage = () => {
-  const router = useRouter()
-  const { user } = useUser({ redirectToIfError: "/" })
+  const router = useRouter();
+  const { user } = useUser({ redirectToIfError: "/" });
 
   // Used to prevent erroneous display when page is returned in SSR.
   if (!user?.isLoggedIn) {
-    return <span>Chargement...</span>
+    return <span>Chargement...</span>;
   }
 
   return (
@@ -30,7 +30,7 @@ const ProfilePage = () => {
         </OutlineButton>
       </div>
     </PrivateLayout>
-  )
-}
+  );
+};
 
-export default ProfilePage
+export default ProfilePage;

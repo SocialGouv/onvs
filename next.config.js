@@ -1,10 +1,10 @@
-const webpack = require("webpack")
-const withPlugins = require("next-compose-plugins")
-const withSourceMaps = require("@zeit/next-source-maps")
+const webpack = require("webpack");
+const withPlugins = require("next-compose-plugins");
+const withSourceMaps = require("@zeit/next-source-maps");
 
 const withMDX = require("@next/mdx")({
   extension: /\.mdx?$/,
-})
+});
 
 const nextConfig = {
   env: {
@@ -23,16 +23,16 @@ const nextConfig = {
       new webpack.DefinePlugin({
         // looks like it doesnt work for some reason
         "process.env.SENTRY_RELEASE": JSON.stringify(buildId),
-      }),
-    )
+      })
+    );
 
     if (!isServer) {
-      config.resolve.alias["@sentry/node"] = "@sentry/browser"
+      config.resolve.alias["@sentry/node"] = "@sentry/browser";
     }
 
-    return config
+    return config;
   },
-}
+};
 
 module.exports = withPlugins(
   [
@@ -44,5 +44,5 @@ module.exports = withPlugins(
       },
     ],
   ],
-  nextConfig,
-)
+  nextConfig
+);

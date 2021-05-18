@@ -1,22 +1,22 @@
 // import { useStateMachine } from "little-state-machine"
-import { useStateMachine } from "little-state-machine"
-import React, { useState } from "react"
+import { useStateMachine } from "little-state-machine";
+import React, { useState } from "react";
 
-import AuthentCard from "@/components/AuthentCard"
-import Footer from "@/components/Footer"
-import FreelanceCard from "@/components/FreelanceCard"
-import { HeroTitle } from "@/components/lib"
-import Modal from "@/components/Modal"
-import Wave from "@/components/svg/wave"
-import { formReducer } from "@/components/wizard/formReducer"
+import AuthentCard from "@/components/AuthentCard";
+import Footer from "@/components/Footer";
+import FreelanceCard from "@/components/FreelanceCard";
+import { HeroTitle } from "@/components/lib";
+import Modal from "@/components/Modal";
+import Wave from "@/components/svg/wave";
+import { formReducer } from "@/components/wizard/formReducer";
 
 const IndexPage = () => {
-  const { action } = useStateMachine(formReducer)
-  const [openModal, setOpenModal] = useState(false)
+  const { action } = useStateMachine(formReducer);
+  const [openModal, setOpenModal] = useState(false);
 
   React.useEffect(() => {
-    action({ event: { name: "RESET" } })
-  }, [action])
+    action({ event: { name: "RESET" } });
+  }, [action]);
 
   // const toggleModal = () => {
   //   setOpenModal((state) => !state)
@@ -51,7 +51,7 @@ const IndexPage = () => {
       </div>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default IndexPage
+export default IndexPage;

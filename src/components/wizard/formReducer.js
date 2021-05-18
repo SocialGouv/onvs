@@ -1,6 +1,6 @@
-import { v4 as uuid } from "uuid"
+import { v4 as uuid } from "uuid";
 
-import { logDebug } from "@/utils/logger"
+import { logDebug } from "@/utils/logger";
 
 function buildEmptyState() {
   return {
@@ -8,7 +8,7 @@ function buildEmptyState() {
     id: uuid(),
     step: 0,
     steps: {},
-  }
+  };
 }
 
 const buildState = ({ state, step, data, stepName }) => {
@@ -21,36 +21,36 @@ const buildState = ({ state, step, data, stepName }) => {
         ...data,
       },
     },
-  }
-}
+  };
+};
 
 export const formReducer = (state, payload) => {
-  const { step, data, event, declarationType, stepName } = payload
+  const { step, data, event, declarationType, stepName } = payload;
 
-  logDebug({ payload })
+  logDebug({ payload });
 
   switch (event.name) {
     case "RESET":
-      return { ...buildEmptyState() }
+      return { ...buildEmptyState() };
     case "INIT": {
       return {
         ...buildEmptyState(),
         ...buildState({ data, state, step, stepName }),
         declarationType,
-      }
+      };
     }
     case "SUBMIT": {
-      return buildState({ data, state, step, stepName })
+      return buildState({ data, state, step, stepName });
     }
     case "GOTO": {
-      const step = event.step
-      return buildState({ data, state, step })
+      const step = event.step;
+      return buildState({ data, state, step });
     }
   }
-}
+};
 
 export function reset({ action }) {
-  action({ event: { name: "RESET" } })
+  action({ event: { name: "RESET" } });
 }
 
 export function initEtsForm({ action }) {
@@ -58,6 +58,6 @@ export function initEtsForm({ action }) {
     declarationType: "ets",
     event: { name: "INIT" },
     step: 0,
-  }
-  action(payload)
+  };
+  action(payload);
 }

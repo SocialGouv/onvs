@@ -1,26 +1,26 @@
-import { useStateMachine } from "little-state-machine"
-import { useRouter } from "next/router"
-import React from "react"
+import { useStateMachine } from "little-state-machine";
+import { useRouter } from "next/router";
+import React from "react";
 
-import { PrimaryButtton, Title1 } from "@/components/lib"
-import PrivateLayout from "@/components/PrivateLayout"
+import { PrimaryButtton, Title1 } from "@/components/lib";
+import PrivateLayout from "@/components/PrivateLayout";
 import {
   formReducer,
   initEtsForm,
   reset,
-} from "@/components/wizard/formReducer"
-import { firstStepUrl } from "@/components/wizard/stepFlows"
+} from "@/components/wizard/formReducer";
+import { firstStepUrl } from "@/components/wizard/stepFlows";
 
 function HospitalHomePage() {
-  const router = useRouter()
+  const router = useRouter();
 
-  const { action } = useStateMachine(formReducer)
+  const { action } = useStateMachine(formReducer);
 
   function reinit() {
-    reset({ action })
-    initEtsForm({ action })
+    reset({ action });
+    initEtsForm({ action });
 
-    router.push(firstStepUrl("ets"))
+    router.push(firstStepUrl("ets"));
   }
   return (
     <PrivateLayout title="Déclaration des incidents de violence">
@@ -34,7 +34,7 @@ function HospitalHomePage() {
         <PrimaryButtton onClick={reinit}>Déclarer</PrimaryButtton>
       </div>
     </PrivateLayout>
-  )
+  );
 }
 
-export default HospitalHomePage
+export default HospitalHomePage;

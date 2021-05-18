@@ -1,6 +1,6 @@
-import * as yup from "yup"
+import * as yup from "yup";
 
-import * as common from "../common"
+import * as common from "../common";
 
 // Mapping keys from JS model to DB model
 const mappingJStoDB = {
@@ -53,17 +53,17 @@ const mappingJStoDB = {
   thirdPartyPrecision: "third_party_precision",
   town: "town",
   victims: "victims",
-}
+};
 
 // Cast the Select input shape ({label, value}) into a simple string
 const getValueFromSelect = () =>
   yup.string().transform(function (_, originalValue) {
-    return originalValue?.value || ""
-  })
+    return originalValue?.value || "";
+  });
 
 const yupJson = yup
   .string()
-  .transform((_, originalValue) => JSON.stringify(originalValue))
+  .transform((_, originalValue) => JSON.stringify(originalValue));
 
 // TODO ajouter les valeurs possibles pour prévoir le cas des éditeurs qui appellent l'API
 // ex: declarantContactAgreement = Oui ou Non
@@ -121,23 +121,23 @@ const schemaJS = yup.object({
   thirdPartyPrecision: yup.string(),
   town: yup.string().required(),
   victims: yupJson,
-})
+});
 
 // TODO do the schema in reverse. Beware of rNotApparent, if true, set it to "Pas de motif apparent"
 const schemaDB = yup.object({
   r_not_apparent: yup
     .string()
     .transform((_, originalValue) =>
-      originalValue ? "Pas de motif apparent" : "",
+      originalValue ? "Pas de motif apparent" : ""
     ),
-})
+});
 
 export const { castJSToDB, castDBToJS, validateJS } = common.build({
   entityName: "declarations/liberal",
   mappingJStoDB,
   schemaDB,
   schemaJS,
-})
+});
 
 /*
 1. validate pour caster et valider

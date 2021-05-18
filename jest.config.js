@@ -16,4 +16,4 @@ module.exports = {
     "<rootDir>/.next/",
     "<rootDir>/.k8s/",
   ],
-}
+};

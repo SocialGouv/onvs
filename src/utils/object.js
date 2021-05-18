@@ -3,11 +3,11 @@
  */
 export const revertObject = (obj) => {
   return Object.keys(obj).reduce((acc, key) => {
-    const value = obj[key]
-    acc[value] = key
-    return acc
-  }, {})
-}
+    const value = obj[key];
+    acc[value] = key;
+    return acc;
+  }, {});
+};
 
 /**
  * Rename properties of an object with a mapping object.
@@ -19,19 +19,19 @@ export const renameKeys = (obj, mapping) =>
   Object.fromEntries(
     Object.keys(mapping)
       .map((oldKey) => [mapping[oldKey], obj[oldKey]])
-      .filter((curr) => !!curr[1]),
-  )
+      .filter((curr) => !!curr[1])
+  );
 
-export const isEmpty = (object) => !Object.keys(object).length
+export const isEmpty = (object) => !Object.keys(object).length;
 
 export function flatObject(object, keys) {
   const res = keys.reduce((acc, key) => {
-    const props = object[key]
+    const props = object[key];
     return {
       ...acc,
       ...props,
-    }
-  }, {})
+    };
+  }, {});
 
-  return res
+  return res;
 }

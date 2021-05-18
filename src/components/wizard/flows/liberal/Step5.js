@@ -1,17 +1,17 @@
-import { yupResolver } from "@hookform/resolvers"
-import React from "react"
-import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers";
+import React from "react";
+import * as yup from "yup";
 
-import { InputError, Title2 } from "@/components/lib"
-import FormComponent from "@/components/wizard/FormComponent"
-import { useDeclarationForm } from "@/hooks/useDeclarationContext"
-import { useScrollTop } from "@/hooks/useScrollTop"
+import { InputError, Title2 } from "@/components/lib";
+import FormComponent from "@/components/wizard/FormComponent";
+import { useDeclarationForm } from "@/hooks/useDeclarationContext";
+import { useScrollTop } from "@/hooks/useScrollTop";
 
 const schema = yup.object({
   declarantContactAgreement: yup
     .string()
     .required(
-      "L'accord (ou non) sur l'envoi des coordonnées est à renseigner.",
+      "L'accord (ou non) sur l'envoi des coordonnées est à renseigner."
     ),
   declarantEmail: yup.string().when("declarantContactAgreement", {
     is: "true",
@@ -29,7 +29,7 @@ const schema = yup.object({
         .required("Le n° RPPS/Adeli est à renseigner")
         .matches(
           /^[0-9]{9}$|^[0-9]{11}$/g,
-          "Le n° RPPS/Adeli est à 9 ou 11 chiffres",
+          "Le n° RPPS/Adeli est à 9 ou 11 chiffres"
         ),
   }),
   declarantNames: yup.string().when("declarantContactAgreement", {
@@ -46,41 +46,35 @@ const schema = yup.object({
         .matches(/[0-9]{10}/g, "Le numéro de téléphone est mal formé"),
   }),
   description: yup.string().required("La description doit être renseignée"),
-})
+});
 
 const Step5Page = () => {
-  useScrollTop()
-  const {
-    onSubmit,
-    handleSubmit,
-    errors,
-    setValue,
-    watch,
-    register,
-  } = useDeclarationForm({
-    defaultValuesFromState: (state) => ({
-      declarantContactAgreement:
-        state?.steps?.precision?.declarantContactAgreement,
-      declarantEmail: state?.steps?.precision?.declarantEmail,
-      declarantExternalId: state?.steps?.precision?.declarantExternalId,
-      declarantNames: state?.steps?.precision?.declarantNames,
-      declarantTel: state?.steps?.precision?.declarantTel,
-      description: state?.steps?.precision?.description,
-    }),
+  useScrollTop();
+  const { onSubmit, handleSubmit, errors, setValue, watch, register } =
+    useDeclarationForm({
+      defaultValuesFromState: (state) => ({
+        declarantContactAgreement:
+          state?.steps?.precision?.declarantContactAgreement,
+        declarantEmail: state?.steps?.precision?.declarantEmail,
+        declarantExternalId: state?.steps?.precision?.declarantExternalId,
+        declarantNames: state?.steps?.precision?.declarantNames,
+        declarantTel: state?.steps?.precision?.declarantTel,
+        description: state?.steps?.precision?.description,
+      }),
 
-    resolver: yupResolver(schema),
-  })
+      resolver: yupResolver(schema),
+    });
 
-  const declarantContactAgreement = watch("declarantContactAgreement")
+  const declarantContactAgreement = watch("declarantContactAgreement");
 
   React.useEffect(() => {
     if (declarantContactAgreement === "false") {
-      setValue("declarantEmail", "")
-      setValue("declarantExternalId", "")
-      setValue("declarantNames", "")
-      setValue("declarantTel", "")
+      setValue("declarantEmail", "");
+      setValue("declarantExternalId", "");
+      setValue("declarantNames", "");
+      setValue("declarantTel", "");
     }
-  }, [declarantContactAgreement, setValue])
+  }, [declarantContactAgreement, setValue]);
 
   return (
     <FormComponent
@@ -245,7 +239,7 @@ const Step5Page = () => {
         </div>
       </div>
     </FormComponent>
-  )
-}
+  );
+};
 
-export default Step5Page
+export default Step5Page;

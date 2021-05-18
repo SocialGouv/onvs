@@ -1,14 +1,14 @@
-import { format, parse, parseISO } from "date-fns"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import PropTypes from "prop-types"
-import React from "react"
-import useSWR from "swr"
+import { format, parse, parseISO } from "date-fns";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import PropTypes from "prop-types";
+import React from "react";
+import useSWR from "swr";
 
-import { findDeclaration } from "@/clients/declarations"
-import { Layout } from "@/components/Layout"
-import { OutlineButton, Title1 } from "@/components/lib"
-import Spinner from "@/components/svg/spinner"
+import { findDeclaration } from "@/clients/declarations";
+import { Layout } from "@/components/Layout";
+import { OutlineButton, Title1 } from "@/components/lib";
+import Spinner from "@/components/svg/spinner";
 
 const DatePart = ({ data }) => {
   return (
@@ -69,8 +69,8 @@ const DatePart = ({ data }) => {
         </p>
       )}
     </>
-  )
-}
+  );
+};
 
 const FactsPart = ({ data }) => {
   return (
@@ -175,8 +175,8 @@ const FactsPart = ({ data }) => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
 const ReasonsPart = ({ data }) => {
   return (
@@ -251,8 +251,8 @@ const ReasonsPart = ({ data }) => {
         </p>
       )}
     </>
-  )
-}
+  );
+};
 
 const VictimsAuthorsPart = ({ data }) => {
   return (
@@ -333,8 +333,8 @@ const VictimsAuthorsPart = ({ data }) => {
         </p>
       )}
     </>
-  )
-}
+  );
+};
 
 const FinalPrecisionsPart = ({ data }) => {
   return (
@@ -375,28 +375,28 @@ const FinalPrecisionsPart = ({ data }) => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
 DatePart.propTypes = {
   data: PropTypes.object,
-}
+};
 
-FactsPart.propTypes = DatePart.propTypes
-ReasonsPart.propTypes = DatePart.propTypes
-VictimsAuthorsPart.propTypes = DatePart.propTypes
-FinalPrecisionsPart.propTypes = DatePart.propTypes
+FactsPart.propTypes = DatePart.propTypes;
+ReasonsPart.propTypes = DatePart.propTypes;
+VictimsAuthorsPart.propTypes = DatePart.propTypes;
+FinalPrecisionsPart.propTypes = DatePart.propTypes;
 
 const ShowDeclarationPage = () => {
-  const router = useRouter()
-  const { id } = router.query
+  const router = useRouter();
+  const { id } = router.query;
   const { data, error } = useSWR(
     id ? ["/api/declarations", id] : null,
-    (url, id) => findDeclaration(id),
-  )
+    (url, id) => findDeclaration(id)
+  );
 
   // if (error) console.error("error", error)
-  if (error) console.error(error.info?.error)
+  if (error) console.error(error.info?.error);
   // if (error) console.error("stringify", stringifyError(error))
   // if (error) console.error(JSON.stringify(error))
 
@@ -447,7 +447,7 @@ const ShowDeclarationPage = () => {
         </div>
       </Layout>
     </>
-  )
-}
+  );
+};
 
-export default ShowDeclarationPage
+export default ShowDeclarationPage;

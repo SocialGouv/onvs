@@ -162,4 +162,6 @@ const test = {
       type: { label: "Établissement", value: "Établissement" },
     },
   ],
-}
+};
+
+test;

@@ -1,5 +1,5 @@
-import Link from "next/link"
-import React from "react"
+import Link from "next/link";
+import React from "react";
 
 const Page2 = () => (
   <p>
@@ -7,6 +7,6 @@ const Page2 = () => (
       <a>Go to index</a>
     </Link>
   </p>
-)
+);
 
-export default Page2
+export default Page2;

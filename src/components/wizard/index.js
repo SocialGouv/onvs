@@ -1,3 +1,3 @@
-import { WizardForm } from "./WizardForm"
+import { WizardForm } from "./WizardForm";
 
-export { WizardForm }
+export { WizardForm };

@@ -1,25 +1,25 @@
-import { yupResolver } from "@hookform/resolvers"
-import React from "react"
-import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers";
+import React from "react";
+import * as yup from "yup";
 
-import { Title2 } from "@/components/lib"
-import FormComponent from "@/components/wizard/FormComponent"
-import { useDeclarationForm } from "@/hooks/useDeclarationContext"
-import { useScrollTop } from "@/hooks/useScrollTop"
+import { Title2 } from "@/components/lib";
+import FormComponent from "@/components/wizard/FormComponent";
+import { useDeclarationForm } from "@/hooks/useDeclarationContext";
+import { useScrollTop } from "@/hooks/useScrollTop";
 
 const schema = yup.object({
   description: yup.string().required("La description doit être renseignée"),
-})
+});
 
 const Step5Page = () => {
-  useScrollTop()
+  useScrollTop();
   const { onSubmit, handleSubmit, errors, register } = useDeclarationForm({
     defaultValuesFromState: (state) => ({
       description: state?.steps?.precision?.description,
     }),
 
     resolver: yupResolver(schema),
-  })
+  });
 
   return (
     <FormComponent
@@ -46,7 +46,7 @@ const Step5Page = () => {
         style={{ height: "300px" }}
       />
     </FormComponent>
-  )
-}
+  );
+};
 
-export default Step5Page
+export default Step5Page;

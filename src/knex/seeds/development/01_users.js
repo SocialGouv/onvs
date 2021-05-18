@@ -1,4 +1,4 @@
-const { v4: uuid } = require("uuid")
+const { v4: uuid } = require("uuid");
 
 // NB: all passwords are bcrypted and have the value "test"
 exports.seed = function (knex) {
@@ -26,6 +26,6 @@ exports.seed = function (knex) {
           role: "Admin",
           scope: null,
         },
-      ])
-    })
-}
+      ]);
+    });
+};

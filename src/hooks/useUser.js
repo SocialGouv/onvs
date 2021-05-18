@@ -1,6 +1,6 @@
-import Router from "next/router"
-import { useEffect } from "react"
-import useSWR from "swr"
+import Router from "next/router";
+import { useEffect } from "react";
+import useSWR from "swr";
 
 /**
  * Hook which returns the user object and the SWR function to mutate it.
@@ -14,21 +14,21 @@ export default function useUser({
   redirectToIfSuccess = "",
   redirectToIfError = "",
 } = {}) {
-  const { data: user, mutate: mutateUser } = useSWR("/api/auth/user")
+  const { data: user, mutate: mutateUser } = useSWR("/api/auth/user");
 
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)
     // if user data not yet there (fetch in progress, logged in or not) then don't do anything yet
-    if (!user) return
+    if (!user) return;
 
     // If redirectToIfSuccess is set, redirect if the user was found
     if (redirectToIfSuccess && user?.isLoggedIn) {
-      Router.push(redirectToIfSuccess)
+      Router.push(redirectToIfSuccess);
     }
     if (redirectToIfError && !user?.isLoggedIn) {
-      Router.push(redirectToIfError)
+      Router.push(redirectToIfError);
     }
-  }, [user, redirectToIfSuccess, redirectToIfError])
+  }, [user, redirectToIfSuccess, redirectToIfError]);
 
-  return { mutateUser, user }
+  return { mutateUser, user };
 }

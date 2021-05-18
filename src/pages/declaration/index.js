@@ -1,9 +1,9 @@
-import React from "react"
+import React from "react";
 
-import { WizardForm } from "@/components/wizard"
+import { WizardForm } from "@/components/wizard";
 
 const Step0Page = () => {
-  return <WizardForm step={0} />
-}
+  return <WizardForm step={0} />;
+};
 
-export default Step0Page
+export default Step0Page;

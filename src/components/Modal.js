@@ -1,33 +1,33 @@
-import { Transition } from "@headlessui/react"
-import PropTypes from "prop-types"
-import React, { useCallback, useEffect } from "react"
+import { Transition } from "@headlessui/react";
+import PropTypes from "prop-types";
+import React, { useCallback, useEffect } from "react";
 
-import Info from "@/components/svg/info"
+import Info from "@/components/svg/info";
 
 const Modal = ({ openModal, setOpenModal, title, content }) => {
   const onKey = useCallback(
     () => (event) => {
-      if (event.keyCode === 27 || event.keyCode === "Esc") setOpenModal(false)
+      if (event.keyCode === 27 || event.keyCode === "Esc") setOpenModal(false);
     },
-    [setOpenModal],
-  )
+    [setOpenModal]
+  );
 
   useEffect(() => {
-    document.addEventListener("keydown", onKey, false)
+    document.addEventListener("keydown", onKey, false);
 
     return () => {
-      document.removeEventListener("keydown", onKey, false)
-    }
-  }, [openModal, setOpenModal, onKey])
+      document.removeEventListener("keydown", onKey, false);
+    };
+  }, [openModal, setOpenModal, onKey]);
 
   const onClickOutside = () => {
-    setOpenModal(false)
-  }
+    setOpenModal(false);
+  };
   const onClickInside = (event) => {
-    event.stopPropagation()
-  }
+    event.stopPropagation();
+  };
 
-  const keyPress = (event, fn) => event.key === "Esc" && fn(event)
+  const keyPress = (event, fn) => event.key === "Esc" && fn(event);
 
   return (
     <Transition
@@ -136,14 +136,14 @@ const Modal = ({ openModal, setOpenModal, title, content }) => {
         </div>
       </div>
     </Transition>
-  )
-}
+  );
+};
 
 Modal.propTypes = {
   content: PropTypes.string,
   openModal: PropTypes.bool,
   setOpenModal: PropTypes.func,
   title: PropTypes.string,
-}
+};
 
-export default Modal
+export default Modal;

@@ -1,9 +1,9 @@
-import { yupResolver } from "@hookform/resolvers"
-import PropTypes from "prop-types"
-import React from "react"
-import { Controller, useFieldArray, useWatch } from "react-hook-form"
-import Select from "react-select"
-import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers";
+import PropTypes from "prop-types";
+import React from "react";
+import { Controller, useFieldArray, useWatch } from "react-hook-form";
+import Select from "react-select";
+import * as yup from "yup";
 
 import {
   Counter,
@@ -15,17 +15,17 @@ import {
   RadioInput,
   Title1,
   Title2,
-} from "@/components/lib"
-import FormComponent from "@/components/wizard/FormComponent"
-import { useDeclarationForm } from "@/hooks/useDeclarationContext"
-import { useScrollTop } from "@/hooks/useScrollTop"
+} from "@/components/lib";
+import FormComponent from "@/components/wizard/FormComponent";
+import { useDeclarationForm } from "@/hooks/useDeclarationContext";
+import { useScrollTop } from "@/hooks/useScrollTop";
 
 const isHealthType = (type) =>
-  ["Étudiant en santé", "Professionnel de santé"].includes(type)
+  ["Étudiant en santé", "Professionnel de santé"].includes(type);
 
-const pursuitOptions = ["Non", "Main courante", "Plainte"]
+const pursuitOptions = ["Non", "Main courante", "Plainte"];
 
-const ouiNonOptions = ["Oui", "Non"]
+const ouiNonOptions = ["Oui", "Non"];
 
 const schema = yup.object({
   authors: yup
@@ -41,8 +41,8 @@ const schema = yup.object({
                 ? schema
                     .required("Veuillez cocher une case")
                     .min(1, "Veuillez cocher une case")
-                : schema.transform(() => [])
-            },
+                : schema.transform(() => []);
+            }
           ),
         discernmentTroublesIsPresent: yup
           .mixed()
@@ -58,10 +58,10 @@ const schema = yup.object({
           .when("type", (type, schema) => {
             return isHealthType(type?.value)
               ? schema.required("La profession de santé est à renseigner")
-              : schema
+              : schema;
           }),
         type: yup.object().nullable().required("Le type est à renseigner"),
-      }),
+      })
     )
     .min(1, "Au moins un auteur est à renseigner")
     .required("Au moins un auteur est à renseigner"),
@@ -72,7 +72,7 @@ const schema = yup.object({
   pursuitBy: yup.array(yup.string()).when("pursuit", (pursuit, schema) => {
     return pursuit === "Plainte"
       ? schema.required("Préciser qui a déposé la plainte")
-      : schema
+      : schema;
   }),
   // pursuitPrecision: yup.string().when("pursuit", (pursuit, schema) => {
   //   return pursuit === "Autre"
@@ -88,7 +88,7 @@ const schema = yup.object({
         ? schema
             .required("Au moins un tiers est à renseigner")
             .min(1, "Au moins un tiers est à renseigner")
-        : schema.transform(() => [])
+        : schema.transform(() => []);
     }),
   thirdPartyIsPresent: yup
     .mixed()
@@ -102,9 +102,9 @@ const schema = yup.object({
           .max(
             255,
             ({ max }) =>
-              `Le champ Autre tiers ne doit pas dépasser ${max} caractères`,
+              `Le champ Autre tiers ne doit pas dépasser ${max} caractères`
           )
-      : schema.transform(() => "")
+      : schema.transform(() => "");
   }),
 
   victims: yup
@@ -121,24 +121,24 @@ const schema = yup.object({
           .when("type", (type, schema) => {
             return isHealthType(type?.value)
               ? schema.required("La profession de santé est à renseigner")
-              : schema
+              : schema;
           }),
         type: yup.object().nullable().required("Le type est à renseigner"),
-      }),
+      })
     )
     .min(1, "Au moins une victime est à renseigner")
     .required("Au moins un auteur est à renseigner"),
-})
+});
 
 const ageOptions = ["- de 18 ans", "+ de 18 ans"].map((curr) => ({
   label: curr,
   value: curr,
-}))
+}));
 
 const genderOptions = ["Masculin", "Féminin"].map((curr) => ({
   label: curr,
   value: curr,
-}))
+}));
 
 const victimTypeOptions = [
   "Accompagnant/Visiteur/Famille",
@@ -150,7 +150,7 @@ const victimTypeOptions = [
   "Personnel administratif et technique",
   "Professionnel de santé",
   "Prestataire extérieur",
-].map((curr) => ({ label: curr, value: curr }))
+].map((curr) => ({ label: curr, value: curr }));
 
 const authorProfileOptions = [
   "Accompagnant/Visiteur/Famille",
@@ -162,7 +162,7 @@ const authorProfileOptions = [
   "Personnel administratif et technique",
   "Professionnel de santé",
   "Prestataire extérieur",
-].map((curr) => ({ label: curr, value: curr }))
+].map((curr) => ({ label: curr, value: curr }));
 
 const healthJobOptions = [
   "Aide-soignant",
@@ -191,7 +191,7 @@ const healthJobOptions = [
   "Psychothérapeute",
   "Sage-femme",
   "Technicien de laboratoire médical",
-].map((curr) => ({ label: curr, value: curr }))
+].map((curr) => ({ label: curr, value: curr }));
 
 const customStyles = {
   container: (styles) => ({
@@ -202,22 +202,22 @@ const customStyles = {
     ...styles,
     textAlign: "left",
   }),
-}
+};
 const suffix = (number, isFeminine = false) => {
   if (number === 1) {
-    return isFeminine ? "ère" : "er"
+    return isFeminine ? "ère" : "er";
   }
   if (number === 2) {
-    return isFeminine ? "nde" : "nd"
+    return isFeminine ? "nde" : "nd";
   }
-  return "ème"
-}
+  return "ème";
+};
 
 const Victims = ({ control, errors }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "victims",
-  })
+  });
 
   return (
     <div className="mt-2">
@@ -238,26 +238,26 @@ const Victims = ({ control, errors }) => {
           type="button"
           tabIndex="0"
           onClick={() => {
-            append({ type: null })
+            append({ type: null });
           }}
         >
           +&nbsp;Ajouter une victime
         </OutlineButton>
       </div>
     </div>
-  )
-}
+  );
+};
 
 Victims.propTypes = {
   control: PropTypes.object.isRequired,
   errors: PropTypes.object,
-}
+};
 
 const Victim = ({ data, control, number = 0, remove, errors }) => {
   const type = useWatch({
     control,
     name: `victims[${number}].type`,
-  })
+  });
 
   return (
     <div className="px-10 py-6 my-5 bg-gray-100 rounded-md shadow-md">
@@ -424,8 +424,8 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 Victim.propTypes = {
   control: PropTypes.object,
@@ -433,13 +433,13 @@ Victim.propTypes = {
   errors: PropTypes.object,
   number: PropTypes.number,
   remove: PropTypes.func,
-}
+};
 
 const Authors = ({ control, register, errors }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "authors",
-  })
+  });
 
   return (
     <div className="mt-2">
@@ -461,32 +461,32 @@ const Authors = ({ control, register, errors }) => {
           type="button"
           tabIndex="0"
           onClick={() => {
-            append({})
+            append({});
           }}
         >
           +&nbsp;Ajouter un auteur
         </OutlineButton>
       </div>
     </div>
-  )
-}
+  );
+};
 
 Authors.propTypes = {
   control: PropTypes.object.isRequired,
   errors: PropTypes.object,
   register: PropTypes.func.isRequired,
-}
+};
 
 const Author = ({ data, control, number = 0, remove, register, errors }) => {
   const type = useWatch({
     control,
     name: `authors[${number}].type`,
-  })
+  });
 
   const discernmentTroublesIsPresent = useWatch({
     control,
     name: `authors[${number}].discernmentTroublesIsPresent`,
-  })
+  });
 
   return (
     <div className="px-10 py-6 my-5 bg-gray-100 rounded-md shadow-md">
@@ -669,8 +669,8 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 Author.propTypes = {
   control: PropTypes.object,
@@ -679,10 +679,10 @@ Author.propTypes = {
   number: PropTypes.number,
   register: PropTypes.func,
   remove: PropTypes.func,
-}
+};
 
 const Step4Page = () => {
-  useScrollTop()
+  useScrollTop();
   const {
     onSubmit: originalOnSubmit,
     handleSubmit,
@@ -704,46 +704,46 @@ const Step4Page = () => {
       victims: state?.steps?.victimsAuthors?.victims || [{}],
     }),
     resolver: yupResolver(schema),
-  })
+  });
 
-  const [phase, setPhase] = React.useState(1)
+  const [phase, setPhase] = React.useState(1);
 
-  const watchPursuit = watch("pursuit")
-  const watchThirdParty = watch("thirdParty")
-  const watchThirdPartyIsPresent = watch("thirdPartyIsPresent")
+  const watchPursuit = watch("pursuit");
+  const watchThirdParty = watch("thirdParty");
+  const watchThirdPartyIsPresent = watch("thirdPartyIsPresent");
 
   React.useEffect(() => {
     // Si le champ pursuit est rempli, c'est qu'on n'affiche pas la page pour la 1ère fois, i.e. tout doit être déplié
-    if (state?.form?.pursuit) setPhase(3)
-  }, [state?.form?.pursuit, setPhase])
+    if (state?.form?.pursuit) setPhase(3);
+  }, [state?.form?.pursuit, setPhase]);
 
   React.useEffect(() => {
     // Clean precision when pursuit has changed and is not equal to Autre
     if (watchPursuit !== "Autre") {
-      setValue("pursuitPrecision", "")
+      setValue("pursuitPrecision", "");
     }
-  }, [setValue, watchPursuit])
+  }, [setValue, watchPursuit]);
 
   React.useEffect(() => {
     // Clean precision when thirdParty has changed and is not equal to Autre
     if (watchThirdParty?.length && !watchThirdParty?.includes("Autre")) {
-      setValue("thirdPartyPrecision", "")
+      setValue("thirdPartyPrecision", "");
     }
-  }, [setValue, watchThirdParty])
+  }, [setValue, watchThirdParty]);
 
   const ensureOtherThirdPartyIsChecked = () => {
-    const thirdParty = watchThirdParty?.length ? watchThirdParty : []
+    const thirdParty = watchThirdParty?.length ? watchThirdParty : [];
     if (!watchThirdParty?.includes("Autre"))
-      setValue("thirdParty", [...thirdParty, "Autre"])
-  }
+      setValue("thirdParty", [...thirdParty, "Autre"]);
+  };
 
   const onSubmit = (data) => {
     // We can't do it in yup validation (with transform) because this part of the form is not present so it is not carry on by react hook form...
-    if (data?.pursuit !== "Plainte") data.pursuitBy = []
-    if (data?.thirdPartyIsPresent === "Non") data.thirdParty = []
+    if (data?.pursuit !== "Plainte") data.pursuitBy = [];
+    if (data?.thirdPartyIsPresent === "Non") data.thirdParty = [];
 
-    originalOnSubmit(data)
-  }
+    originalOnSubmit(data);
+  };
 
   return (
     <FormComponent
@@ -854,7 +854,7 @@ const Step4Page = () => {
         </>
       )}
     </FormComponent>
-  )
-}
+  );
+};
 
-export default Step4Page
+export default Step4Page;

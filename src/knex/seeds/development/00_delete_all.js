@@ -3,5 +3,5 @@ exports.seed = function (knex) {
   return knex("users")
     .del()
     .then(() => knex("declarations").del())
-    .then(() => knex("reports_history").del())
-}
+    .then(() => knex("reports_history").del());
+};

@@ -1,9 +1,9 @@
-import React from "react"
-import { useToasts } from "react-toast-notifications"
+import React from "react";
+import { useToasts } from "react-toast-notifications";
 
-import { isEmpty } from "@/utils/misc"
+import { isEmpty } from "@/utils/misc";
 
-import { toastConfig } from "../config"
+import { toastConfig } from "../config";
 
 /**
  * Display error as a toast
@@ -11,10 +11,10 @@ import { toastConfig } from "../config"
  * @param {*} error error in the form of an object
  */
 export const useEffectToast = (error) => {
-  const { addToast } = useToasts()
+  const { addToast } = useToasts();
 
   if (error && Object.keys(error).length) {
-    console.error("Erreur", error)
+    console.error("Erreur", error);
   }
 
   const message = React.useMemo(
@@ -36,8 +36,8 @@ export const useEffectToast = (error) => {
           </span>
         </>
       ),
-    [error],
-  )
+    [error]
+  );
 
   React.useEffect(() => {
     if (!isEmpty(error)) {
@@ -53,12 +53,12 @@ export const useEffectToast = (error) => {
                     {error[key].message}
                   </li>
                 )
-              )
+              );
             })}
           </ul>
         </div>,
-        toastConfig.error,
-      )
+        toastConfig.error
+      );
     }
-  }, [error, addToast, message])
-}
+  }, [error, addToast, message]);
+};

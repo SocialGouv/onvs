@@ -1,24 +1,24 @@
-import PropTypes from "prop-types"
-import React from "react"
+import PropTypes from "prop-types";
+import React from "react";
 
-import { Layout } from "@/components/Layout"
-import { Title1 } from "@/components/lib"
-import { Stepper } from "@/components/Stepper"
-import { useDeclarationContext } from "@/hooks/useDeclarationContext"
+import { Layout } from "@/components/Layout";
+import { Title1 } from "@/components/lib";
+import { Stepper } from "@/components/Stepper";
+import { useDeclarationContext } from "@/hooks/useDeclarationContext";
 
-import NavigationButtons from "./NavigationButtons"
+import NavigationButtons from "./NavigationButtons";
 
 const FormComponent = ({ onSubmit, children, title }) => {
-  const context = useDeclarationContext()
+  const context = useDeclarationContext();
 
-  const { goPrevious, step, orderedSteps } = context
+  const { goPrevious, step, orderedSteps } = context;
 
-  let isFinalStep = false
+  let isFinalStep = false;
 
-  const stepConfirmation = orderedSteps.length - 1
+  const stepConfirmation = orderedSteps.length - 1;
 
   if (step === stepConfirmation) {
-    isFinalStep = true
+    isFinalStep = true;
   }
 
   return (
@@ -38,13 +38,13 @@ const FormComponent = ({ onSubmit, children, title }) => {
         </form>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
 FormComponent.propTypes = {
   children: PropTypes.node,
   onSubmit: PropTypes.func,
   title: PropTypes.node,
-}
+};
 
-export default FormComponent
+export default FormComponent;

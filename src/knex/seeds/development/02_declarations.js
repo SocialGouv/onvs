@@ -1,4 +1,4 @@
-const { v4: uuid } = require("uuid")
+const { v4: uuid } = require("uuid");
 
 // NB: all passwords are bcrypted and have the value "test"
 exports.seed = function (knex) {
@@ -237,6 +237,6 @@ exports.seed = function (knex) {
           victims:
             '[{"age": {"label": "- de 18 ans", "value": "- de 18 ans"}, "type": {"label": "Accompagnant/Visiteur/Famille", "value": "Accompagnant/Visiteur/Famille"}, "gender": {"label": "Masculin", "value": "Masculin"}, "ITTDays": 0, "sickLeaveDays": 0, "hospitalizationDays": 0}]',
         },
-      ])
-    })
-}
+      ]);
+    });
+};

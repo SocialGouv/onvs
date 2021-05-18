@@ -1,15 +1,15 @@
-import Link from "next/link"
-import PropTypes from "prop-types"
-import React from "react"
+import Link from "next/link";
+import PropTypes from "prop-types";
+import React from "react";
 
-import useUser from "@/hooks/useUser"
+import useUser from "@/hooks/useUser";
 
-import Footer from "./Footer"
+import Footer from "./Footer";
 
 const Header = () => {
-  const { user } = useUser()
+  const { user } = useUser();
 
-  const url = user?.isLoggedIn ? "/private" : "/"
+  const url = user?.isLoggedIn ? "/private" : "/";
 
   return (
     <header className="text-gray-700 body-font">
@@ -23,8 +23,8 @@ const Header = () => {
         </Link>
       </div>
     </header>
-  )
-}
+  );
+};
 
 export const Layout = ({ children }) => (
   <div className="flex flex-col items-stretch min-h-screen">
@@ -32,8 +32,8 @@ export const Layout = ({ children }) => (
     <main className="flex-grow px-4 md:px-8">{children}</main>
     <Footer />
   </div>
-)
+);
 
 Layout.propTypes = {
   children: PropTypes.node,
-}
+};

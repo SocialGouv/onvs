@@ -1,18 +1,18 @@
-import { yupResolver } from "@hookform/resolvers"
-import { formatISO, isFuture, parseISO } from "date-fns"
-import React, { useEffect } from "react"
-import { Controller } from "react-hook-form"
-import Select from "react-select"
-import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers";
+import { formatISO, isFuture, parseISO } from "date-fns";
+import React, { useEffect } from "react";
+import { Controller } from "react-hook-form";
+import Select from "react-select";
+import * as yup from "yup";
 
-import { InputError, Title2 } from "@/components/lib"
-import { hoursOptions } from "@/components/wizard/flows/liberal/Step1"
-import FormComponent from "@/components/wizard/FormComponent"
-import { useDeclarationForm } from "@/hooks/useDeclarationContext"
-import { useScrollTop } from "@/hooks/useScrollTop"
-import { buildSelectOptions } from "@/utils/select"
+import { InputError, Title2 } from "@/components/lib";
+import { hoursOptions } from "@/components/wizard/flows/liberal/Step1";
+import FormComponent from "@/components/wizard/FormComponent";
+import { useDeclarationForm } from "@/hooks/useDeclarationContext";
+import { useScrollTop } from "@/hooks/useScrollTop";
+import { buildSelectOptions } from "@/utils/select";
 
-import { selectConfig } from "../../../../config"
+import { selectConfig } from "../../../../config";
 
 const locationMainOptions = buildSelectOptions([
   "Accueil Mère/enfant",
@@ -43,7 +43,7 @@ const locationMainOptions = buildSelectOptions([
   "USLD",
   "USMP",
   "Autre",
-])
+]);
 
 const locationSecondaryOptions = buildSelectOptions([
   "Accueil, standard (de l’Ets ou d’un service de l’Ets)",
@@ -72,7 +72,7 @@ const locationSecondaryOptions = buildSelectOptions([
   "Véhicule (dans le cadre d’un transport de patients/résidents)",
   "Vestiaire",
   "Autre",
-])
+]);
 
 const schema = yup.object().shape({
   date: yup
@@ -82,10 +82,10 @@ const schema = yup.object().shape({
       "past or present ISO date representation",
       "La date ne peut pas être future",
       function (value) {
-        const date = parseISO(value)
-        if (date === "Invalid Date") return false
-        return !isFuture(date)
-      },
+        const date = parseISO(value);
+        if (date === "Invalid Date") return false;
+        return !isFuture(date);
+      }
     ),
   hour: yup
     .object()
@@ -112,40 +112,34 @@ const schema = yup.object().shape({
     .nullable(true)
     .required("Le lieu précis est à renseigner"),
   town: yup.string().required("La ville est à renseigner"),
-})
+});
 
 const Step1 = () => {
-  useScrollTop()
-  const {
-    onSubmit,
-    handleSubmit,
-    errors,
-    control,
-    setValue,
-    watch,
-    register,
-  } = useDeclarationForm({
-    defaultValuesFromState: (state) => ({
-      date:
-        state?.steps?.dateLocation?.date ||
-        formatISO(new Date(), { representation: "date" }),
-      hour: state?.steps?.dateLocation?.hour || hoursOptions?.[0],
-      locationMain: state?.steps?.dateLocation?.locationMain || null,
-      locationSecondary: state?.steps?.dateLocation?.locationSecondary || null,
-      town: state?.steps?.dateLocation?.town,
-    }),
+  useScrollTop();
+  const { onSubmit, handleSubmit, errors, control, setValue, watch, register } =
+    useDeclarationForm({
+      defaultValuesFromState: (state) => ({
+        date:
+          state?.steps?.dateLocation?.date ||
+          formatISO(new Date(), { representation: "date" }),
+        hour: state?.steps?.dateLocation?.hour || hoursOptions?.[0],
+        locationMain: state?.steps?.dateLocation?.locationMain || null,
+        locationSecondary:
+          state?.steps?.dateLocation?.locationSecondary || null,
+        town: state?.steps?.dateLocation?.town,
+      }),
 
-    resolver: yupResolver(schema),
-  })
+      resolver: yupResolver(schema),
+    });
 
-  const location = watch("location")
+  const location = watch("location");
 
   useEffect(() => {
     // Clean otherLocation when location has changed and is not equal to Autre
     if (location !== "Autre") {
-      setValue("otherLocation", "")
+      setValue("otherLocation", "");
     }
-  }, [setValue, location])
+  }, [setValue, location]);
 
   return (
     <FormComponent
@@ -262,7 +256,7 @@ const Step1 = () => {
         />
       </div>
     </FormComponent>
-  )
-}
+  );
+};
 
-export default Step1
+export default Step1;
