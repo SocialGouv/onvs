@@ -1,5 +1,7 @@
 import { v4 as uuid } from "uuid"
 
+import { logDebug } from "@/utils/logger"
+
 function buildEmptyState() {
   return {
     // We set a new uuid for each reset to prevent multiple submits of the same declaration
@@ -25,7 +27,7 @@ const buildState = ({ state, step, data, stepName }) => {
 export const formReducer = (state, payload) => {
   const { step, data, event, declarationType, stepName } = payload
 
-  console.debug("event.name", event.name)
+  logDebug({ payload })
 
   switch (event.name) {
     case "RESET":
@@ -45,4 +47,17 @@ export const formReducer = (state, payload) => {
       return buildState({ data, state, step })
     }
   }
+}
+
+export function reset({ action }) {
+  action({ event: { name: "RESET" } })
+}
+
+export function initEtsForm({ action }) {
+  const payload = {
+    declarationType: "ets",
+    event: { name: "INIT" },
+    step: 0,
+  }
+  action(payload)
 }

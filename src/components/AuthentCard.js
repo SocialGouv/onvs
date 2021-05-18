@@ -13,16 +13,47 @@ import {
 } from "@/components/lib"
 import { RoughNotation } from "@/components/RoughNotation"
 import Hospital from "@/components/svg/hospital.js"
+import { useEffectToast } from "@/hooks/useEffectToast"
+import useUser from "@/hooks/useUser"
 import { isOpenFeature } from "@/utils/feature"
+import fetcher from "@/utils/fetcher"
 
 const AuthentCard = () => {
   const router = useRouter()
+  const { mutateUser } = useUser({
+    // redirectToIfSuccess: "/private",
+  })
 
-  function handleSubmit(event) {
-    event.preventDefault()
+  const [error, setError] = React.useState("")
 
-    if (isOpenFeature("FEATURE_ETS_FORM")) {
-      router.push("/ets")
+  useEffectToast(error)
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    if (!isOpenFeature("FEATURE_ETS_FORM")) {
+      return
+    }
+
+    const { email, password } = Object.fromEntries(new FormData(e.target))
+
+    const body = {
+      email,
+      password,
+    }
+
+    try {
+      await mutateUser(
+        fetcher("/api/auth/login", {
+          body: JSON.stringify(body),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        }),
+      )
+      router.push("/private")
+    } catch (error) {
+      console.error("An unexpected error happened:", error)
+      setError({ message: "L'authentification est incorrecte. 😕" })
     }
   }
 
@@ -64,7 +95,7 @@ const AuthentCard = () => {
           />
         </div>
         <div className="flex items-center justify-between mt-6">
-          <div className="flex items-center">
+          <div className="flex items-center hidden">
             <Checkbox id="rememberMe" />
             <label
               htmlFor="rememberMe"
@@ -74,7 +105,7 @@ const AuthentCard = () => {
             </label>
           </div>
 
-          <div className="text-sm leading-5">
+          <div className="hidden text-sm leading-5">
             <Link href="/">
               <a className="font-medium text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline">
                 Mot de passe oublié ?
@@ -86,9 +117,11 @@ const AuthentCard = () => {
           <PrimaryButtton type="submit">Se connecter</PrimaryButtton>
         </div>
       </form>
-      <SubTitleCard>{"Vous n'avez pas encore de compte ?"}</SubTitleCard>
-      <div className="mt-4 text-center">
-        <OutlineButton>Créer un compte</OutlineButton>
+      <div className="hidden">
+        <SubTitleCard>{"Vous n'avez pas encore de compte ?"}</SubTitleCard>
+        <div className="mt-4 text-center">
+          <OutlineButton>Créer un compte</OutlineButton>
+        </div>
       </div>
     </div>
   )
