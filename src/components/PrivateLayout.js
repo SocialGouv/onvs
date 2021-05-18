@@ -2,6 +2,7 @@ import { Menu } from "@headlessui/react"
 import {
   MenuIcon,
   UserCircleIcon,
+  UsersIcon,
   ViewListIcon,
 } from "@heroicons/react/outline"
 import Link from "next/link"
@@ -9,6 +10,7 @@ import { useRouter } from "next/router"
 import PropTypes from "prop-types"
 import React from "react"
 
+import HospitalIcon from "@/components/svg/hospital-line"
 import useUser from "@/hooks/useUser"
 import fetcher from "@/utils/fetcher"
 
@@ -111,9 +113,26 @@ function SideBar() {
               <MenuItem
                 url="/"
                 jsxIcon={ViewListIcon}
-                title="Liste (à venir)"
+                title="Déclarations"
                 disabled={true}
               />
+              {user?.role === "Admin" && (
+                <>
+                  <hr />
+
+                  <MenuItem
+                    url="/private/users"
+                    jsxIcon={UsersIcon}
+                    title="Administration utilisateurs"
+                  />
+                  <MenuItem
+                    url="/"
+                    jsxIcon={HospitalIcon}
+                    title="Administration ETS"
+                    disabled={true}
+                  />
+                </>
+              )}
             </nav>
           </div>
         </div>

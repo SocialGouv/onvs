@@ -4,9 +4,6 @@ import { compareWithHash } from "@/utils/bcrypt"
 import knex from "../../knex/knex"
 
 export const findWithCredentials = async ({ email, password }) => {
-  console.log("email", email)
-  console.log("password", password)
-
   if (!email) {
     throw new Error("Bad request")
   }
@@ -15,11 +12,12 @@ export const findWithCredentials = async ({ email, password }) => {
     .whereNull("deleted_at")
     .where("email", email)
 
-  console.log("user", user)
-
   if (!(await compareWithHash(password, user?.password))) {
     throw new Error("Error in authentication")
   }
+
+  // We ensure to not return the password.
+  delete user.password
 
   return user ? castDBToJS(user) : null
 }
