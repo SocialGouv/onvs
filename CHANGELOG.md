@@ -1,3 +1,10 @@
+# [2.14.0](https://github.com/SocialGouv/onvs/compare/v2.13.1...v2.14.0) (2021-05-18)
+
+
+### Features
+
+* **auth:** add authentication ([#131](https://github.com/SocialGouv/onvs/issues/131)) ([a2468ba](https://github.com/SocialGouv/onvs/commit/a2468bab2b6305ff007b66edc979e9a6e59a1ca9))
+
 ## [2.13.1](https://github.com/SocialGouv/onvs/compare/v2.13.0...v2.13.1) (2021-05-05)
 
 
