@@ -3,8 +3,14 @@ import React from "react"
 import PrivateLayout from "@/components/PrivateLayout"
 
 import knex from "../../../knex/knex"
+import { GetServerSideProps } from "next"
+import { UserModel } from "@/models/users"
 
-const UserPage = ({ user }) => {
+type Props = {
+  user: UserModel
+}
+
+const UserPage = ({ user }: Props) => {
   return (
     <PrivateLayout title="Utilisateurs">
       <form className="space-y-8 divide-y divide-gray-200">
@@ -149,8 +155,10 @@ const UserPage = ({ user }) => {
   )
 }
 
-export async function getServerSideProps({ params }) {
-  const { id } = params
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { id } = params as {
+    id?: string
+  }
 
   const [user] = await knex("users")
     .where("id", id)
@@ -158,7 +166,7 @@ export async function getServerSideProps({ params }) {
     .select("id", "first_name", "last_name", "email", "role")
 
   return {
-    props: { user },
+    props: { user: user as UserModel },
   }
 }
 

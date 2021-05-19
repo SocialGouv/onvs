@@ -5,18 +5,20 @@ const configValidate = {
   strict: false,
 }
 
-const validate = (schema, entityName = "") => async (model) => {
-  try {
-    const value = await schema.validate(model, configValidate)
-    return value
-  } catch (error) {
-    console.error(error)
-    console.error("Modèle JS : ", model)
-    throw new Error(
-      `Données invalides ${entityName ? ` (${entityName} modèle)` : ""}`,
-    )
+const validate =
+  (schema, entityName = "") =>
+  async (model) => {
+    try {
+      const value = await schema.validate(model, configValidate)
+      return value
+    } catch (error) {
+      console.error(error)
+      console.error("Modèle JS : ", model)
+      throw new Error(
+        `Données invalides ${entityName ? ` (${entityName} modèle)` : ""}`,
+      )
+    }
   }
-}
 
 const cast = (schema, mapping, entityName) => async (model) => {
   const res = await validate(schema, entityName)(model)

@@ -1,0 +1,5 @@
+/.k8s
+/.github
+/.vscode
+coverage
+node_modules

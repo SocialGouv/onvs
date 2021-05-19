@@ -29,3 +29,12 @@ export const { castJSToDB, castDBToJS, validateJS } = common.build({
   schemaDB,
   schemaJS,
 })
+
+export interface UserModel {
+  id: string
+  last_name: string
+  first_name: string
+  email: string
+  role: string
+  scope: string
+}

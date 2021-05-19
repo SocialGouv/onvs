@@ -33,7 +33,7 @@ export const OutlineButton = ({
   children,
   type = "submit",
   tabIndex = "-1",
-  color,
+  color = "",
   ...props
 }) => {
   const colorStyle =

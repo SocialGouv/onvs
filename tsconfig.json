@@ -2,16 +2,10 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-        "@/clients/*": ["clients/*"],
-        "@/components/*": ["components/*"],
-        "@/models/*": ["models/*"],
-        "@/pages/*": ["pages/*"],
-        "@/services/*": ["services/*"],
-        "@/hooks/*": ["hooks/*"],
-        "@/lib/*": ["lib/*"],
-        "@/utils/*": ["utils/*"],
-        "@/styles/*": ["styles/*"]
-      },
+      "@/*": [
+        "*"
+      ],
+    },
     "target": "es5",
     "lib": [
       "dom",
@@ -21,6 +15,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
+    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -33,12 +28,11 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    "**/*.js"
+    "**/*.tsx"
   ],
   "exclude": [
     "node_modules",
-    "dist",
-    ".next"
+    "tsconfig.json",
+    "sentry.*.config.js"
   ]
 }

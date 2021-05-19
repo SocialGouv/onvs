@@ -144,8 +144,6 @@ function SideBar() {
 /**
  * The layout for authentified user.
  *
- * @param {string} title
- * @param {children} content of the page
  */
 function PrivateLayout({ title, children }) {
   const { user } = useUser({ redirectToIfError: "/" })

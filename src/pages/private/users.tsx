@@ -4,19 +4,14 @@ import React from "react"
 import PrivateLayout from "@/components/PrivateLayout"
 
 import knex from "../../knex/knex"
+import { GetServerSideProps } from "next"
+import { UserModel } from "@/models/users"
 
-interface User {
-  last_name: string
-  first_name: string
-  // email: string
-  // role: string
+type PageProps = {
+  users: UserModel[]
 }
 
-interface UsersAdministrationProps {
-  users: User[]
-}
-
-function UsersAministration({ users }: UsersAdministrationProps) {
+function UsersAdministration({ users }: PageProps) {
   return (
     <PrivateLayout title="Utilisateurs">
       <div className="flex flex-col">
@@ -86,9 +81,9 @@ function UsersAministration({ users }: UsersAdministrationProps) {
   )
 }
 
-export default UsersAministration
+export default UsersAdministration as React.ReactNode
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async () => {
   const users = await knex("users")
     .whereNull("deleted_at")
     .select("id", "first_name", "last_name", "email", "role")
