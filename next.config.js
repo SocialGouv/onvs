@@ -10,9 +10,7 @@ const nextConfig = {
   env: {
     TEST_CURRENT_DATE: process.env.TEST_CURRENT_DATE,
   },
-  // Seems to break import of fonts
   future: {
-    // strictPostcssConfiguration: true,
     webpack5: true,
   },
   serverRuntimeConfig: {
