@@ -1,3 +1,10 @@
+# [2.15.0](https://github.com/SocialGouv/onvs/compare/v2.14.0...v2.15.0) (2021-05-20)
+
+
+### Features
+
+* migration to Typescript ([#132](https://github.com/SocialGouv/onvs/issues/132)) ([f6a67a4](https://github.com/SocialGouv/onvs/commit/f6a67a40f327ae1ecdfdceb6953b9b3bf8347ffc))
+
 # [2.14.0](https://github.com/SocialGouv/onvs/compare/v2.13.1...v2.14.0) (2021-05-18)
 
 
