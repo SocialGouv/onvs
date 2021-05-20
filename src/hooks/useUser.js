@@ -6,8 +6,8 @@ import useSWR from "swr"
  * Hook which returns the user object and the SWR function to mutate it.
  * It can optionnaly redirect to some configured pages after the result of fetching the user data.
  *
- * @param {string} redirectToIfSuccess (optionnal). Page to redirect to in case of success.
- * @param {string} redirectToIfError (optionnal). Page to redirect to in case of error.
+ * param {string} redirectToIfSuccess (optionnal). Page to redirect to in case of success.
+ * param {string} redirectToIfError (optionnal). Page to redirect to in case of error.
  * @returns the user
  */
 export default function useUser({

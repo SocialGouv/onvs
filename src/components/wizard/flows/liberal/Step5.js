@@ -50,26 +50,20 @@ const schema = yup.object({
 
 const Step5Page = () => {
   useScrollTop()
-  const {
-    onSubmit,
-    handleSubmit,
-    errors,
-    setValue,
-    watch,
-    register,
-  } = useDeclarationForm({
-    defaultValuesFromState: (state) => ({
-      declarantContactAgreement:
-        state?.steps?.precision?.declarantContactAgreement,
-      declarantEmail: state?.steps?.precision?.declarantEmail,
-      declarantExternalId: state?.steps?.precision?.declarantExternalId,
-      declarantNames: state?.steps?.precision?.declarantNames,
-      declarantTel: state?.steps?.precision?.declarantTel,
-      description: state?.steps?.precision?.description,
-    }),
+  const { onSubmit, handleSubmit, errors, setValue, watch, register } =
+    useDeclarationForm({
+      defaultValuesFromState: (state) => ({
+        declarantContactAgreement:
+          state?.steps?.precision?.declarantContactAgreement,
+        declarantEmail: state?.steps?.precision?.declarantEmail,
+        declarantExternalId: state?.steps?.precision?.declarantExternalId,
+        declarantNames: state?.steps?.precision?.declarantNames,
+        declarantTel: state?.steps?.precision?.declarantTel,
+        description: state?.steps?.precision?.description,
+      }),
 
-    resolver: yupResolver(schema),
-  })
+      resolver: yupResolver(schema),
+    })
 
   const declarantContactAgreement = watch("declarantContactAgreement")
 

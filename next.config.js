@@ -10,11 +10,9 @@ const nextConfig = {
   env: {
     TEST_CURRENT_DATE: process.env.TEST_CURRENT_DATE,
   },
-  // Seems to break import of fonts
-  // future: {
-  //   strictPostcssConfiguration: true,
-  //   webpack5: true,
-  // },
+  future: {
+    webpack5: true,
+  },
   serverRuntimeConfig: {
     // Will only be available on the server side. Needs getInitialProps on page to be available
   },
@@ -40,7 +38,7 @@ module.exports = withPlugins(
     [
       withMDX,
       {
-        pageExtensions: ["js", "jsx", "md", "mdx"],
+        pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
       },
     ],
   ],

@@ -33,4 +33,4 @@ const ProfilePage = () => {
   )
 }
 
-export default ProfilePage
+export default ProfilePage as React.ReactNode

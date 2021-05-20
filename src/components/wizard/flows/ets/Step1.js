@@ -116,27 +116,21 @@ const schema = yup.object().shape({
 
 const Step1 = () => {
   useScrollTop()
-  const {
-    onSubmit,
-    handleSubmit,
-    errors,
-    control,
-    setValue,
-    watch,
-    register,
-  } = useDeclarationForm({
-    defaultValuesFromState: (state) => ({
-      date:
-        state?.steps?.dateLocation?.date ||
-        formatISO(new Date(), { representation: "date" }),
-      hour: state?.steps?.dateLocation?.hour || hoursOptions?.[0],
-      locationMain: state?.steps?.dateLocation?.locationMain || null,
-      locationSecondary: state?.steps?.dateLocation?.locationSecondary || null,
-      town: state?.steps?.dateLocation?.town,
-    }),
+  const { onSubmit, handleSubmit, errors, control, setValue, watch, register } =
+    useDeclarationForm({
+      defaultValuesFromState: (state) => ({
+        date:
+          state?.steps?.dateLocation?.date ||
+          formatISO(new Date(), { representation: "date" }),
+        hour: state?.steps?.dateLocation?.hour || hoursOptions?.[0],
+        locationMain: state?.steps?.dateLocation?.locationMain || null,
+        locationSecondary:
+          state?.steps?.dateLocation?.locationSecondary || null,
+        town: state?.steps?.dateLocation?.town,
+      }),
 
-    resolver: yupResolver(schema),
-  })
+      resolver: yupResolver(schema),
+    })
 
   const location = watch("location")
 

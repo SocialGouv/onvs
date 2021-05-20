@@ -1,5 +1,5 @@
 const FEATURES = {
-  FEATURE_ETS_FORM: "on",
+  FEATURE_ETS_FORM: "off",
 }
 
 export function isOpenFeature(feature) {

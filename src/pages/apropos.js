@@ -39,7 +39,7 @@ const AProposPage = () => {
                 href="https://solidarites-sante.gouv.fr/IMG/pdf/circ609_15122000.pdf"
                 className="text-blue-600 underline"
               >
-                La circulaire DHOS/P1/2000/609 du 15 décembre 2000
+                {"La circulaire DHOS/P1/2000/609 du 15 décembre 2000"}
               </a>{" "}
               relative à la prévention et à l’accompagnement des situations de
               violence définissait les grands axes d’une politique de prévention
@@ -50,7 +50,7 @@ const AProposPage = () => {
                 href="http://circulaires.legifrance.gouv.fr/pdf/2009/04/cir_12079.pdf"
                 className="text-blue-600 underline"
               >
-                La circulaire DHOS/P1/2005/327 du 11 juillet 2005
+                {"La circulaire DHOS/P1/2005/327 du 11 juillet 2005"}
               </a>{" "}
               instaure une remontée systématique des informations relatives aux
               faits de violence des établissements vers les agences régionales
@@ -62,7 +62,7 @@ const AProposPage = () => {
                 href="https://solidarites-sante.gouv.fr/IMG/pdf/protocole-onvh-2.pdf"
                 className="text-blue-600 underline"
               >
-                Un protocole national signé le 12 août 2005
+                {"Un protocole national signé le 12 août 2005"}
               </a>{" "}
               entre le ministère de la santé et le ministère de l’intérieur met
               en avant le nécessaire rapprochement entre l’hôpital et les forces
@@ -72,7 +72,7 @@ const AProposPage = () => {
           </ul>
 
           <p className="mt-4">
-            Ce protocole a été 
+            Ce protocole a été
             <a
               href="https://solidarites-sante.gouv.fr/IMG/pdf/protocole_accord_amelioration_securite_es_100610.pdf"
               className="text-blue-600 underline"
@@ -80,7 +80,7 @@ const AProposPage = () => {
               modifié et complété par celui du 10 juin 2010
             </a>{" "}
             dans lequel s’est associé le ministère de la justice. Parmi ses
-            dispositions : la désignation d’un interlocuteur privilégié pour
+            dispositions{" : "}la désignation d’un interlocuteur privilégié pour
             l’hôpital, la facilité donnée aux personnels hospitaliers victimes
             de violence pour déposer plainte, l’établissement d’un système
             d’alerte privilégié, la possibilité de diagnostic de sécurité par
@@ -90,7 +90,7 @@ const AProposPage = () => {
 
           <p className="mt-4">
             Ce protocole national pour les établissements de santé a été
-            transposé au profit des professionnels de santé par le 
+            transposé au profit des professionnels de santé par le
             <a
               href="https://solidarites-sante.gouv.fr/IMG/pdf/protocol_national_securite_professionnels_sante_200411.pdf"
               className="text-blue-600 underline"
@@ -137,9 +137,9 @@ const AProposPage = () => {
             application informatique unique, une procédure de recueil permet de
             recenser les atteintes et de centraliser les événements des
             incivilités et de violences. La consultation peut ensuite
-            s’effectuer à trois niveaux : local pour l’établissement concerné,
-            régional pour l’agence régionale de santé et enfin national pour
-            l’ONVS.
+            s’effectuer à trois niveaux{" : "}local pour l’établissement
+            concerné, régional pour l’agence régionale de santé et enfin
+            national pour l’ONVS.
           </p>
 
           <p className="mt-4">
