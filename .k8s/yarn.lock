@@ -653,10 +653,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/kosko-charts@^5.3.3":
-  version "5.3.3"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-5.3.3.tgz#8a28705567957173dd000c05826088859dda8d9a"
-  integrity sha512-eMmRlOLOCyJ9FEayatyJNwaf61e4g/yKQrCLLhpiEwR+CmJWUmxfMyDoYXZZ6OWarOLDLX9RX22O9pTvkTOVRw==
+"@socialgouv/kosko-charts@^5.3.5":
+  version "5.3.5"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-5.3.5.tgz#a5d1be7bc941bf108e4b7e6a63ccafdd7171cb06"
+  integrity sha512-rowBnH19ywSQjp75xo6eNJfCq4hzPVpT784NMl2n7eUGxsPkvGjRK1wkaJ3G7xpDIJ7GhPFUt+3WusaRiUzGDA==
   dependencies:
     "@sindresorhus/is" "^4.0.0"
 
