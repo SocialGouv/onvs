@@ -1,3 +1,10 @@
+## [2.15.1](https://github.com/SocialGouv/onvs/compare/v2.15.0...v2.15.1) (2021-05-26)
+
+
+### Bug Fixes
+
+* **ci:** upgrade deps ([#135](https://github.com/SocialGouv/onvs/issues/135)) ([10302b6](https://github.com/SocialGouv/onvs/commit/10302b620253c6e6249ac9af07ffebec8d39fea3))
+
 # [2.15.0](https://github.com/SocialGouv/onvs/compare/v2.14.0...v2.15.0) (2021-05-20)
 
 
