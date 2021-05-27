@@ -13,7 +13,7 @@ exports.seed = function (knex) {
           last_name: null,
           password:
             "$2y$10$VQJlTRYj4aIXvsWLr1wc/Ov10DRAeTOsxR4q5XDfzewEouFI3eQ3i", // test
-          role: "Gestionnaire établissement",
+          role: "Gestionnaire multi-ETS",
           scope: null,
         },
         {
@@ -23,7 +23,7 @@ exports.seed = function (knex) {
           last_name: null,
           password:
             "$2y$10$VQJlTRYj4aIXvsWLr1wc/Ov10DRAeTOsxR4q5XDfzewEouFI3eQ3i", // test
-          role: "Admin",
+          role: "Administrateur",
           scope: null,
         },
       ])

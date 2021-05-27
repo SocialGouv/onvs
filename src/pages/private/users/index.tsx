@@ -1,19 +1,38 @@
+// liste
 import Link from "next/link"
 import React from "react"
 
 import PrivateLayout from "@/components/PrivateLayout"
 
-import knex from "../../knex/knex"
 import { GetServerSideProps } from "next"
 import { UserModel } from "@/models/users"
+import { OutlineButton } from "@/components/lib"
+import { PrismaClient } from "@prisma/client"
+import { useRouter } from "next/router"
+
+const prisma = new PrismaClient()
 
 type PageProps = {
   users: UserModel[]
 }
 
 function UsersAdministration({ users }: PageProps) {
+  const router = useRouter()
+
   return (
-    <PrivateLayout title="Utilisateurs">
+    <PrivateLayout
+      title="Utilisateurs"
+      leftComponent={null}
+      rightComponent={
+        <OutlineButton
+          type="button"
+          tabIndex="0"
+          onClick={() => router.push("./users/creation")}
+        >
+          +&nbsp;Ajouter
+        </OutlineButton>
+      }
+    >
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -63,7 +82,7 @@ function UsersAdministration({ users }: PageProps) {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                        <Link href={`/private/user/${person.id}`}>
+                        <Link href={`/private/users/${person.id}/edition`}>
                           <a className="text-indigo-600 hover:text-indigo-900">
                             Edit
                           </a>
@@ -84,9 +103,15 @@ function UsersAdministration({ users }: PageProps) {
 export default UsersAdministration as React.ReactNode
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const users = await knex("users")
-    .whereNull("deleted_at")
-    .select("id", "first_name", "last_name", "email", "role")
+  // const users = await knex("users")
+  //   .whereNull("deleted_at")
+  //   .select("id", "first_name", "last_name", "email", "role")
+
+  const users = await prisma.user.findMany({
+    where: {
+      deletedAt: null,
+    },
+  })
 
   return {
     props: { users }, // will be passed to the page component as props

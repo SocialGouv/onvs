@@ -5,10 +5,9 @@ const fetcher = async (endpoint, options) => {
   const response = await fetch(endpoint, options)
 
   if (!response.ok) {
-    const error = new Error("Fetcher error")
-    error.info = await response.json()
-    error.status = response.status
-    throw error
+    const { message } = await response.json()
+
+    throw new Error(message || "Erreur serveur")
   }
 
   return response.json()

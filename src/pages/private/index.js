@@ -2,7 +2,7 @@ import { useStateMachine } from "little-state-machine"
 import { useRouter } from "next/router"
 import React from "react"
 
-import { PrimaryButtton, Title1 } from "@/components/lib"
+import { PrimaryButton, Title1 } from "@/components/lib"
 import PrivateLayout from "@/components/PrivateLayout"
 import {
   formReducer,
@@ -31,7 +31,7 @@ function HospitalHomePage() {
 
         <p className="mb-8">Temps estimé : 4 minutes.</p>
 
-        <PrimaryButtton onClick={reinit}>Déclarer</PrimaryButtton>
+        <PrimaryButton onClick={reinit}>Déclarer</PrimaryButton>
       </div>
     </PrivateLayout>
   )

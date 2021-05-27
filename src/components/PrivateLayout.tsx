@@ -14,7 +14,14 @@ import HospitalIcon from "@/components/svg/hospital-line"
 import useUser from "@/hooks/useUser"
 import fetcher from "@/utils/fetcher"
 
-function MenuItem({ url, jsxIcon: Icon, title, disabled = false }) {
+interface MenuItemProps {
+  url: string
+  jsxIcon?: any // React.ComponentType<any> throw an error in <Icon> declaration below.
+  title: string
+  disabled?: boolean
+}
+
+function MenuItem({ url, jsxIcon: Icon, title, disabled }: MenuItemProps) {
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link href={disabled ? "#" : url}>
@@ -25,13 +32,6 @@ function MenuItem({ url, jsxIcon: Icon, title, disabled = false }) {
       </a>
     </Link>
   )
-}
-
-MenuItem.propTypes = {
-  disabled: PropTypes.bool,
-  jsxIcon: PropTypes.func,
-  title: PropTypes.string,
-  url: PropTypes.string,
 }
 
 function AvatarMenu() {
@@ -116,7 +116,7 @@ function SideBar() {
                 title="Déclarations"
                 disabled={true}
               />
-              {user?.role === "Admin" && (
+              {user?.role === "Administrateur" && (
                 <>
                   <hr />
 
@@ -141,11 +141,23 @@ function SideBar() {
   )
 }
 
+type PrivateLayoutProps = {
+  title?: string
+  children: React.ReactNode
+  leftComponent?: React.ReactNode
+  rightComponent?: React.ReactNode
+}
+
 /**
  * The layout for authentified user.
  *
  */
-function PrivateLayout({ title, children }) {
+function PrivateLayout({
+  title,
+  children,
+  leftComponent,
+  rightComponent,
+}: PrivateLayoutProps) {
   const { user } = useUser({ redirectToIfError: "/" })
 
   // Check the user in order to make sure that the render from the server will not render anything.
@@ -176,9 +188,13 @@ function PrivateLayout({ title, children }) {
         <main className="relative flex-1 overflow-y-auto bg-white focus:outline-none">
           <div className="py-6">
             <div className="px-4 max-w-7xl sm:px-6 md:px-8">
-              <h1 className="text-2xl font-semibold text-center text-gray-900">
-                {title}
-              </h1>
+              <div className="flex justify-between">
+                <div>{leftComponent}</div>
+                <h1 className="text-2xl font-semibold text-center text-gray-900">
+                  {title}
+                </h1>
+                <div>{rightComponent}</div>
+              </div>
             </div>
             <div className="px-4 mt-6 max-w-7xl sm:px-6 md:px-8">
               {children}

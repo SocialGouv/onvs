@@ -801,9 +801,7 @@ const Step4Page = () => {
           <Authors control={control} register={register} errors={errors} />
           {phase === 2 && (
             <div className="flex justify-center w-full my-16 space-x-4">
-              <PrimaryButton onClick={() => setPhase(3)}>
-                Suivant
-              </PrimaryButton>
+              <PrimaryButton onClick={() => setPhase(3)}>Suivant</PrimaryButton>
             </div>
           )}
         </>

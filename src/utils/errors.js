@@ -6,3 +6,9 @@ export const stringifyError = (error) => {
   const [stack, ...keys] = Object.getOwnPropertyNames(error)
   return JSON.stringify(error, keys, " ")
 }
+
+export class OnvsError extends Error {
+  constructor(message) {
+    super(message)
+  }
+}
