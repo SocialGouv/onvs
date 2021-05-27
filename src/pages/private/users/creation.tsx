@@ -9,7 +9,7 @@ import { PrimaryButton, OutlineButton } from "@/components/lib"
 import { createUser } from "@/clients/users"
 
 import { toastConfig } from "../../../config"
-import { useToasts } from "react-toast-notifications"
+import { Options, useToasts } from "react-toast-notifications"
 import { throttle } from "lodash"
 import { logDebug } from "@/utils/logger"
 
@@ -74,7 +74,7 @@ const UserPage = () => {
             😕👇
           </span>
         </div>,
-        toastConfig.error,
+        toastConfig.error as Options,
       )
       dispatch({ type: "set_error", message: error.message })
 
