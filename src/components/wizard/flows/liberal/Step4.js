@@ -11,7 +11,7 @@ import {
   Option,
   Options,
   OutlineButton,
-  PrimaryButtton,
+  PrimaryButton,
   RadioInput,
   Title1,
   Title2,
@@ -790,7 +790,7 @@ const Step4Page = () => {
       </>
       {phase === 1 && (
         <div className="flex justify-center w-full my-16 space-x-4">
-          <PrimaryButtton onClick={() => setPhase(2)}>Suivant</PrimaryButtton>
+          <PrimaryButton onClick={() => setPhase(2)}>Suivant</PrimaryButton>
         </div>
       )}
       {phase >= 2 && (
@@ -801,9 +801,9 @@ const Step4Page = () => {
           <Authors control={control} register={register} errors={errors} />
           {phase === 2 && (
             <div className="flex justify-center w-full my-16 space-x-4">
-              <PrimaryButtton onClick={() => setPhase(3)}>
+              <PrimaryButton onClick={() => setPhase(3)}>
                 Suivant
-              </PrimaryButtton>
+              </PrimaryButton>
             </div>
           )}
         </>

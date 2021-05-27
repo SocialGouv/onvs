@@ -6,31 +6,33 @@ import AddIcon from "@/components/svg/add"
 import Info from "@/components/svg/info"
 import MinusIcon from "@/components/svg/minus"
 
-export const PrimaryButtton = ({
-  children,
-  className,
+export const PrimaryButton = ({
+  children = "Enregistrer",
+  className = "",
   type = "submit",
-  onClick,
   tabIndex = "0",
+  disabled = false,
+  ...props
 }) => (
   <button
     type={type}
     className={`px-6 py-2 font-bold uppercase text-sm tracking-wider font-source text-white bg-blue-500 rounded ${className}`}
-    onClick={onClick}
     tabIndex={tabIndex}
+    disabled={disabled}
+    {...props}
   >
     {children}
   </button>
 )
 
-PrimaryButtton.propTypes = {
+PrimaryButton.propTypes = {
   children: PropTypes.node,
   tabIndex: PropTypes.string,
   type: PropTypes.string,
 }
 
 export const OutlineButton = ({
-  children,
+  children = "Annuler",
   type = "submit",
   tabIndex = "-1",
   color = "",
@@ -51,7 +53,7 @@ export const OutlineButton = ({
     </button>
   )
 }
-OutlineButton.propTypes = PrimaryButtton.propTypes
+OutlineButton.propTypes = PrimaryButton.propTypes
 
 export const HeroTitle = ({ children }) => (
   <h1 className="mt-6 text-2xl font-bold text-blue-200 md:text-4xl font-evolventa">

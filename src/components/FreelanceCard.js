@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import React from "react"
 
-import { PrimaryButtton, SubTitleCard, TitleCard } from "@/components/lib"
+import { PrimaryButton, SubTitleCard, TitleCard } from "@/components/lib"
 import { RoughNotation } from "@/components/RoughNotation"
 import DoctorsIcon from "@/components/svg/doctors"
 import { startDeclarationUrl } from "@/components/wizard/stepFlows"
@@ -41,7 +41,7 @@ const FreelanceCard = () => {
         Votre déclaration pourra être effectuée de manière anonyme.
       </SubTitleCard>
       <div className="my-6 text-center">
-        <PrimaryButtton type="submit">Déclarer</PrimaryButtton>
+        <PrimaryButton type="submit">Déclarer</PrimaryButton>
       </div>
     </div>
   )

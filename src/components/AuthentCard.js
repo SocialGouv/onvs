@@ -7,7 +7,7 @@ import {
   Checkbox,
   Input,
   OutlineButton,
-  PrimaryButtton,
+  PrimaryButton,
   SubTitleCard,
   TitleCard,
 } from "@/components/lib"
@@ -114,7 +114,7 @@ const AuthentCard = () => {
           </div>
         </div>
         <div className="mt-6 text-center">
-          <PrimaryButtton type="submit">Se connecter</PrimaryButtton>
+          <PrimaryButton type="submit">Se connecter</PrimaryButton>
         </div>
       </form>
       <div className="hidden">

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 
 import { createDeclaration } from "@/clients/declarations"
 import { Layout } from "@/components/Layout"
-import { OutlineButton, PrimaryButtton, Title1 } from "@/components/lib"
+import { OutlineButton, PrimaryButton, Title1 } from "@/components/lib"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 
 const Confirmation = () => {
@@ -89,9 +89,7 @@ const Confirmation = () => {
               <div className="flex justify-center w-full my-16 space-x-4">
                 <Link href="/declaration/[id]" as={`/declaration/${state.id}`}>
                   <a>
-                    <PrimaryButtton>
-                      Télécharger le récapitulatif
-                    </PrimaryButtton>
+                    <PrimaryButton>Télécharger le récapitulatif</PrimaryButton>
                   </a>
                 </Link>
               </div>
