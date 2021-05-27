@@ -1,26 +1,26 @@
 import React from "react"
 import { useForm, Controller } from "react-hook-form"
 import Select from "react-select"
+import { User } from "@prisma/client"
 
-import { z } from "zod"
+// import { z } from "zod"
 
 type SelectOption = {
   value: string
   label: string
 }
 
-const UserSchema = z.object({
-  id: z.string().uuid().nullable(),
-  firstName: z.string().nullable(),
-  lastName: z.string().nullable(),
-  email: z.string().email({ message: "Courriel non valide." }),
-  role: z.any(), // The role has not to be checked since it is constrained by a listbox in the form.
-  scope: z.any(),
-})
+// const UserSchema = z.object({
+//   id: z.string().uuid().nullable(),
+//   firstName: z.string().nullable(),
+//   lastName: z.string().nullable(),
+//   email: z.string().email({ message: "Courriel non valide." }),
+//   role: z.any(), // The role has not to be checked since it is constrained by a listbox in the form.
+//   scope: z.any(),
+// })
 
-type FormData = z.infer<typeof UserSchema>
+// type FormData = z.infer<typeof UserSchema>
 
-import { User } from "@prisma/client"
 import { rolesOptions, getOption } from "../utils/roles"
 
 type Props = {
@@ -29,15 +29,26 @@ type Props = {
   children: React.ReactNode
 }
 
+const emptyUser = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  role: null,
+  scope: "",
+}
+
 export default function UserForm({ user, onSubmit, children }: Props) {
-  const { register, control, handleSubmit, watch } = useForm<FormData>({
+  const { register, control, errors, handleSubmit, watch } = useForm({
     defaultValues: {
+      ...emptyUser,
       ...user,
       role: user?.role ? getOption(user?.role) : null,
     },
   })
 
   const role = watch<string, SelectOption>("role")
+
+  console.log({ errors })
 
   return (
     <form
@@ -67,7 +78,6 @@ export default function UserForm({ user, onSubmit, children }: Props) {
                   type="text"
                   name="firstName"
                   id="firstName"
-                  autoComplete="given-name"
                   className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   ref={register}
                 />
@@ -86,7 +96,6 @@ export default function UserForm({ user, onSubmit, children }: Props) {
                   type="text"
                   name="lastName"
                   id="lastName"
-                  autoComplete="family-name"
                   className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   ref={register}
                 />
@@ -105,7 +114,6 @@ export default function UserForm({ user, onSubmit, children }: Props) {
                   id="email"
                   name="email"
                   type="email"
-                  autoComplete="email"
                   className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   ref={register}
                 />
@@ -143,7 +151,6 @@ export default function UserForm({ user, onSubmit, children }: Props) {
                     type="text"
                     name="scope"
                     id="scope"
-                    autoComplete="street-address"
                     className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     ref={register}
                   />
@@ -151,10 +158,8 @@ export default function UserForm({ user, onSubmit, children }: Props) {
               </div>
             )}
           </div>
+          <div className="pt-5">{children}</div>
         </div>
-      </div>
-      <div className="pt-5">
-        <div className="flex justify-end">{children}</div>
       </div>
     </form>
   )

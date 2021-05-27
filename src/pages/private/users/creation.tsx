@@ -90,14 +90,16 @@ const UserPage = () => {
   return (
     <PrivateLayout title="Utilisateurs">
       <UserForm onSubmit={newAddUser}>
-        <OutlineButton onClick={() => router.push("/private/users")}>
-          Annuler
-        </OutlineButton>
-        <span className="w-4" />
+        <div className="flex justify-end">
+          <OutlineButton onClick={() => router.push("/private/users")}>
+            Annuler
+          </OutlineButton>
+          <span className="w-4" />
 
-        <PrimaryButton type="submit" disabled={status === "pending"}>
-          Ajouter
-        </PrimaryButton>
+          <PrimaryButton type="submit" disabled={status === "pending"}>
+            Ajouter
+          </PrimaryButton>
+        </div>
       </UserForm>
     </PrivateLayout>
   )

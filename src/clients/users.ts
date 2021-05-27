@@ -13,3 +13,9 @@ export const createUser = async (params: { user: User }) => {
     method: "POST",
   })
 }
+export const deleteUser = async (id: string) => {
+  return fetcher(`${API_URL}/${USER_ENDPOINT}/${id}`, {
+    headers: { "Content-Type": "application/json" },
+    method: "DELETE",
+  })
+}
