@@ -235,7 +235,6 @@ const Victims = ({ control, errors }) => {
       </div>
       <div className="mt-10 text-center">
         <OutlineButton
-          type="button"
           tabIndex="0"
           onClick={() => {
             append({ type: null })
@@ -265,12 +264,7 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
         {number + 1 + suffix(number + 1, true)} victime
         {number > 0 && (
           <div className="inline-block float-right text-sm">
-            <OutlineButton
-              color="red"
-              onClick={remove}
-              tabIndex="0"
-              type="button"
-            >
+            <OutlineButton color="red" onClick={remove} tabIndex="0">
               <span className="align-middle">Effacer&nbsp;X</span>
             </OutlineButton>
           </div>
@@ -458,7 +452,6 @@ const Authors = ({ control, register, errors }) => {
       </div>
       <div className="mt-10 text-center">
         <OutlineButton
-          type="button"
           tabIndex="0"
           onClick={() => {
             append({})
@@ -494,12 +487,7 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
         {number + 1 + suffix(number + 1)} auteur
         {number > 0 && (
           <div className="inline-block float-right text-sm">
-            <OutlineButton
-              color="red"
-              onClick={remove}
-              tabIndex="0"
-              type="button"
-            >
+            <OutlineButton color="red" onClick={remove} tabIndex="0">
               <span className="align-middle">Effacer&nbsp;X</span>
             </OutlineButton>
           </div>

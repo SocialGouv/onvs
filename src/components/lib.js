@@ -33,7 +33,7 @@ PrimaryButton.propTypes = {
 
 export const OutlineButton = ({
   children = "Annuler",
-  type = "submit",
+  type = "button",
   tabIndex = "-1",
   color = "",
   ...props

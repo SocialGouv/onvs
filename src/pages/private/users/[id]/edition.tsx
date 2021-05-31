@@ -1,20 +1,18 @@
 import React from "react"
+import { GetServerSideProps } from "next"
+import { useRouter } from "next/router"
+import { Options, useToasts } from "react-toast-notifications"
+import { throttle } from "lodash"
 
 import PrivateLayout from "@/components/PrivateLayout"
+import Modal from "@/components/Modal"
+import { deleteUser, updateUser } from "@/clients/users"
 
-import { GetServerSideProps } from "next"
-
-import { deleteUser } from "@/clients/users"
-
-// import { v4 as uuid } from "uuid"
 import { PrismaClient, User } from "@prisma/client"
 import UserForm from "@/components/UserForm"
-import { useRouter } from "next/router"
-
 import { toastConfig } from "@/config"
-import { Options, useToasts } from "react-toast-notifications"
-
 import { PrimaryButton, OutlineButton } from "@/components/lib"
+import Alert from "@/components/Alert"
 
 const prisma = new PrismaClient()
 
@@ -29,9 +27,9 @@ const initialState: { status: StatusType; message?: string } = {
 }
 
 type ActionType =
-  | { type: "reset" }
+  | { type: "init" }
   | { type: "run" }
-  | { type: "set_success" }
+  | { type: "set_success"; message: string }
   | { type: "set_error"; message: string }
 
 function reducer(
@@ -39,12 +37,12 @@ function reducer(
   action: ActionType,
 ): typeof initialState {
   switch (action.type) {
-    case "reset":
+    case "init":
       return { status: "idle" }
     case "run":
       return { status: "pending" }
     case "set_success":
-      return { status: "complete" }
+      return { status: "complete", message: action.message }
     case "set_error":
       return { status: "failed", message: action.message }
   }
@@ -52,19 +50,25 @@ function reducer(
 
 const UserPage = ({ user }: Props) => {
   const router = useRouter()
+  const [openModal, setOpenModal] = React.useState(false)
 
-  const [{ status }, dispatch] = React.useReducer(reducer, initialState)
+  const [{ status, message }, dispatch] = React.useReducer(
+    reducer,
+    initialState,
+  )
   const { addToast } = useToasts()
 
   async function onDeleteUser() {
-    dispatch({ type: "reset" })
+    dispatch({ type: "init" })
 
-    console.log("Suppression de l'utilisateur " + user?.id)
     try {
       dispatch({ type: "run" })
 
       await deleteUser(user?.id)
-      dispatch({ type: "set_success" })
+      dispatch({
+        type: "set_success",
+        message: "L'utilisateur a bien été supprimé.",
+      })
       router.push(`/private/users/`)
     } catch (error) {
       addToast(
@@ -82,11 +86,69 @@ const UserPage = ({ user }: Props) => {
     }
   }
 
-  console.log("status", status)
+  async function onUpdateUser(values) {
+    dispatch({ type: "init" })
+
+    const updatedUser = { ...values, id: user?.id, role: values.role?.value }
+
+    try {
+      dispatch({ type: "run" })
+
+      const data = await updateUser({ user: updatedUser })
+
+      if (!data?.user?.id) {
+        console.error(
+          "Il y a un problème avec la création de cet utilisateur",
+          data,
+        )
+        throw new Error(
+          "Il y a un problème avec la création de cet utilisateur",
+        )
+      }
+      dispatch({
+        type: "set_success",
+        message: "Les modifications ont bien été enregistrées.",
+      })
+    } catch (error) {
+      addToast(
+        <div className="text-lg">
+          {error?.message}{" "}
+          <span role="img" aria-hidden="true">
+            😕👇
+          </span>
+        </div>,
+        toastConfig.error as Options,
+      )
+      dispatch({ type: "set_error", message: error.message })
+
+      console.error("error.message", error.message)
+    }
+  }
+
+  // TODO: Why there is 2 possible calls between the throttle's timeout ?
+  const newUpdateUser = React.useCallback(throttle(onUpdateUser, 2000), [])
 
   return (
     <PrivateLayout title="Utilisateurs">
-      <UserForm user={user} onSubmit={(values) => console.log(values)}>
+      {status === "complete" && message && (
+        <Alert title={message}>
+          <Alert.Button
+            label="Retour à la liste"
+            fn={() => router.push("/private/users")}
+          />
+        </Alert>
+      )}
+
+      <Modal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        title="✋ Voulez-vous vraiment supprimer cet utilisateur?"
+        text="Attention : cette opération est irréversible."
+        labelPrimaryButton="Supprimer"
+        fnPrimary={onDeleteUser}
+      />
+
+      <UserForm user={user} onSubmit={newUpdateUser}>
         <div className="flex justify-end">
           <OutlineButton onClick={() => router.push("/private/users")}>
             Annuler
@@ -100,7 +162,7 @@ const UserPage = ({ user }: Props) => {
             <h2 className="text-red-600">Zone dangereuse</h2>
             <div className="flex justify-between mt-4">
               <div>Je veux supprimer cet utilisateur</div>
-              <OutlineButton color="red" onClick={onDeleteUser}>
+              <OutlineButton color="red" onClick={() => setOpenModal(true)}>
                 Supprimer
               </OutlineButton>
             </div>

@@ -1,6 +1,7 @@
 import React from "react"
 import { useForm, Controller } from "react-hook-form"
 import Select from "react-select"
+
 import { User } from "@prisma/client"
 
 // import { z } from "zod"
@@ -38,7 +39,7 @@ const emptyUser = {
 }
 
 export default function UserForm({ user, onSubmit, children }: Props) {
-  const { register, control, errors, handleSubmit, watch } = useForm({
+  const { register, control, handleSubmit, watch } = useForm({
     defaultValues: {
       ...emptyUser,
       ...user,
@@ -47,8 +48,6 @@ export default function UserForm({ user, onSubmit, children }: Props) {
   })
 
   const role = watch<string, SelectOption>("role")
-
-  console.log({ errors })
 
   return (
     <form

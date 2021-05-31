@@ -1,19 +1,17 @@
-// liste
 import Link from "next/link"
 import React from "react"
 
 import PrivateLayout from "@/components/PrivateLayout"
 
 import { GetServerSideProps } from "next"
-import { UserModel } from "@/models/users"
 import { OutlineButton } from "@/components/lib"
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient, User } from "@prisma/client"
 import { useRouter } from "next/router"
 
 const prisma = new PrismaClient()
 
 type PageProps = {
-  users: UserModel[]
+  users: User[]
 }
 
 function UsersAdministration({ users }: PageProps) {
@@ -25,7 +23,6 @@ function UsersAdministration({ users }: PageProps) {
       leftComponent={null}
       rightComponent={
         <OutlineButton
-          type="button"
           tabIndex="0"
           onClick={() => router.push("./users/creation")}
         >
@@ -67,10 +64,10 @@ function UsersAdministration({ users }: PageProps) {
                     <tr key={person.email}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {person.first_name}
+                          {person.firstName}
                         </div>
                         <div className="text-sm text-gray-500">
-                          {person.last_name}
+                          {person.lastName}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -103,10 +100,6 @@ function UsersAdministration({ users }: PageProps) {
 export default UsersAdministration as React.ReactNode
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  // const users = await knex("users")
-  //   .whereNull("deleted_at")
-  //   .select("id", "first_name", "last_name", "email", "role")
-
   const users = await prisma.user.findMany({
     where: {
       deletedAt: null,

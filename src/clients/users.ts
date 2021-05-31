@@ -13,6 +13,15 @@ export const createUser = async (params: { user: User }) => {
     method: "POST",
   })
 }
+
+export const updateUser = async (params: { user: User }) => {
+  return fetcher(`${API_URL}/${USER_ENDPOINT}/${params?.user?.id}`, {
+    body: JSON.stringify(params),
+    headers: { "Content-Type": "application/json" },
+    method: "PATCH",
+  })
+}
+
 export const deleteUser = async (id: string) => {
   return fetcher(`${API_URL}/${USER_ENDPOINT}/${id}`, {
     headers: { "Content-Type": "application/json" },
