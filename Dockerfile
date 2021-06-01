@@ -12,6 +12,9 @@ COPY src/lib/ ./src/lib/
 COPY src/knex/ ./src/knex/
 COPY .next/ ./.next
 COPY public/ ./public/
+COPY prisma/ ./prisma/
+
+RUN npx prisma generate
 
 USER node
 
