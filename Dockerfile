@@ -12,7 +12,7 @@ RUN yarn prisma generate
 
 RUN yarn build
 
-RUN yarn install --production
+#RUN yarn install --production
 
 USER node
 
