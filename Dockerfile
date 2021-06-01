@@ -1,20 +1,18 @@
-FROM node:15-alpine
+FROM node:15-alpine as builder
 
 WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN yarn install --production --frozen-lockfile --prefer-offline
+RUN yarn install --frozen-lockfile --prefer-offline
 
-COPY next.config.js knexfile.js  ./
-COPY scripts/ ./scripts/
-COPY src/lib/ ./src/lib/
-COPY src/knex/ ./src/knex/
-COPY .next/ ./.next
-COPY public/ ./public/
-COPY prisma/ ./prisma/
+COPY . ./
 
-RUN npx prisma generate
+RUN yarn prisma generate
+
+RUN yarn build
+
+RUN yarn install --production
 
 USER node
 
