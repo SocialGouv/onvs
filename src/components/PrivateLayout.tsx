@@ -111,10 +111,10 @@ function SideBar() {
           <div className="flex flex-col flex-grow mt-5">
             <nav className="flex-1 px-2 space-y-1 bg-white">
               <MenuItem
-                url="/"
+                url="/private/declarations"
                 jsxIcon={ViewListIcon}
                 title="Déclarations"
-                disabled={true}
+                disabled={false}
               />
               {user?.role === "Administrateur" && (
                 <>

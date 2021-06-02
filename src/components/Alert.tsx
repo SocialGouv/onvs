@@ -27,7 +27,7 @@ export default function Alert({
   children,
 }: {
   title: string
-  children: React.ReactElement
+  children?: React.ReactElement
 }) {
   return (
     <div className="p-4 rounded-md bg-green-50">
