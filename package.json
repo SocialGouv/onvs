@@ -98,12 +98,6 @@
     "tailwindcss": "2.1.2",
     "typescript": "^4.2.4"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
