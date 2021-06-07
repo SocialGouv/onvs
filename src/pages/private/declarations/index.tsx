@@ -1,23 +1,19 @@
 // NB: react-table hooks build key so we can disable the jsx-key rule for this file.
 /* eslint-disable react/jsx-key */
 
+import Alert from "@/components/Alert"
+import { OutlineButton } from "@/components/lib"
+import Pagination from "@/components/Pagination"
+import PrivateLayout from "@/components/PrivateLayout"
+import { FORMAT_DATE } from "@/utils/constants"
+import fetcher from "@/utils/fetcher"
+import { upperCaseFirstLetters } from "@/utils/string"
+import { Declaration } from "@prisma/client"
+import { format } from "date-fns"
+import { useRouter } from "next/router"
 import React from "react"
 import { useTable } from "react-table"
-
-import PrivateLayout from "@/components/PrivateLayout"
-
-import { upperCaseFirstLetters } from "@/utils/string"
-
-import { OutlineButton } from "@/components/lib"
-import { Declaration } from "@prisma/client"
 import useSWR, { SWRResponse } from "swr"
-import fetcher from "@/utils/fetcher"
-
-import { format } from "date-fns"
-
-import { FORMAT_DATE } from "@/utils/constants"
-import Alert from "@/components/Alert"
-import { useRouter } from "next/router"
 
 function BadgeType({ type }) {
   switch (type) {
@@ -81,27 +77,43 @@ function DeclarationAdministration() {
     [],
   )
 
-  const { data: declarations, error }: SWRResponse<Declaration[], Error> =
-    useSWR("/api/declarations", fetcher)
+  const [pageIndex, setPageIndex] = React.useState(0)
+
+  const goToNextPage = () => setPageIndex(pageIndex + 1)
+  const goToPreviousPage = () =>
+    pageIndex > 0 ? setPageIndex(pageIndex - 1) : 0
+
+  type PaginatedDeclarations = {
+    declarations: Declaration[]
+    pageIndex: number
+    totalCount: number
+    totalPages: number
+    pageSize: number
+  }
+
+  const { data, error }: SWRResponse<PaginatedDeclarations, Error> = useSWR(
+    `/api/declarations?pageIndex=${pageIndex}`,
+    fetcher,
+  )
+
+  const declarations = data?.declarations
+  const totalCount = data?.totalCount || 0
+  const pageSize = data?.pageSize
+  const totalPages = data?.totalPages || 0
+
+  const firstElement = pageIndex * pageSize! + 1
+  const lastElement = firstElement + declarations?.length! - 1
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data: declarations || [] })
+    useTable({ columns, data: declarations?.length ? declarations : [] })
+
+  // synchronize if the page index SSR is different
+  if (data?.pageIndex !== pageIndex && data?.pageIndex)
+    setPageIndex(data?.pageIndex)
 
   if (!declarations?.length) return "Chargement..."
-
   return (
-    <PrivateLayout
-      title="Déclarations"
-      leftComponent={null}
-      rightComponent={
-        <OutlineButton
-          tabIndex="0"
-          onClick={() => console.log("création de déclaration")}
-        >
-          +&nbsp;Ajouter
-        </OutlineButton>
-      }
-    >
+    <PrivateLayout title="Déclarations" leftComponent={null}>
       {error && <Alert title="Erreur de récupération des déclarations" />}
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -146,6 +158,15 @@ function DeclarationAdministration() {
                   })}
                 </tbody>
               </table>
+              <Pagination
+                firstElement={firstElement}
+                lastElement={lastElement}
+                totalCount={totalCount}
+                goToPreviousPage={goToPreviousPage}
+                goToNextPage={goToNextPage}
+                pageIndex={pageIndex}
+                totalPages={totalPages}
+              />
             </div>
           </div>
         </div>

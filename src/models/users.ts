@@ -30,11 +30,18 @@ export const { castJSToDB, castDBToJS, validateJS } = common.build({
   schemaJS,
 })
 
+export type Roles =
+  | "Gestionnaire géographique"
+  | "Gestionnaire établissement"
+  | "Gestionnaire multi-établissements"
+  | "Administrateur"
+
 export interface UserModel {
   id: string
   last_name: string
   first_name: string
   email: string
-  role: string
+  role: Roles
   scope: string
+  isLoggedIn: boolean
 }

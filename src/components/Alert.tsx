@@ -24,22 +24,39 @@ export function AlertButton(button: buttonType) {
 
 export default function Alert({
   title,
+  kind = "success",
   children,
 }: {
   title: string
+  kind?: "success" | "error"
   children?: React.ReactElement
 }) {
+  let colors = {
+    bg: "bg-green-50",
+    icon: "text-green-400",
+    text: "text-green-700",
+  }
+
+  if (kind === "error") {
+    colors = {
+      ...colors,
+      bg: "bg-red-50",
+      icon: "text-red-400",
+      text: "text-red-700",
+    }
+  }
+
   return (
-    <div className="p-4 rounded-md bg-green-50">
+    <div className={`p-4 rounded-md ${colors["bg"]}`}>
       <div className="flex items-center">
         <div className="flex-shrink-0">
           <CheckCircleIcon
-            className="w-5 h-5 text-green-400"
+            className={`w-5 h-5 ${colors["icon"]}`}
             aria-hidden="true"
           />
         </div>
         <div className="items-center flex-1 ml-3 md:flex md:justify-between">
-          <p className="text-sm text-green-700">{title} </p>
+          <p className={`text-sm ${colors["text"]}`}>{title} </p>
           {children}
         </div>
       </div>

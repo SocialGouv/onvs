@@ -7,14 +7,12 @@ import { throttle } from "lodash"
 import PrivateLayout from "@/components/PrivateLayout"
 import Modal from "@/components/Modal"
 import { deleteUser, updateUser } from "@/clients/users"
-
-import { PrismaClient, User } from "@prisma/client"
 import UserForm from "@/components/UserForm"
 import { toastConfig } from "@/config"
 import { PrimaryButton, OutlineButton } from "@/components/lib"
 import Alert from "@/components/Alert"
-
-const prisma = new PrismaClient()
+import { User } from "@prisma/client"
+import prisma from "@/prisma/db"
 
 type Props = {
   user: User
@@ -158,8 +156,19 @@ const UserPage = ({ user }: Props) => {
           <PrimaryButton type="submit">Modifier</PrimaryButton>
         </div>
         <div>
-          <div className="p-8 mt-16 text-center border border-red-500 rounded">
-            <h2 className="text-red-600">Zone dangereuse</h2>
+          <div className="p-8 mt-16 text-center border border-yellow-600 rounded">
+            <h2 className="text-yellow-600">Zone dangereuse</h2>
+            <div className="flex justify-between mt-4">
+              <div>Je réinitialise le mot de passe de cet utilisateur</div>
+              <PrimaryButton
+                color="yellow"
+                onClick={() =>
+                  router.push(`/private/users/${user?.id}/password`)
+                }
+              >
+                Réinitialiser
+              </PrimaryButton>
+            </div>
             <div className="flex justify-between mt-4">
               <div>Je veux supprimer cet utilisateur</div>
               <OutlineButton color="red" onClick={() => setOpenModal(true)}>
@@ -174,15 +183,15 @@ const UserPage = ({ user }: Props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { id } = params as {
-    id?: string
+  const { userId } = params as {
+    userId?: string
   }
 
   // TODO: faut-il ne pas rendre le user si deletedAt est non null ?
 
   const user = await prisma.user.findUnique({
     where: {
-      id,
+      id: userId,
     },
     select: {
       id: true,

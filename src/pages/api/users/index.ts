@@ -1,7 +1,5 @@
 import Cors from "micro-cors"
-import { PrismaClient } from "@prisma/client"
-
-const prisma = new PrismaClient()
+import prisma from "@/prisma/db"
 
 import { z, ZodError } from "zod"
 import { roles } from "@/utils/roles"

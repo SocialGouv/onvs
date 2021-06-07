@@ -14,11 +14,33 @@ export const createUser = async (params: { user: User }) => {
   })
 }
 
-export const updateUser = async (params: { user: User }) => {
-  return fetcher(`${API_URL}/${USER_ENDPOINT}/${params?.user?.id}`, {
-    body: JSON.stringify(params),
+type PartialUser = {
+  [Property in keyof User]+?: User[Property]
+}
+
+export const updateUser = async ({ user }: { user: PartialUser }) => {
+  if (!user?.id) throw new Error("Un id est nécessaire")
+
+  return fetcher(`${API_URL}/${USER_ENDPOINT}/${user?.id}`, {
+    body: JSON.stringify({ user }),
     headers: { "Content-Type": "application/json" },
     method: "PATCH",
+  })
+}
+
+export const changePasswordUser = async ({
+  id,
+  password,
+}: {
+  id: string
+  password: string
+}) => {
+  if (!id) throw new Error("Un id est nécessaire")
+
+  return fetcher(`${API_URL}/${USER_ENDPOINT}/${id}/password`, {
+    body: JSON.stringify({ password }),
+    headers: { "Content-Type": "application/json" },
+    method: "PUT",
   })
 }
 

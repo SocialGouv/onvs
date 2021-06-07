@@ -5,6 +5,7 @@ module.exports = {
     "^@/hooks(.*)$": "<rootDir>/src/hooks$1",
     "^@/lib(.*)$": "<rootDir>/src/lib$1",
     "^@/models(.*)$": "<rootDir>/src/models$1",
+    "^@/prisma(.*)$": "<rootDir>/src/prisma$1",
     "^@/pages(.*)$": "<rootDir>/src/pages$1",
     "^@/services(.*)$": "<rootDir>/src/services$1",
     "^@/styles(.*)$": "<rootDir>/src/styles$1",

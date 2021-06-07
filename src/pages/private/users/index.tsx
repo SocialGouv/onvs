@@ -1,14 +1,12 @@
-import Link from "next/link"
 import React from "react"
-
-import PrivateLayout from "@/components/PrivateLayout"
-
 import { GetServerSideProps } from "next"
-import { OutlineButton } from "@/components/lib"
-import { PrismaClient, User } from "@prisma/client"
+import Link from "next/link"
 import { useRouter } from "next/router"
 
-const prisma = new PrismaClient()
+import PrivateLayout from "@/components/PrivateLayout"
+import { OutlineButton } from "@/components/lib"
+import { User } from "@prisma/client"
+import prisma from "@/prisma/db"
 
 type PageProps = {
   users: User[]

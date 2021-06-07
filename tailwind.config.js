@@ -10,6 +10,10 @@ module.exports = {
       source: ["Source Sans Pro"],
     },
   },
-  variants: {},
+  variants: {
+    extend: {
+      opacity: ["disabled"],
+    },
+  },
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],
 }

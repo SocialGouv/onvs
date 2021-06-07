@@ -1,10 +1,9 @@
 import Cors from "micro-cors"
-import { PrismaClient } from "@prisma/client"
 import { z, ZodError } from "zod"
+
 import { roles } from "@/utils/roles"
 import { OnvsError } from "@/utils/errors"
-
-const prisma = new PrismaClient()
+import prisma from "@/prisma/db"
 
 const UserSchema = z.object({
   id: z.string().uuid().optional(),

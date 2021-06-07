@@ -12,7 +12,7 @@ exports.up = function (knex) {
       .string("role", 128)
       .notNullable()
       .comment(
-        "Valeur parmi `Gestionnaire géographique` | `Gestionnaire établissement` | `Gestionnaire multi-établissements` | `Admin`",
+        "Valeur parmi `Gestionnaire géographique` | `Gestionnaire établissement` | `Gestionnaire multi-établissements` | `Administrateur`",
       )
 
     table.jsonb("scope")

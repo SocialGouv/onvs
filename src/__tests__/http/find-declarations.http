@@ -1,2 +1,2 @@
 # Liste des déclarations
-GET http://localhost:3030/api/declarations
+GET http://localhost:3030/api/declarations?pageIndex=0

@@ -26,7 +26,6 @@ function MenuItem({ url, jsxIcon: Icon, title, disabled }: MenuItemProps) {
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link href={disabled ? "#" : url}>
       <a className="flex items-center px-2 py-2 text-sm font-medium text-gray-900 rounded-md group">
-        {/* Current: "text-gray-500", Default: "text-gray-400 group-hover:text-gray-500" */}
         <Icon className="w-6 h-6 mr-3 text-gray-500" />
         {title}
       </a>
@@ -47,7 +46,6 @@ function AvatarMenu() {
       <Menu.Items className="absolute right-0 w-48 py-0 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
         <Menu.Item>
           {({ active }) => (
-            // <Link href="/private/profil">
             <button
               className={`${
                 active ? "bg-blue-500 text-white" : "text-gray-700"
@@ -59,7 +57,6 @@ function AvatarMenu() {
             >
               Profil
             </button>
-            // </Link>
           )}
         </Menu.Item>
         <Menu.Item>
@@ -81,7 +78,6 @@ function AvatarMenu() {
             >
               {"Déconnexion"}
             </button>
-            // </Link>
           )}
         </Menu.Item>
       </Menu.Items>

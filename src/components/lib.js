@@ -12,18 +12,33 @@ export const PrimaryButton = ({
   type = "submit",
   tabIndex = "0",
   disabled = false,
+  color = "",
   ...props
-}) => (
-  <button
-    type={type}
-    className={`px-6 py-2 font-bold uppercase text-sm tracking-wider font-source text-white bg-blue-500 rounded ${className}`}
-    tabIndex={tabIndex}
-    disabled={disabled}
-    {...props}
-  >
-    {children}
-  </button>
-)
+}) => {
+  let colorStyle = "text-white bg-blue-500"
+
+  switch (color) {
+    case "red": {
+      colorStyle = "text-white bg-red-500"
+      break
+    }
+    case "yellow": {
+      colorStyle = "text-white bg-yellow-500"
+      break
+    }
+  }
+  return (
+    <button
+      type={type}
+      className={`px-6 py-2 font-bold uppercase text-sm tracking-wider font-source text-white  rounded ${colorStyle} ${className}`}
+      tabIndex={tabIndex}
+      disabled={disabled}
+      {...props}
+    >
+      {children}
+    </button>
+  )
+}
 
 PrimaryButton.propTypes = {
   children: PropTypes.node,
@@ -38,10 +53,25 @@ export const OutlineButton = ({
   color = "",
   ...props
 }) => {
-  const colorStyle =
-    color === "red"
-      ? "text-red-500 border-red-500 hover:text-white hover:bg-red-400"
-      : "text-blue-600 border-blue-500 hover:text-white hover:bg-blue-500"
+  let colorStyle
+
+  switch (color) {
+    case "red": {
+      colorStyle =
+        "text-red-500 border-red-500 hover:text-white hover:bg-red-400"
+      break
+    }
+    case "yellow": {
+      colorStyle =
+        "text-yellow-600 border-yellow-600 hover:text-white hover:bg-yellow-400"
+      break
+    }
+    default: {
+      colorStyle =
+        "text-blue-600 border-blue-500 hover:text-white hover:bg-blue-500"
+    }
+  }
+
   return (
     <button
       type={type}
