@@ -52,7 +52,8 @@ const ChangePasswordPage = () => {
     resolver: yupResolver(formSchema),
   })
 
-  if (user.role !== "Administrateur") return "Cette page est inacessible."
+  // TODO: Améliorer la gestion des droits sur les pages
+  if (user?.role !== "Administrateur") return "Cette page est inacessible."
 
   const onSubmit = async (data) => {
     setMessage({})
