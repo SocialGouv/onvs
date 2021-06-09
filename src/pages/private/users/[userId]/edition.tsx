@@ -1,141 +1,81 @@
 import React from "react"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
-import { Options, useToasts } from "react-toast-notifications"
 import { throttle } from "lodash"
 
 import PrivateLayout from "@/components/PrivateLayout"
 import Modal from "@/components/Modal"
 import { deleteUser, updateUser } from "@/clients/users"
 import UserForm from "@/components/UserForm"
-import { toastConfig } from "@/config"
 import { PrimaryButton, OutlineButton } from "@/components/lib"
-import Alert from "@/components/Alert"
+import Alert, { AlertMessageType } from "@/components/Alert"
 import { User } from "@prisma/client"
 import prisma from "@/prisma/db"
 
-type Props = {
-  user: User
-}
-
-type StatusType = "idle" | "pending" | "complete" | "failed"
-
-const initialState: { status: StatusType; message?: string } = {
-  status: "idle",
-}
-
-type ActionType =
-  | { type: "init" }
-  | { type: "run" }
-  | { type: "set_success"; message: string }
-  | { type: "set_error"; message: string }
-
-function reducer(
-  state: typeof initialState,
-  action: ActionType,
-): typeof initialState {
-  switch (action.type) {
-    case "init":
-      return { status: "idle" }
-    case "run":
-      return { status: "pending" }
-    case "set_success":
-      return { status: "complete", message: action.message }
-    case "set_error":
-      return { status: "failed", message: action.message }
-  }
-}
-
-const UserPage = ({ user }: Props) => {
+const UserPage = ({ user }: { user: User }): JSX.Element => {
   const router = useRouter()
   const [openModal, setOpenModal] = React.useState(false)
-
-  const [{ status, message }, dispatch] = React.useReducer(
-    reducer,
-    initialState,
-  )
-  const { addToast } = useToasts()
+  const [message, setMessage] = React.useState<AlertMessageType>()
+  const [isLoading, setLoading] = React.useState(false)
 
   async function onDeleteUser() {
-    dispatch({ type: "init" })
+    setMessage(undefined)
 
     try {
-      dispatch({ type: "run" })
+      setLoading(true)
 
       await deleteUser(user?.id)
-      dispatch({
-        type: "set_success",
-        message: "L'utilisateur a bien été supprimé.",
+      setMessage({
+        text: "L'utilisateur a bien été supprimé.",
+        kind: "success",
       })
+
       router.push(`/private/users/`)
     } catch (error) {
-      addToast(
-        <div className="text-lg">
-          {error?.message}{" "}
-          <span role="img" aria-hidden="true">
-            😕👇
-          </span>
-        </div>,
-        toastConfig.error as Options,
-      )
-      dispatch({ type: "set_error", message: error.message })
-
-      console.error("error.message", error.message)
+      console.error(error)
+      setMessage({
+        text: "Problème lors de la suppression de l'utilisateur.",
+        kind: "error",
+      })
+    } finally {
+      setLoading(false)
     }
   }
 
   async function onUpdateUser(values) {
-    dispatch({ type: "init" })
+    setLoading(true)
 
     const updatedUser = { ...values, id: user?.id, role: values.role?.value }
 
     try {
-      dispatch({ type: "run" })
+      setLoading(true)
 
-      const data = await updateUser({ user: updatedUser })
+      await updateUser({ user: updatedUser })
 
-      if (!data?.user?.id) {
-        console.error(
-          "Il y a un problème avec la création de cet utilisateur",
-          data,
-        )
-        throw new Error(
-          "Il y a un problème avec la création de cet utilisateur",
-        )
-      }
-      dispatch({
-        type: "set_success",
-        message: "Les modifications ont bien été enregistrées.",
+      setMessage({
+        text: "Les modifications ont bien été enregistrées.",
+        kind: "success",
       })
     } catch (error) {
-      addToast(
-        <div className="text-lg">
-          {error?.message}{" "}
-          <span role="img" aria-hidden="true">
-            😕👇
-          </span>
-        </div>,
-        toastConfig.error as Options,
-      )
-      dispatch({ type: "set_error", message: error.message })
-
-      console.error("error.message", error.message)
+      console.error(error)
+      setMessage({
+        text: "Problème lors de la modification de l'utilisateur.",
+        kind: "error",
+      })
+    } finally {
+      setLoading(false)
     }
   }
 
   // TODO: Why there is 2 possible calls between the throttle's timeout ?
-  const newUpdateUser = React.useCallback(throttle(onUpdateUser, 2000), [])
+  const throttledOnUpdateUser = React.useCallback(
+    throttle(onUpdateUser, 2000),
+    [],
+  )
 
   return (
     <PrivateLayout title="Utilisateurs">
-      {status === "complete" && message && (
-        <Alert title={message}>
-          <Alert.Button
-            label="Retour à la liste"
-            fn={() => router.push("/private/users")}
-          />
-        </Alert>
-      )}
+      <Alert message={message}></Alert>
 
       <Modal
         openModal={openModal}
@@ -146,14 +86,16 @@ const UserPage = ({ user }: Props) => {
         fnPrimary={onDeleteUser}
       />
 
-      <UserForm user={user} onSubmit={newUpdateUser}>
+      <UserForm user={user} onSubmit={throttledOnUpdateUser}>
         <div className="flex justify-end">
           <OutlineButton onClick={() => router.push("/private/users")}>
             Annuler
           </OutlineButton>
           <span className="w-4" />
 
-          <PrimaryButton type="submit">Modifier</PrimaryButton>
+          <PrimaryButton type="submit" disabled={isLoading}>
+            Modifier
+          </PrimaryButton>
         </div>
         <div>
           <div className="p-8 mt-16 text-center border border-yellow-600 rounded">
@@ -161,7 +103,7 @@ const UserPage = ({ user }: Props) => {
             <div className="flex justify-between mt-4">
               <div>Je réinitialise le mot de passe de cet utilisateur</div>
               <PrimaryButton
-                color="yellow"
+                variant="yellow"
                 onClick={() =>
                   router.push(`/private/users/${user?.id}/password`)
                 }
@@ -171,7 +113,7 @@ const UserPage = ({ user }: Props) => {
             </div>
             <div className="flex justify-between mt-4">
               <div>Je veux supprimer cet utilisateur</div>
-              <OutlineButton color="red" onClick={() => setOpenModal(true)}>
+              <OutlineButton variant="red" onClick={() => setOpenModal(true)}>
                 Supprimer
               </OutlineButton>
             </div>

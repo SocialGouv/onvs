@@ -7,7 +7,7 @@ import DoctorsIcon from "@/components/svg/doctors"
 import { startDeclarationUrl } from "@/components/wizard/stepFlows"
 import { onEnterKeyPress } from "@/utils/events"
 
-const FreelanceCard = () => {
+const FreelanceCard = (): JSX.Element => {
   const router = useRouter()
 
   const goToStep0 = () => router.push(startDeclarationUrl)
@@ -18,7 +18,7 @@ const FreelanceCard = () => {
       onClick={goToStep0}
       onKeyPress={onEnterKeyPress(goToStep0)}
       role="button"
-      tabIndex="0"
+      tabIndex={0}
     >
       <TitleCard>
         Vous exercez{" "}

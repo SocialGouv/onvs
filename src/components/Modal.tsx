@@ -16,11 +16,11 @@ export default function Modal({
   text?: string
   labelPrimaryButton: string
   labelCancelButton?: string
-  fnPrimary?: () => any
-  fnCancel?: () => any
+  fnPrimary?: () => void
+  fnCancel?: () => void
   openModal: boolean
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
-}) {
+}): JSX.Element {
   const cancelButtonRef = useRef(null)
 
   return (

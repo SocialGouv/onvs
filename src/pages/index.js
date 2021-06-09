@@ -27,11 +27,11 @@ const IndexPage = () => {
         className="relative"
       >
         <HeroTitle>Observatoire National des Violences en Santé</HeroTitle>
-        <Wave className="block" />
+        <Wave />
       </div>
       <div className="flex items-center justify-center w-full">
         <div className="flex flex-wrap items-stretch justify-center w-full min-h-full py-6 space-x-0 space-y-8 lg:space-y-0 lg:space-x-8">
-          <AuthentCard flow="ets" />
+          <AuthentCard />
           <FreelanceCard />
         </div>
       </div>

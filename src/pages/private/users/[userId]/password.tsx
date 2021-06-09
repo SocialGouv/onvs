@@ -1,13 +1,13 @@
 import React from "react"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
+import * as yup from "yup"
 
 import PrivateLayout from "@/components/PrivateLayout"
 import { PrimaryButton, OutlineButton } from "@/components/lib"
-import Alert from "@/components/Alert"
+import Alert, { AlertMessageType } from "@/components/Alert"
 import useUser from "@/hooks/useUser"
 import { yupResolver } from "@hookform/resolvers"
-import * as yup from "yup"
 import { AlertInput } from "@/components/Form"
 import { changePasswordUser } from "@/clients/users"
 
@@ -30,17 +30,12 @@ const formSchema = yup.object({
 //   path: ["confirmPassword"],
 // })
 
-type MessageType = {
-  text?: string
-  kind?: "success" | "error"
-}
-
-const ChangePasswordPage = () => {
+const ChangePasswordPage = (): JSX.Element => {
   const { user } = useUser({ redirectToIfError: "/" })
 
   const router = useRouter()
 
-  const [message, setMessage] = React.useState<MessageType>({})
+  const [message, setMessage] = React.useState<AlertMessageType>()
 
   const { userId } = router.query
 
@@ -53,10 +48,11 @@ const ChangePasswordPage = () => {
   })
 
   // TODO: Améliorer la gestion des droits sur les pages
-  if (user?.role !== "Administrateur") return "Cette page est inacessible."
+  if (user?.role !== "Administrateur")
+    return <span>Cette page est inacessible.</span>
 
   const onSubmit = async (data) => {
-    setMessage({})
+    setMessage(undefined)
 
     try {
       await changePasswordUser({
@@ -75,16 +71,17 @@ const ChangePasswordPage = () => {
 
   return (
     <PrivateLayout title="Utilisateurs">
-      {message?.text && (
-        <Alert kind={message?.kind} title={message?.text}>
-          {message?.kind === "success" ? (
+      <Alert
+        message={message}
+        success={
+          <Alert.Success message={message}>
             <Alert.Button
               label="Retour à la liste"
               fn={() => router.push("/private/users")}
             />
-          ) : undefined}
-        </Alert>
-      )}
+          </Alert.Success>
+        }
+      ></Alert>
 
       <form className="space-y-8 " onSubmit={handleSubmit(onSubmit)}>
         <div className="sm:col-span-3">
@@ -101,7 +98,7 @@ const ChangePasswordPage = () => {
               name="password"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               aria-invalid={Boolean(errors.password)}
-              ref={register({ min: 12 })}
+              ref={register}
             />
             <AlertInput>{errors?.password?.message}</AlertInput>
           </div>
@@ -119,7 +116,7 @@ const ChangePasswordPage = () => {
               placeholder="confirmez le mot de passe"
               name="confirmPassword"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              ref={register({ min: 12 })}
+              ref={register}
             />
             <AlertInput>{errors?.confirmPassword?.message}</AlertInput>
           </div>

@@ -14,7 +14,7 @@ export default function Pagination({
   goToNextPage: () => void
   pageIndex: number
   totalPages: number
-}) {
+}): JSX.Element {
   const canGoToPreviousPage = !(pageIndex > 0)
   const canGoToNextPage = !(pageIndex < totalPages)
 

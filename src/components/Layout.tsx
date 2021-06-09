@@ -1,5 +1,4 @@
 import Link from "next/link"
-import PropTypes from "prop-types"
 import React from "react"
 
 import useUser from "@/hooks/useUser"
@@ -26,14 +25,14 @@ const Header = () => {
   )
 }
 
-export const Layout = ({ children }) => (
+export const Layout = ({
+  children,
+}: {
+  children: React.ReactNode
+}): JSX.Element => (
   <div className="flex flex-col items-stretch min-h-screen">
     <Header />
     <main className="flex-grow px-4 md:px-8">{children}</main>
     <Footer />
   </div>
 )
-
-Layout.propTypes = {
-  children: PropTypes.node,
-}

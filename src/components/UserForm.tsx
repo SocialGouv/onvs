@@ -1,8 +1,10 @@
 import React from "react"
 import { useForm, Controller } from "react-hook-form"
 import Select from "react-select"
+import * as yup from "yup"
 
 import { User } from "@prisma/client"
+import { yupResolver } from "@hookform/resolvers"
 
 // import { z } from "zod"
 
@@ -11,22 +13,23 @@ type SelectOption = {
   label: string
 }
 
-// const UserSchema = z.object({
-//   id: z.string().uuid().nullable(),
-//   firstName: z.string().nullable(),
-//   lastName: z.string().nullable(),
-//   email: z.string().email({ message: "Courriel non valide." }),
-//   role: z.any(), // The role has not to be checked since it is constrained by a listbox in the form.
-//   scope: z.any(),
-// })
-
-// type FormData = z.infer<typeof UserSchema>
+const formSchema = yup.object({
+  id: yup.string().optional(),
+  firstName: yup.string().required("Le champ prénom est requis."),
+  lastName: yup.string().optional(),
+  email: yup.string().email().required("Le champ email est requis."),
+  role: yup
+    .object({ label: yup.string(), value: yup.string() })
+    .required("Le champ rôle est requis."),
+  scope: yup.string().optional(),
+})
 
 import { rolesOptions, getOption } from "../utils/roles"
+import { AlertInput } from "./Form"
 
 type Props = {
   user?: User
-  onSubmit: (values: any) => void
+  onSubmit: (values: yup.TypeOf<typeof formSchema>) => void
   children: React.ReactNode
 }
 
@@ -38,13 +41,20 @@ const emptyUser = {
   scope: "",
 }
 
-export default function UserForm({ user, onSubmit, children }: Props) {
-  const { register, control, handleSubmit, watch } = useForm({
+const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm({
     defaultValues: {
       ...emptyUser,
       ...user,
       role: user?.role ? getOption(user?.role) : null,
     },
+    resolver: yupResolver(formSchema),
   })
 
   const role = watch<string, SelectOption>("role")
@@ -79,7 +89,9 @@ export default function UserForm({ user, onSubmit, children }: Props) {
                   id="firstName"
                   className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   ref={register}
+                  aria-invalid={Boolean(errors.firstName)}
                 />
+                <AlertInput>{errors?.firstName?.message}</AlertInput>
               </div>
             </div>
 
@@ -97,7 +109,9 @@ export default function UserForm({ user, onSubmit, children }: Props) {
                   id="lastName"
                   className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   ref={register}
+                  aria-invalid={Boolean(errors.lastName)}
                 />
+                <AlertInput>{errors?.lastName?.message}</AlertInput>
               </div>
             </div>
 
@@ -115,7 +129,9 @@ export default function UserForm({ user, onSubmit, children }: Props) {
                   type="email"
                   className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   ref={register}
+                  aria-invalid={Boolean(errors.email)}
                 />
+                <AlertInput>{errors?.email?.message}</AlertInput>
               </div>
             </div>
 
@@ -133,7 +149,9 @@ export default function UserForm({ user, onSubmit, children }: Props) {
                   control={control}
                   as={Select}
                   placeholder="Choisir..."
+                  aria-invalid={Boolean(errors.scope)}
                 />
+                <AlertInput>{errors?.scope?.message}</AlertInput>
               </div>
             </div>
 
@@ -152,7 +170,9 @@ export default function UserForm({ user, onSubmit, children }: Props) {
                     id="scope"
                     className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     ref={register}
+                    aria-invalid={Boolean(errors.scope)}
                   />
+                  <AlertInput>{errors?.scope?.message}</AlertInput>
                 </div>
               </div>
             )}
@@ -163,3 +183,5 @@ export default function UserForm({ user, onSubmit, children }: Props) {
     </form>
   )
 }
+
+export default UserForm

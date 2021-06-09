@@ -6,84 +6,10 @@ import AddIcon from "@/components/svg/add"
 import Info from "@/components/svg/info"
 import MinusIcon from "@/components/svg/minus"
 
-export const PrimaryButton = ({
-  children = "Enregistrer",
-  className = "",
-  type = "submit",
-  tabIndex = "0",
-  disabled = false,
-  color = "",
-  ...props
-}) => {
-  let colorStyle = "text-white bg-blue-500"
+import PrimaryButton from "@/components/PrimaryButton"
+import OutlineButton from "@/components/OutlineButton"
 
-  switch (color) {
-    case "red": {
-      colorStyle = "text-white bg-red-500"
-      break
-    }
-    case "yellow": {
-      colorStyle = "text-white bg-yellow-500"
-      break
-    }
-  }
-  return (
-    <button
-      type={type}
-      className={`px-6 py-2 font-bold uppercase text-sm tracking-wider font-source text-white  rounded ${colorStyle} ${className}`}
-      tabIndex={tabIndex}
-      disabled={disabled}
-      {...props}
-    >
-      {children}
-    </button>
-  )
-}
-
-PrimaryButton.propTypes = {
-  children: PropTypes.node,
-  tabIndex: PropTypes.string,
-  type: PropTypes.string,
-}
-
-export const OutlineButton = ({
-  children = "Annuler",
-  type = "button",
-  tabIndex = "-1",
-  color = "",
-  ...props
-}) => {
-  let colorStyle
-
-  switch (color) {
-    case "red": {
-      colorStyle =
-        "text-red-500 border-red-500 hover:text-white hover:bg-red-400"
-      break
-    }
-    case "yellow": {
-      colorStyle =
-        "text-yellow-600 border-yellow-600 hover:text-white hover:bg-yellow-400"
-      break
-    }
-    default: {
-      colorStyle =
-        "text-blue-600 border-blue-500 hover:text-white hover:bg-blue-500"
-    }
-  }
-
-  return (
-    <button
-      type={type}
-      className={`px-6 py-2 text-sm tracking-wider uppercase rounded font-source border ${colorStyle} `}
-      tabIndex={tabIndex}
-      {...props}
-    >
-      {children}
-    </button>
-  )
-}
-OutlineButton.propTypes = PrimaryButton.propTypes
+export { PrimaryButton, OutlineButton }
 
 export const HeroTitle = ({ children }) => (
   <h1 className="mt-6 text-2xl font-bold text-blue-200 md:text-4xl font-evolventa">
@@ -377,14 +303,14 @@ export const Counter = ({ value = 0, onChange }) => {
       <MinusIcon
         onClick={substract}
         className="w-8 h-8 p-1 mr-2 bg-blue-100 rounded-full"
-        tabIndex="0"
+        tabIndex={0}
         onKeyPress={(e) => keyPress(e, substract)}
       />
       <span className="w-12">{value}</span>
       <AddIcon
         onClick={add}
         className="w-8 h-8 p-1 ml-2 bg-blue-100 rounded-full"
-        tabIndex="0"
+        tabIndex={0}
         onKeyPress={(e) => keyPress(e, add)}
       />
     </div>

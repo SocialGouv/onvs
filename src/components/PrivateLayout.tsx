@@ -153,7 +153,7 @@ function PrivateLayout({
   children,
   leftComponent,
   rightComponent,
-}: PrivateLayoutProps) {
+}: PrivateLayoutProps): JSX.Element {
   const { user } = useUser({ redirectToIfError: "/" })
 
   // Check the user in order to make sure that the render from the server will not render anything.
@@ -183,7 +183,7 @@ function PrivateLayout({
 
         <main className="relative flex-1 overflow-y-auto bg-white focus:outline-none">
           <div className="py-6">
-            <div className="px-4 max-w-7xl sm:px-6 md:px-8">
+            <div className="px-4 sm:px-6 md:px-16">
               <div className="flex justify-between">
                 <div>{leftComponent}</div>
                 <h1 className="text-2xl font-semibold text-center text-gray-900">
@@ -192,9 +192,7 @@ function PrivateLayout({
                 <div>{rightComponent}</div>
               </div>
             </div>
-            <div className="px-4 mt-6 max-w-7xl sm:px-6 md:px-8">
-              {children}
-            </div>
+            <div className="px-4 mt-6 sm:px-6 md:px-16">{children}</div>
           </div>
         </main>
       </div>

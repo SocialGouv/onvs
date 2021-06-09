@@ -3,10 +3,13 @@ import React, { useEffect, useState } from "react"
 
 import { createDeclaration } from "@/clients/declarations"
 import { Layout } from "@/components/Layout"
-import { OutlineButton, PrimaryButton, Title1 } from "@/components/lib"
+import { PrimaryButton, OutlineButton, Title1 } from "@/components/lib"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
+import useUser from "@/hooks/useUser"
 
 const Confirmation = () => {
+  const { user } = useUser({ redirectToIfError: "/" })
+
   const { state, orderedSteps } = useDeclarationForm()
 
   const [error, setError] = useState()
@@ -22,7 +25,7 @@ const Confirmation = () => {
       } catch (error) {
         console.error(error)
 
-        if (error.status === 409) {
+        if (error.statusCode === 409) {
           setWarning({
             emoji: "🤫",
             message: "Il semble que la déclaration soit déjà enregistrée.",
@@ -97,11 +100,19 @@ const Confirmation = () => {
           </>
         )}
         <div className="flex justify-center w-full my-16 space-x-4">
-          <Link href="/">
-            <a>
-              <OutlineButton>+&nbsp;Déclarer un autre incident</OutlineButton>
-            </a>
-          </Link>
+          {user ? (
+            <Link href="/private">
+              <a>
+                <OutlineButton>+&nbsp;Retour au tableau de bord</OutlineButton>
+              </a>
+            </Link>
+          ) : (
+            <Link href="/">
+              <a>
+                <OutlineButton>+&nbsp;Déclarer un autre incident</OutlineButton>
+              </a>
+            </Link>
+          )}
         </div>
       </div>
     </Layout>
