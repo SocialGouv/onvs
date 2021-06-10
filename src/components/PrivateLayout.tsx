@@ -114,8 +114,6 @@ function SideBar() {
               />
               {user?.role === "Administrateur" && (
                 <>
-                  <hr />
-
                   <MenuItem
                     url="/private/users"
                     jsxIcon={UsersIcon}
