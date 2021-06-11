@@ -1,3 +1,10 @@
+# [2.16.0](https://github.com/SocialGouv/onvs/compare/v2.15.2...v2.16.0) (2021-06-11)
+
+
+### Features
+
+* add administration features ([#136](https://github.com/SocialGouv/onvs/issues/136)) ([f83a8ac](https://github.com/SocialGouv/onvs/commit/f83a8ac9c2cddd48944a7a02763aaf3c9c9cabbd))
+
 ## [2.15.2](https://github.com/SocialGouv/onvs/compare/v2.15.1...v2.15.2) (2021-05-27)
 
 
