@@ -38,7 +38,6 @@ const UserPage = (): JSX.Element => {
 
   return (
     <PrivateLayout title="Utilisateurs">
-      <Alert message={message} />
       <Alert
         message={message}
         success={
