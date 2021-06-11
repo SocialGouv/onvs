@@ -22,7 +22,7 @@ const VARIANT_MAPS: Record<Variant, string> = {
 const OutlineButton = ({
   children,
   onClick,
-  type = "submit",
+  type = "button",
   tabIndex = 0,
   disabled = false,
   variant = "blue",
