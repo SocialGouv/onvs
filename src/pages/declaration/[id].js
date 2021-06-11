@@ -9,6 +9,7 @@ import { findDeclaration } from "@/clients/declarations"
 import { Layout } from "@/components/Layout"
 import { OutlineButton, Title1 } from "@/components/lib"
 import Spinner from "@/components/svg/spinner"
+import useUser from "@/hooks/useUser"
 
 const DatePart = ({ data }) => {
   return (
@@ -388,8 +389,10 @@ VictimsAuthorsPart.propTypes = DatePart.propTypes
 FinalPrecisionsPart.propTypes = DatePart.propTypes
 
 const ShowDeclarationPage = () => {
+  const { user } = useUser({ redirectToIfError: "/" })
   const router = useRouter()
   const { id } = router.query
+
   const { data, error } = useSWR(
     id ? ["/api/declarations", id] : null,
     (url, id) => findDeclaration(id),
@@ -438,11 +441,21 @@ const ShowDeclarationPage = () => {
           )}
 
           <div className="flex justify-center w-full my-16 space-x-4">
-            <Link href="/">
-              <a>
-                <OutlineButton>Retour à la page principale</OutlineButton>
-              </a>
-            </Link>
+            {user ? (
+              <Link href="/private">
+                <a>
+                  <OutlineButton>
+                    +&nbsp;Retour au tableau de bord
+                  </OutlineButton>
+                </a>
+              </Link>
+            ) : (
+              <Link href="/">
+                <a>
+                  <OutlineButton>Retour à la page principale</OutlineButton>
+                </a>
+              </Link>
+            )}
           </div>
         </div>
       </Layout>

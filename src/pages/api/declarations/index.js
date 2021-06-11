@@ -1,6 +1,8 @@
 import Cors from "micro-cors"
 
-import { create, find } from "@/services/declarations"
+import { create } from "@/services/declarations"
+
+import prisma from "@/prisma/db"
 
 const UNIQUE_VIOLATION_PG = "23505"
 
@@ -10,15 +12,31 @@ const handler = async (req, res) => {
   try {
     switch (req.method) {
       case "GET": {
-        const act = await find(req.query)
+        let { pageIndex, pageSize } = req.query
 
-        if (!act) {
-          res.status(404).json({ message: "Declaration not found" })
-          return
+        pageIndex = Number(pageIndex) || 0
+        pageSize = Number(pageSize) || 50
+
+        const totalCount = await prisma.declaration.count()
+        const totalPages = Math.max(0, Math.ceil(totalCount / pageSize) - 1)
+
+        pageIndex = Math.min(pageIndex, totalPages)
+
+        const declarations = await prisma.declaration.findMany({
+          orderBy: [{ createdAt: "desc" }],
+          skip: pageIndex > 0 ? pageIndex * pageSize : 0,
+          take: pageSize,
+        })
+
+        if (!declarations?.length) {
+          return res.status(404).json({ message: "No declaration found" })
         }
 
-        return res.status(200).json(act)
+        return res
+          .status(200)
+          .json({ declarations, pageIndex, totalCount, pageSize, totalPages })
       }
+
       case "POST": {
         const id = await create(req.body)
 

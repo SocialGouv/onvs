@@ -1,16 +1,15 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
-import PropTypes from "prop-types"
 import React from "react"
 
 import {
-  Checkbox,
   Input,
-  OutlineButton,
-  PrimaryButtton,
   SubTitleCard,
   TitleCard,
+  OutlineButton,
+  Checkbox,
 } from "@/components/lib"
+import PrimaryButton from "@/components/PrimaryButton"
 import { RoughNotation } from "@/components/RoughNotation"
 import Hospital from "@/components/svg/hospital.js"
 import { useEffectToast } from "@/hooks/useEffectToast"
@@ -18,13 +17,13 @@ import useUser from "@/hooks/useUser"
 import { isOpenFeature } from "@/utils/feature"
 import fetcher from "@/utils/fetcher"
 
-const AuthentCard = () => {
+const AuthentCard = (): JSX.Element => {
   const router = useRouter()
   const { mutateUser } = useUser({
     // redirectToIfSuccess: "/private",
   })
 
-  const [error, setError] = React.useState("")
+  const [error, setError] = React.useState<{ message: string } | null>()
 
   useEffectToast(error)
 
@@ -95,7 +94,7 @@ const AuthentCard = () => {
           />
         </div>
         <div className="flex items-center justify-between mt-6">
-          <div className="flex items-center hidden">
+          <div className="items-center hidden">
             <Checkbox id="rememberMe" />
             <label
               htmlFor="rememberMe"
@@ -114,7 +113,7 @@ const AuthentCard = () => {
           </div>
         </div>
         <div className="mt-6 text-center">
-          <PrimaryButtton type="submit">Se connecter</PrimaryButtton>
+          <PrimaryButton type="submit">Se connecter</PrimaryButton>
         </div>
       </form>
       <div className="hidden">
@@ -125,10 +124,6 @@ const AuthentCard = () => {
       </div>
     </div>
   )
-}
-
-AuthentCard.propTypes = {
-  flow: PropTypes.string,
 }
 
 export default AuthentCard

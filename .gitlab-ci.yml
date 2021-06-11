@@ -16,11 +16,15 @@ variables:
   NOTIFY_DISABLED: 1
   AUTO_DEVOPS_KANIKO: "🐕"
 
+Build:
+  script:
+    - echo "no build"
+
 Lint:
   rules:
     - when: never
 
-Register image:
+Register Kaniko image:
   extends: .autodevops_register_kaniko_image
   variables:
     IMAGE_NAME: onvs-app

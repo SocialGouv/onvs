@@ -1,8 +1,8 @@
-import { yupResolver } from "@hookform/resolvers"
 import React from "react"
 import { useToasts } from "react-toast-notifications"
-import * as yup from "yup"
 
+import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers"
 import { Option, Options } from "@/components/lib"
 import Info from "@/components/svg/info"
 import FormComponent from "@/components/wizard/FormComponent"

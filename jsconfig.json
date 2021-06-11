@@ -5,6 +5,7 @@
       "@/clients/*": ["clients/*"],
       "@/components/*": ["components/*"],
       "@/models/*": ["models/*"],
+      "@/prisma/*": ["prisma/*"],
       "@/pages/*": ["pages/*"],
       "@/services/*": ["services/*"],
       "@/hooks/*": ["hooks/*"],

@@ -8,4 +8,4 @@ package-lock.json
 yarn-error.log
 .secrets.yaml
 .temp-secrets/
-decla*
+decla_test*

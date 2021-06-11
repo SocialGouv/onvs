@@ -1,9 +1,6 @@
 module.exports = {
-  mode: "jit",
-  purge: [
-    "./src/components/**/*.{js,ts,jsx,tsx}",
-    "./src/pages/**/*.{js,ts,jsx,tsx}",
-  ],
+  // mode: "jit",
+  purge: ["./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
@@ -13,6 +10,10 @@ module.exports = {
       source: ["Source Sans Pro"],
     },
   },
-  variants: {},
-  plugins: [require("@tailwindcss/forms")],
+  variants: {
+    extend: {
+      opacity: ["disabled"],
+    },
+  },
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],
 }

@@ -14,24 +14,23 @@ import HospitalIcon from "@/components/svg/hospital-line"
 import useUser from "@/hooks/useUser"
 import fetcher from "@/utils/fetcher"
 
-function MenuItem({ url, jsxIcon: Icon, title, disabled = false }) {
+interface MenuItemProps {
+  url: string
+  jsxIcon?: any // React.ComponentType<any> throw an error in <Icon> declaration below.
+  title: string
+  disabled?: boolean
+}
+
+function MenuItem({ url, jsxIcon: Icon, title, disabled }: MenuItemProps) {
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link href={disabled ? "#" : url}>
       <a className="flex items-center px-2 py-2 text-sm font-medium text-gray-900 rounded-md group">
-        {/* Current: "text-gray-500", Default: "text-gray-400 group-hover:text-gray-500" */}
         <Icon className="w-6 h-6 mr-3 text-gray-500" />
         {title}
       </a>
     </Link>
   )
-}
-
-MenuItem.propTypes = {
-  disabled: PropTypes.bool,
-  jsxIcon: PropTypes.func,
-  title: PropTypes.string,
-  url: PropTypes.string,
 }
 
 function AvatarMenu() {
@@ -47,7 +46,6 @@ function AvatarMenu() {
       <Menu.Items className="absolute right-0 w-48 py-0 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
         <Menu.Item>
           {({ active }) => (
-            // <Link href="/private/profil">
             <button
               className={`${
                 active ? "bg-blue-500 text-white" : "text-gray-700"
@@ -59,7 +57,6 @@ function AvatarMenu() {
             >
               Profil
             </button>
-            // </Link>
           )}
         </Menu.Item>
         <Menu.Item>
@@ -81,7 +78,6 @@ function AvatarMenu() {
             >
               {"Déconnexion"}
             </button>
-            // </Link>
           )}
         </Menu.Item>
       </Menu.Items>
@@ -111,12 +107,12 @@ function SideBar() {
           <div className="flex flex-col flex-grow mt-5">
             <nav className="flex-1 px-2 space-y-1 bg-white">
               <MenuItem
-                url="/"
+                url="/private/declarations"
                 jsxIcon={ViewListIcon}
                 title="Déclarations"
-                disabled={true}
+                disabled={false}
               />
-              {user?.role === "Admin" && (
+              {user?.role === "Administrateur" && (
                 <>
                   <hr />
 
@@ -141,11 +137,23 @@ function SideBar() {
   )
 }
 
+type PrivateLayoutProps = {
+  title?: string
+  children: React.ReactNode
+  leftComponent?: React.ReactNode
+  rightComponent?: React.ReactNode
+}
+
 /**
  * The layout for authentified user.
  *
  */
-function PrivateLayout({ title, children }) {
+function PrivateLayout({
+  title,
+  children,
+  leftComponent,
+  rightComponent,
+}: PrivateLayoutProps): JSX.Element {
   const { user } = useUser({ redirectToIfError: "/" })
 
   // Check the user in order to make sure that the render from the server will not render anything.
@@ -175,14 +183,16 @@ function PrivateLayout({ title, children }) {
 
         <main className="relative flex-1 overflow-y-auto bg-white focus:outline-none">
           <div className="py-6">
-            <div className="px-4 max-w-7xl sm:px-6 md:px-8">
-              <h1 className="text-2xl font-semibold text-center text-gray-900">
-                {title}
-              </h1>
+            <div className="px-4 sm:px-6 md:px-16">
+              <div className="flex justify-between">
+                <div>{leftComponent}</div>
+                <h1 className="text-2xl font-semibold text-center text-gray-900">
+                  {title}
+                </h1>
+                <div>{rightComponent}</div>
+              </div>
             </div>
-            <div className="px-4 mt-6 max-w-7xl sm:px-6 md:px-8">
-              {children}
-            </div>
+            <div className="px-4 mt-6 sm:px-6 md:px-16">{children}</div>
           </div>
         </main>
       </div>

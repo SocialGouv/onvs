@@ -1,6 +1,15 @@
+import { UserModel } from "@/models/users"
 import Router from "next/router"
 import { useEffect } from "react"
 import useSWR from "swr"
+
+interface ReturnType {
+  mutateUser: (
+    data?: any,
+    shouldRevalidate?: boolean | undefined,
+  ) => Promise<any>
+  user: UserModel
+}
 
 /**
  * Hook which returns the user object and the SWR function to mutate it.
@@ -9,11 +18,13 @@ import useSWR from "swr"
  * param {string} redirectToIfSuccess (optionnal). Page to redirect to in case of success.
  * param {string} redirectToIfError (optionnal). Page to redirect to in case of error.
  * @returns the user
+ *
+ * TODO: add a role to check against
  */
 export default function useUser({
   redirectToIfSuccess = "",
   redirectToIfError = "",
-} = {}) {
+} = {}): ReturnType {
   const { data: user, mutate: mutateUser } = useSWR("/api/auth/user")
 
   useEffect(() => {

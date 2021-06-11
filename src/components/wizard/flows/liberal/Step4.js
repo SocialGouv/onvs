@@ -10,11 +10,11 @@ import {
   InputError,
   Option,
   Options,
-  OutlineButton,
-  PrimaryButtton,
+  PrimaryButton,
   RadioInput,
   Title1,
   Title2,
+  OutlineButton,
 } from "@/components/lib"
 import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
@@ -235,8 +235,7 @@ const Victims = ({ control, errors }) => {
       </div>
       <div className="mt-10 text-center">
         <OutlineButton
-          type="button"
-          tabIndex="0"
+          tabIndex={0}
           onClick={() => {
             append({ type: null })
           }}
@@ -265,12 +264,7 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
         {number + 1 + suffix(number + 1, true)} victime
         {number > 0 && (
           <div className="inline-block float-right text-sm">
-            <OutlineButton
-              color="red"
-              onClick={remove}
-              tabIndex="0"
-              type="button"
-            >
+            <OutlineButton variant="red" onClick={remove} tabIndex={0}>
               <span className="align-middle">Effacer&nbsp;X</span>
             </OutlineButton>
           </div>
@@ -458,8 +452,7 @@ const Authors = ({ control, register, errors }) => {
       </div>
       <div className="mt-10 text-center">
         <OutlineButton
-          type="button"
-          tabIndex="0"
+          tabIndex={0}
           onClick={() => {
             append({})
           }}
@@ -494,12 +487,7 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
         {number + 1 + suffix(number + 1)} auteur
         {number > 0 && (
           <div className="inline-block float-right text-sm">
-            <OutlineButton
-              color="red"
-              onClick={remove}
-              tabIndex="0"
-              type="button"
-            >
+            <OutlineButton variant="red" onClick={remove} tabIndex={0}>
               <span className="align-middle">Effacer&nbsp;X</span>
             </OutlineButton>
           </div>
@@ -790,7 +778,7 @@ const Step4Page = () => {
       </>
       {phase === 1 && (
         <div className="flex justify-center w-full my-16 space-x-4">
-          <PrimaryButtton onClick={() => setPhase(2)}>Suivant</PrimaryButtton>
+          <PrimaryButton onClick={() => setPhase(2)}>Suivant</PrimaryButton>
         </div>
       )}
       {phase >= 2 && (
@@ -801,9 +789,7 @@ const Step4Page = () => {
           <Authors control={control} register={register} errors={errors} />
           {phase === 2 && (
             <div className="flex justify-center w-full my-16 space-x-4">
-              <PrimaryButtton onClick={() => setPhase(3)}>
-                Suivant
-              </PrimaryButtton>
+              <PrimaryButton onClick={() => setPhase(3)}>Suivant</PrimaryButton>
             </div>
           )}
         </>

@@ -1,17 +1,20 @@
-FROM node:15-alpine
+FROM node:15-alpine as builder
 
 WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN yarn install --production --frozen-lockfile --prefer-offline
+RUN yarn install --frozen-lockfile --prefer-offline
 
-COPY next.config.js knexfile.js  ./
-COPY scripts/ ./scripts/
-COPY src/lib/ ./src/lib/
-COPY src/knex/ ./src/knex/
-COPY .next/ ./.next
-COPY public/ ./public/
+COPY . ./
+
+# May be not mandatory, since yarn install is supposed to run prisma generate initially
+RUN yarn prisma generate
+
+RUN yarn build
+
+# TODO: There is a bug if we pass by a multi staged build. Some dev dependancies should be moved in dependancies. For now, let's use all deps.
+#RUN yarn install --production
 
 USER node
 

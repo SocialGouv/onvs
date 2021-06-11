@@ -3,7 +3,15 @@ import { compareWithHash } from "@/utils/bcrypt"
 
 import knex from "../../knex/knex"
 
-export const findWithCredentials = async ({ email, password }) => {
+import { UserModel } from "@/models/users"
+
+export const findWithCredentials = async ({
+  email,
+  password,
+}: {
+  email: string
+  password: string
+}): Promise<UserModel | null> => {
   if (!email) {
     throw new Error("Bad request")
   }

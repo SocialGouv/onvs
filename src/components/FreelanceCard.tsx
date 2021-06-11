@@ -1,13 +1,13 @@
 import { useRouter } from "next/router"
 import React from "react"
 
-import { PrimaryButtton, SubTitleCard, TitleCard } from "@/components/lib"
+import { PrimaryButton, SubTitleCard, TitleCard } from "@/components/lib"
 import { RoughNotation } from "@/components/RoughNotation"
 import DoctorsIcon from "@/components/svg/doctors"
 import { startDeclarationUrl } from "@/components/wizard/stepFlows"
 import { onEnterKeyPress } from "@/utils/events"
 
-const FreelanceCard = () => {
+const FreelanceCard = (): JSX.Element => {
   const router = useRouter()
 
   const goToStep0 = () => router.push(startDeclarationUrl)
@@ -18,7 +18,7 @@ const FreelanceCard = () => {
       onClick={goToStep0}
       onKeyPress={onEnterKeyPress(goToStep0)}
       role="button"
-      tabIndex="0"
+      tabIndex={0}
     >
       <TitleCard>
         Vous exercez{" "}
@@ -41,7 +41,7 @@ const FreelanceCard = () => {
         Votre déclaration pourra être effectuée de manière anonyme.
       </SubTitleCard>
       <div className="my-6 text-center">
-        <PrimaryButtton type="submit">Déclarer</PrimaryButtton>
+        <PrimaryButton type="submit">Déclarer</PrimaryButton>
       </div>
     </div>
   )
