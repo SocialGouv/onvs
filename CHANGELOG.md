@@ -1,3 +1,10 @@
+## [2.16.1](https://github.com/SocialGouv/onvs/compare/v2.16.0...v2.16.1) (2021-06-14)
+
+
+### Bug Fixes
+
+* **k8s:** fix prod secrets ([#138](https://github.com/SocialGouv/onvs/issues/138)) ([442484e](https://github.com/SocialGouv/onvs/commit/442484eff641775cb4f4bc79143afc785348dcde))
+
 # [2.16.0](https://github.com/SocialGouv/onvs/compare/v2.15.2...v2.16.0) (2021-06-11)
 
 
