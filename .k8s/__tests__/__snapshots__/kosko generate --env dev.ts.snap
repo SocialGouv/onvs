@@ -12,15 +12,15 @@ metadata:
     git/remote: >-
       https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/onvs.git
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
     azure-pg-admin-user: onvs
-    application: master-dev2-onvs
+    application: master-dev42-onvs
     owner: onvs
     team: onvs
     cert: wildcard
-  name: onvs-85-master-dev2
+  name: onvs-85-master-dev42
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -29,16 +29,16 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
     app: app
-    application: master-dev2-onvs
+    application: master-dev42-onvs
     owner: onvs
     team: onvs
     cert: wildcard
   name: app
-  namespace: onvs-85-master-dev2
+  namespace: onvs-85-master-dev42
 spec:
   replicas: 1
   selector:
@@ -50,11 +50,11 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-onvs
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
       labels:
         app: app
-        application: master-dev2-onvs
+        application: master-dev42-onvs
         owner: onvs
         team: onvs
         cert: wildcard
@@ -129,12 +129,12 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   name: app-sealed-secret
-  namespace: onvs-85-master-dev2
+  namespace: onvs-85-master-dev42
   labels:
-    application: master-dev2-onvs
+    application: master-dev42-onvs
     owner: onvs
     team: onvs
     cert: wildcard
@@ -159,11 +159,11 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-onvs
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
       name: app-sealed-secret
       labels:
-        application: master-dev2-onvs
+        application: master-dev42-onvs
         owner: onvs
         team: onvs
         cert: wildcard
@@ -177,14 +177,14 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
-    application: master-dev2-onvs
+    application: master-dev42-onvs
     owner: onvs
     team: onvs
     cert: wildcard
-  namespace: onvs-85-master-dev2
+  namespace: onvs-85-master-dev42
 data:
   NODE_ENV: production
   PORT: '3000'
@@ -201,7 +201,7 @@ kind: Service
 metadata:
   labels:
     app: app
-    application: master-dev2-onvs
+    application: master-dev42-onvs
     owner: onvs
     team: onvs
     cert: wildcard
@@ -210,9 +210,9 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
-  namespace: onvs-85-master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
+  namespace: onvs-85-master-dev42
 spec:
   ports:
     - name: http
@@ -230,19 +230,19 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
     app: app
-    application: master-dev2-onvs
+    application: master-dev42-onvs
     owner: onvs
     team: onvs
     cert: wildcard
   name: app
-  namespace: onvs-85-master-dev2
+  namespace: onvs-85-master-dev42
 spec:
   rules:
-    - host: master-dev2-onvs.dev2.fabrique.social.gouv.fr
+    - host: master-dev42-onvs.dev42.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -251,7 +251,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - master-dev2-onvs.dev2.fabrique.social.gouv.fr
+        - master-dev42-onvs.dev42.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
 apiVersion: batch/v1
@@ -289,10 +289,10 @@ spec:
     metadata:
       annotations:
         app.gitlab.com/app: socialgouv-onvs
-        app.gitlab.com/env: master-dev2
-        app.gitlab.com/env.name: master-dev2
+        app.gitlab.com/env: master-dev42
+        app.gitlab.com/env.name: master-dev42
       labels:
-        application: master-dev2-onvs
+        application: master-dev42-onvs
         owner: onvs
         team: onvs
         cert: wildcard
@@ -300,15 +300,15 @@ spec:
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
-    application: master-dev2-onvs
+    application: master-dev42-onvs
     owner: onvs
     team: onvs
     cert: wildcard
   name: create-db-job-0123456
-  namespace: onvs-85-master-dev2
+  namespace: onvs-85-master-dev42
 ---
 apiVersion: v1
 kind: Secret
@@ -329,14 +329,14 @@ stringData:
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: master-dev2
-    app.gitlab.com/env.name: master-dev2
+    app.gitlab.com/env: master-dev42
+    app.gitlab.com/env.name: master-dev42
   labels:
-    application: master-dev2-onvs
+    application: master-dev42-onvs
     owner: onvs
     team: onvs
     cert: wildcard
   name: azure-pg-user-0123456
-  namespace: onvs-85-master-dev2
+  namespace: onvs-85-master-dev42
 "
 `;
