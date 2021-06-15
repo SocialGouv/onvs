@@ -1,3 +1,10 @@
+## [2.16.2](https://github.com/SocialGouv/onvs/compare/v2.16.1...v2.16.2) (2021-06-15)
+
+
+### Bug Fixes
+
+* **release:** force patch ([dd8a583](https://github.com/SocialGouv/onvs/commit/dd8a583bd764ec235b34467c44b3e843aa384c44))
+
 ## [2.16.1](https://github.com/SocialGouv/onvs/compare/v2.16.0...v2.16.1) (2021-06-14)
 
 
