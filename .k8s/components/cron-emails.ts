@@ -1,8 +1,8 @@
 import env from "@kosko/env"
-import { ok } from "assert"
-import { CronJob } from "kubernetes-models/batch/v1beta1/CronJob"
 import gitlab from "@socialgouv/kosko-charts/environments/gitlab"
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge"
+import { ok } from "assert"
+import { CronJob } from "kubernetes-models/batch/v1beta1/CronJob"
 
 const name =  "onvs-email-alerts";
 const gitlabEnv = gitlab(process.env);

@@ -12,15 +12,15 @@ metadata:
     git/remote: >-
       https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/onvs.git
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   labels:
     azure-pg-admin-user: onvs
     application: v1-2-3-onvs
     owner: onvs
     team: onvs
     cert: wildcard
-  name: onvs-85-preprod-dev2
+  name: onvs-85-preprod-dev42
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -29,8 +29,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   labels:
     app: app
     application: v1-2-3-onvs
@@ -38,7 +38,7 @@ metadata:
     team: onvs
     cert: wildcard
   name: app
-  namespace: onvs-85-preprod-dev2
+  namespace: onvs-85-preprod-dev42
 spec:
   replicas: 1
   selector:
@@ -50,8 +50,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-onvs
-        app.gitlab.com/env: preprod-dev2
-        app.gitlab.com/env.name: preprod-dev2
+        app.gitlab.com/env: preprod-dev42
+        app.gitlab.com/env.name: preprod-dev42
       labels:
         app: app
         application: v1-2-3-onvs
@@ -128,10 +128,10 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   name: app-sealed-secret
-  namespace: onvs-85-preprod-dev2
+  namespace: onvs-85-preprod-dev42
   labels:
     application: v1-2-3-onvs
     owner: onvs
@@ -158,8 +158,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-onvs
-        app.gitlab.com/env: preprod-dev2
-        app.gitlab.com/env.name: preprod-dev2
+        app.gitlab.com/env: preprod-dev42
+        app.gitlab.com/env.name: preprod-dev42
       name: app-sealed-secret
       labels:
         application: v1-2-3-onvs
@@ -176,14 +176,14 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   labels:
     application: v1-2-3-onvs
     owner: onvs
     team: onvs
     cert: wildcard
-  namespace: onvs-85-preprod-dev2
+  namespace: onvs-85-preprod-dev42
 data:
   NODE_ENV: production
   PORT: '3000'
@@ -209,9 +209,9 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
-  namespace: onvs-85-preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
+  namespace: onvs-85-preprod-dev42
 spec:
   ports:
     - name: http
@@ -229,8 +229,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   labels:
     app: app
     application: v1-2-3-onvs
@@ -238,10 +238,10 @@ metadata:
     team: onvs
     cert: wildcard
   name: app
-  namespace: onvs-85-preprod-dev2
+  namespace: onvs-85-preprod-dev42
 spec:
   rules:
-    - host: preprod-onvs.dev2.fabrique.social.gouv.fr
+    - host: preprod-onvs.dev42.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -250,7 +250,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - preprod-onvs.dev2.fabrique.social.gouv.fr
+        - preprod-onvs.dev42.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -259,10 +259,10 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: preprod-dev2
-    app.gitlab.com/env.name: preprod-dev2
+    app.gitlab.com/env: preprod-dev42
+    app.gitlab.com/env.name: preprod-dev42
   name: azure-pg-user
-  namespace: onvs-85-preprod-dev2
+  namespace: onvs-85-preprod-dev42
   labels:
     application: v1-2-3-onvs
     owner: onvs
@@ -287,8 +287,8 @@ spec:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         app.gitlab.com/app: socialgouv-onvs
-        app.gitlab.com/env: preprod-dev2
-        app.gitlab.com/env.name: preprod-dev2
+        app.gitlab.com/env: preprod-dev42
+        app.gitlab.com/env.name: preprod-dev42
       name: azure-pg-user
       labels:
         application: v1-2-3-onvs
