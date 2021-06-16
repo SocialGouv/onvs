@@ -5,5 +5,12 @@
   "editor.formatOnSave": false,
   "workbench.colorCustomizations": {
     "statusBar.background": "#63ace5" // Change this color!
-  }
+  },
+  // https://github.com/colinhacks/zod/issues/443
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+
 }
