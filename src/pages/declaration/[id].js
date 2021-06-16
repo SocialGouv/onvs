@@ -389,7 +389,8 @@ VictimsAuthorsPart.propTypes = DatePart.propTypes
 FinalPrecisionsPart.propTypes = DatePart.propTypes
 
 const ShowDeclarationPage = () => {
-  const { user } = useUser({ redirectToIfError: "/" })
+  const { user } = useUser()
+
   const router = useRouter()
   const { id } = router.query
 
@@ -398,10 +399,7 @@ const ShowDeclarationPage = () => {
     (url, id) => findDeclaration(id),
   )
 
-  // if (error) console.error("error", error)
   if (error) console.error(error.info?.error)
-  // if (error) console.error("stringify", stringifyError(error))
-  // if (error) console.error(JSON.stringify(error))
 
   return (
     <>
@@ -441,7 +439,7 @@ const ShowDeclarationPage = () => {
           )}
 
           <div className="flex justify-center w-full my-16 space-x-4">
-            {user ? (
+            {user?.isLoggedIn ? (
               <Link href="/private">
                 <a>
                   <OutlineButton>
