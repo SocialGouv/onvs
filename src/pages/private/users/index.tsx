@@ -5,11 +5,12 @@ import { useRouter } from "next/router"
 
 import PrivateLayout from "@/components/PrivateLayout"
 import { OutlineButton } from "@/components/lib"
-import { User } from "@prisma/client"
 import prisma from "@/prisma/db"
 import Table from "@/components/Table"
 
-const UsersListPage = ({ users }: { users: User[] }): JSX.Element => {
+import { UserModel } from "@/models/users"
+
+const UsersListPage = ({ users }: { users: UserModel[] }): JSX.Element => {
   const router = useRouter()
 
   return (

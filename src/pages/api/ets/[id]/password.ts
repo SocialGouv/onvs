@@ -1,35 +1,48 @@
 import Cors from "micro-cors"
+import { z, ZodError } from "zod"
+
+import { OnvsError } from "@/utils/errors"
+import { hashPassword } from "@/utils/bcrypt"
 import prisma from "@/prisma/db"
 
-import { ZodError } from "zod"
-import { OnvsError } from "@/utils/errors"
-import { UserApiSchema, UserApiType } from "@/models/users"
+const dataSchema = z.object({
+  id: z.string().uuid().optional(),
+  password: z.string().optional(),
+})
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
 
-  const { user }: { user: UserApiType } = req?.body
+  const { id } = req.query
 
   try {
-    const parsedUser = UserApiSchema.parse(user)
-
     switch (req.method) {
-      case "POST": {
-        const otherUser = await prisma.user.findFirst({
+      case "PUT": {
+        const { password }: { password: string } = req?.body
+        dataSchema.parse({ password, id })
+
+        const user = await prisma.user.findFirst({
           where: {
-            email: parsedUser?.email,
-            deletedAt: null,
+            id,
           },
         })
 
-        if (otherUser) {
-          throw new OnvsError("Un utilisateur avec ce courriel existe déjà.")
+        if (!user) {
+          throw new OnvsError(`Aucun utilisateur n'existe avec l'id ${id}`)
         }
 
-        const createdUser = await prisma.user.create({ data: parsedUser })
+        await prisma.user.update({
+          where: {
+            id,
+          },
+          data: {
+            password: await hashPassword(password),
+          },
+        })
 
-        return res.status(200).json({ user: createdUser })
+        return res.status(200).json({})
       }
+
       default:
         if (req.method !== "OPTIONS") return res.status(405).end()
     }
@@ -50,7 +63,7 @@ const handler = async (req, res) => {
 }
 
 const cors = Cors({
-  allowMethods: ["GET", "OPTIONS"],
+  allowMethods: ["PUT", "OPTIONS"],
 })
 
 export default cors(handler)

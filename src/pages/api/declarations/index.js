@@ -29,7 +29,9 @@ const handler = async (req, res) => {
         })
 
         if (!declarations?.length) {
-          return res.status(404).json({ message: "No declaration found" })
+          return res
+            .status(404)
+            .json({ message: "Server error: no declaration found." })
         }
 
         return res

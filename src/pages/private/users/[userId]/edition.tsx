@@ -9,10 +9,10 @@ import { deleteUser, updateUser } from "@/clients/users"
 import UserForm from "@/components/UserForm"
 import { PrimaryButton, OutlineButton } from "@/components/lib"
 import Alert, { AlertMessageType } from "@/components/Alert"
-import { User } from "@prisma/client"
+import { UserModel } from "@/models/users"
 import prisma from "@/prisma/db"
 
-const UserPage = ({ user }: { user: User }): JSX.Element => {
+const UserPage = ({ user }: { user: UserModel }): JSX.Element => {
   const router = useRouter()
   const [openModal, setOpenModal] = React.useState(false)
   const [message, setMessage] = React.useState<AlertMessageType>()

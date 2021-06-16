@@ -1,0 +1,32 @@
+# Add a new ETS.
+POST http://localhost:3030/api/ets
+Authorization: Bearer 96bFX1cfiJTqrt42sZMWA3xa9ePoCuNg1r7E4Wyb
+Content-Type: application/json
+
+{
+    "id": "c1004d93-9898-45f0-b2e0-c8c7520b5fe1",
+    "finesset": "957011806",
+    "juridicStatus": "privé",
+    "town": "West Cruz",
+    "rs": "CHU West Cruz"
+}
+
+### List of all Ets.
+GET http://localhost:3030/api/ets
+Content-Type: application/json
+
+###
+PUT http://localhost:3030/api/ets/c1004d93-9898-45f0-b2e0-c8c7520b5fe1
+Content-Type: application/json
+
+{
+    "id": "c1004d93-9898-45f0-b2e0-c8c7520b5fe1",
+    "finesset": "957011806",
+    "juridicStatus": "public",
+    "town": "Vincennes",
+    "rs": "CHU Vincennes"
+}
+
+###
+DELETE  http://localhost:3030/api/ets/c1004d93-9898-45f0-b2e0-c8c7520b5fe1
+Content-Type: application/json

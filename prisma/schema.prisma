@@ -83,16 +83,19 @@ model User {
   @@map("users")
 }
 
-model ets {
-  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at     DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime? @db.Timestamptz(6)
-  deleted_at     DateTime? @db.Timestamptz(6)
-  finesset       String    @unique @db.VarChar(255)
-  finessej       String?   @db.VarChar(255)
-  rs             String    @db.VarChar(255)
-  town           String    @db.VarChar(255)
-  juridic_status String    @db.VarChar(255)
+model Ets {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt     DateTime  @map("created_at") @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime? @map("updated_at") @db.Timestamptz(6)
+  deletedAt     DateTime? @map("deleted_at") @db.Timestamptz(6)
+  finesset      String    @unique @db.VarChar(255)
+  finessej      String?   @db.VarChar(255)
+  rs            String    @db.VarChar(255)
+  town          String    @db.VarChar(255)
+  juridicStatus String    @map("juridic_status") @db.VarChar(255)
+
+
+  @@map("ets")
 }
 
 model knex_migrations {

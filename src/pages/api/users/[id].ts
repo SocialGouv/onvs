@@ -1,37 +1,9 @@
 import Cors from "micro-cors"
-import { z, ZodError } from "zod"
+import { ZodError } from "zod"
 
-import { roles } from "@/utils/roles"
 import { OnvsError } from "@/utils/errors"
 import prisma from "@/prisma/db"
-
-const UserSchema = z.object({
-  id: z.string().uuid().optional(),
-  firstName: z.string().optional(),
-  lastName: z.string().optional(),
-  email: z.string().email({ message: "Courriel non valide." }),
-  role: z
-    .string()
-    .refine((val) => roles.includes(val), { message: "Le rôle n'existe pas." }),
-  scope: z.any(),
-  // scope: z
-  //   .object({
-  //     ets: z.string(),
-  //   })
-  //   .or(
-  //     z
-  //       .object({
-  //         etsList: z.array(z.string()),
-  //       })
-  //       .or(
-  //         z.object({
-  //           departmentsList: z.array(z.string()),
-  //         }),
-  //       ),
-  //   ),
-})
-
-type UserType = z.infer<typeof UserSchema>
+import { UserApiType, UserApiSchema } from "@/models/users"
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
@@ -50,8 +22,8 @@ const handler = async (req, res) => {
         return res.status(200).json({})
       }
       case "PATCH": {
-        const { user }: { user: UserType } = req?.body
-        const parsedUser = UserSchema.parse(user)
+        const { user }: { user: UserApiType } = req?.body
+        const parsedUser = UserApiSchema.parse(user)
 
         const otherUser = await prisma.user.findFirst({
           where: {

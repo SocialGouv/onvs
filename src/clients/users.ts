@@ -1,12 +1,12 @@
 import { API_URL } from "@/utils/config"
 import fetcher from "@/utils/fetcher"
 
-import { User } from "@prisma/client"
+import { UserModel, PartialUserModel } from "@/models/users"
 
 const USER_ENDPOINT = "users"
 
 // Note: this function returns a Promise, as expected, even await is not required by return syntax.
-export const createUser = async (params: { user: User }) => {
+export const createUser = async (params: { user: UserModel }) => {
   return fetcher(`${API_URL}/${USER_ENDPOINT}`, {
     body: JSON.stringify(params),
     headers: { "Content-Type": "application/json" },
@@ -14,11 +14,7 @@ export const createUser = async (params: { user: User }) => {
   })
 }
 
-type PartialUser = {
-  [Property in keyof User]+?: User[Property]
-}
-
-export const updateUser = async ({ user }: { user: PartialUser }) => {
+export const updateUser = async ({ user }: { user: PartialUserModel }) => {
   if (!user?.id) throw new Error("Un id est nécessaire")
 
   return fetcher(`${API_URL}/${USER_ENDPOINT}/${user?.id}`, {

@@ -3,10 +3,10 @@ import { useForm, Controller } from "react-hook-form"
 import Select from "react-select"
 import * as yup from "yup"
 
-import { User } from "@prisma/client"
+import { UserModel } from "@/models/users"
 import { yupResolver } from "@hookform/resolvers"
-
-// import { z } from "zod"
+import { rolesOptions, getOption } from "@/utils/roles"
+import { AlertInput } from "@/components/Form"
 
 type SelectOption = {
   value: string
@@ -24,11 +24,8 @@ const formSchema = yup.object({
   scope: yup.string().optional(),
 })
 
-import { rolesOptions, getOption } from "../utils/roles"
-import { AlertInput } from "./Form"
-
 type Props = {
-  user?: User
+  user?: UserModel
   onSubmit: (values: yup.TypeOf<typeof formSchema>) => void
   children: React.ReactNode
 }

@@ -16,7 +16,7 @@ const handler = async (req, res) => {
         if (!act || isEmpty(act)) {
           res
             .status(404)
-            .json({ error: "Erreur serveur : La déclaration n'existe pas" })
+            .json({ error: "Server error : the declaration doesn't exist." })
           return
         }
 
@@ -31,17 +31,18 @@ const handler = async (req, res) => {
         if (req.method !== "OPTIONS") return res.status(405)
     }
   } catch (error) {
-    console.error("Erreur API", error)
+    console.error("API error", error)
     console.error(`Message :${error.message}:`)
-    if (error?.code === UNIQUE_VIOLATION_PG)
+
+    if (error?.code === UNIQUE_VIOLATION_PG) {
       res
         .status(409)
-        .json({ error: `Erreur serveur : déclaration déjà présente` })
-    else if (error.message === "Bad request")
-      res
-        .status(400)
-        .json({ error: "Erreur serveur : requête HTTP mal formée" })
-    else res.status(500).json({ error: `Erreur serveur` })
+        .json({ error: `Server error : already present declaration` })
+    } else if (error.message === "Bad request") {
+      res.status(400).json({ error: "Server error : bad HTTP request" })
+    } else {
+      res.status(500).json({ error: `Server error` })
+    }
   }
 }
 
