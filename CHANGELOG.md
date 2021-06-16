@@ -1,3 +1,10 @@
+## [2.16.3](https://github.com/SocialGouv/onvs/compare/v2.16.2...v2.16.3) (2021-06-16)
+
+
+### Bug Fixes
+
+* bug to see declaration detail for unauthentified users ([#141](https://github.com/SocialGouv/onvs/issues/141)) ([0923a58](https://github.com/SocialGouv/onvs/commit/0923a5807ab128bd2fe286608c8a9685fbbb6027))
+
 ## [2.16.2](https://github.com/SocialGouv/onvs/compare/v2.16.1...v2.16.2) (2021-06-15)
 
 
