@@ -1,13 +1,23 @@
 import Cors from "micro-cors"
 import withSession from "@/lib/session"
+import { findWithCredentials } from "@/services/users"
 import { handleNotAllowedMethods, handleErrors } from "@/utils/api"
 
 const handler = async (req, res) => {
+  const { email, password } = await req.body
+  res.setHeader("Content-Type", "application/json")
+
   try {
     switch (req.method) {
       case "POST": {
-        req.session.destroy()
-        return res.json({ isLoggedIn: false })
+        const user = {
+          ...(await findWithCredentials({ email, password })),
+          isLoggedIn: true,
+        }
+
+        req.session.set("user", user)
+        await req.session.save()
+        return res.status(200).json(user)
       }
       default: {
         handleNotAllowedMethods(req, res)

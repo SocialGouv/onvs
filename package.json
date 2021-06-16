@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "node scripts/server.js",
+    "debug": "NODE_OPTIONS='--inspect' node scripts/server.js",
     "build": "next build",
     "start": "yarn migrate:latest && NODE_ENV=production node scripts/server.js",
     "lint": "eslint .",
