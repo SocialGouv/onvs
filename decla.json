@@ -1,0 +1,155 @@
+{
+    "date": "2021-06-14",
+    "town": "Vincennes",
+    "hour": {
+        "label": "Matin (7h-12h)",
+        "value": "Matin (7h-12h)"
+    },
+    "locationMain": {
+        "label": "Addictologie",
+        "value": "Addictologie"
+    },
+    "locationSecondary": {
+        "label": "Bloc opératoire",
+        "value": "Bloc opératoire"
+    },
+    "fpSpokenViolences": [],
+    "fpSexualViolences": [],
+    "fpPsychologicalViolences": [],
+    "fpPhysicalViolences": [],
+    "fpOthers": [],
+    "fpNoRespects": [],
+    "fpGroups": [
+        "La victime a été discriminée"
+    ],
+    "fpDiscriminations": [
+        "Refus de délivrer un bien ou d'un service en raison de critères discriminatoires"
+    ],
+    "fgStealWithoutBreakins": [],
+    "fgStealWithBreakins": [
+        "Effets personnels d’un patient, d’un accompagnant, d’une autre personne"
+    ],
+    "fgOthers": [
+        "Port d’arme ou détention d’arme",
+        "Escroquerie"
+    ],
+    "fgGroups": [
+        "Vol avec effraction",
+        "Autres faits"
+    ],
+    "fgDeteriorations": [],
+    "factTypes": [
+        "Atteinte aux personnes",
+        "Atteinte aux biens"
+    ],
+    "rCausePatients": [],
+    "rCauseProfessionals": [],
+    "rDiscords": [],
+    "rLifeRules": [],
+    "rFalsifications": [
+        "Document médical (ordonnance)",
+        "Document administratif (CNI, carte Vitale non mise à jour, etc.)"
+    ],
+    "rDeficientCommunications": [
+        "Défaut d’information ou information incomplète du professionnel"
+    ],
+    "rOthers": [
+        "Autre"
+    ],
+    "rOthersPrecision": "autre fait de violence",
+    "rNotApparent": false,
+    "pursuit": "Main courante",
+    "victims": [
+        {
+            "type": {
+                "label": "Accompagnant/Visiteur/Famille",
+                "value": "Accompagnant/Visiteur/Famille"
+            },
+            "gender": {
+                "label": "Masculin",
+                "value": "Masculin"
+            },
+            "age": {
+                "label": "- de 18 ans",
+                "value": "- de 18 ans"
+            },
+            "sickLeaveDays": 1,
+            "hospitalizationDays": 2,
+            "ITTDays": 0
+        },
+        {
+            "type": {
+                "label": "Étudiant en santé",
+                "value": "Étudiant en santé"
+            },
+            "gender": {
+                "label": "Féminin",
+                "value": "Féminin"
+            },
+            "age": {
+                "label": "+ de 18 ans",
+                "value": "+ de 18 ans"
+            },
+            "sickLeaveDays": 2,
+            "hospitalizationDays": 0,
+            "ITTDays": 0,
+            "healthJob": {
+                "label": "Ambulancier",
+                "value": "Ambulancier"
+            }
+        }
+    ],
+    "authors": [
+        {
+            "discernmentTroublesIsPresent": "Oui",
+            "type": {
+                "label": "Inconnu",
+                "value": "Inconnu"
+            },
+            "gender": {
+                "label": "Féminin",
+                "value": "Féminin"
+            },
+            "age": {
+                "label": "- de 18 ans",
+                "value": "- de 18 ans"
+            },
+            "discernmentTroubles": [
+                "Prise de produits stupéfiants",
+                "Prise de médicaments"
+            ]
+        },
+        {
+            "discernmentTroublesIsPresent": "Oui",
+            "type": {
+                "label": "Professionnel de santé",
+                "value": "Professionnel de santé"
+            },
+            "gender": {
+                "label": "Féminin",
+                "value": "Féminin"
+            },
+            "age": {
+                "label": "- de 18 ans",
+                "value": "- de 18 ans"
+            },
+            "healthJob": {
+                "label": "Aide-soignant",
+                "value": "Aide-soignant"
+            },
+            "discernmentTroubles": [
+                "Prise de produits stupéfiants",
+                "Effet de l’anesthésie"
+            ]
+        }
+    ],
+    "thirdPartyIsPresent": "Oui",
+    "thirdParty": [
+        "Sapeurs-pompiers"
+    ],
+    "thirdPartyPrecision": "",
+    "pursuitBy": [],
+    "description": "Voci le déroulé des évènements :  ...",
+    "id": "9cea4ee8-0e36-4166-9e28-1e3520b9292d",
+    "declarationType": "ets"
+}
