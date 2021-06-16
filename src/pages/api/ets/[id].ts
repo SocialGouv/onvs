@@ -1,13 +1,9 @@
 import Cors from "micro-cors"
 import prisma from "@/prisma/db"
 
-import { ZodError } from "zod"
-import {
-  BadRequestError,
-  InexistingResourceError,
-  OnvsError,
-} from "@/utils/errors"
+import { BadRequestError, InexistingResourceError } from "@/utils/errors"
 import { EtsApiSchema } from "@/models/ets"
+import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
@@ -56,22 +52,12 @@ const handler = async (req, res) => {
 
         return res.status(200).json({})
       }
-      default:
-        if (req.method !== "OPTIONS") return res.status(405).end()
+      default: {
+        handleNotAllowedMethods(req, res)
+      }
     }
   } catch (error) {
-    console.error("API error", error)
-    let message = "API error"
-
-    if (error?.statusCode) {
-      res.status(error?.statusCode).json({ message: error.message })
-    } else if (error instanceof ZodError) {
-      const paths = error?.issues.map((issue) => issue.path)
-      message = `Error on field(s) : ${paths.length ? paths.join(",") : ""}`
-    } else if (error instanceof OnvsError) {
-      message = error.message
-    }
-    res.status(500).json({ message })
+    handleErrors(error, res)
   }
 }
 

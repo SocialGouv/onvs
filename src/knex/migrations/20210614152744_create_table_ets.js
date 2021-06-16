@@ -16,7 +16,7 @@ exports.up = function (knex) {
       .notNullable()
       .comment("Valeurs parmi `Public` | `Privé`")
 
-    table.unique("finesset")
+    table.unique(["finesset", "deleted_at"])
   })
 }
 
