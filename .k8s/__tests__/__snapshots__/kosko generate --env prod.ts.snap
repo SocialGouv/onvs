@@ -9,8 +9,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   labels:
     app: app
     application: onvs
@@ -29,8 +29,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-onvs
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
       labels:
         app: app
         application: onvs
@@ -105,8 +105,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   name: app-sealed-secret
   namespace: onvs
   labels:
@@ -135,8 +135,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-onvs
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
       name: app-sealed-secret
       labels:
         application: onvs
@@ -152,8 +152,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   labels:
     application: onvs
     owner: onvs
@@ -182,8 +182,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   namespace: onvs
 spec:
   ports:
@@ -204,8 +204,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   labels:
     app: app
     application: onvs
@@ -232,8 +232,8 @@ kind: CronJob
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
@@ -251,8 +251,8 @@ spec:
         metadata:
           annotations:
             app.gitlab.com/app: socialgouv-onvs
-            app.gitlab.com/env: prod2
-            app.gitlab.com/env.name: prod2
+            app.gitlab.com/env: prod
+            app.gitlab.com/env.name: prod
             kapp.k14s.io/disable-default-ownership-label-rules: ''
             kapp.k14s.io/disable-default-label-scoping-rules: ''
           labels:
@@ -282,8 +282,8 @@ kind: SealedSecret
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-onvs
-    app.gitlab.com/env: prod2
-    app.gitlab.com/env.name: prod2
+    app.gitlab.com/env: prod
+    app.gitlab.com/env.name: prod
   name: azure-pg-user
   namespace: onvs
   labels:
@@ -308,8 +308,8 @@ spec:
     metadata:
       annotations:
         app.gitlab.com/app: socialgouv-onvs
-        app.gitlab.com/env: prod2
-        app.gitlab.com/env.name: prod2
+        app.gitlab.com/env: prod
+        app.gitlab.com/env.name: prod
       name: azure-pg-user
       labels:
         application: onvs
