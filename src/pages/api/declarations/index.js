@@ -43,7 +43,6 @@ const handler = async (req, res) => {
     if (error?.code === UNIQUE_VIOLATION_PG) {
       // eslint-disable-next-line no-ex-assign
       error = new DuplicateError(error.message)
-      error.statusCode = 409
     }
 
     handleErrors(error, res)

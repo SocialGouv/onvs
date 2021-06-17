@@ -72,7 +72,7 @@ export class InexistingResourceError extends OnvsError {
 }
 
 SuperJson.registerClass(InexistingResourceError, {
-  identifier: "OnvsDuplicateError",
+  identifier: "OnvsInexistingResourceError",
   allowProps: errorProps,
 })
 
@@ -85,6 +85,6 @@ export class BadRequestError extends OnvsError {
 }
 
 SuperJson.registerClass(BadRequestError, {
-  identifier: "OnvsDuplicateError",
+  identifier: "OnvsBadRequestError",
   allowProps: errorProps,
 })

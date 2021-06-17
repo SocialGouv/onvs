@@ -24,7 +24,7 @@ export function handleErrors(
     res.status(error?.statusCode).json({ message: error.message })
   } else if (error instanceof ZodError) {
     const paths = error?.issues.map((issue) => issue.path)
-    message = `Error on field(s) : ${paths.length ? paths.join(",") : ""}`
+    message = `Error on field(s) : ${paths.length ? paths.join(", ") : ""}`
   } else if (error instanceof OnvsError) {
     message = error.message
   }

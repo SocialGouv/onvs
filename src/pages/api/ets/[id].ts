@@ -39,7 +39,25 @@ const handler = async (req, res) => {
           data: parsedEts,
         })
 
-        return res.status(200).json({ ets: updatedEts })
+        return res.status(200).json({ data: updatedEts })
+      }
+      case "GET": {
+        if (!id) {
+          throw new BadRequestError("Bad inputs")
+        }
+
+        const ets = await prisma.ets.findFirst({
+          where: {
+            id,
+            deletedAt: null,
+          },
+        })
+
+        if (!ets) {
+          throw new InexistingResourceError(`There is no ETS for the id ${id}.`)
+        }
+
+        return res.status(200).json({ data: ets })
       }
       case "DELETE": {
         // TODO: empêcher de supprimer logiquement un ETS si des gestionnaire d'ets existent pour cet ets ?
@@ -62,7 +80,7 @@ const handler = async (req, res) => {
 }
 
 const cors = Cors({
-  allowMethods: ["DELETE", "PUT", "OPTIONS"],
+  allowMethods: ["DELETE", "PUT", "GET", "OPTIONS"],
 })
 
 export default cors(handler)

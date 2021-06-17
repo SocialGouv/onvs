@@ -2,6 +2,8 @@ import Cors from "micro-cors"
 
 import { create, find } from "@/services/declarations"
 import { isEmpty } from "@/utils/object"
+import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
+import { DuplicateError } from "@/utils/errors"
 
 const UNIQUE_VIOLATION_PG = "23505"
 
@@ -27,22 +29,17 @@ const handler = async (req, res) => {
 
         return res.status(200).json({ id })
       }
-      default:
-        if (req.method !== "OPTIONS") return res.status(405)
+      default: {
+        handleNotAllowedMethods(req, res)
+      }
     }
   } catch (error) {
-    console.error("API error", error)
-    console.error(`Message :${error.message}:`)
-
     if (error?.code === UNIQUE_VIOLATION_PG) {
-      res
-        .status(409)
-        .json({ error: `Server error : already present declaration` })
-    } else if (error.message === "Bad request") {
-      res.status(400).json({ error: "Server error : bad HTTP request" })
-    } else {
-      res.status(500).json({ error: `Server error` })
+      // eslint-disable-next-line no-ex-assign
+      error = new DuplicateError(error.message)
     }
+
+    handleErrors(error, res)
   }
 }
 
