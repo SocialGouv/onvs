@@ -19,7 +19,6 @@ const handler = async (req, res) => {
         const otherEts = await prisma.ets.findFirst({
           where: {
             finesset: parsedEts.finesset,
-            deletedAt: null,
           },
         })
 
@@ -55,24 +54,19 @@ const handler = async (req, res) => {
             }
           : {}
 
-        const wherePrismaQuery = {
+        const totalCount = await prisma.ets.count({
           where: {
-            AND: {
-              deletedAt: null,
-            },
             ...searchPrismaQuery,
           },
-        }
-
-        const totalCount = await prisma.ets.count({
-          ...wherePrismaQuery,
         })
 
         const { pageIndex, pageSize, totalPages, prismaQueryParams } =
           await buildMetaPagination({ totalCount, ...req.query })
 
         const etsList = await prisma.ets.findMany({
-          ...wherePrismaQuery,
+          where: {
+            ...searchPrismaQuery,
+          },
           orderBy: {
             finesset: "asc",
           },

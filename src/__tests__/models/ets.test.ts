@@ -28,8 +28,6 @@ test("A correct ets", () => {
     rs: " CHU " + town,
   }
 
-  console.log({ ets })
-
   const res = EtsApiSchema.parse(ets)
 
   // Expect no error.

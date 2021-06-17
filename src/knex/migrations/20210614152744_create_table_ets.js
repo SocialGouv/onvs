@@ -6,17 +6,15 @@ exports.up = function (knex) {
       .defaultTo(knex.fn.now())
       .notNullable()
     table.timestamp("updated_at", { useTz: true })
-    table.timestamp("deleted_at", { useTz: true })
-    table.string("finesset").notNullable()
+    table.string("finesset").notNullable().unique()
     table.string("finessej")
     table.string("rs").notNullable()
     table.string("town").notNullable()
+    table.string("department", 3).notNullable()
     table
       .string("juridic_status")
       .notNullable()
       .comment("Valeurs parmi `Public` | `Privé`")
-
-    table.unique(["finesset", "deleted_at"])
   })
 }
 

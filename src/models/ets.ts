@@ -12,6 +12,7 @@ export const EtsApiSchema = z.object({
   finessej: z.string().length(9).optional(),
   rs: z.string(),
   town: z.string(),
+  department: z.string(),
   juridicStatus: z.nativeEnum(JuridicStatus),
 })
 

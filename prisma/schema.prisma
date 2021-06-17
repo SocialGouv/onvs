@@ -87,14 +87,13 @@ model Ets {
   id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt     DateTime? @map("updated_at") @db.Timestamptz(6)
-  deletedAt     DateTime? @map("deleted_at") @db.Timestamptz(6)
-  finesset      String    @db.VarChar(255)
+  finesset      String    @unique @db.VarChar(255)
   finessej      String?   @db.VarChar(255)
   rs            String    @db.VarChar(255)
   town          String    @db.VarChar(255)
+  department    String    @db.VarChar(3)
   juridicStatus String    @map("juridic_status") @db.VarChar(255)
 
-  @@unique([finesset, deletedAt], name: "ets_finesset_deleted_at_unique")
   @@map("ets")
 }
 

@@ -49,7 +49,6 @@ const handler = async (req, res) => {
         const ets = await prisma.ets.findFirst({
           where: {
             id,
-            deletedAt: null,
           },
         })
 
@@ -61,11 +60,10 @@ const handler = async (req, res) => {
       }
       case "DELETE": {
         // TODO: empêcher de supprimer logiquement un ETS si des gestionnaire d'ets existent pour cet ets ?
-        await prisma.ets.update({
+        await prisma.ets.delete({
           where: {
             id,
           },
-          data: { deletedAt: new Date() },
         })
 
         return res.status(200).json({})

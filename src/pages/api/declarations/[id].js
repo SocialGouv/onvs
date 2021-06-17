@@ -1,6 +1,6 @@
 import Cors from "micro-cors"
 
-import { create, find } from "@/services/declarations"
+import { find } from "@/services/declarations"
 import { isEmpty } from "@/utils/object"
 import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
 import { DuplicateError } from "@/utils/errors"
@@ -24,11 +24,6 @@ const handler = async (req, res) => {
 
         return res.status(200).json(act)
       }
-      case "POST": {
-        const id = await create(req.body)
-
-        return res.status(200).json({ id })
-      }
       default: {
         handleNotAllowedMethods(req, res)
       }
@@ -44,7 +39,7 @@ const handler = async (req, res) => {
 }
 
 const cors = Cors({
-  allowMethods: ["GET", "OPTIONS", "POST"],
+  allowMethods: ["GET", "OPTIONS"],
 })
 
 export default cors(handler)

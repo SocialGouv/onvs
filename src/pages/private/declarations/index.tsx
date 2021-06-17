@@ -1,55 +1,28 @@
-import Alert, { AlertMessageType } from "@/components/Alert"
+import Alert from "@/components/Alert"
 import Pagination from "@/components/Pagination"
 import PrivateLayout from "@/components/PrivateLayout"
 import Table from "@/components/Table"
 import { FORMAT_DATE } from "@/utils/constants"
-import fetcher from "@/utils/fetcher"
 import { upperCaseFirstLetters } from "@/utils/string"
 import { Declaration } from "@prisma/client"
 import { format } from "date-fns"
 import Link from "next/link"
 import React from "react"
-import useSWR, { SWRResponse } from "swr"
 import { BadgeType } from "@/components/BadgeType"
+import { useList } from "@/hooks/useList"
 
 function DeclarationAdministration() {
   const [pageIndex, setPageIndex] = React.useState(0)
+  const [search, setSearch] = React.useState("")
 
-  const goToNextPage = () => setPageIndex(pageIndex + 1)
-  const goToPreviousPage = () =>
-    pageIndex > 0 ? setPageIndex(pageIndex - 1) : 0
+  const paginatedData = useList<Declaration>({
+    url: "/api/declarations",
+    pageIndex,
+    search,
+    setPageIndex,
+  })
 
-  type PaginatedDeclarations = {
-    declarations: Declaration[]
-    pageIndex: number
-    totalCount: number
-    totalPages: number
-    pageSize: number
-  }
-
-  const { data, error }: SWRResponse<PaginatedDeclarations, Error> = useSWR(
-    `/api/declarations?pageIndex=${pageIndex}`,
-    fetcher,
-  )
-
-  const isLoading = !error && !data
-
-  // Synchronize the pageIndex if the page index returned by the server is different.
-  if (data?.pageIndex !== pageIndex && data?.pageIndex)
-    setPageIndex(data?.pageIndex)
-
-  const message: AlertMessageType = error && {
-    text: "Erreur de récupération des déclarations",
-    kind: "error",
-  }
-
-  const declarations = data?.declarations
-  const totalCount = data?.totalCount || 0
-  const pageSize = data?.pageSize || 50
-  const totalPages = data?.totalPages || 0
-
-  const firstElement = pageIndex * pageSize + 1
-  const lastElement = firstElement + (declarations?.length || 0) - 1
+  const { isLoading, message, list } = paginatedData
 
   return (
     <PrivateLayout title="Déclarations" leftComponent={null}>
@@ -70,7 +43,7 @@ function DeclarationAdministration() {
               </th>
             ),
           )}
-          rows={declarations?.map((declaration) => (
+          rows={list?.map((declaration) => (
             <tr key={declaration.id}>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-gray-900">
@@ -104,15 +77,7 @@ function DeclarationAdministration() {
           ))}
         />
       )}
-      <Pagination
-        firstElement={firstElement}
-        lastElement={lastElement}
-        totalCount={totalCount}
-        goToPreviousPage={goToPreviousPage}
-        goToNextPage={goToNextPage}
-        pageIndex={pageIndex}
-        totalPages={totalPages}
-      />
+      <Pagination pageIndex={pageIndex} {...paginatedData} />
     </PrivateLayout>
   )
 }

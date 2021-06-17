@@ -25,9 +25,13 @@ const handler = async (req, res) => {
           ...prismaQueryParams,
         })
 
-        return res
-          .status(200)
-          .json({ declarations, pageIndex, totalCount, pageSize, totalPages })
+        return res.status(200).json({
+          data: declarations,
+          pageIndex,
+          totalCount,
+          pageSize,
+          totalPages,
+        })
       }
 
       case "POST": {

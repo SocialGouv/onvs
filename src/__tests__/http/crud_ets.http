@@ -10,11 +10,16 @@ Content-Type: application/json
     "finesset": {{finesset}},
     "juridicStatus": "privé",
     "town": "West Cruz",
-    "rs": "CHU West Cruz"
+    "rs": "CHU West Cruz",
+    "department": "95"
 }
 
 ### List of all Ets.
-GET {{baseUrl}}/ets?pageSize=2&search=vincennes
+GET {{baseUrl}}/ets?pageSize=2
+Content-Type: application/json
+
+### List of all Ets for a search token.
+GET {{baseUrl}}/ets?pageSize=2&search=west
 Content-Type: application/json
 
 ###
@@ -26,6 +31,7 @@ Content-Type: application/json
     "finesset": "{{etsCreation.response.body.data.finesset}}",
     "juridicStatus": "{{etsCreation.response.body.data.juridicStatus}}",
     "town": "Vincennes",
+    "department": "94",
     "rs": "CHU Vincennes"
 }
 
@@ -35,4 +41,4 @@ Content-Type: application/json
 
 
 ###
-GET {{baseUrl}}/ets/9dc201bf-90f8-4fc1-9113-ad45273a72c2
+GET {{baseUrl}}/ets/d7e16ca5-80ae-4fcf-bfbc-fdc590f751bf
