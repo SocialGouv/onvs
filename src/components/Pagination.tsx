@@ -15,8 +15,8 @@ export default function Pagination({
   pageIndex: number
   totalPages: number
 }): JSX.Element {
-  const canGoToPreviousPage = !(pageIndex > 0)
-  const canGoToNextPage = !(pageIndex < totalPages)
+  const canGoToPreviousPage = pageIndex > 0
+  const canGoToNextPage = pageIndex < totalPages - 1
 
   return (
     <nav
@@ -34,14 +34,14 @@ export default function Pagination({
         <button
           className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50"
           onClick={goToPreviousPage}
-          disabled={canGoToPreviousPage}
+          disabled={!canGoToPreviousPage}
         >
           Précédent
         </button>
         <button
           className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50"
           onClick={goToNextPage}
-          disabled={canGoToNextPage}
+          disabled={!canGoToNextPage}
         >
           Suivant
         </button>

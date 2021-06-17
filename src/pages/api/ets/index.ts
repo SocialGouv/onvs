@@ -4,6 +4,7 @@ import prisma from "@/prisma/db"
 import { OnvsError } from "@/utils/errors"
 import { EtsApiSchema, EtsApiType } from "@/models/ets"
 import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
+import { buildMetaPagination } from "@/utils/pagination"
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
@@ -32,6 +33,15 @@ const handler = async (req, res) => {
         return res.status(200).json({ data: createdEts })
       }
       case "GET": {
+        const totalCount = await prisma.ets.count({
+          where: {
+            deletedAt: null,
+          },
+        })
+
+        const { pageIndex, pageSize, totalPages, prismaQueryParams } =
+          await buildMetaPagination({ totalCount, ...req.query })
+
         const etsList = await prisma.ets.findMany({
           where: {
             deletedAt: null,
@@ -39,11 +49,12 @@ const handler = async (req, res) => {
           orderBy: {
             finesset: "asc",
           },
+          ...prismaQueryParams,
         })
 
-        console.log({ etsList })
-
-        return res.status(200).json({ data: etsList })
+        return res
+          .status(200)
+          .json({ data: etsList, pageIndex, totalCount, pageSize, totalPages })
       }
       default: {
         handleNotAllowedMethods(req, res)

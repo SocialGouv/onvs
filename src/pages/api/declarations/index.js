@@ -3,6 +3,9 @@ import Cors from "micro-cors"
 import { create } from "@/services/declarations"
 
 import prisma from "@/prisma/db"
+import { buildMetaPagination } from "@/utils/pagination"
+import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
+import { DuplicateError } from "@/utils/errors"
 
 const UNIQUE_VIOLATION_PG = "23505"
 
@@ -12,27 +15,15 @@ const handler = async (req, res) => {
   try {
     switch (req.method) {
       case "GET": {
-        let { pageIndex, pageSize } = req.query
-
-        pageIndex = Number(pageIndex) || 0
-        pageSize = Number(pageSize) || 50
-
         const totalCount = await prisma.declaration.count()
-        const totalPages = Math.max(0, Math.ceil(totalCount / pageSize) - 1)
 
-        pageIndex = Math.min(pageIndex, totalPages)
+        const { pageIndex, pageSize, totalPages, prismaQueryParams } =
+          await buildMetaPagination({ totalCount, ...req.query })
 
         const declarations = await prisma.declaration.findMany({
           orderBy: [{ createdAt: "desc" }],
-          skip: pageIndex > 0 ? pageIndex * pageSize : 0,
-          take: pageSize,
+          ...prismaQueryParams,
         })
-
-        if (!declarations?.length) {
-          return res
-            .status(404)
-            .json({ message: "Server error: no declaration found." })
-        }
 
         return res
           .status(200)
@@ -44,14 +35,18 @@ const handler = async (req, res) => {
 
         return res.status(200).json({ id })
       }
-      default:
-        if (req.method !== "OPTIONS") return res.status(405)
+      default: {
+        handleNotAllowedMethods(req, res)
+      }
     }
   } catch (error) {
-    console.error("Erreur API", error)
-    if (error?.code === UNIQUE_VIOLATION_PG) res.status(409).json({ error })
-    else if (error.message === "Bad request") res.status(400).end()
-    else res.status(500).json({ error })
+    if (error?.code === UNIQUE_VIOLATION_PG) {
+      // eslint-disable-next-line no-ex-assign
+      error = new DuplicateError(error.message)
+      error.statusCode = 409
+    }
+
+    handleErrors(error, res)
   }
 }
 

@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### List of all Ets.
-GET {{baseUrl}}/ets
+GET {{baseUrl}}/ets?pageSize=4
 Content-Type: application/json
 
 ###
