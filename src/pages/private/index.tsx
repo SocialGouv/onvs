@@ -12,7 +12,7 @@ import {
 import { firstStepUrl } from "@/components/wizard/stepFlows"
 import useUser from "@/hooks/useUser"
 
-function HospitalHomePage(): JSX.Element {
+function HomePage(): JSX.Element {
   const router = useRouter()
   const { user } = useUser()
 
@@ -24,6 +24,12 @@ function HospitalHomePage(): JSX.Element {
 
     router.push(firstStepUrl("ets"))
   }
+
+  if (user?.role === "Administrateur") {
+    router.replace("/private/declarations")
+    return <>Chargement...</>
+  }
+
   return (
     <PrivateLayout title="Déclaration des incidents de violence">
       {user?.role === "Gestionnaire établissement" && (
@@ -48,4 +54,4 @@ function HospitalHomePage(): JSX.Element {
   )
 }
 
-export default HospitalHomePage
+export default HomePage
