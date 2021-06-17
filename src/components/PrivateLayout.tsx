@@ -120,10 +120,10 @@ function SideBar() {
                     title="Administration utilisateurs"
                   />
                   <MenuItem
-                    url="/"
+                    url="/private/ets"
                     jsxIcon={HospitalIcon}
                     title="Administration ETS"
-                    disabled={true}
+                    disabled={false}
                   />
                 </>
               )}
