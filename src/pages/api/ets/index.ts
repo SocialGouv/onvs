@@ -1,5 +1,6 @@
 import Cors from "micro-cors"
 import prisma from "@/prisma/db"
+import { Prisma } from "@prisma/client"
 
 import { OnvsError } from "@/utils/errors"
 import { EtsApiSchema, EtsApiType } from "@/models/ets"
@@ -33,19 +34,45 @@ const handler = async (req, res) => {
         return res.status(200).json({ data: createdEts })
       }
       case "GET": {
-        const totalCount = await prisma.ets.count({
+        const { search } = req.query
+
+        const searchPrismaQuery = search
+          ? {
+              OR: [
+                {
+                  rs: {
+                    contains: search,
+                    mode: "insensitive" as Prisma.QueryMode,
+                  },
+                },
+                {
+                  finesset: {
+                    contains: search,
+                    mode: "insensitive" as Prisma.QueryMode,
+                  },
+                },
+              ],
+            }
+          : {}
+
+        const wherePrismaQuery = {
           where: {
-            deletedAt: null,
+            AND: {
+              deletedAt: null,
+            },
+            ...searchPrismaQuery,
           },
+        }
+
+        const totalCount = await prisma.ets.count({
+          ...wherePrismaQuery,
         })
 
         const { pageIndex, pageSize, totalPages, prismaQueryParams } =
           await buildMetaPagination({ totalCount, ...req.query })
 
         const etsList = await prisma.ets.findMany({
-          where: {
-            deletedAt: null,
-          },
+          ...wherePrismaQuery,
           orderBy: {
             finesset: "asc",
           },

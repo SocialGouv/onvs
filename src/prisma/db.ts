@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient, Prisma } from "@prisma/client"
 
 /**
  * In yarn dev, Prisma may fall in lack of connections.
@@ -15,7 +15,12 @@ interface CustomNodeJsGlobal {
 // Prevent multiple instances of Prisma Client in development
 declare const global: CustomNodeJsGlobal
 
-const prisma = global.prisma || new PrismaClient()
+const log: Prisma.LogLevel[] =
+  process.env.NODE_ENV === "development"
+    ? ["query", "info", "warn", "error"]
+    : ["error"]
+
+const prisma = global.prisma || new PrismaClient({ log })
 
 if (process.env.NODE_ENV === "development") global.prisma = prisma
 

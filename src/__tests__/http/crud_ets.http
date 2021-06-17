@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### List of all Ets.
-GET {{baseUrl}}/ets?pageSize=4
+GET {{baseUrl}}/ets?pageSize=2&search=vincennes
 Content-Type: application/json
 
 ###
