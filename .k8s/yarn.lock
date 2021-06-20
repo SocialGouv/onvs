@@ -2300,7 +2300,7 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-kosko@^1.0.4:
+kosko@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/kosko/-/kosko-1.1.5.tgz#2787d678c81a1bd1a59572025f951d76a3b8e1fc"
   integrity sha512-IWI7ljurPUEISqy1snge701womXlo1J8LxykPDifYpmL7KXOhT+cvMmcg1LeD0VV1KAzK/rbGGlpZ+I6Idfqjw==
