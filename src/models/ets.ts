@@ -2,9 +2,11 @@ import { z } from "zod"
 import { Ets } from "@prisma/client"
 
 export enum JuridicStatus {
-  Public = "public",
-  Private = "privé",
+  Public = "Public",
+  Private = "Privé",
 }
+
+// TODO DEMAIN  : Je cherche à aovir un champ finessej qui est soit vide soit de 9 caractères. à voir comment c'est fait dans yup dans EtsForm.
 
 export const EtsApiSchema = z.object({
   id: z.string().uuid().optional(),

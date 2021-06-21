@@ -1,5 +1,6 @@
 import React from "react"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { useDebounce } from "use-debounce"
 
 import { Ets } from "@prisma/client"
@@ -9,8 +10,10 @@ import Pagination from "@/components/Pagination"
 import PrivateLayout from "@/components/PrivateLayout"
 import Table from "@/components/Table"
 import { upperCaseFirstLetters } from "@/utils/string"
+import OutlineButton from "@/components/OutlineButton"
 
 function EtsAdministration() {
+  const router = useRouter()
   const [pageIndex, setPageIndex] = React.useState(0)
   const [search, setSearch] = React.useState("")
   const [debouncedSearch] = useDebounce(search, 400)
@@ -25,7 +28,18 @@ function EtsAdministration() {
   const { message, list } = paginatedData
 
   return (
-    <PrivateLayout title="Déclarations" leftComponent={null}>
+    <PrivateLayout
+      title="Liste des établissements"
+      leftComponent={null}
+      rightComponent={
+        <OutlineButton
+          tabIndex={0}
+          onClick={() => router.push("./ets/creation")}
+        >
+          +&nbsp;Ajouter
+        </OutlineButton>
+      }
+    >
       <Alert message={message} />
       <input
         type="text"
@@ -62,7 +76,7 @@ function EtsAdministration() {
                 {upperCaseFirstLetters(ets.town)}
               </td>
               <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                <Link href={`/ets/${ets.id}`}>
+                <Link href={`/private/ets/${ets.id}/edition`}>
                   <a className="text-blue-600 hover:text-blue-900">Voir</a>
                 </Link>
               </td>

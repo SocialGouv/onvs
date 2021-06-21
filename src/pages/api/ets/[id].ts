@@ -13,7 +13,7 @@ const handler = async (req, res) => {
   try {
     switch (req.method) {
       case "PUT": {
-        const ets = req.body
+        const { ets } = req.body
         const parsedEts = EtsApiSchema.parse(ets)
 
         if (id !== ets.id) {

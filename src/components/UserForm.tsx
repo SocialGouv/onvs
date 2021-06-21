@@ -3,15 +3,10 @@ import { useForm, Controller } from "react-hook-form"
 import Select from "react-select"
 import * as yup from "yup"
 
-import { UserModel } from "@/models/users"
+import { PartialUserModel, UserModel } from "@/models/users"
 import { yupResolver } from "@hookform/resolvers"
-import { rolesOptions, getOption } from "@/utils/roles"
+import { rolesOptions, getRoleOption, SelectOption } from "@/utils/options"
 import { AlertInput } from "@/components/Form"
-
-type SelectOption = {
-  value: string
-  label: string
-}
 
 const formSchema = yup.object({
   id: yup.string().optional(),
@@ -30,11 +25,11 @@ type Props = {
   children: React.ReactNode
 }
 
-const emptyUser = {
+const emptyUser: PartialUserModel = {
   firstName: "",
   lastName: "",
   email: "",
-  role: null,
+  role: undefined,
   scope: "",
 }
 
@@ -49,7 +44,7 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
     defaultValues: {
       ...emptyUser,
       ...user,
-      role: user?.role ? getOption(user?.role) : null,
+      role: user?.role ? getRoleOption(user?.role) : null,
     },
     resolver: yupResolver(formSchema),
   })

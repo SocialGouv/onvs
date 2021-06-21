@@ -13,7 +13,7 @@ const handler = async (req, res) => {
   try {
     switch (req.method) {
       case "POST": {
-        const ets: EtsApiType = req?.body
+        const { ets }: { ets: EtsApiType } = req?.body
         const parsedEts = EtsApiSchema.parse(ets)
 
         const otherEts = await prisma.ets.findFirst({
