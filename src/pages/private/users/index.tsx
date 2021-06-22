@@ -37,7 +37,10 @@ const UsersListPage = ({ users }: { users: UserModel[] }): JSX.Element => {
           </th>
         ))}
         rows={users.map((person) => (
-          <tr key={person.email}>
+          <tr
+            key={person.email}
+            onClick={() => router.push(`/private/users/${person.id}/edition`)}
+          >
             <td className="px-6 py-4 whitespace-nowrap">
               <div className="text-sm text-gray-900">{person.firstName}</div>
               <div className="text-sm text-gray-500">{person.lastName}</div>

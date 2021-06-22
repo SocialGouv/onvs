@@ -10,6 +10,7 @@ import Link from "next/link"
 import React from "react"
 import { BadgeType } from "@/components/BadgeType"
 import { useList } from "@/hooks/useList"
+import { useRouter } from "next/router"
 
 function composeContactAgreementLabel(data) {
   return data === "true" ? (
@@ -28,6 +29,7 @@ function composeContactAgreementLabel(data) {
 }
 
 function DeclarationAdministration() {
+  const router = useRouter()
   const [pageIndex, setPageIndex] = React.useState(0)
   const [search, setSearch] = React.useState("")
 
@@ -66,7 +68,10 @@ function DeclarationAdministration() {
             </th>
           ))}
           rows={list?.map((declaration) => (
-            <tr key={declaration.id}>
+            <tr
+              key={declaration.id}
+              onClick={() => router.push(`/declaration/${declaration.id}`)}
+            >
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-gray-900">
                   {declaration?.date

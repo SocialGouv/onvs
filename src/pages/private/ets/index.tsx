@@ -65,7 +65,10 @@ function EtsAdministration() {
             ),
           )}
           rows={list?.map((ets) => (
-            <tr key={ets.id}>
+            <tr
+              key={ets.id}
+              onClick={() => router.push(`/private/ets/${ets.id}/edition`)}
+            >
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-gray-800">{ets.finesset}</div>
               </td>
