@@ -1,3 +1,17 @@
+## [2.16.4](https://github.com/SocialGouv/onvs/compare/v2.16.3...v2.16.4) (2021-06-21)
+
+
+### Bug Fixes
+
+* **deps:** update all dependencies ([#144](https://github.com/SocialGouv/onvs/issues/144)) ([8ddc25d](https://github.com/SocialGouv/onvs/commit/8ddc25d939b1cc96c8252b0a75a2f8d93be7cea4))
+
+## [2.16.3](https://github.com/SocialGouv/onvs/compare/v2.16.2...v2.16.3) (2021-06-16)
+
+
+### Bug Fixes
+
+* bug to see declaration detail for unauthentified users ([#141](https://github.com/SocialGouv/onvs/issues/141)) ([0923a58](https://github.com/SocialGouv/onvs/commit/0923a5807ab128bd2fe286608c8a9685fbbb6027))
+
 ## [2.16.2](https://github.com/SocialGouv/onvs/compare/v2.16.1...v2.16.2) (2021-06-15)
 
 
