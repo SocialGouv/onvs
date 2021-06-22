@@ -1,7 +1,6 @@
 import React from "react"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
-import { throttle } from "lodash"
 import { ArrowLeftIcon } from "@heroicons/react/solid"
 
 import prisma from "@/prisma/db"
@@ -69,12 +68,6 @@ const UserPage = ({ user }: { user: UserModel }): JSX.Element => {
     }
   }
 
-  // TODO: Why there is 2 possible calls between the throttle's timeout ?
-  const throttledOnUpdateUser = React.useCallback(
-    throttle(onUpdateUser, 2000),
-    [],
-  )
-
   return (
     <PrivateLayout
       title="Utilisateurs"
@@ -98,7 +91,7 @@ const UserPage = ({ user }: { user: UserModel }): JSX.Element => {
         fnPrimary={onDeleteUser}
       />
 
-      <UserForm user={user} onSubmit={throttledOnUpdateUser}>
+      <UserForm user={user} onSubmit={onUpdateUser}>
         <div className="flex justify-end">
           <OutlineButton onClick={() => router.push("/private/users")}>
             Annuler

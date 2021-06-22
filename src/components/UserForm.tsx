@@ -6,7 +6,7 @@ import * as yup from "yup"
 import { PartialUserModel, UserModel } from "@/models/users"
 import { yupResolver } from "@hookform/resolvers"
 import { rolesOptions, getRoleOption, SelectOption } from "@/utils/options"
-import { AlertInput } from "@/components/Form"
+import { AlertInput, InputText } from "@/components/Form"
 
 const formSchema = yup.object({
   id: yup.string().optional(),
@@ -68,63 +68,32 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
           </div>
           <div className="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 sm:grid-cols-6">
             <div className="sm:col-span-3">
-              <label
-                htmlFor="firstName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Prénom
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  name="firstName"
-                  id="firstName"
-                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  ref={register}
-                  aria-invalid={Boolean(errors.firstName)}
-                />
-                <AlertInput>{errors?.firstName?.message}</AlertInput>
-              </div>
+              <InputText
+                label="Prénom"
+                name="firstName"
+                register={register}
+                errors={errors}
+                requiredFlag={true}
+              />
             </div>
 
             <div className="sm:col-span-3">
-              <label
-                htmlFor="lastName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Nom
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  name="lastName"
-                  id="lastName"
-                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  ref={register}
-                  aria-invalid={Boolean(errors.lastName)}
-                />
-                <AlertInput>{errors?.lastName?.message}</AlertInput>
-              </div>
+              <InputText
+                label="Nom"
+                name="lastName"
+                register={register}
+                errors={errors}
+              />
             </div>
 
             <div className="sm:col-span-3">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Courriel
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  ref={register}
-                  aria-invalid={Boolean(errors.email)}
-                />
-                <AlertInput>{errors?.email?.message}</AlertInput>
-              </div>
+              <InputText
+                label="Courriel"
+                name="email"
+                register={register}
+                errors={errors}
+                requiredFlag={true}
+              />
             </div>
 
             <div className="sm:col-span-3">
@@ -149,23 +118,12 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
 
             {role?.value !== "Administrateur" && (
               <div className="sm:col-span-6">
-                <label
-                  htmlFor="scope"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Périmètre
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name="scope"
-                    id="scope"
-                    className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    ref={register}
-                    aria-invalid={Boolean(errors.scope)}
-                  />
-                  <AlertInput>{errors?.scope?.message}</AlertInput>
-                </div>
+                <InputText
+                  label="Périmètre"
+                  name="scope"
+                  register={register}
+                  errors={errors}
+                />
               </div>
             )}
           </div>

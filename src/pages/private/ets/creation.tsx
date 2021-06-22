@@ -1,6 +1,5 @@
 import React from "react"
 import { useRouter } from "next/router"
-import { throttle } from "lodash"
 import { ArrowLeftIcon } from "@heroicons/react/solid"
 
 import { createEts } from "@/clients/ets"
@@ -32,12 +31,6 @@ const EtsCreationPage = (): JSX.Element => {
     }
   }
 
-  // TODO: Why there is 2 possible calls between the throttle's timeout ?
-  const throttledOnCreateEts = React.useCallback(
-    throttle(onCreateEts, 2000),
-    [],
-  )
-
   return (
     <PrivateLayout
       title="Création d'un établissement"
@@ -50,19 +43,9 @@ const EtsCreationPage = (): JSX.Element => {
         </ButtonAnchor>
       }
     >
-      <Alert
-        message={message}
-        success={
-          <Alert.Success message={message}>
-            <Alert.Button
-              label="Retour à la liste"
-              fn={() => router.push("/private/ets")}
-            />
-          </Alert.Success>
-        }
-      ></Alert>
+      <Alert message={message}></Alert>
 
-      <EtsForm onSubmit={throttledOnCreateEts}>
+      <EtsForm onSubmit={onCreateEts}>
         <div className="flex justify-end">
           <OutlineButton onClick={() => router.push("/private/ets")}>
             Annuler

@@ -1,6 +1,5 @@
 import React from "react"
 import { useRouter } from "next/router"
-import { throttle } from "lodash"
 import { ArrowLeftIcon } from "@heroicons/react/solid"
 
 import PrivateLayout from "@/components/PrivateLayout"
@@ -32,12 +31,6 @@ const UserPage = (): JSX.Element => {
     }
   }
 
-  // TODO: Why there is 2 possible calls between the throttle's timeout ?
-  const throttledOnCreateUser = React.useCallback(
-    throttle(onCreateUser, 2000),
-    [],
-  )
-
   return (
     <PrivateLayout
       title="Utilisateurs"
@@ -50,19 +43,9 @@ const UserPage = (): JSX.Element => {
         </ButtonAnchor>
       }
     >
-      <Alert
-        message={message}
-        success={
-          <Alert.Success message={message}>
-            <Alert.Button
-              label="Retour à la liste"
-              fn={() => router.push("/private/users")}
-            />
-          </Alert.Success>
-        }
-      ></Alert>
+      <Alert message={message}></Alert>
 
-      <UserForm onSubmit={throttledOnCreateUser}>
+      <UserForm onSubmit={onCreateUser}>
         <div className="flex justify-end">
           <OutlineButton onClick={() => router.push("/private/users")}>
             Annuler

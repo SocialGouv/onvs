@@ -1,7 +1,6 @@
 import React from "react"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
-import { throttle } from "lodash"
 import { ArrowLeftIcon } from "@heroicons/react/solid"
 
 import prisma from "@/prisma/db"
@@ -73,12 +72,6 @@ const EtsEditionPage = ({ ets }: { ets: EtsModel }): JSX.Element => {
     }
   }
 
-  // TODO: Why there is 2 possible calls between the throttle's timeout ?
-  const throttledOnUpdateEts = React.useCallback(
-    throttle(onUpdateEts, 2000),
-    [],
-  )
-
   return (
     <PrivateLayout
       title="Établissement"
@@ -91,17 +84,7 @@ const EtsEditionPage = ({ ets }: { ets: EtsModel }): JSX.Element => {
         </ButtonAnchor>
       }
     >
-      <Alert
-        message={message}
-        success={
-          <Alert.Success message={message}>
-            <Alert.Button
-              label="Retour à la liste"
-              fn={() => router.push("/private/ets")}
-            />
-          </Alert.Success>
-        }
-      ></Alert>
+      <Alert message={message}></Alert>
 
       <Modal
         openModal={openModal}
@@ -112,7 +95,7 @@ const EtsEditionPage = ({ ets }: { ets: EtsModel }): JSX.Element => {
         fnPrimary={onDeleteEts}
       />
 
-      <EtsForm ets={ets} onSubmit={throttledOnUpdateEts}>
+      <EtsForm ets={ets} onSubmit={onUpdateEts}>
         <div className="flex justify-end">
           <OutlineButton onClick={() => router.push("/private/ets")}>
             Annuler
