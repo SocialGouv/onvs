@@ -152,7 +152,7 @@ const EtsForm = ({ ets, onSubmit, children }: Props): JSX.Element => {
                 />
 
                 <AlertInput>
-                  {(errors?.juridicStatus as FieldError).message}
+                  {(errors?.juridicStatus as FieldError)?.message}
                 </AlertInput>
               </div>
             </div>
