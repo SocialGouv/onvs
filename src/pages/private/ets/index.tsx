@@ -4,13 +4,13 @@ import { useRouter } from "next/router"
 import { useDebounce } from "use-debounce"
 
 import { Ets } from "@prisma/client"
-import { useList } from "@/hooks/useList"
 import Alert from "@/components/Alert"
 import Pagination from "@/components/Pagination"
 import PrivateLayout from "@/components/PrivateLayout"
 import Table from "@/components/Table"
-import { upperCaseFirstLetters } from "@/utils/string"
 import OutlineButton from "@/components/OutlineButton"
+import { useList } from "@/hooks/useList"
+import { upperCaseFirstLetters } from "@/utils/string"
 
 function EtsAdministration() {
   const router = useRouter()
@@ -68,6 +68,7 @@ function EtsAdministration() {
             <tr
               key={ets.id}
               onClick={() => router.push(`/private/ets/${ets.id}/edition`)}
+              className="cursor-pointer"
             >
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-gray-800">{ets.finesset}</div>

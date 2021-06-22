@@ -2,15 +2,17 @@ import React from "react"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { throttle } from "lodash"
+import { ArrowLeftIcon } from "@heroicons/react/solid"
 
+import prisma from "@/prisma/db"
+import { deleteUser, updateUser } from "@/clients/users"
+import { UserModel } from "@/models/users"
 import PrivateLayout from "@/components/PrivateLayout"
 import Modal from "@/components/Modal"
-import { deleteUser, updateUser } from "@/clients/users"
 import UserForm from "@/components/UserForm"
 import { PrimaryButton, OutlineButton } from "@/components/lib"
 import Alert, { AlertMessageType } from "@/components/Alert"
-import { UserModel } from "@/models/users"
-import prisma from "@/prisma/db"
+import ButtonAnchor from "@/components/Anchor"
 
 const UserPage = ({ user }: { user: UserModel }): JSX.Element => {
   const router = useRouter()
@@ -74,7 +76,17 @@ const UserPage = ({ user }: { user: UserModel }): JSX.Element => {
   )
 
   return (
-    <PrivateLayout title="Utilisateurs">
+    <PrivateLayout
+      title="Utilisateurs"
+      leftComponent={
+        <ButtonAnchor
+          LeftIconComponent={ArrowLeftIcon}
+          onClick={() => router.back()}
+        >
+          Retour
+        </ButtonAnchor>
+      }
+    >
       <Alert message={message}></Alert>
 
       <Modal

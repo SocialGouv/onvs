@@ -1,6 +1,6 @@
-import { useStateMachine } from "little-state-machine"
-import { useRouter } from "next/router"
 import React from "react"
+import { useRouter } from "next/router"
+import { useStateMachine } from "little-state-machine"
 
 import { PrimaryButton, Title1 } from "@/components/lib"
 import PrivateLayout from "@/components/PrivateLayout"

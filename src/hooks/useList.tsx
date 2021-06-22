@@ -19,7 +19,7 @@ type PaginatedData<T> = {
 type Props = {
   url: string
   pageIndex: number
-  search: string
+  search?: string
   setPageIndex: (number) => void
 }
 

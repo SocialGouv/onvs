@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { roles } from "@/utils/roles"
+import { roles } from "@/utils/options"
 import { User } from "@prisma/client"
 
 export const UserApiSchema = z.object({

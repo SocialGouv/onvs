@@ -15,16 +15,41 @@ test("A incorrect ets", () => {
   }).toThrow()
 })
 
-test("A correct ets", () => {
+test("An incorrect ets with not well formed department", () => {
   const id = faker.datatype.uuid()
   const finesset = faker.datatype.number({ min: 100000000, max: 999999999 })
+  const finessej = ""
   const town = faker.address.city()
+  const department = "2323"
 
   const ets = {
     id,
     finesset: String(finesset),
+    finessej,
     juridicStatus: JuridicStatus.Private, // faux
     town,
+    department,
+    rs: " CHU " + town,
+  }
+  expect(() => {
+    EtsApiSchema.parse(ets)
+  }).toThrow()
+})
+
+test("A correct ets", () => {
+  const id = faker.datatype.uuid()
+  const finesset = faker.datatype.number({ min: 100000000, max: 999999999 })
+  const finessej = ""
+  const town = faker.address.city()
+  const department = "94"
+
+  const ets = {
+    id,
+    finesset: String(finesset),
+    finessej,
+    juridicStatus: JuridicStatus.Private,
+    town,
+    department,
     rs: " CHU " + town,
   }
 

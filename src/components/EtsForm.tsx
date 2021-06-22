@@ -1,16 +1,16 @@
 import React from "react"
-import { useForm, Controller } from "react-hook-form"
+import { useForm, Controller, FieldError } from "react-hook-form"
 import Select from "react-select"
 import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers"
 
 import { EtsModel, PartialEtsModel } from "@/models/ets"
-import { yupResolver } from "@hookform/resolvers"
+import { AlertInput, InputText } from "@/components/Form"
 import {
   getJuridicStatusOption,
   juridicStatus,
   juridicStatusOptions,
 } from "@/utils/options"
-import { AlertInput, InputText } from "@/components/Form"
 
 const formSchema = yup.object({
   id: yup.string().uuid(),
@@ -150,7 +150,10 @@ const EtsForm = ({ ets, onSubmit, children }: Props): JSX.Element => {
                   placeholder="Choisir..."
                   aria-invalid={Boolean(errors.juridicStatus)}
                 />
-                <AlertInput>{errors?.juridicStatus?.message}</AlertInput>
+
+                <AlertInput>
+                  {(errors?.juridicStatus as FieldError).message}
+                </AlertInput>
               </div>
             </div>
           </div>

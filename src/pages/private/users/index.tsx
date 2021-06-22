@@ -3,12 +3,11 @@ import { GetServerSideProps } from "next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
+import prisma from "@/prisma/db"
+import { UserModel } from "@/models/users"
 import PrivateLayout from "@/components/PrivateLayout"
 import { OutlineButton } from "@/components/lib"
-import prisma from "@/prisma/db"
 import Table from "@/components/Table"
-
-import { UserModel } from "@/models/users"
 
 const UsersListPage = ({ users }: { users: UserModel[] }): JSX.Element => {
   const router = useRouter()
@@ -40,6 +39,7 @@ const UsersListPage = ({ users }: { users: UserModel[] }): JSX.Element => {
           <tr
             key={person.email}
             onClick={() => router.push(`/private/users/${person.id}/edition`)}
+            className="cursor-pointer"
           >
             <td className="px-6 py-4 whitespace-nowrap">
               <div className="text-sm text-gray-900">{person.firstName}</div>

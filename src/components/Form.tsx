@@ -1,4 +1,5 @@
 import React from "react"
+import { FieldError } from "react-hook-form"
 
 export const Form = ({
   children,
@@ -51,7 +52,7 @@ export const InputText = ({
           autoComplete="off"
           aria-invalid={Boolean(errors[name])}
         />
-        <AlertInput>{errors[name]?.message}</AlertInput>
+        <AlertInput>{(errors[name] as FieldError)?.message}</AlertInput>
       </div>
     </label>
   </>

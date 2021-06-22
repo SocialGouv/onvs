@@ -1,16 +1,17 @@
+import React from "react"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { format } from "date-fns"
+
+import { Declaration } from "@prisma/client"
 import Alert from "@/components/Alert"
 import Pagination from "@/components/Pagination"
 import PrivateLayout from "@/components/PrivateLayout"
 import Table from "@/components/Table"
-import { FORMAT_DATE } from "@/utils/constants"
-import { upperCaseFirstLetters } from "@/utils/string"
-import { Declaration } from "@prisma/client"
-import { format } from "date-fns"
-import Link from "next/link"
-import React from "react"
 import { BadgeType } from "@/components/BadgeType"
 import { useList } from "@/hooks/useList"
-import { useRouter } from "next/router"
+import { FORMAT_DATE } from "@/utils/constants"
+import { upperCaseFirstLetters } from "@/utils/string"
 
 function composeContactAgreementLabel(data) {
   return data === "true" ? (
@@ -31,12 +32,10 @@ function composeContactAgreementLabel(data) {
 function DeclarationAdministration() {
   const router = useRouter()
   const [pageIndex, setPageIndex] = React.useState(0)
-  const [search, setSearch] = React.useState("")
 
   const paginatedData = useList<Declaration>({
     url: "/api/declarations",
     pageIndex,
-    search,
     setPageIndex,
   })
 
@@ -71,6 +70,7 @@ function DeclarationAdministration() {
             <tr
               key={declaration.id}
               onClick={() => router.push(`/declaration/${declaration.id}`)}
+              className="cursor-pointer"
             >
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-gray-900">

@@ -2,15 +2,17 @@ import React from "react"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { throttle } from "lodash"
+import { ArrowLeftIcon } from "@heroicons/react/solid"
 
+import prisma from "@/prisma/db"
+import { deleteEts, updateEts } from "@/clients/ets"
+import { EtsModel } from "@/models/ets"
 import PrivateLayout from "@/components/PrivateLayout"
 import Modal from "@/components/Modal"
-import { deleteEts, updateEts } from "@/clients/ets"
 import EtsForm from "@/components/EtsForm"
 import { PrimaryButton, OutlineButton } from "@/components/lib"
 import Alert, { AlertMessageType } from "@/components/Alert"
-import { EtsModel } from "@/models/ets"
-import prisma from "@/prisma/db"
+import ButtonAnchor from "@/components/Anchor"
 
 const EtsEditionPage = ({ ets }: { ets: EtsModel }): JSX.Element => {
   const router = useRouter()
@@ -78,7 +80,17 @@ const EtsEditionPage = ({ ets }: { ets: EtsModel }): JSX.Element => {
   )
 
   return (
-    <PrivateLayout title="Établissement">
+    <PrivateLayout
+      title="Établissement"
+      leftComponent={
+        <ButtonAnchor
+          LeftIconComponent={ArrowLeftIcon}
+          onClick={() => router.back()}
+        >
+          Retour
+        </ButtonAnchor>
+      }
+    >
       <Alert
         message={message}
         success={
