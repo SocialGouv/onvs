@@ -11,7 +11,7 @@ export enum JuridicStatus {
 export const EtsApiSchema = z.object({
   id: z.string().uuid().optional(),
   finesset: z.string().length(9),
-  finessej: z.string().length(9).optional(),
+  finessej: z.string().length(9).or(z.literal("")),
   rs: z.string(),
   town: z.string(),
   department: z.string(),

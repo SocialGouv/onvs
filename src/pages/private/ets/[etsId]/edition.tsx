@@ -79,7 +79,17 @@ const EtsEditionPage = ({ ets }: { ets: EtsModel }): JSX.Element => {
 
   return (
     <PrivateLayout title="Établissement">
-      <Alert message={message}></Alert>
+      <Alert
+        message={message}
+        success={
+          <Alert.Success message={message}>
+            <Alert.Button
+              label="Retour à la liste"
+              fn={() => router.push("/private/ets")}
+            />
+          </Alert.Success>
+        }
+      ></Alert>
 
       <Modal
         openModal={openModal}
