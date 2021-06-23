@@ -12,17 +12,50 @@ import OutlineButton from "@/components/OutlineButton"
 import { useList } from "@/hooks/useList"
 import { upperCaseFirstLetters } from "@/utils/string"
 
+import { DEFAULT_PAGE_SIZE } from "@/utils/pagination"
+
 function EtsAdministration() {
   const router = useRouter()
-  const [pageIndex, setPageIndex] = React.useState(0)
-  const [search, setSearch] = React.useState("")
+  // const [pageIndex, setPageIndex] = React.useState(0)
+
+  const initialSearch = Array.isArray(router?.query?.search)
+    ? router.query.search[0]
+    : router.query.search || ""
+
+  const [search, setSearch] = React.useState(initialSearch)
   const [debouncedSearch] = useDebounce(search, 400)
+
+  // Je veux gérer l'affichage de la page et des données associées, à partir des params de l'url : pageIndex, pageSize, search.
+  // Mon idée est de faire une pagination qui modifie l'url du navigateur, ce qui présente plusieurs avantages :
+  // - avoir une url partageable
+  // - pouvoir faire un router.replace, qui permet quand on est sur la page de détail et qu'on fait back, de revenir sur le filtre qu'on a fait précédemment
+
+  console.log("pageIndex", router?.query?.pageIndex)
+
+  React.useEffect(() => {
+    console.log("dans le useEffect debounce")
+    const path = router.asPath
+
+    const [basePath, ...searchParams] = path.split("?")
+
+    const urlParams = new URLSearchParams(searchParams.join("&"))
+
+    urlParams.set("search", debouncedSearch)
+
+    router.replace(basePath + "?" + urlParams.toString())
+  }, [debouncedSearch])
+
+  const { pageIndex: pageIndexQuery, pageSize: pageSizeInQuery } = router.query
+
+  const pageIndex = Number(pageIndexQuery) || 0
+  const pageSize = Number(pageSizeInQuery) || DEFAULT_PAGE_SIZE
 
   const paginatedData = useList<Ets>({
     url: "/api/ets",
     pageIndex,
+    pageSize,
     search: debouncedSearch,
-    setPageIndex,
+    router,
   })
 
   const { message, list } = paginatedData

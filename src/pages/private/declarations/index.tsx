@@ -36,7 +36,7 @@ function DeclarationAdministration() {
   const paginatedData = useList<Declaration>({
     url: "/api/declarations",
     pageIndex,
-    setPageIndex,
+    router,
   })
 
   const { isLoading, message, list } = paginatedData

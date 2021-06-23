@@ -1,5 +1,6 @@
 import { AlertMessageType } from "@/components/Alert"
 import fetcher from "@/utils/fetcher"
+import { NextRouter } from "next/router"
 import useSWR, { SWRResponse } from "swr"
 
 // NB: the API must accept 3 variables.
@@ -19,8 +20,9 @@ type PaginatedData<T> = {
 type Props = {
   url: string
   pageIndex: number
+  pageSize?: number
   search?: string
-  setPageIndex: (number) => void
+  router: NextRouter
 }
 
 type ReturnType<T> = {
@@ -39,27 +41,52 @@ type ReturnType<T> = {
 export function useList<T>({
   url,
   pageIndex,
+  pageSize = 50,
   search,
-  setPageIndex,
+  router,
 }: Props): ReturnType<T> {
-  const key = !search
-    ? `${url}?pageIndex=${pageIndex}`
-    : `${url}?pageIndex=${pageIndex}&search=${search}`
+  const params = { pageIndex, pageSize, search }
 
-  const goToNextPage = () => setPageIndex(pageIndex + 1)
-  const goToPreviousPage = () =>
-    pageIndex > 0 ? setPageIndex(pageIndex - 1) : 0
+  const urlParams = new URLSearchParams()
+
+  for (const param in params) {
+    if (params[param] || params[param] === 0) {
+      urlParams.set(param, params[param])
+    }
+  }
+
+  console.log("urlParams", urlParams.toString())
 
   const { data, error }: SWRResponse<PaginatedData<T>, Error> = useSWR(
-    key,
+    url + "?" + urlParams.toString(),
     fetcher,
   )
 
   const isLoading = !error && !data
 
+  const basePath = router.asPath.split("?")[0]
+
   // Synchronize the pageIndex if the page index returned by the server is different.
-  if (data?.pageIndex !== pageIndex && data?.pageIndex)
-    setPageIndex(data?.pageIndex)
+  if (data && data.pageIndex !== pageIndex) {
+    console.log("désynchro serveur client", data.pageIndex)
+    urlParams.set("pageIndex", String(data.pageIndex))
+
+    // Need a refetch with the newly value for pageIndex.
+    router.replace(basePath + "?" + urlParams.toString())
+  }
+
+  const goToNextPage = () => {
+    const params = new URLSearchParams(urlParams.toString())
+    params.set("pageIndex", String(pageIndex + 1))
+
+    router.replace(basePath + "?" + params.toString())
+  }
+  const goToPreviousPage = () => {
+    const params = new URLSearchParams(urlParams.toString())
+    params.set("pageIndex", pageIndex > 0 ? String(pageIndex - 1) : "0")
+
+    router.replace(basePath + "?" + params.toString())
+  }
 
   const message: AlertMessageType = error && {
     text: "Erreur de récupération des données",
@@ -68,7 +95,7 @@ export function useList<T>({
 
   const list = data?.data
   const totalCount = data?.totalCount || 0
-  const pageSize = data?.pageSize || 50
+  // const pageSize = data?.pageSize || 50
   const totalPages = data?.totalPages || 0
 
   const firstElement = pageIndex * pageSize + 1
