@@ -2,6 +2,8 @@ import { AlertMessageType } from "@/components/Alert"
 import fetcher from "@/utils/fetcher"
 import { NextRouter } from "next/router"
 import useSWR, { SWRResponse } from "swr"
+import { DEFAULT_PAGE_SIZE } from "@/utils/pagination"
+import { ParsedUrlQuery } from "querystring"
 
 // NB: the API must accept 3 variables.
 // - pageIndex for the number of the page
@@ -18,7 +20,7 @@ type PaginatedData<T> = {
 }
 
 type Props = {
-  url: string
+  apiUrl: string
   pageIndex: number
   pageSize?: number
   search?: string
@@ -38,54 +40,98 @@ type ReturnType<T> = {
   lastElement: number
 }
 
+// Update the URL bar & refreshing the page with the new filters.
+// This has the advantage to have the back button to be working in CSR.
+// In SSR though, the filter can't be returned, since router.query is returned in a second time. May be there is a solution for that?
+export function refreshPageWithFilters(
+  router: NextRouter,
+  options: Record<string, string>,
+): void {
+  const path = router.asPath
+  const [pathName, searchParams] = path.split("?")
+  const newSearchParams = buildSearchParams(searchParams, options)
+
+  console.log({ newSearchParams: newSearchParams.toString() })
+  router.replace(pathName + "?" + newSearchParams.toString())
+}
+
+export function buildSearchParams(
+  searchParams: string,
+  options: Record<string, string | undefined>,
+): URLSearchParams {
+  const newSearchParams = new URLSearchParams(searchParams)
+
+  for (const param in options) {
+    if (options[param] !== undefined) {
+      newSearchParams.set(param, options[param]!)
+    }
+  }
+
+  return newSearchParams
+}
+
+// Extract and normalize pageIndex and pageSize.
+export function extractPaginationVariables(query: ParsedUrlQuery): {
+  pageIndex: number
+  pageSize: number
+} {
+  const { pageIndex: pageIndexQuery, pageSize: pageSizeInQuery } = query
+
+  return {
+    pageIndex: Number(pageIndexQuery) || 0,
+    pageSize: Number(pageSizeInQuery) || DEFAULT_PAGE_SIZE,
+  }
+}
+
+// A variable returned by router.query may be an array of string, a string or undefined. We assume & ensure to always have a simple string or undefined.
+export const normalizeSingleValueExpectedQuery = (
+  query?: string[] | string,
+): string => (Array.isArray(query) ? query[0] : query || "")
+
+/** Hook */
 export function useList<T>({
-  url,
+  apiUrl,
   pageIndex,
   pageSize = 50,
   search,
   router,
 }: Props): ReturnType<T> {
-  const params = { pageIndex, pageSize, search }
+  // We need to retrieve the params from URL bar, since search is not in the useList at first (because of debounce).
+  const currentSearchParams = router.asPath.split("?")?.[1] || ""
 
-  const urlParams = new URLSearchParams()
-
-  for (const param in params) {
-    if (params[param] || params[param] === 0) {
-      urlParams.set(param, params[param])
-    }
-  }
-
-  console.log("urlParams", urlParams.toString())
+  const urlParams = buildSearchParams(currentSearchParams, {
+    pageIndex: String(pageIndex),
+    pageSize: String(pageSize),
+    search,
+  })
 
   const { data, error }: SWRResponse<PaginatedData<T>, Error> = useSWR(
-    url + "?" + urlParams.toString(),
+    apiUrl + "?" + urlParams.toString(),
     fetcher,
   )
 
   const isLoading = !error && !data
 
-  const basePath = router.asPath.split("?")[0]
+  const [pathName] = router.asPath.split("?")
 
   // Synchronize the pageIndex if the page index returned by the server is different.
   if (data && data.pageIndex !== pageIndex) {
-    console.log("désynchro serveur client", data.pageIndex)
+    console.error("désynchro serveur client", data.pageIndex)
     urlParams.set("pageIndex", String(data.pageIndex))
 
     // Need a refetch with the newly value for pageIndex.
-    router.replace(basePath + "?" + urlParams.toString())
+    router.replace(pathName + "?" + urlParams.toString())
   }
 
   const goToNextPage = () => {
     const params = new URLSearchParams(urlParams.toString())
     params.set("pageIndex", String(pageIndex + 1))
-
-    router.replace(basePath + "?" + params.toString())
+    router.replace(pathName + "?" + params.toString())
   }
   const goToPreviousPage = () => {
     const params = new URLSearchParams(urlParams.toString())
     params.set("pageIndex", pageIndex > 0 ? String(pageIndex - 1) : "0")
-
-    router.replace(basePath + "?" + params.toString())
+    router.replace(pathName + "?" + params.toString())
   }
 
   const message: AlertMessageType = error && {
@@ -95,7 +141,6 @@ export function useList<T>({
 
   const list = data?.data
   const totalCount = data?.totalCount || 0
-  // const pageSize = data?.pageSize || 50
   const totalPages = data?.totalPages || 0
 
   const firstElement = pageIndex * pageSize + 1

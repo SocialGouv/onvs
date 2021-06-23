@@ -9,49 +9,40 @@ import Pagination from "@/components/Pagination"
 import PrivateLayout from "@/components/PrivateLayout"
 import Table from "@/components/Table"
 import OutlineButton from "@/components/OutlineButton"
-import { useList } from "@/hooks/useList"
+import {
+  useList,
+  normalizeSingleValueExpectedQuery,
+  refreshPageWithFilters,
+  extractPaginationVariables,
+} from "@/hooks/useList"
 import { upperCaseFirstLetters } from "@/utils/string"
 
-import { DEFAULT_PAGE_SIZE } from "@/utils/pagination"
-
-function EtsAdministration() {
+/** Page component */
+function EtsAdministrationPage() {
   const router = useRouter()
-  // const [pageIndex, setPageIndex] = React.useState(0)
-
-  const initialSearch = Array.isArray(router?.query?.search)
-    ? router.query.search[0]
-    : router.query.search || ""
-
+  console.log("query", router?.query)
+  const initialSearch = normalizeSingleValueExpectedQuery(router?.query?.search)
   const [search, setSearch] = React.useState(initialSearch)
   const [debouncedSearch] = useDebounce(search, 400)
 
-  // Je veux gérer l'affichage de la page et des données associées, à partir des params de l'url : pageIndex, pageSize, search.
-  // Mon idée est de faire une pagination qui modifie l'url du navigateur, ce qui présente plusieurs avantages :
-  // - avoir une url partageable
-  // - pouvoir faire un router.replace, qui permet quand on est sur la page de détail et qu'on fait back, de revenir sur le filtre qu'on a fait précédemment
-
-  console.log("pageIndex", router?.query?.pageIndex)
+  // Mon problème est que router?.query est vide au démarrage (limitation de Next).
+  // Donc debouncedSearch, lance ce useEffect avec une option qui a la propriété search à "".
+  // Le refreshPageWithFilters récupère donc les pageSize et pageIndex via l'URL mais pas le search.
+  // Comment différencier le cas où le search est vide car Next ne l'a pas encore envoyé de la chaîne vide, cas possible quand l'utilisateur réinitialise son filtre?
 
   React.useEffect(() => {
-    console.log("dans le useEffect debounce")
-    const path = router.asPath
-
-    const [basePath, ...searchParams] = path.split("?")
-
-    const urlParams = new URLSearchParams(searchParams.join("&"))
-
-    urlParams.set("search", debouncedSearch)
-
-    router.replace(basePath + "?" + urlParams.toString())
+    refreshPageWithFilters(router, { search: debouncedSearch })
   }, [debouncedSearch])
 
-  const { pageIndex: pageIndexQuery, pageSize: pageSizeInQuery } = router.query
-
-  const pageIndex = Number(pageIndexQuery) || 0
-  const pageSize = Number(pageSizeInQuery) || DEFAULT_PAGE_SIZE
+  const { pageIndex, pageSize } = extractPaginationVariables(router.query)
+  console.log("search", search)
+  console.log("initial", router?.query?.search)
+  console.log("debouncedSearch", debouncedSearch)
+  console.log("pageIndex", pageIndex)
+  console.log("pageSize", pageSize)
 
   const paginatedData = useList<Ets>({
-    url: "/api/ets",
+    apiUrl: "/api/ets",
     pageIndex,
     pageSize,
     search: debouncedSearch,
@@ -127,4 +118,4 @@ function EtsAdministration() {
   )
 }
 
-export default EtsAdministration as React.ReactNode
+export default EtsAdministrationPage as React.ReactNode
