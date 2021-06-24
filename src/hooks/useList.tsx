@@ -30,8 +30,8 @@ type Props = {
 type ReturnType<T> = {
   error: Error | undefined
   isLoading: boolean
-  goToNextPage: () => void
-  goToPreviousPage: () => void
+  urlNextPage: string
+  urlPreviousPage: string
   message: AlertMessageType
   list: T[] | undefined
   totalCount: number
@@ -67,14 +67,17 @@ export function refreshPageWithFilters(
   options: Record<string, string>,
 ): void {
   const { pathName, searchParams } = extractPathAndSearchParams(router)
-  const newSearchParams = addSearchParams(searchParams, options)
+  const newSearchParams = addInSearchParams(searchParams, options)
   router.replace(pathName + "?" + newSearchParams.toString())
 }
 
-export function addSearchParams(
-  searchParams: URLSearchParams,
+export function addInSearchParams(
+  searchParams: URLSearchParams | null,
   options: Record<string, string | undefined>,
 ): URLSearchParams {
+  if (!searchParams) {
+    searchParams = new URLSearchParams()
+  }
   for (const param in options) {
     if (options[param] !== undefined) {
       searchParams.set(param, options[param]!)
@@ -106,42 +109,37 @@ export function useList<T>({
   router,
 }: Props): ReturnType<T> {
   // We need to retrieve the params from URL bar, since search is not in the useList at first (because of debounce).
-  const { searchParams } = extractPathAndSearchParams(router)
+  const { pathName } = extractPathAndSearchParams(router)
 
-  const urlParams = addSearchParams(searchParams, {
+  const searchParams = addInSearchParams(null, {
     pageIndex: String(pageIndex),
     pageSize: String(pageSize),
     search,
   })
 
   const { data, error }: SWRResponse<PaginatedData<T>, Error> = useSWR(
-    apiUrl + "?" + urlParams.toString(),
+    apiUrl + "?" + searchParams.toString(),
     fetcher,
   )
 
   const isLoading = !error && !data
 
-  const [pathName] = router.asPath.split("?")
-
   // Synchronize the pageIndex if the page index returned by the server is different.
   if (data && data.pageIndex !== pageIndex) {
     console.error("désynchro serveur client", data.pageIndex)
-    urlParams.set("pageIndex", String(data.pageIndex))
+    searchParams.set("pageIndex", String(data.pageIndex))
 
     // Need a refetch with the new value for pageIndex.
-    router.replace(pathName + "?" + urlParams.toString())
+    router.replace(pathName + "?" + searchParams.toString())
   }
 
-  const goToNextPage = () => {
-    const params = new URLSearchParams(urlParams.toString())
-    params.set("pageIndex", String(pageIndex + 1))
-    router.replace(pathName + "?" + params.toString())
-  }
-  const goToPreviousPage = () => {
-    const params = new URLSearchParams(urlParams.toString())
-    params.set("pageIndex", pageIndex > 0 ? String(pageIndex - 1) : "0")
-    router.replace(pathName + "?" + params.toString())
-  }
+  let params = new URLSearchParams(searchParams.toString())
+  params.set("pageIndex", String(pageIndex + 1))
+  const urlNextPage = pathName + "?" + params.toString()
+
+  params = new URLSearchParams(searchParams.toString())
+  params.set("pageIndex", pageIndex > 0 ? String(pageIndex - 1) : "0")
+  const urlPreviousPage = pathName + "?" + params.toString()
 
   const message: AlertMessageType = error && {
     text: "Erreur de récupération des données",
@@ -158,8 +156,8 @@ export function useList<T>({
   return {
     error,
     isLoading,
-    goToNextPage,
-    goToPreviousPage,
+    urlNextPage,
+    urlPreviousPage,
     message,
     list,
     totalCount,

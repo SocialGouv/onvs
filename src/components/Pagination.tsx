@@ -1,17 +1,19 @@
+import Link from "next/link"
+
 export default function Pagination({
   firstElement,
   lastElement,
   totalCount,
-  goToPreviousPage,
-  goToNextPage,
+  urlPreviousPage,
+  urlNextPage,
   pageIndex,
   totalPages,
 }: {
   firstElement: number
   lastElement: number
   totalCount: number
-  goToPreviousPage: () => void
-  goToNextPage: () => void
+  urlPreviousPage: string
+  urlNextPage: string
   pageIndex: number
   totalPages: number
 }): JSX.Element {
@@ -31,20 +33,22 @@ export default function Pagination({
         </p>
       </div>
       <div className="flex justify-between flex-1 sm:justify-end">
-        <button
-          className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50"
-          onClick={goToPreviousPage}
-          disabled={!canGoToPreviousPage}
-        >
-          Précédent
-        </button>
-        <button
-          className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50"
-          onClick={goToNextPage}
-          disabled={!canGoToNextPage}
-        >
-          Suivant
-        </button>
+        <Link href={urlPreviousPage}>
+          <button
+            className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50"
+            disabled={!canGoToPreviousPage}
+          >
+            Précédent
+          </button>
+        </Link>
+        <Link href={urlNextPage}>
+          <button
+            className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50"
+            disabled={!canGoToNextPage}
+          >
+            Suivant
+          </button>
+        </Link>
       </div>
     </nav>
   )
