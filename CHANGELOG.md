@@ -1,3 +1,10 @@
+# [2.17.0](https://github.com/SocialGouv/onvs/compare/v2.16.4...v2.17.0) (2021-06-24)
+
+
+### Features
+
+* crud for ETS ([#145](https://github.com/SocialGouv/onvs/issues/145)) ([3522566](https://github.com/SocialGouv/onvs/commit/3522566b71b94b72c332b5d227028ffcf58ad7aa))
+
 ## [2.16.4](https://github.com/SocialGouv/onvs/compare/v2.16.3...v2.16.4) (2021-06-21)
 
 
