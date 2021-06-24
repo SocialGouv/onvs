@@ -1,3 +1,10 @@
+## [2.17.1](https://github.com/SocialGouv/onvs/compare/v2.17.0...v2.17.1) (2021-06-24)
+
+
+### Bug Fixes
+
+* bad usage of useUser for non private pages ([#147](https://github.com/SocialGouv/onvs/issues/147)) ([cc88555](https://github.com/SocialGouv/onvs/commit/cc885557117dfe9ae5cf4e7af17ce1e6e5a5f2fb))
+
 # [2.17.0](https://github.com/SocialGouv/onvs/compare/v2.16.4...v2.17.0) (2021-06-24)
 
 
