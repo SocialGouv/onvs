@@ -11,35 +11,24 @@ import Table from "@/components/Table"
 import OutlineButton from "@/components/OutlineButton"
 import {
   useList,
-  normalizeSingleValueExpectedQuery,
   refreshPageWithFilters,
   extractPaginationVariables,
+  extractPathAndSearchParams,
 } from "@/hooks/useList"
 import { upperCaseFirstLetters } from "@/utils/string"
 
-/** Page component */
 function EtsAdministrationPage() {
   const router = useRouter()
-  console.log("query", router?.query)
-  const initialSearch = normalizeSingleValueExpectedQuery(router?.query?.search)
-  const [search, setSearch] = React.useState(initialSearch)
+  // We need to get "search" from the URL bar to populate the state.
+  const { searchParams } = extractPathAndSearchParams(router)
+  const [search, setSearch] = React.useState(searchParams?.get("search") || "")
   const [debouncedSearch] = useDebounce(search, 400)
-
-  // Mon problème est que router?.query est vide au démarrage (limitation de Next).
-  // Donc debouncedSearch, lance ce useEffect avec une option qui a la propriété search à "".
-  // Le refreshPageWithFilters récupère donc les pageSize et pageIndex via l'URL mais pas le search.
-  // Comment différencier le cas où le search est vide car Next ne l'a pas encore envoyé de la chaîne vide, cas possible quand l'utilisateur réinitialise son filtre?
 
   React.useEffect(() => {
     refreshPageWithFilters(router, { search: debouncedSearch })
   }, [debouncedSearch])
 
   const { pageIndex, pageSize } = extractPaginationVariables(router.query)
-  console.log("search", search)
-  console.log("initial", router?.query?.search)
-  console.log("debouncedSearch", debouncedSearch)
-  console.log("pageIndex", pageIndex)
-  console.log("pageSize", pageSize)
 
   const paginatedData = useList<Ets>({
     apiUrl: "/api/ets",

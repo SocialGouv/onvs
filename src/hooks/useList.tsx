@@ -23,7 +23,7 @@ type Props = {
   apiUrl: string
   pageIndex: number
   pageSize?: number
-  search?: string
+  search?: string // TODO : make filters more generic
   router: NextRouter
 }
 
@@ -40,6 +40,25 @@ type ReturnType<T> = {
   lastElement: number
 }
 
+/**
+ * Extract the pathname and the search params from the asPath of the router instance.
+ *
+ * This is necessary, because Next doesn't return a full router.query at first for static page.
+ * So, in order to use the URL infos in a static page, you need to base you on this lower level mechanism.
+ *
+ * @param router
+ * @returns
+ */
+export const extractPathAndSearchParams = (
+  router: NextRouter,
+): { pathName: string; searchParams: URLSearchParams } => {
+  const [pathName, searchParams] = router.asPath.split("?")
+  return {
+    pathName,
+    searchParams: new URLSearchParams(searchParams),
+  }
+}
+
 // Update the URL bar & refreshing the page with the new filters.
 // This has the advantage to have the back button to be working in CSR.
 // In SSR though, the filter can't be returned, since router.query is returned in a second time. May be there is a solution for that?
@@ -47,27 +66,22 @@ export function refreshPageWithFilters(
   router: NextRouter,
   options: Record<string, string>,
 ): void {
-  const path = router.asPath
-  const [pathName, searchParams] = path.split("?")
-  const newSearchParams = buildSearchParams(searchParams, options)
-
-  console.log({ newSearchParams: newSearchParams.toString() })
+  const { pathName, searchParams } = extractPathAndSearchParams(router)
+  const newSearchParams = addSearchParams(searchParams, options)
   router.replace(pathName + "?" + newSearchParams.toString())
 }
 
-export function buildSearchParams(
-  searchParams: string,
+export function addSearchParams(
+  searchParams: URLSearchParams,
   options: Record<string, string | undefined>,
 ): URLSearchParams {
-  const newSearchParams = new URLSearchParams(searchParams)
-
   for (const param in options) {
     if (options[param] !== undefined) {
-      newSearchParams.set(param, options[param]!)
+      searchParams.set(param, options[param]!)
     }
   }
 
-  return newSearchParams
+  return searchParams
 }
 
 // Extract and normalize pageIndex and pageSize.
@@ -83,11 +97,6 @@ export function extractPaginationVariables(query: ParsedUrlQuery): {
   }
 }
 
-// A variable returned by router.query may be an array of string, a string or undefined. We assume & ensure to always have a simple string or undefined.
-export const normalizeSingleValueExpectedQuery = (
-  query?: string[] | string,
-): string => (Array.isArray(query) ? query[0] : query || "")
-
 /** Hook */
 export function useList<T>({
   apiUrl,
@@ -97,9 +106,9 @@ export function useList<T>({
   router,
 }: Props): ReturnType<T> {
   // We need to retrieve the params from URL bar, since search is not in the useList at first (because of debounce).
-  const currentSearchParams = router.asPath.split("?")?.[1] || ""
+  const { searchParams } = extractPathAndSearchParams(router)
 
-  const urlParams = buildSearchParams(currentSearchParams, {
+  const urlParams = addSearchParams(searchParams, {
     pageIndex: String(pageIndex),
     pageSize: String(pageSize),
     search,
@@ -119,7 +128,7 @@ export function useList<T>({
     console.error("désynchro serveur client", data.pageIndex)
     urlParams.set("pageIndex", String(data.pageIndex))
 
-    // Need a refetch with the newly value for pageIndex.
+    // Need a refetch with the new value for pageIndex.
     router.replace(pathName + "?" + urlParams.toString())
   }
 
