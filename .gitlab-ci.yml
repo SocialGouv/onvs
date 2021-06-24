@@ -28,3 +28,31 @@ Register Kaniko image:
   extends: .autodevops_register_kaniko_image
   variables:
     IMAGE_NAME: onvs-app
+
+
+Create seeds DB (dev):
+    stage: Seed
+    allow_failure: true
+    environment:
+        name: ${CI_COMMIT_REF_NAME}-dev
+        url: https://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
+    image:
+        name: node:14
+    only:
+        refs:
+            - branches
+    except:
+        refs:
+            - master
+        variables:
+            # Don't run when deploying in production or releasing
+            - $PRODUCTION
+            - $RELEASE
+    variables:
+        POSTGRES_SSL: "true"
+        PGHOST: onvsdevserver.postgres.database.azure.com
+        DATABASE_URL: postgresql://user_${CI_COMMIT_SHORT_SHA}%40${PGHOST}:password_${CI_COMMIT_SHORT_SHA}@${PGHOST}/autodevops_${CI_COMMIT_SHORT_SHA}?sslmode=require
+    script:
+        - yarn --frozen-lockfile
+        - yarn migrate:latest
+        - yarn seed:run:staging
