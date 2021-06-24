@@ -7,6 +7,7 @@ import PrivateLayout from "@/components/PrivateLayout"
 import { OutlineButton } from "@/components/lib"
 import Table from "@/components/Table"
 import Pagination from "@/components/Pagination"
+import { InputSearch } from "@/components/Form"
 import Alert from "@/components/Alert"
 import {
   extractPaginationVariables,
@@ -33,7 +34,7 @@ const UsersListPage = (): JSX.Element => {
     apiUrl: "/api/users",
     pageIndex,
     pageSize,
-    search,
+    search: debouncedSearch,
     router,
   })
 
@@ -53,13 +54,9 @@ const UsersListPage = (): JSX.Element => {
       }
     >
       <Alert message={message} />
-      <input
-        type="text"
-        name="search"
+      <InputSearch
         id="search"
-        className="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         placeholder="Rechercher par nom ou par courriel"
-        autoComplete="off"
         onChange={(e) => setSearch(e.target.value)}
         value={search}
       />

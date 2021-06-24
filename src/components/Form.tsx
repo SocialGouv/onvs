@@ -57,3 +57,28 @@ export const InputText = ({
     </label>
   </>
 )
+
+export const InputSearch = ({
+  id,
+  name,
+  placeholder,
+  onChange,
+  value,
+}: {
+  id: string
+  name?: string
+  placeholder?: string
+  onChange: React.ChangeEventHandler<HTMLInputElement>
+  value: string
+}): JSX.Element => (
+  <input
+    type="search"
+    name={name || id}
+    id={id}
+    className="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+    placeholder={placeholder || "Recherche..."}
+    autoComplete="off"
+    onChange={onChange}
+    value={value}
+  />
+)

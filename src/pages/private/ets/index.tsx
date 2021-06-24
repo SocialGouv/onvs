@@ -16,6 +16,7 @@ import {
   extractPathAndSearchParams,
 } from "@/hooks/useList"
 import { upperCaseFirstLetters } from "@/utils/string"
+import { InputSearch } from "@/components/Form"
 
 function EtsAdministrationPage() {
   const router = useRouter()
@@ -54,13 +55,10 @@ function EtsAdministrationPage() {
       }
     >
       <Alert message={message} />
-      <input
-        type="text"
-        name="search"
+
+      <InputSearch
         id="search"
-        className="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         placeholder="Rechercher par FINESS ou raison sociale"
-        autoComplete="off"
         onChange={(e) => setSearch(e.target.value)}
         value={search}
       />
