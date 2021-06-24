@@ -9,7 +9,7 @@ import Pagination from "@/components/Pagination"
 import PrivateLayout from "@/components/PrivateLayout"
 import Table from "@/components/Table"
 import { BadgeType } from "@/components/BadgeType"
-import { useList } from "@/hooks/useList"
+import { extractPaginationVariables, useList } from "@/hooks/useList"
 import { FORMAT_DATE } from "@/utils/constants"
 import { upperCaseFirstLetters } from "@/utils/string"
 
@@ -31,11 +31,13 @@ function composeContactAgreementLabel(data) {
 
 function DeclarationAdministration() {
   const router = useRouter()
-  const [pageIndex, setPageIndex] = React.useState(0)
+
+  const { pageIndex, pageSize } = extractPaginationVariables(router.query)
 
   const paginatedData = useList<Declaration>({
-    url: "/api/declarations",
+    apiUrl: "/api/declarations",
     pageIndex,
+    pageSize,
     router,
   })
 
