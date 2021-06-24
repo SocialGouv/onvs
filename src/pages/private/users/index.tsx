@@ -33,6 +33,7 @@ const UsersListPage = (): JSX.Element => {
     apiUrl: "/api/users",
     pageIndex,
     pageSize,
+    search,
     router,
   })
 
