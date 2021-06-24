@@ -8,7 +8,7 @@ import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import useUser from "@/hooks/useUser"
 
 const Confirmation = () => {
-  const { user } = useUser({ redirectToIfError: "/" })
+  const { user } = useUser()
 
   const { state, orderedSteps } = useDeclarationForm()
 
@@ -100,7 +100,7 @@ const Confirmation = () => {
           </>
         )}
         <div className="flex justify-center w-full my-16 space-x-4">
-          {user ? (
+          {user?.isLoggedIn ? (
             <Link href="/private">
               <a>
                 <OutlineButton>+&nbsp;Retour au tableau de bord</OutlineButton>
