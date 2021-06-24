@@ -31,7 +31,7 @@ Register Kaniko image:
 
 
 Create seeds DB (dev):
-    stage: Seed
+    stage: .post
     allow_failure: true
     environment:
         name: ${CI_COMMIT_REF_NAME}-dev
