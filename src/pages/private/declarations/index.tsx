@@ -1,83 +1,65 @@
-// NB: react-table hooks build key so we can disable the jsx-key rule for this file.
-/* eslint-disable react/jsx-key */
+import React from "react"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { format } from "date-fns"
 
-import Alert, { AlertMessageType } from "@/components/Alert"
+import { Declaration } from "@prisma/client"
+import Alert from "@/components/Alert"
 import Pagination from "@/components/Pagination"
 import PrivateLayout from "@/components/PrivateLayout"
 import Table from "@/components/Table"
+import { BadgeType } from "@/components/BadgeType"
+import { extractPaginationVariables, useList } from "@/hooks/useList"
 import { FORMAT_DATE } from "@/utils/constants"
-import fetcher from "@/utils/fetcher"
 import { upperCaseFirstLetters } from "@/utils/string"
-import { Declaration } from "@prisma/client"
-import { format } from "date-fns"
-import Link from "next/link"
-import React from "react"
-import useSWR, { SWRResponse } from "swr"
 
-function BadgeType({ type }) {
-  switch (type) {
-    case "ets": {
-      return (
-        <span className="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-blue-100 rounded-full">
-          Établissement
-        </span>
-      )
-    }
-    case "liberal": {
-      return (
-        <span className="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-          Libéral
-        </span>
-      )
-    }
-  }
+function composeContactAgreementLabel(data) {
+  return data === "true" ? (
+    <span className="inline-flex px-2 text-xs font-semibold leading-5 text-yellow-800 bg-yellow-100 rounded-full">
+      Oui
+    </span>
+  ) : data === "false" ? (
+    <span className="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full">
+      Non
+    </span>
+  ) : (
+    <span className="inline-flex px-2 text-xs font-semibold leading-5 text-purple-800 bg-purple-100 rounded-full">
+      N/A
+    </span>
+  )
 }
 
 function DeclarationAdministration() {
-  const [pageIndex, setPageIndex] = React.useState(0)
+  const router = useRouter()
 
-  const goToNextPage = () => setPageIndex(pageIndex + 1)
-  const goToPreviousPage = () =>
-    pageIndex > 0 ? setPageIndex(pageIndex - 1) : 0
+  const { pageIndex, pageSize } = extractPaginationVariables(router.query)
 
-  type PaginatedDeclarations = {
-    declarations: Declaration[]
-    pageIndex: number
-    totalCount: number
-    totalPages: number
-    pageSize: number
-  }
+  const paginatedData = useList<Declaration>({
+    apiUrl: "/api/declarations",
+    pageIndex,
+    pageSize,
+    router,
+  })
 
-  const { data, error }: SWRResponse<PaginatedDeclarations, Error> = useSWR(
-    `/api/declarations?pageIndex=${pageIndex}`,
-    fetcher,
-  )
-
-  // Synchronize the pageIndex if the page index returned by the server is different.
-  if (data?.pageIndex !== pageIndex && data?.pageIndex)
-    setPageIndex(data?.pageIndex)
-
-  if (!data?.declarations?.length) return "Chargement..."
-
-  const message: AlertMessageType = error && {
-    text: "Erreur de récupération des déclarations",
-    kind: "error",
-  }
-
-  const declarations = data?.declarations
-  const totalCount = data?.totalCount || 0
-  const pageSize = data?.pageSize
-  const totalPages = data?.totalPages || 0
-
-  const firstElement = pageIndex * pageSize + 1
-  const lastElement = firstElement + declarations?.length - 1
+  const { isLoading, message, list } = paginatedData
 
   return (
     <PrivateLayout title="Déclarations" leftComponent={null}>
       <Alert message={message} />
-      <Table
-        headers={["Date", "Type", "Métier", "Ville", "Description", ""].map(
-          (header) => (
+
+      {isLoading ? (
+        "Chargement..."
+      ) : (
+        <Table
+          headers={[
+            "Date du signalement",
+            "Type",
+            "Métier",
+            "Ville",
+            "Description",
+            "À contacter",
+            "",
+          ].map((header) => (
             <th
               key={header}
               scope="col"
@@ -85,48 +67,53 @@ function DeclarationAdministration() {
             >
               {header}
             </th>
-          ),
-        )}
-        rows={declarations.map((declaration) => (
-          <tr key={declaration.id}>
-            <td className="px-6 py-4 whitespace-nowrap">
-              <div className="text-sm text-gray-900">
-                {declaration?.createdAt
-                  ? format(new Date(declaration.createdAt), FORMAT_DATE)
-                  : "N/A"}
-              </div>
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap">
-              <div className="text-sm text-gray-800">
-                {BadgeType({ type: declaration.declarationType })}
-              </div>
-            </td>
-            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-              {declaration.job}
-            </td>
-            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-              {upperCaseFirstLetters(declaration.town)}
-            </td>
-            <td className="px-6 py-4 text-sm text-gray-800">
-              <span className="line-clamp-4">{declaration.description}</span>
-            </td>
-            <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-              <Link href={`/declaration/${declaration.id}`}>
-                <a className="text-blue-600 hover:text-blue-900">Voir</a>
-              </Link>
-            </td>
-          </tr>
-        ))}
-      />
-      <Pagination
-        firstElement={firstElement}
-        lastElement={lastElement}
-        totalCount={totalCount}
-        goToPreviousPage={goToPreviousPage}
-        goToNextPage={goToNextPage}
-        pageIndex={pageIndex}
-        totalPages={totalPages}
-      />
+          ))}
+          rows={list?.map((declaration) => (
+            <tr
+              key={declaration.id}
+              onClick={() => router.push(`/declaration/${declaration.id}`)}
+              className="cursor-pointer"
+            >
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm text-gray-900">
+                  {declaration?.date
+                    ? format(new Date(declaration.date), FORMAT_DATE)
+                    : "N/A"}
+                </div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm text-gray-800">
+                  {declaration.declarationType && (
+                    <BadgeType type={declaration.declarationType} />
+                  )}
+                </div>
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                {declaration.job}
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                {upperCaseFirstLetters(declaration.town)}
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-800">
+                <span className="line-clamp-4">{declaration.description}</span>
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-800">
+                <span className="line-clamp-4">
+                  {composeContactAgreementLabel(
+                    declaration.declarant_contact_agreement,
+                  )}
+                </span>
+              </td>
+              <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                <Link href={`/declaration/${declaration.id}`}>
+                  <a className="text-blue-600 hover:text-blue-900">Fiche</a>
+                </Link>
+              </td>
+            </tr>
+          ))}
+        />
+      )}
+      <Pagination pageIndex={pageIndex} {...paginatedData} />
     </PrivateLayout>
   )
 }

@@ -1,16 +1,44 @@
 import React from "react"
-import { GetServerSideProps } from "next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
+import { User } from "@prisma/client"
 import PrivateLayout from "@/components/PrivateLayout"
 import { OutlineButton } from "@/components/lib"
-import { User } from "@prisma/client"
-import prisma from "@/prisma/db"
 import Table from "@/components/Table"
+import Pagination from "@/components/Pagination"
+import { InputSearch } from "@/components/Form"
+import Alert from "@/components/Alert"
+import {
+  extractPaginationVariables,
+  extractPathAndSearchParams,
+  refreshPageWithFilters,
+  useList,
+} from "@/hooks/useList"
+import { useDebounce } from "use-debounce"
 
-const UsersListPage = ({ users }: { users: User[] }): JSX.Element => {
+const UsersListPage = (): JSX.Element => {
   const router = useRouter()
+  // We need to get "search" from the URL bar to populate the state.
+  const { searchParams } = extractPathAndSearchParams(router)
+  const [search, setSearch] = React.useState(searchParams?.get("search") || "")
+  const [debouncedSearch] = useDebounce(search, 400)
+
+  React.useEffect(() => {
+    refreshPageWithFilters(router, { search: debouncedSearch })
+  }, [debouncedSearch])
+
+  const { pageIndex, pageSize } = extractPaginationVariables(router.query)
+
+  const paginatedData = useList<User>({
+    apiUrl: "/api/users",
+    pageIndex,
+    pageSize,
+    search: debouncedSearch,
+    router,
+  })
+
+  const { message, list } = paginatedData
 
   return (
     <PrivateLayout
@@ -25,6 +53,13 @@ const UsersListPage = ({ users }: { users: User[] }): JSX.Element => {
         </OutlineButton>
       }
     >
+      <Alert message={message} />
+      <InputSearch
+        id="search"
+        placeholder="Rechercher par nom ou par courriel"
+        onChange={(e) => setSearch(e.target.value)}
+        value={search}
+      />
       <Table
         headers={["Nom", "Email", "Rôle"].map((header) => (
           <th
@@ -35,8 +70,12 @@ const UsersListPage = ({ users }: { users: User[] }): JSX.Element => {
             {header}
           </th>
         ))}
-        rows={users.map((person) => (
-          <tr key={person.email}>
+        rows={list?.map((person) => (
+          <tr
+            key={person.email}
+            onClick={() => router.push(`/private/users/${person.id}/edition`)}
+            className="cursor-pointer"
+          >
             <td className="px-6 py-4 whitespace-nowrap">
               <div className="text-sm text-gray-900">{person.firstName}</div>
               <div className="text-sm text-gray-500">{person.lastName}</div>
@@ -57,20 +96,9 @@ const UsersListPage = ({ users }: { users: User[] }): JSX.Element => {
           </tr>
         ))}
       />
+      <Pagination pageIndex={pageIndex} {...paginatedData} />
     </PrivateLayout>
   )
 }
 
 export default UsersListPage as React.ReactNode
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const users = await prisma.user.findMany({
-    where: {
-      deletedAt: null,
-    },
-  })
-
-  return {
-    props: { users }, // will be passed to the page component as props
-  }
-}

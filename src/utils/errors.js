@@ -62,3 +62,29 @@ SuperJson.registerClass(DuplicateError, {
   identifier: "OnvsDuplicateError",
   allowProps: errorProps,
 })
+
+export class InexistingResourceError extends OnvsError {
+  constructor(message = "The ressource doesn't exist.") {
+    super(message)
+    this.name = "InexistingResourceError"
+    this.statusCode = 404
+  }
+}
+
+SuperJson.registerClass(InexistingResourceError, {
+  identifier: "OnvsInexistingResourceError",
+  allowProps: errorProps,
+})
+
+export class BadRequestError extends OnvsError {
+  constructor(message = "The inputs are not well formed.") {
+    super(message)
+    this.name = "BadRequestError"
+    this.statusCode = 400
+  }
+}
+
+SuperJson.registerClass(BadRequestError, {
+  identifier: "OnvsBadRequestError",
+  allowProps: errorProps,
+})

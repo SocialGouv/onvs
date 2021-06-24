@@ -1,9 +1,7 @@
-import { castDBToJS } from "@/models/users"
 import { compareWithHash } from "@/utils/bcrypt"
 
-import knex from "../../knex/knex"
-
 import { UserModel } from "@/models/users"
+import prisma from "@/prisma/db"
 
 export const findWithCredentials = async ({
   email,
@@ -16,16 +14,23 @@ export const findWithCredentials = async ({
     throw new Error("Bad request")
   }
 
-  const [user] = await knex("users")
-    .whereNull("deleted_at")
-    .where("email", email)
+  const [user] = await prisma.user.findMany({
+    where: {
+      email,
+      deletedAt: null,
+    },
+  })
 
-  if (!(await compareWithHash(password, user?.password))) {
+  if (!user) {
+    throw new Error("Error in authentication : user not found")
+  }
+
+  if (!(await compareWithHash(password, user.password))) {
     throw new Error("Error in authentication")
   }
 
   // We ensure to not return the password.
-  delete user.password
+  user.password = ""
 
-  return user ? castDBToJS(user) : null
+  return user
 }

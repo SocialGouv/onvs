@@ -1,4 +1,5 @@
 import React from "react"
+import { FieldError } from "react-hook-form"
 
 export const Form = ({
   children,
@@ -20,3 +21,64 @@ export const AlertInput = ({
       {children}
     </span>
   ) : null
+
+export const InputText = ({
+  label,
+  name,
+  register,
+  errors,
+  requiredFlag = false,
+  placeholder,
+}: {
+  label: string
+  name: string
+  register: () => void
+  errors: Record<string, unknown>
+  requiredFlag?: boolean
+  placeholder?: string
+}): JSX.Element => (
+  <>
+    <label className="block text-sm font-medium text-gray-700">
+      {label}&nbsp;
+      {requiredFlag ? <span className="text-md text-red-500">*</span> : ""}
+      <div className="mt-1">
+        <input
+          type="text"
+          name={name}
+          id={name}
+          className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          ref={register}
+          placeholder={placeholder}
+          autoComplete="off"
+          aria-invalid={Boolean(errors[name])}
+        />
+        <AlertInput>{(errors[name] as FieldError)?.message}</AlertInput>
+      </div>
+    </label>
+  </>
+)
+
+export const InputSearch = ({
+  id,
+  name,
+  placeholder,
+  onChange,
+  value,
+}: {
+  id: string
+  name?: string
+  placeholder?: string
+  onChange: React.ChangeEventHandler<HTMLInputElement>
+  value: string
+}): JSX.Element => (
+  <input
+    type="search"
+    name={name || id}
+    id={id}
+    className="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+    placeholder={placeholder || "Recherche..."}
+    autoComplete="off"
+    onChange={onChange}
+    value={value}
+  />
+)

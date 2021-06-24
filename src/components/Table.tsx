@@ -5,7 +5,7 @@ function Table({
   rows,
 }: {
   headers: JSX.Element[]
-  rows: JSX.Element[]
+  rows: JSX.Element[] | undefined
 }): JSX.Element {
   return (
     <div className="flex flex-col">

@@ -2,27 +2,27 @@ import React from "react"
 import { useRouter } from "next/router"
 import { ArrowLeftIcon } from "@heroicons/react/solid"
 
+import { createEts } from "@/clients/ets"
 import PrivateLayout from "@/components/PrivateLayout"
-import UserForm from "@/components/UserForm"
+import EtsForm from "@/components/EtsForm"
 import { PrimaryButton, OutlineButton } from "@/components/lib"
-import { createUser } from "@/clients/users"
 import Alert, { AlertMessageType } from "@/components/Alert"
 import ButtonAnchor from "@/components/Anchor"
 
-const UserPage = (): JSX.Element => {
+const EtsCreationPage = (): JSX.Element => {
   const router = useRouter()
   const [message, setMessage] = React.useState<AlertMessageType>()
   const [isLoading, setLoading] = React.useState(false)
 
-  async function onCreateUser(user) {
+  async function onCreateEts(ets) {
     setMessage(undefined)
 
-    user = { ...user, role: user.role?.value }
+    ets = { ...ets, juridicStatus: ets.juridicStatus?.value }
 
     try {
       setLoading(true)
-      await createUser({ user })
-      setMessage({ text: "Utilisateur créé.", kind: "success" })
+      await createEts({ ets })
+      setMessage({ text: "Établissement créé.", kind: "success" })
     } catch (error) {
       console.error("error.message", error.message)
       setMessage({ text: "Problème lors de la création.", kind: "error" })
@@ -33,7 +33,7 @@ const UserPage = (): JSX.Element => {
 
   return (
     <PrivateLayout
-      title="Utilisateurs"
+      title="Création d'un établissement"
       leftComponent={
         <ButtonAnchor
           LeftIconComponent={ArrowLeftIcon}
@@ -45,9 +45,9 @@ const UserPage = (): JSX.Element => {
     >
       <Alert message={message}></Alert>
 
-      <UserForm onSubmit={onCreateUser}>
+      <EtsForm onSubmit={onCreateEts}>
         <div className="flex justify-end">
-          <OutlineButton onClick={() => router.push("/private/users")}>
+          <OutlineButton onClick={() => router.push("/private/ets")}>
             Annuler
           </OutlineButton>
           <span className="w-4" />
@@ -56,9 +56,9 @@ const UserPage = (): JSX.Element => {
             Ajouter
           </PrimaryButton>
         </div>
-      </UserForm>
+      </EtsForm>
     </PrivateLayout>
   )
 }
 
-export default UserPage
+export default EtsCreationPage

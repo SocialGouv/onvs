@@ -1,4 +1,4 @@
-import { UserModel } from "@/models/users"
+import { UserLoggedModel } from "@/models/users"
 import Router from "next/router"
 import { useEffect } from "react"
 import useSWR from "swr"
@@ -8,7 +8,7 @@ interface ReturnType {
     data?: any,
     shouldRevalidate?: boolean | undefined,
   ) => Promise<any>
-  user: UserModel
+  user: UserLoggedModel
 }
 
 /**

@@ -8,11 +8,11 @@ datasource db {
 }
 
 model Declaration {
-  id                              String    @id @db.Uuid @default(uuid())
-  createdAt                      DateTime? @default(now()) @db.Timestamptz(6) @map("created_at")
-  updatedAt                      DateTime? @db.Timestamptz(6) @map("updated_at")
-  deletedAt                      DateTime? @db.Timestamptz(6) @map("deleted_at")
-  declarationType                String?   @db.VarChar(60) @map("declaration_type")
+  id                              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt                       DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt                       DateTime? @map("updated_at") @db.Timestamptz(6)
+  deletedAt                       DateTime? @map("deleted_at") @db.Timestamptz(6)
+  declarationType                 String?   @map("declaration_type") @db.VarChar(60)
   job                             String?   @db.VarChar(255)
   date                            String?   @db.VarChar(30)
   hour                            String?   @db.VarChar(60)
@@ -57,7 +57,7 @@ model Declaration {
   declarant_external_id           String?   @db.VarChar(255)
   declarant_email                 String?   @db.VarChar(255)
   declarant_tel                   String?   @db.VarChar(30)
-  etsId                          String?   @db.Uuid @map("ets_id")
+  etsId                           String?   @map("ets_id") @db.Uuid
   ets_status                      String?   @db.VarChar(30)
   ets_declared_by                 String?   @db.Uuid
   ets_moderated_by                String?   @db.Uuid
@@ -65,42 +65,58 @@ model Declaration {
   ets_location2                   String?   @db.VarChar(255)
 
   @@map("declarations")
-
 }
 
-// model knex_migrations {
-//   id             Int       @id @default(autoincrement())
-//   name           String?   @db.VarChar(255)
-//   batch          Int?
-//   migration_time DateTime? @db.Timestamptz(6)
-// }
-
-// model knex_migrations_lock {
-//   index     Int  @id @default(autoincrement())
-//   is_locked Int?
-// }
-
-// /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-// model reports_history {
-//   sent_at DateTime? @db.Timestamptz(6)
-//   sent_to String?   @db.VarChar(255)
-
-//   @@ignore
-// }
-
 model User {
-  id         String    @id @db.Uuid @default(uuid())
-  createdAt DateTime? @default(now()) @db.Timestamptz(6) @map("created_at")
-  updatedAt DateTime? @db.Timestamptz(6) @map("updated_at")
-  deletedAt DateTime? @db.Timestamptz(6) @map("deleted_at")
-  firstName String?   @db.VarChar(255) @map("first_name")
-  lastName  String?   @db.VarChar(255) @map("last_name")
-  email      String    @db.VarChar(128)
-  password   String?   @db.VarChar(128)
-  role       String    @db.VarChar(128)
-  scope      Json?
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(6)
+  firstName String?   @map("first_name") @db.VarChar(255)
+  lastName  String?   @map("last_name") @db.VarChar(255)
+  email     String    @db.VarChar(128)
+  password  String?   @db.VarChar(128)
+  role      String    @db.VarChar(128)
+  scope     Json?
 
   @@unique([email, deletedAt], name: "users_email_deleted_at_unique")
-
   @@map("users")
+}
+
+model Ets {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime? @map("updated_at") @db.Timestamptz(6)
+  finesset      String    @unique @db.VarChar(255)
+  finessej      String?   @db.VarChar(255)
+  rs            String    @db.VarChar(255)
+  town          String    @db.VarChar(255)
+  department    String    @db.VarChar(3)
+  juridicStatus String    @map("juridic_status") @db.VarChar(255)
+
+  @@map("ets")
+}
+
+model knex_migrations {
+  id             Int       @id @default(autoincrement())
+  name           String?   @db.VarChar(255)
+  batch          Int?
+  migration_time DateTime? @db.Timestamptz(6)
+
+  @@ignore
+}
+
+model knex_migrations_lock {
+  index     Int  @id @default(autoincrement())
+  is_locked Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model reports_history {
+  sent_at DateTime? @db.Timestamptz(6)
+  sent_to String?   @db.VarChar(255)
+
+  @@ignore
 }

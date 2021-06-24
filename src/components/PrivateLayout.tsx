@@ -114,18 +114,16 @@ function SideBar() {
               />
               {user?.role === "Administrateur" && (
                 <>
-                  <hr />
-
                   <MenuItem
                     url="/private/users"
                     jsxIcon={UsersIcon}
                     title="Administration utilisateurs"
                   />
                   <MenuItem
-                    url="/"
+                    url="/private/ets"
                     jsxIcon={HospitalIcon}
                     title="Administration ETS"
-                    disabled={true}
+                    disabled={false}
                   />
                 </>
               )}

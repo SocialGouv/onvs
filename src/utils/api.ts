@@ -1,4 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next"
+import { ZodError } from "zod"
+import { OnvsError } from "./errors"
 
 export function handleNotAllowedMethods(
   req: NextApiRequest,
@@ -10,7 +12,22 @@ export function handleNotAllowedMethods(
     res.status(405).json({ message: "Not allowed HTTP method." })
   }
 }
-export function handleErrors(error: Error, res: NextApiResponse): void {
-  console.error(error)
-  res.status(500).json({ message: error.message || "Server error" })
+export function handleErrors(
+  error: Error & { statusCode?: number },
+  res: NextApiResponse,
+): void {
+  console.error("API error", error)
+
+  let message = "API error"
+
+  if (error?.statusCode) {
+    res.status(error?.statusCode).json({ message: error.message })
+  } else if (error instanceof ZodError) {
+    const paths = error?.issues.map((issue) => issue.path)
+    message = `Error on field(s) : ${paths.length ? paths.join(", ") : ""}`
+  } else if (error instanceof OnvsError) {
+    message = error.message
+  }
+
+  res.status(500).json({ message })
 }
