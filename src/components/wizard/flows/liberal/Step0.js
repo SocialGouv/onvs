@@ -8,40 +8,9 @@ import { InputError } from "@/components/lib"
 import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
-import { buildSelectOptions } from "@/utils/select"
 
 import { selectConfig } from "../../../../config"
-
-const jobsOptions = buildSelectOptions([
-  "Assistant dentaire",
-  "Assistant de service social",
-  "Audioprothésiste",
-  "Chiropracteur",
-  "Chirurgien-dentiste",
-  "Diététicien",
-  "Epithésiste",
-  "Ergothérapeute",
-  "Infirmier",
-  "Manipulateur en radiologie",
-  "Masseur-kinésithérapeute",
-  "Médecin",
-  "Oculariste",
-  "Opticien-lunetier",
-  "Orthopédiste-orthésiste",
-  "Orthophoniste",
-  "Orthoprothésiste",
-  "Orthoptiste",
-  "Ostéopathe",
-  "Pédicure-podologue",
-  "Pharmacien",
-  "Physicien médical",
-  "Podo-orthésiste",
-  "Psychologue",
-  "Psychomotricien",
-  "Psychothérapeute",
-  "Sage-femme",
-  "Technicien de laboratoire",
-])
+import { jobsOptions } from "@/utils/options"
 
 const schema = yup.object().shape({
   job: yup

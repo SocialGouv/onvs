@@ -59,7 +59,7 @@ const handler = async (req, res) => {
           },
         })
 
-        const { pageIndex, pageSize, totalPages, prismaQueryParams } =
+        const { pageIndex, pageSize, totalPages, prismaPaginationQueryParams } =
           await buildMetaPagination({ totalCount, ...req.query })
 
         const userList = await prisma.user.findMany({
@@ -69,7 +69,7 @@ const handler = async (req, res) => {
           orderBy: {
             email: "asc",
           },
-          ...prismaQueryParams,
+          ...prismaPaginationQueryParams,
         })
 
         return res

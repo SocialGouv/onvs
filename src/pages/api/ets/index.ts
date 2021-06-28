@@ -60,7 +60,7 @@ const handler = async (req, res) => {
           },
         })
 
-        const { pageIndex, pageSize, totalPages, prismaQueryParams } =
+        const { pageIndex, pageSize, totalPages, prismaPaginationQueryParams } =
           await buildMetaPagination({ totalCount, ...req.query })
 
         const etsList = await prisma.ets.findMany({
@@ -70,7 +70,7 @@ const handler = async (req, res) => {
           orderBy: {
             finesset: "asc",
           },
-          ...prismaQueryParams,
+          ...prismaPaginationQueryParams,
         })
 
         return res

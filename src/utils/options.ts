@@ -1,5 +1,45 @@
 /** List of options expected by the db */
 
+export const jobs = [
+  "Assistant dentaire",
+  "Assistant de service social",
+  "Audioprothésiste",
+  "Chiropracteur",
+  "Chirurgien-dentiste",
+  "Diététicien",
+  "Epithésiste",
+  "Ergothérapeute",
+  "Infirmier",
+  "Manipulateur en radiologie",
+  "Masseur-kinésithérapeute",
+  "Médecin",
+  "Oculariste",
+  "Opticien-lunetier",
+  "Orthopédiste-orthésiste",
+  "Orthophoniste",
+  "Orthoprothésiste",
+  "Orthoptiste",
+  "Ostéopathe",
+  "Pédicure-podologue",
+  "Pharmacien",
+  "Physicien médical",
+  "Podo-orthésiste",
+  "Psychologue",
+  "Psychomotricien",
+  "Psychothérapeute",
+  "Sage-femme",
+  "Technicien de laboratoire",
+]
+
+export const jobsByOrders = {
+  Dentistes: ["Assistant dentaire", "Chirurgien-dentiste"],
+  Infirmiers: ["Infirmier"],
+  "Sage-femmes": ["Sage-femme"],
+  Pharmaciens: ["Pharmacien"],
+  "Pédicure-Podologue": ["Pédicure-podologue", "Podo-orthésiste"],
+  "Masseurs-kiné": ["Masseur-kinésithérapeute"],
+}
+
 export const roles = [
   // "Gestionnaire d'ETS",
   // "Gestionnaire multi-ETS",
@@ -36,6 +76,7 @@ const getSelectOption =
   (value: string): { value: string; label: string } =>
     array.filter((item) => item.value === value)?.[0] || null
 
+export const jobsOptions = buildSelectOptions(jobs)
 export const rolesOptions = buildSelectOptions(roles)
 export const juridicStatusOptions = buildSelectOptions(juridicStatus)
 export const ordersOptions = buildSelectOptions(orders)

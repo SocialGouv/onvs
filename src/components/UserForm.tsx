@@ -25,7 +25,6 @@ const formSchema = yup.object({
     .required("Le champ rôle est requis."),
   scope: yup.mixed().when("role", (role: SelectOption) => {
     if (role?.value === "Gestionnaire d'ordre") {
-      console.log("dans gestionnaire d'ordre")
       return yup.object({
         order: yup
           .object({
