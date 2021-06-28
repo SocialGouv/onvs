@@ -8,7 +8,7 @@ import { deleteUser, updateUser } from "@/clients/users"
 import { UserModel } from "@/models/users"
 import PrivateLayout from "@/components/PrivateLayout"
 import Modal from "@/components/Modal"
-import UserForm from "@/components/UserForm"
+import UserForm, { buildRoleAndScopeFromUserForm } from "@/components/UserForm"
 import { PrimaryButton, OutlineButton } from "@/components/lib"
 import Alert, { AlertMessageType } from "@/components/Alert"
 import ButtonAnchor from "@/components/Anchor"
@@ -43,10 +43,17 @@ const UserPage = ({ user }: { user: UserModel }): JSX.Element => {
     }
   }
 
-  async function onUpdateUser(values) {
+  async function onUpdateUser(updatedUser) {
     setLoading(true)
 
-    const updatedUser = { ...values, id: user?.id, role: values.role?.value }
+    const { role, scope } = buildRoleAndScopeFromUserForm(updatedUser)
+
+    updatedUser = {
+      ...updatedUser,
+      id: user?.id,
+      role,
+      scope,
+    }
 
     try {
       setLoading(true)
@@ -142,6 +149,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       id: true,
       email: true,
       role: true,
+      scope: true,
       firstName: true,
       lastName: true,
       createdAt: true,

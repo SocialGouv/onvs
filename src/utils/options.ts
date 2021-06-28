@@ -1,13 +1,22 @@
 /** List of options expected by the db */
 
 export const roles = [
-  "Gestionnaire d'ETS",
-  "Gestionnaire multi-ETS",
+  // "Gestionnaire d'ETS",
+  // "Gestionnaire multi-ETS",
   "Gestionnaire d'ordre",
   "Administrateur",
 ]
 
 export const juridicStatus = ["Public", "Privé"]
+
+export const orders = [
+  "Dentistes",
+  "Infirmiers",
+  "Sage-femmes",
+  "Pharmaciens",
+  "Pédicure-Podologue",
+  "Masseurs-kiné",
+]
 
 /** End of list */
 
@@ -29,6 +38,8 @@ const getSelectOption =
 
 export const rolesOptions = buildSelectOptions(roles)
 export const juridicStatusOptions = buildSelectOptions(juridicStatus)
+export const ordersOptions = buildSelectOptions(orders)
 
 export const getRoleOption = getSelectOption(rolesOptions)
 export const getJuridicStatusOption = getSelectOption(juridicStatusOptions)
+export const getOrderOption = getSelectOption(ordersOptions)

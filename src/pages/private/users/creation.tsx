@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { ArrowLeftIcon } from "@heroicons/react/solid"
 
 import PrivateLayout from "@/components/PrivateLayout"
-import UserForm from "@/components/UserForm"
+import UserForm, { buildRoleAndScopeFromUserForm } from "@/components/UserForm"
 import { PrimaryButton, OutlineButton } from "@/components/lib"
 import { createUser } from "@/clients/users"
 import Alert, { AlertMessageType } from "@/components/Alert"
@@ -17,7 +17,9 @@ const UserPage = (): JSX.Element => {
   async function onCreateUser(user) {
     setMessage(undefined)
 
-    user = { ...user, role: user.role?.value }
+    const { role, scope } = buildRoleAndScopeFromUserForm(user)
+
+    user = { ...user, role, scope }
 
     try {
       setLoading(true)

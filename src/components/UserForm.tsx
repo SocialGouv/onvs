@@ -1,11 +1,17 @@
 import React from "react"
-import { useForm, Controller } from "react-hook-form"
+import { useForm, Controller, FieldError } from "react-hook-form"
 import Select from "react-select"
 import * as yup from "yup"
 
 import { PartialUserModel, UserModel } from "@/models/users"
 import { yupResolver } from "@hookform/resolvers"
-import { rolesOptions, getRoleOption, SelectOption } from "@/utils/options"
+import {
+  ordersOptions,
+  rolesOptions,
+  getRoleOption,
+  getOrderOption,
+  SelectOption,
+} from "@/utils/options"
 import { AlertInput, InputText } from "@/components/Form"
 
 const formSchema = yup.object({
@@ -15,14 +21,55 @@ const formSchema = yup.object({
   email: yup.string().email().required("Le champ email est requis."),
   role: yup
     .object({ label: yup.string(), value: yup.string() })
+    .nullable()
     .required("Le champ rôle est requis."),
-  scope: yup.string().optional(),
+  scope: yup.mixed().when("role", (role: SelectOption) => {
+    if (role?.value === "Gestionnaire d'ordre") {
+      console.log("dans gestionnaire d'ordre")
+      return yup.object({
+        order: yup
+          .object({
+            label: yup.string(),
+            value: yup.string(),
+          })
+          .nullable()
+          .required("L'ordre est requis"),
+      })
+    } else if (role?.value === "Gestionnaire d'ETS") {
+      return yup.object({
+        ets: yup.string().required(),
+      })
+    } else {
+      return yup.object()
+    }
+  }),
 })
 
 type Props = {
-  user?: UserModel
+  user?: UserModel & { scope: any }
   onSubmit: (values: yup.TypeOf<typeof formSchema>) => void
   children: React.ReactNode
+}
+
+export function buildRoleAndScopeFromUserForm(
+  user: yup.TypeOf<typeof formSchema>,
+): {
+  role: string
+  scope: Record<string, unknown>
+} {
+  if (!user?.role?.value) {
+    throw new Error("The user is not well formed")
+  }
+
+  const role = user.role.value
+
+  let scope = {}
+  if (role === "Gestionnaire d'ordre") {
+    scope = { order: user?.scope?.order?.value }
+  } else if (role === "Gestionnaire d'ETS") {
+    scope = { ets: user?.scope?.ets?.value }
+  }
+  return { role, scope }
 }
 
 const emptyUser: PartialUserModel = {
@@ -30,7 +77,7 @@ const emptyUser: PartialUserModel = {
   lastName: "",
   email: "",
   role: undefined,
-  scope: "",
+  scope: null,
 }
 
 const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
@@ -44,7 +91,11 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
     defaultValues: {
       ...emptyUser,
       ...user,
-      role: user?.role ? getRoleOption(user?.role) : null,
+      role: user?.role ? getRoleOption(user.role) : null,
+      scope: {
+        order: user?.scope?.order ? getOrderOption(user.scope.order) : null,
+        ets: user?.scope?.ets ? user.scope.ets : "",
+      },
     },
     resolver: yupResolver(formSchema),
   })
@@ -110,20 +161,40 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
                   control={control}
                   as={Select}
                   placeholder="Choisir..."
-                  aria-invalid={Boolean(errors.scope)}
+                  aria-invalid={Boolean(errors.role)}
                 />
-                <AlertInput>{errors?.scope?.message}</AlertInput>
+                <AlertInput>{errors?.role?.message}</AlertInput>
               </div>
             </div>
 
-            {role?.value !== "Administrateur" && (
+            {role?.value === "Gestionnaire d'ETS" && (
               <div className="sm:col-span-6">
                 <InputText
-                  label="Périmètre"
-                  name="scope"
+                  label="ETS"
+                  name="scope.ets"
                   register={register}
                   errors={errors}
                 />
+              </div>
+            )}
+            {role?.value === "Gestionnaire d'ordre" && (
+              <div className="sm:col-span-6">
+                <label htmlFor="order">
+                  <span className="block text-sm font-medium text-gray-700">
+                    Ordre&nbsp;<span className="text-md text-red-500">*</span>
+                  </span>
+                  <Controller
+                    options={ordersOptions}
+                    name="scope.order"
+                    control={control}
+                    as={Select}
+                    placeholder="Choisir..."
+                    aria-invalid={Boolean(errors?.scope?.["order"])}
+                  />
+                </label>
+                <AlertInput>
+                  {(errors?.scope?.["order"] as FieldError)?.message}
+                </AlertInput>{" "}
               </div>
             )}
           </div>
