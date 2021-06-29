@@ -7,7 +7,7 @@ const USER_ENDPOINT = "users"
 
 export const createUser = async (params: {
   user: UserModel
-}): Promise<{ data: UserModel }> => {
+}): Promise<{ user: UserModel }> => {
   return fetcher(`${API_URL}/${USER_ENDPOINT}`, {
     body: JSON.stringify(params),
     headers: { "Content-Type": "application/json" },

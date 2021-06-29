@@ -8,11 +8,13 @@ import { PrimaryButton, OutlineButton } from "@/components/lib"
 import { createUser } from "@/clients/users"
 import Alert, { AlertMessageType } from "@/components/Alert"
 import ButtonAnchor from "@/components/Anchor"
+import { UserModel } from "@/models/users"
 
 const UserPage = (): JSX.Element => {
   const router = useRouter()
   const [message, setMessage] = React.useState<AlertMessageType>()
   const [isLoading, setLoading] = React.useState(false)
+  const [createdUser, setCreatedUser] = React.useState<UserModel>()
 
   async function onCreateUser(user) {
     setMessage(undefined)
@@ -23,7 +25,8 @@ const UserPage = (): JSX.Element => {
 
     try {
       setLoading(true)
-      await createUser({ user })
+      const newUser = await createUser({ user })
+      setCreatedUser(newUser?.user)
       setMessage({ text: "Utilisateur créé.", kind: "success" })
     } catch (error) {
       console.error("error.message", error.message)
@@ -45,16 +48,29 @@ const UserPage = (): JSX.Element => {
         </ButtonAnchor>
       }
     >
-      <Alert message={message}></Alert>
+      <Alert
+        message={message}
+        success={
+          <Alert.Success message={message}>
+            <Alert.Button
+              label="Modifier"
+              fn={() =>
+                router.replace(`/private/users/${createdUser?.id}/edition`)
+              }
+            />
+          </Alert.Success>
+        }
+      ></Alert>
 
       <UserForm onSubmit={onCreateUser}>
         <div className="flex justify-end">
-          <OutlineButton onClick={() => router.push("/private/users")}>
-            Annuler
-          </OutlineButton>
+          <OutlineButton onClick={() => router.back()}>Annuler</OutlineButton>
           <span className="w-4" />
 
-          <PrimaryButton type="submit" disabled={isLoading}>
+          <PrimaryButton
+            type="submit"
+            disabled={isLoading || Boolean(createdUser)}
+          >
             Ajouter
           </PrimaryButton>
         </div>

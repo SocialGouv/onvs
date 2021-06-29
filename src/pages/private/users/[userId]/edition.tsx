@@ -100,9 +100,7 @@ const UserPage = ({ user }: { user: UserModel }): JSX.Element => {
 
       <UserForm user={user} onSubmit={onUpdateUser}>
         <div className="flex justify-end">
-          <OutlineButton onClick={() => router.push("/private/users")}>
-            Annuler
-          </OutlineButton>
+          <OutlineButton onClick={() => router.back()}>Annuler</OutlineButton>
           <span className="w-4" />
 
           <PrimaryButton type="submit" disabled={isLoading}>

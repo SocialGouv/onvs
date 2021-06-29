@@ -12,7 +12,12 @@ import {
   getOrderOption,
   SelectOption,
 } from "@/utils/options"
-import { AlertInput, InputText } from "@/components/Form"
+import {
+  AlertInput,
+  InputText,
+  Label,
+  MandatoryFieldFlag,
+} from "@/components/Form"
 
 const formSchema = yup.object({
   id: yup.string().optional(),
@@ -151,7 +156,8 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
                 htmlFor="country"
                 className="block text-sm font-medium text-gray-700"
               >
-                Rôle
+                Rôle&nbsp;
+                <MandatoryFieldFlag />
               </label>
               <div className="mt-1">
                 <Controller
@@ -178,9 +184,10 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
             )}
             {role?.value === "Gestionnaire d'ordre" && (
               <div className="sm:col-span-6">
-                <label htmlFor="order">
+                <Label htmlFor="order">
                   <span className="block text-sm font-medium text-gray-700">
-                    Ordre&nbsp;<span className="text-md text-red-500">*</span>
+                    Ordre&nbsp;
+                    <MandatoryFieldFlag />
                   </span>
                   <Controller
                     options={ordersOptions}
@@ -190,7 +197,7 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
                     placeholder="Choisir..."
                     aria-invalid={Boolean(errors?.scope?.["order"])}
                   />
-                </label>
+                </Label>
                 <AlertInput>
                   {(errors?.scope?.["order"] as FieldError)?.message}
                 </AlertInput>{" "}

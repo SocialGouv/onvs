@@ -97,9 +97,7 @@ const EtsEditionPage = ({ ets }: { ets: EtsModel }): JSX.Element => {
 
       <EtsForm ets={ets} onSubmit={onUpdateEts}>
         <div className="flex justify-end">
-          <OutlineButton onClick={() => router.push("/private/ets")}>
-            Annuler
-          </OutlineButton>
+          <OutlineButton onClick={() => router.back()}>Annuler</OutlineButton>
           <span className="w-4" />
 
           <PrimaryButton type="submit" disabled={isLoading}>

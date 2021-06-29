@@ -47,9 +47,7 @@ const EtsCreationPage = (): JSX.Element => {
 
       <EtsForm onSubmit={onCreateEts}>
         <div className="flex justify-end">
-          <OutlineButton onClick={() => router.push("/private/ets")}>
-            Annuler
-          </OutlineButton>
+          <OutlineButton onClick={() => router.back()}>Annuler</OutlineButton>
           <span className="w-4" />
 
           <PrimaryButton type="submit" disabled={isLoading}>

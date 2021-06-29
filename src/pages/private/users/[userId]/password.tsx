@@ -8,8 +8,10 @@ import { PrimaryButton, OutlineButton } from "@/components/lib"
 import Alert, { AlertMessageType } from "@/components/Alert"
 import useUser from "@/hooks/useUser"
 import { yupResolver } from "@hookform/resolvers"
-import { AlertInput } from "@/components/Form"
+import { InputText } from "@/components/Form"
 import { changePasswordUser } from "@/clients/users"
+import ButtonAnchor from "@/components/Anchor"
+import { ArrowLeftIcon } from "@heroicons/react/solid"
 
 const formSchema = yup.object({
   password: yup
@@ -70,62 +72,45 @@ const ChangePasswordPage = (): JSX.Element => {
   }
 
   return (
-    <PrivateLayout title="Utilisateurs">
-      <Alert
-        message={message}
-        success={
-          <Alert.Success message={message}>
-            <Alert.Button
-              label="Retour à la liste"
-              fn={() => router.push("/private/users")}
-            />
-          </Alert.Success>
-        }
-      ></Alert>
+    <PrivateLayout
+      title="Utilisateurs"
+      leftComponent={
+        <ButtonAnchor
+          LeftIconComponent={ArrowLeftIcon}
+          onClick={() => router.back()}
+        >
+          Retour
+        </ButtonAnchor>
+      }
+    >
+      <Alert message={message}></Alert>
 
       <form className="space-y-8 " onSubmit={handleSubmit(onSubmit)}>
         <div className="sm:col-span-3">
-          <label
-            htmlFor="firstName"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Mot de passe
-          </label>
-          <div className="mt-1">
-            <input
-              type="password"
-              placeholder="12 caractères minimum"
-              name="password"
-              className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              aria-invalid={Boolean(errors.password)}
-              ref={register}
-            />
-            <AlertInput>{errors?.password?.message}</AlertInput>
-          </div>
+          <InputText
+            name="password"
+            type="password"
+            label="Mot de passe"
+            placeholder="Au moins 12 caractères"
+            register={register}
+            errors={errors}
+            requiredFlag={true}
+          />
         </div>
         <div className="sm:col-span-3">
-          <label
-            htmlFor="firstName"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Confirmation du mot de passe
-          </label>
-          <div className="mt-1">
-            <input
-              type="password"
-              placeholder="confirmez le mot de passe"
-              name="confirmPassword"
-              className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              ref={register}
-            />
-            <AlertInput>{errors?.confirmPassword?.message}</AlertInput>
-          </div>
+          <InputText
+            name="confirmPassword"
+            type="password"
+            label="Confirmation du mot de passe"
+            placeholder="Confirmez le mot de passe"
+            register={register}
+            errors={errors}
+            requiredFlag={true}
+          />
         </div>
 
         <div className="flex justify-end">
-          <OutlineButton onClick={() => router.push("/private/users")}>
-            Annuler
-          </OutlineButton>
+          <OutlineButton onClick={() => router.back()}>Annuler</OutlineButton>
           <span className="w-4" />
 
           <PrimaryButton type="submit">Modifier</PrimaryButton>

@@ -25,9 +25,7 @@ const ProfilePage = () => {
         <p>{user.scope && JSON.stringify(user.scope)}</p>
       </div>
       <div className="mt-8 text-center">
-        <OutlineButton onClick={() => router.push("/private")}>
-          Retour
-        </OutlineButton>
+        <OutlineButton onClick={() => router.back()}>Retour</OutlineButton>
       </div>
     </PrivateLayout>
   )
