@@ -25,7 +25,7 @@ function HomePage(): JSX.Element {
     router.push(firstStepUrl("ets"))
   }
 
-  if (user?.role === "Administrateur") {
+  if (["Administrateur", "Gestionnaire d'ordre"].includes(user?.role)) {
     router.replace("/private/declarations")
     return <>Chargement...</>
   }
