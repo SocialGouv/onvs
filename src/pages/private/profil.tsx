@@ -4,6 +4,7 @@ import React from "react"
 import { OutlineButton } from "@/components/lib"
 import PrivateLayout from "@/components/PrivateLayout"
 import useUser from "@/hooks/useUser"
+import { Prisma } from ".prisma/client"
 
 const ProfilePage = () => {
   const router = useRouter()
@@ -14,6 +15,8 @@ const ProfilePage = () => {
     return <span>Chargement...</span>
   }
 
+  const scope = user.scope as Prisma.JsonObject
+
   return (
     <PrivateLayout title="Profil utilisateur">
       <div className="w-8/12 p-8 py-16 mx-auto border border-gray-300 rounded-lg shadow-md min-h-64 md:px-16">
@@ -22,7 +25,8 @@ const ProfilePage = () => {
           {user.lastName} {user.firstName}
         </p>
         <p className="text-lg font-light">{user.role}</p>
-        <p>{user.scope && JSON.stringify(user.scope)}</p>
+        <p>{scope?.order || ""}</p>
+        <p>{scope?.ets || ""}</p>
       </div>
       <div className="mt-8 text-center">
         <OutlineButton onClick={() => router.back()}>Retour</OutlineButton>
