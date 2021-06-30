@@ -18,6 +18,12 @@ const VARIANT_MAPS: Record<Variant, string> = {
   blue: "text-white bg-blue-500",
 }
 
+const VARIANT_MAPS_DISABLED: Record<Variant, string> = {
+  red: "text-white bg-red-300",
+  yellow: "text-white bg-yellow-300",
+  blue: "text-white bg-blue-300",
+}
+
 const PrimaryButton = ({
   children,
   onClick,
@@ -33,7 +39,7 @@ const PrimaryButton = ({
       type={type}
       className={classNames(
         "px-6 py-2 font-bold uppercase text-sm tracking-wider font-source text-white rounded",
-        VARIANT_MAPS[variant],
+        disabled ? VARIANT_MAPS_DISABLED[variant] : VARIANT_MAPS[variant],
       )}
       tabIndex={tabIndex}
       disabled={disabled}

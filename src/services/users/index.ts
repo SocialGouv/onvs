@@ -1,7 +1,7 @@
 import { compareWithHash } from "@/utils/bcrypt"
 
-import { UserModel } from "@/models/users"
 import prisma from "@/prisma/db"
+import { UserModel } from "@/models/users"
 
 export const findWithCredentials = async ({
   email,

@@ -43,7 +43,7 @@ function EtsAdministrationPage() {
 
   return (
     <PrivateLayout
-      title="Liste des établissements"
+      title="Établissements"
       leftComponent={null}
       rightComponent={
         <OutlineButton

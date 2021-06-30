@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { roles } from "@/utils/options"
-import { User } from "@prisma/client"
+import { User, Prisma } from "@prisma/client"
 
 export const UserApiSchema = z.object({
   id: z.string().uuid().optional(),
@@ -31,6 +31,10 @@ export const UserApiSchema = z.object({
 export type UserApiType = z.infer<typeof UserApiSchema>
 
 export type UserModel = User
+
+export type UserCreateInput = Prisma.UserCreateInput
+
+export type UserUpdateInput = Prisma.UserUpdateInput
 
 export type PartialUserModel = {
   [Property in keyof UserModel]+?: UserModel[Property]

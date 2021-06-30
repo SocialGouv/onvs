@@ -3,25 +3,35 @@ import { useRouter } from "next/router"
 import { ArrowLeftIcon } from "@heroicons/react/solid"
 
 import PrivateLayout from "@/components/PrivateLayout"
-import UserForm from "@/components/UserForm"
-import { PrimaryButton, OutlineButton } from "@/components/lib"
+import { buildRoleAndScopeFromUserForm } from "@/components/UserForm"
 import { createUser } from "@/clients/users"
 import Alert, { AlertMessageType } from "@/components/Alert"
 import ButtonAnchor from "@/components/Anchor"
+import { UserModel, UserCreateInput } from "@/models/users"
+import { UserFormCreation } from "@/components/UserFormCreation"
+import { UserFormType } from "@/components/UserForm"
 
 const UserPage = (): JSX.Element => {
   const router = useRouter()
   const [message, setMessage] = React.useState<AlertMessageType>()
   const [isLoading, setLoading] = React.useState(false)
+  const [createdUser, setCreatedUser] = React.useState<UserModel>()
 
-  async function onCreateUser(user) {
+  async function onCreateUser(user: UserFormType) {
     setMessage(undefined)
 
-    user = { ...user, role: user.role?.value }
+    const { role, scope } = buildRoleAndScopeFromUserForm(user)
+
+    const newUser: UserCreateInput = {
+      ...user,
+      role,
+      scope,
+    }
 
     try {
       setLoading(true)
-      await createUser({ user })
+      const res = await createUser({ user: newUser })
+      setCreatedUser(res?.user)
       setMessage({ text: "Utilisateur créé.", kind: "success" })
     } catch (error) {
       console.error("error.message", error.message)
@@ -33,7 +43,7 @@ const UserPage = (): JSX.Element => {
 
   return (
     <PrivateLayout
-      title="Utilisateurs"
+      title="Nouvel utilisateur"
       leftComponent={
         <ButtonAnchor
           LeftIconComponent={ArrowLeftIcon}
@@ -43,20 +53,24 @@ const UserPage = (): JSX.Element => {
         </ButtonAnchor>
       }
     >
-      <Alert message={message}></Alert>
+      <Alert
+        message={message}
+        success={
+          <Alert.Success message={message}>
+            <Alert.Button
+              label="Modifier"
+              fn={() =>
+                router.replace(`/private/users/${createdUser?.id}/edition`)
+              }
+            />
+          </Alert.Success>
+        }
+      ></Alert>
 
-      <UserForm onSubmit={onCreateUser}>
-        <div className="flex justify-end">
-          <OutlineButton onClick={() => router.push("/private/users")}>
-            Annuler
-          </OutlineButton>
-          <span className="w-4" />
-
-          <PrimaryButton type="submit" disabled={isLoading}>
-            Ajouter
-          </PrimaryButton>
-        </div>
-      </UserForm>
+      <UserFormCreation
+        onCreateUser={onCreateUser}
+        isLoading={isLoading || Boolean(createdUser)}
+      />
     </PrivateLayout>
   )
 }

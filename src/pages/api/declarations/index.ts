@@ -1,28 +1,54 @@
 import Cors from "micro-cors"
 
-import { create } from "@/services/declarations"
-
 import prisma from "@/prisma/db"
+import { create } from "@/services/declarations"
+import withSession from "@/lib/session"
+import { UserLoggedModel } from "@/models/users"
 import { buildMetaPagination } from "@/utils/pagination"
 import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
-import { DuplicateError } from "@/utils/errors"
+import { AuthenticationError, DuplicateError } from "@/utils/errors"
+import { jobsByOrders } from "@/utils/options"
 
 const UNIQUE_VIOLATION_PG = "23505"
+
+// TODO : filtrer les déclarations pour les autres rôles
+function buildWhereClause(user: UserLoggedModel) {
+  if (user.role === "Gestionnaire d'ordre") {
+    if (!(user?.scope as any)?.order)
+      throw new Error("This is not supposed to happen")
+    return {
+      job: {
+        in: jobsByOrders[(user.scope as any)?.order],
+      },
+    }
+  }
+}
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
 
   try {
+    const user = req.session.get("user")
+
+    if (!user?.isLoggedIn) {
+      throw new AuthenticationError()
+    }
+
     switch (req.method) {
       case "GET": {
-        const totalCount = await prisma.declaration.count()
+        const whereClause = buildWhereClause(user)
 
-        const { pageIndex, pageSize, totalPages, prismaQueryParams } =
+        const totalCount = await prisma.declaration.count({
+          where: whereClause,
+        })
+
+        const { pageIndex, pageSize, totalPages, prismaPaginationQueryParams } =
           await buildMetaPagination({ totalCount, ...req.query })
 
         const declarations = await prisma.declaration.findMany({
           orderBy: [{ createdAt: "desc" }],
-          ...prismaQueryParams,
+          ...prismaPaginationQueryParams,
+          where: whereClause,
         })
 
         return res.status(200).json({
@@ -57,4 +83,4 @@ const cors = Cors({
   allowMethods: ["GET", "OPTIONS", "POST"],
 })
 
-export default cors(handler)
+export default withSession(cors(handler))

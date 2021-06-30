@@ -1,7 +1,7 @@
 import Cors from "micro-cors"
-import prisma from "@/prisma/db"
 import { Prisma } from "@prisma/client"
 
+import prisma from "@/prisma/db"
 import { OnvsError } from "@/utils/errors"
 import { EtsApiSchema, EtsApiType } from "@/models/ets"
 import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
@@ -60,7 +60,7 @@ const handler = async (req, res) => {
           },
         })
 
-        const { pageIndex, pageSize, totalPages, prismaQueryParams } =
+        const { pageIndex, pageSize, totalPages, prismaPaginationQueryParams } =
           await buildMetaPagination({ totalCount, ...req.query })
 
         const etsList = await prisma.ets.findMany({
@@ -70,7 +70,7 @@ const handler = async (req, res) => {
           orderBy: {
             finesset: "asc",
           },
-          ...prismaQueryParams,
+          ...prismaPaginationQueryParams,
         })
 
         return res

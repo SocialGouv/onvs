@@ -1,13 +1,13 @@
 import { API_URL } from "@/utils/config"
 import fetcher from "@/utils/fetcher"
 
-import { UserModel, PartialUserModel } from "@/models/users"
+import { UserCreateInput, UserModel, UserUpdateInput } from "@/models/users"
 
 const USER_ENDPOINT = "users"
 
 export const createUser = async (params: {
-  user: UserModel
-}): Promise<{ data: UserModel }> => {
+  user: UserCreateInput
+}): Promise<{ user: UserModel }> => {
   return fetcher(`${API_URL}/${USER_ENDPOINT}`, {
     body: JSON.stringify(params),
     headers: { "Content-Type": "application/json" },
@@ -18,7 +18,7 @@ export const createUser = async (params: {
 export const updateUser = async ({
   user,
 }: {
-  user: PartialUserModel
+  user: UserUpdateInput
 }): Promise<{ data: UserModel }> => {
   if (!user?.id) throw new Error("Un id est nécessaire")
 

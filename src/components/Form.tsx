@@ -22,7 +22,29 @@ export const AlertInput = ({
     </span>
   ) : null
 
+export const Label = ({
+  htmlFor,
+  children,
+}: {
+  htmlFor?: string
+  children?: React.ReactNode
+}): JSX.Element => {
+  return (
+    <label
+      htmlFor={htmlFor}
+      className="block text-sm font-medium text-gray-700"
+    >
+      {children}
+    </label>
+  )
+}
+
+export const MandatoryFieldFlag = (): JSX.Element => (
+  <span className="text-md text-red-500">*</span>
+)
+
 export const InputText = ({
+  type = "text",
   label,
   name,
   register,
@@ -30,6 +52,7 @@ export const InputText = ({
   requiredFlag = false,
   placeholder,
 }: {
+  type?: string
   label: string
   name: string
   register: () => void
@@ -38,12 +61,12 @@ export const InputText = ({
   placeholder?: string
 }): JSX.Element => (
   <>
-    <label className="block text-sm font-medium text-gray-700">
+    <Label>
       {label}&nbsp;
-      {requiredFlag ? <span className="text-md text-red-500">*</span> : ""}
+      {requiredFlag ? <MandatoryFieldFlag /> : ""}
       <div className="mt-1">
         <input
-          type="text"
+          type={type}
           name={name}
           id={name}
           className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -54,7 +77,7 @@ export const InputText = ({
         />
         <AlertInput>{(errors[name] as FieldError)?.message}</AlertInput>
       </div>
-    </label>
+    </Label>
   </>
 )
 

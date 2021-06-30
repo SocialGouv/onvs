@@ -1,7 +1,7 @@
 import Cors from "micro-cors"
 
-import { OnvsError } from "@/utils/errors"
 import prisma from "@/prisma/db"
+import { OnvsError } from "@/utils/errors"
 import { UserApiType, UserApiSchema } from "@/models/users"
 import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
 

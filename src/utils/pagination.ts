@@ -3,7 +3,7 @@ type ReturnType = {
   pageSize: number
   totalCount: number
   totalPages: number
-  prismaQueryParams: { skip: number; take: number }
+  prismaPaginationQueryParams: { skip: number; take: number }
 }
 
 export const DEFAULT_PAGE_SIZE = 50
@@ -27,7 +27,7 @@ export async function buildMetaPagination({
 
   pageIndex = Math.min(pageIndex, totalPages > 0 ? totalPages - 1 : 0)
 
-  const prismaQueryParams = {
+  const prismaPaginationQueryParams = {
     skip: pageIndex > 0 ? pageIndex * pageSize : 0,
     take: pageSize,
   }
@@ -37,6 +37,6 @@ export async function buildMetaPagination({
     pageSize,
     totalCount,
     totalPages,
-    prismaQueryParams,
+    prismaPaginationQueryParams,
   }
 }

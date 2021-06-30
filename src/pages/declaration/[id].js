@@ -5,11 +5,11 @@ import PropTypes from "prop-types"
 import React from "react"
 import useSWR from "swr"
 
-import { findDeclaration } from "@/clients/declarations"
 import { Layout } from "@/components/Layout"
 import { OutlineButton, Title1 } from "@/components/lib"
 import Spinner from "@/components/svg/spinner"
 import useUser from "@/hooks/useUser"
+import { findDeclaration } from "@/clients/declarations"
 
 const DatePart = ({ data }) => {
   return (

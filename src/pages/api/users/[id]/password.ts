@@ -1,9 +1,9 @@
 import Cors from "micro-cors"
 import { z } from "zod"
 
+import prisma from "@/prisma/db"
 import { OnvsError } from "@/utils/errors"
 import { hashPassword } from "@/utils/bcrypt"
-import prisma from "@/prisma/db"
 import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
 
 const bodySchema = z.object({
