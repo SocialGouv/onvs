@@ -1,3 +1,10 @@
+# [2.18.0](https://github.com/SocialGouv/onvs/compare/v2.17.1...v2.18.0) (2021-06-30)
+
+
+### Features
+
+* add user with role "Gestionnaire d'ordre" ([#149](https://github.com/SocialGouv/onvs/issues/149)) ([d441de8](https://github.com/SocialGouv/onvs/commit/d441de831b04e476e1f35e3aee881c0f587abad9))
+
 ## [2.17.1](https://github.com/SocialGouv/onvs/compare/v2.17.0...v2.17.1) (2021-06-24)
 
 
