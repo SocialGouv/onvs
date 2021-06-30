@@ -1,14 +1,14 @@
+import React from "react"
 import { Menu } from "@headlessui/react"
+import Head from "next/head"
+import Link from "next/link"
+import { useRouter } from "next/router"
 import {
   MenuIcon,
   UserCircleIcon,
   UsersIcon,
   ViewListIcon,
 } from "@heroicons/react/outline"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import PropTypes from "prop-types"
-import React from "react"
 
 import HospitalIcon from "@/components/svg/hospital-line"
 import useUser from "@/hooks/useUser"
@@ -162,6 +162,10 @@ function PrivateLayout({
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100">
+      <Head>
+        <title>ONVS {title && `- ${title}`}</title>
+      </Head>
+
       <SideBar />
       <div className="flex flex-col flex-1 w-0 overflow-hidden">
         <div className="relative z-10 flex flex-shrink-0 h-16 bg-white shadow">
@@ -196,11 +200,6 @@ function PrivateLayout({
       </div>
     </div>
   )
-}
-
-PrivateLayout.propTypes = {
-  children: PropTypes.node,
-  title: PropTypes.string,
 }
 
 export default PrivateLayout

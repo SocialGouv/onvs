@@ -18,12 +18,17 @@ import {
   Label,
   MandatoryFieldFlag,
 } from "@/components/Form"
+import { Prisma } from ".prisma/client"
 
 const formSchema = yup.object({
   id: yup.string().optional(),
-  firstName: yup.string().required("Le champ prénom est requis."),
-  lastName: yup.string().optional(),
-  email: yup.string().email().required("Le champ email est requis."),
+  firstName: yup.string().required("Le champ prénom est requis.").default(null),
+  lastName: yup.string().optional().default(null),
+  email: yup
+    .string()
+    .email()
+    .required("Le champ email est requis.")
+    .nullable(false),
   role: yup
     .object({ label: yup.string(), value: yup.string() })
     .nullable()
@@ -49,17 +54,19 @@ const formSchema = yup.object({
   }),
 })
 
+// Hack: yup considers that email is of type string | undefined, even the field is yup.string.required().
+// A replacement of yup by zod will make us able to remove this hack.
+export type UserFormType = yup.TypeOf<typeof formSchema> & { email: string }
+
 type Props = {
   user?: UserModel & { scope: any }
-  onSubmit: (values: yup.TypeOf<typeof formSchema>) => void
+  onSubmit: (values: UserFormType) => void
   children: React.ReactNode
 }
 
-export function buildRoleAndScopeFromUserForm(
-  user: yup.TypeOf<typeof formSchema>,
-): {
+export function buildRoleAndScopeFromUserForm(user: UserFormType): {
   role: string
-  scope: Record<string, unknown>
+  scope: Prisma.JsonValue
 } {
   if (!user?.role?.value) {
     throw new Error("The user is not well formed")
@@ -110,6 +117,7 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
     <form
       className="space-y-8 divide-y divide-gray-200"
       onSubmit={handleSubmit(onSubmit)}
+      data-testid="user-form"
     >
       <div className="space-y-8 divide-y divide-gray-200">
         <div className="pt-8">
@@ -153,7 +161,7 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
 
             <div className="sm:col-span-3">
               <label
-                htmlFor="country"
+                htmlFor="role"
                 className="block text-sm font-medium text-gray-700"
               >
                 Rôle&nbsp;
@@ -163,6 +171,7 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
                 <Controller
                   options={rolesOptions}
                   name="role"
+                  inputId="role"
                   control={control}
                   as={Select}
                   placeholder="Choisir..."
@@ -184,7 +193,7 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
             )}
             {role?.value === "Gestionnaire d'ordre" && (
               <div className="sm:col-span-6">
-                <Label htmlFor="order">
+                <Label htmlFor="scope.order">
                   <span className="block text-sm font-medium text-gray-700">
                     Ordre&nbsp;
                     <MandatoryFieldFlag />
@@ -192,6 +201,7 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
                   <Controller
                     options={ordersOptions}
                     name="scope.order"
+                    inputId="scope.order"
                     control={control}
                     as={Select}
                     placeholder="Choisir..."

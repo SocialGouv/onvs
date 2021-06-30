@@ -31,7 +31,7 @@ function HomePage(): JSX.Element {
   }
 
   return (
-    <PrivateLayout title="Déclaration des incidents de violence">
+    <PrivateLayout title="Tableau de bord">
       {user?.role === "Gestionnaire établissement" && (
         <div className="w-8/12 p-8 py-4 mx-auto text-center border border-gray-300 rounded-lg shadow-md min-h-64">
           <Title1 className="mb-8 text-center">Formulaire</Title1>

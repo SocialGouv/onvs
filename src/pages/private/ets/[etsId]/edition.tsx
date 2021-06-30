@@ -4,14 +4,14 @@ import { useRouter } from "next/router"
 import { ArrowLeftIcon } from "@heroicons/react/solid"
 
 import prisma from "@/prisma/db"
-import { deleteEts, updateEts } from "@/clients/ets"
-import { EtsModel } from "@/models/ets"
 import PrivateLayout from "@/components/PrivateLayout"
 import Modal from "@/components/Modal"
 import EtsForm from "@/components/EtsForm"
 import { PrimaryButton, OutlineButton } from "@/components/lib"
 import Alert, { AlertMessageType } from "@/components/Alert"
 import ButtonAnchor from "@/components/Anchor"
+import { deleteEts, updateEts } from "@/clients/ets"
+import { EtsModel } from "@/models/ets"
 
 const EtsEditionPage = ({ ets }: { ets: EtsModel }): JSX.Element => {
   const router = useRouter()

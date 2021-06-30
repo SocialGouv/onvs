@@ -1,10 +1,10 @@
 import { useRouter } from "next/router"
 import React from "react"
 
+import { Prisma } from ".prisma/client"
 import { OutlineButton } from "@/components/lib"
 import PrivateLayout from "@/components/PrivateLayout"
 import useUser from "@/hooks/useUser"
-import { Prisma } from ".prisma/client"
 
 const ProfilePage = () => {
   const router = useRouter()
@@ -18,7 +18,7 @@ const ProfilePage = () => {
   const scope = user.scope as Prisma.JsonObject
 
   return (
-    <PrivateLayout title="Profil utilisateur">
+    <PrivateLayout title="Profil">
       <div className="w-8/12 p-8 py-16 mx-auto border border-gray-300 rounded-lg shadow-md min-h-64 md:px-16">
         <p className="font-semibold">{user.email}</p>
         <p>

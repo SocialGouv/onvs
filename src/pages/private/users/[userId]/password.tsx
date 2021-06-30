@@ -2,16 +2,16 @@ import React from "react"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers"
+import { ArrowLeftIcon } from "@heroicons/react/solid"
 
 import PrivateLayout from "@/components/PrivateLayout"
 import { PrimaryButton, OutlineButton } from "@/components/lib"
 import Alert, { AlertMessageType } from "@/components/Alert"
-import useUser from "@/hooks/useUser"
-import { yupResolver } from "@hookform/resolvers"
 import { InputText } from "@/components/Form"
-import { changePasswordUser } from "@/clients/users"
 import ButtonAnchor from "@/components/Anchor"
-import { ArrowLeftIcon } from "@heroicons/react/solid"
+import useUser from "@/hooks/useUser"
+import { changePasswordUser } from "@/clients/users"
 
 const formSchema = yup.object({
   password: yup
@@ -73,7 +73,7 @@ const ChangePasswordPage = (): JSX.Element => {
 
   return (
     <PrivateLayout
-      title="Utilisateurs"
+      title="Mot de passe"
       leftComponent={
         <ButtonAnchor
           LeftIconComponent={ArrowLeftIcon}

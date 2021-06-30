@@ -33,7 +33,7 @@ const EtsCreationPage = (): JSX.Element => {
 
   return (
     <PrivateLayout
-      title="Création d'un établissement"
+      title="Nouvel établissement"
       leftComponent={
         <ButtonAnchor
           LeftIconComponent={ArrowLeftIcon}

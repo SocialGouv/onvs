@@ -3,12 +3,13 @@ import { useRouter } from "next/router"
 import { ArrowLeftIcon } from "@heroicons/react/solid"
 
 import PrivateLayout from "@/components/PrivateLayout"
-import UserForm, { buildRoleAndScopeFromUserForm } from "@/components/UserForm"
-import { PrimaryButton, OutlineButton } from "@/components/lib"
+import { buildRoleAndScopeFromUserForm } from "@/components/UserForm"
 import { createUser } from "@/clients/users"
 import Alert, { AlertMessageType } from "@/components/Alert"
 import ButtonAnchor from "@/components/Anchor"
-import { UserModel } from "@/models/users"
+import { UserModel, UserCreateInput } from "@/models/users"
+import { UserFormCreation } from "@/components/UserFormCreation"
+import { UserFormType } from "@/components/UserForm"
 
 const UserPage = (): JSX.Element => {
   const router = useRouter()
@@ -16,17 +17,21 @@ const UserPage = (): JSX.Element => {
   const [isLoading, setLoading] = React.useState(false)
   const [createdUser, setCreatedUser] = React.useState<UserModel>()
 
-  async function onCreateUser(user) {
+  async function onCreateUser(user: UserFormType) {
     setMessage(undefined)
 
     const { role, scope } = buildRoleAndScopeFromUserForm(user)
 
-    user = { ...user, role, scope }
+    const newUser: UserCreateInput = {
+      ...user,
+      role,
+      scope,
+    }
 
     try {
       setLoading(true)
-      const newUser = await createUser({ user })
-      setCreatedUser(newUser?.user)
+      const res = await createUser({ user: newUser })
+      setCreatedUser(res?.user)
       setMessage({ text: "Utilisateur créé.", kind: "success" })
     } catch (error) {
       console.error("error.message", error.message)
@@ -38,7 +43,7 @@ const UserPage = (): JSX.Element => {
 
   return (
     <PrivateLayout
-      title="Utilisateurs"
+      title="Nouvel utilisateur"
       leftComponent={
         <ButtonAnchor
           LeftIconComponent={ArrowLeftIcon}
@@ -62,19 +67,10 @@ const UserPage = (): JSX.Element => {
         }
       ></Alert>
 
-      <UserForm onSubmit={onCreateUser}>
-        <div className="flex justify-end">
-          <OutlineButton onClick={() => router.back()}>Annuler</OutlineButton>
-          <span className="w-4" />
-
-          <PrimaryButton
-            type="submit"
-            disabled={isLoading || Boolean(createdUser)}
-          >
-            Ajouter
-          </PrimaryButton>
-        </div>
-      </UserForm>
+      <UserFormCreation
+        onCreateUser={onCreateUser}
+        isLoading={isLoading || Boolean(createdUser)}
+      />
     </PrivateLayout>
   )
 }

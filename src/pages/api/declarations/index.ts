@@ -1,21 +1,17 @@
 import Cors from "micro-cors"
 
+import prisma from "@/prisma/db"
 import { create } from "@/services/declarations"
 import withSession from "@/lib/session"
-
-import prisma from "@/prisma/db"
+import { UserLoggedModel } from "@/models/users"
 import { buildMetaPagination } from "@/utils/pagination"
 import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
 import { AuthenticationError, DuplicateError } from "@/utils/errors"
-import { UserLoggedModel } from "@/models/users"
 import { jobsByOrders } from "@/utils/options"
 
 const UNIQUE_VIOLATION_PG = "23505"
 
-// TODO : je chercher à afficher uniquement les déclarations auxquelles on a droit, en fonction du rôle.
-// User a un type qui est différent suivant les rôles (le scope n'est pas de la même forme). Je me demande s'il ne fautdait pas faire des
-// interfaces différentes pour au moins éviter d'avoir des any, à défaut de pouvoir modifier le User model de prisma.
-
+// TODO : filtrer les déclarations pour les autres rôles
 function buildWhereClause(user: UserLoggedModel) {
   if (user.role === "Gestionnaire d'ordre") {
     if (!(user?.scope as any)?.order)

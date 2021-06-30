@@ -1,6 +1,6 @@
 import Cors from "micro-cors"
-import prisma from "@/prisma/db"
 
+import prisma from "@/prisma/db"
 import { BadRequestError, InexistingResourceError } from "@/utils/errors"
 import { EtsApiSchema } from "@/models/ets"
 import { handleErrors, handleNotAllowedMethods } from "@/utils/api"

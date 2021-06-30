@@ -34,9 +34,9 @@ export const jobs = [
 export const jobsByOrders = {
   Dentistes: ["Assistant dentaire", "Chirurgien-dentiste"],
   Infirmiers: ["Infirmier"],
-  "Sage-femmes": ["Sage-femme"],
+  "Sages-femmes": ["Sage-femme"],
   Pharmaciens: ["Pharmacien"],
-  "Pédicure-Podologue": ["Pédicure-podologue", "Podo-orthésiste"],
+  "Pédicures-podologues": ["Pédicure-podologue", "Podo-orthésiste"],
   "Masseurs-kiné": ["Masseur-kinésithérapeute"],
 }
 
@@ -49,14 +49,7 @@ export const roles = [
 
 export const juridicStatus = ["Public", "Privé"]
 
-export const orders = [
-  "Dentistes",
-  "Infirmiers",
-  "Sage-femmes",
-  "Pharmaciens",
-  "Pédicure-Podologue",
-  "Masseurs-kiné",
-]
+export const orders = Object.keys(jobsByOrders)
 
 /** End of list */
 
