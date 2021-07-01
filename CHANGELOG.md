@@ -1,3 +1,10 @@
+# [2.20.0](https://github.com/SocialGouv/onvs/compare/v2.19.0...v2.20.0) (2021-07-01)
+
+
+### Features
+
+* update libs ([#159](https://github.com/SocialGouv/onvs/issues/159)) ([2ca1e4f](https://github.com/SocialGouv/onvs/commit/2ca1e4f07c0001386751a004496e39ddad1d588f))
+
 # [2.19.0](https://github.com/SocialGouv/onvs/compare/v2.18.0...v2.19.0) (2021-07-01)
 
 
