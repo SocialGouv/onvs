@@ -30,7 +30,7 @@ It may be convenient to set this daemon mode only for the db container. In this 
 
 Then, on the host machine, the db is exposed on port 5435 and the app is accessible on port 80.
 
-### 🎛️ Env vars
+### 🎛️ Environment vars
 
 You need to set `process.env` variables.
 
