@@ -1,6 +1,10 @@
+/**
+ * @jest-environment jsdom
+ */
 import React from "react"
 import { fireEvent, render, screen, act } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
+
 import selectEvent from "react-select-event"
 
 import { UserFormCreation } from "@/components/UserFormCreation"

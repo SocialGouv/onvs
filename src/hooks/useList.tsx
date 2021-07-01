@@ -117,7 +117,10 @@ export function useList<T>({
     search,
   })
 
-  const { data, error }: SWRResponse<PaginatedData<T>, Error> = useSWR(
+  const {
+    data,
+    error,
+  }: SWRResponse<PaginatedData<T>, Error> = useSWR(
     apiUrl + "?" + searchParams.toString(),
     fetcher,
   )

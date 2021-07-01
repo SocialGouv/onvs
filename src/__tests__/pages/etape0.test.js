@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import * as stateMachine from "little-state-machine"
 import * as nextRouter from "next/router"
