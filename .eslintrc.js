@@ -15,6 +15,7 @@ module.exports = {
   },
   ignorePatterns: ["node_modules/*", ".next/*", "!.prettierrc.js"],
   extends: [
+    "plugin:@next/next/recommended",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",

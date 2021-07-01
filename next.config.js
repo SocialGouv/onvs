@@ -10,9 +10,6 @@ const nextConfig = {
   env: {
     TEST_CURRENT_DATE: process.env.TEST_CURRENT_DATE,
   },
-  future: {
-    webpack5: true,
-  },
   serverRuntimeConfig: {
     // Will only be available on the server side. Needs getInitialProps on page to be available
   },
