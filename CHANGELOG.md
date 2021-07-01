@@ -1,3 +1,15 @@
+# [2.19.0](https://github.com/SocialGouv/onvs/compare/v2.18.0...v2.19.0) (2021-07-01)
+
+
+### Bug Fixes
+
+* bug in API post declaration. Anyone must be able to do it. ([#158](https://github.com/SocialGouv/onvs/issues/158)) ([5b41f67](https://github.com/SocialGouv/onvs/commit/5b41f67c02b41ed7e6a846b1a82ee17d07e5715f))
+
+
+### Features
+
+* trigger release ([#160](https://github.com/SocialGouv/onvs/issues/160)) ([1ff209b](https://github.com/SocialGouv/onvs/commit/1ff209b95e57e1d78a7c774eac911a2db8fea86f))
+
 # [2.18.0](https://github.com/SocialGouv/onvs/compare/v2.17.1...v2.18.0) (2021-06-30)
 
 
