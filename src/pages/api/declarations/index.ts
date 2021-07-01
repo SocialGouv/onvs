@@ -28,14 +28,13 @@ const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
 
   try {
-    const user = req.session.get("user")
-
-    if (!user?.isLoggedIn) {
-      throw new AuthenticationError()
-    }
-
     switch (req.method) {
       case "GET": {
+        const user = req.session.get("user")
+
+        if (!user?.isLoggedIn) {
+          throw new AuthenticationError()
+        }
         const whereClause = buildWhereClause(user)
 
         const totalCount = await prisma.declaration.count({

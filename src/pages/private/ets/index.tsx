@@ -64,7 +64,7 @@ function EtsAdministrationPage() {
       />
       {
         <Table
-          headers={["N° FINESS", "Raison sociale", "Ville", ""].map(
+          headers={["FINESS géographique", "Raison sociale", "Ville", ""].map(
             (header) => (
               <th
                 key={header}
