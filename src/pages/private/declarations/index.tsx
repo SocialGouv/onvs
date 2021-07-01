@@ -52,7 +52,7 @@ function DeclarationAdministration() {
       ) : (
         <Table
           headers={[
-            "Date du signalement",
+            "Date de déclaration",
             "Type",
             "Métier",
             "Ville",
@@ -77,7 +77,10 @@ function DeclarationAdministration() {
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-gray-900">
                   {declaration?.date
-                    ? format(new Date(declaration.date), FORMAT_DATE)
+                    ? format(
+                        new Date(declaration.createdAt as Date),
+                        FORMAT_DATE,
+                      )
                     : "N/A"}
                 </div>
               </td>
