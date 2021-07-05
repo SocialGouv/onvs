@@ -12,6 +12,7 @@ import { useScrollTop } from "@/hooks/useScrollTop"
 import { buildSelectOptions } from "@/utils/select"
 
 import { selectConfig } from "../../../../config"
+import TownSelect from "@/components/TownSelect"
 
 export const hoursOptions = buildSelectOptions([
   "Matin (7h-12h)",
@@ -53,7 +54,14 @@ const schema = yup.object().shape({
           `Le champ "Autre lieu" ne doit pas dépasser ${max} caractères`,
       ),
   }),
-  town: yup.string().required("La ville est à renseigner"),
+  town: yup
+    .object()
+    .shape({
+      label: yup.string(),
+      value: yup.string(),
+    })
+    .nullable(true) // to consider null as an object and let required validate and displays the appropriate message
+    .required("La ville est à renseigner"),
 })
 
 const Step1 = () => {
@@ -67,7 +75,7 @@ const Step1 = () => {
         hour: state?.steps?.dateLocation?.hour || hoursOptions?.[0],
         location: state?.steps?.dateLocation?.location,
         otherLocation: state?.steps?.dateLocation?.otherLocation,
-        town: state?.steps?.dateLocation?.town,
+        town: state?.steps?.dateLocation?.town || null,
       }),
 
       resolver: yupResolver(schema),
@@ -137,15 +145,8 @@ const Step1 = () => {
           >
             Ville
           </label>
-          <input
-            className={`form-input ${errors?.town && "border-red-600"}`}
-            type="text"
-            id="town"
-            name="town"
-            placeholder="Tapez les premières lettres"
-            ref={register}
-            aria-invalid={!!errors?.town?.message}
-          />
+
+          <TownSelect name="town" control={control} />
 
           <InputError error={errors?.town?.message} />
         </div>

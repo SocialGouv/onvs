@@ -13,6 +13,7 @@ import { useScrollTop } from "@/hooks/useScrollTop"
 import { buildSelectOptions } from "@/utils/select"
 
 import { selectConfig } from "../../../../config"
+import TownSelect from "@/components/TownSelect"
 
 const locationMainOptions = buildSelectOptions([
   "Accueil Mère/enfant",
@@ -111,7 +112,14 @@ const schema = yup.object().shape({
     })
     .nullable(true)
     .required("Le lieu précis est à renseigner"),
-  town: yup.string().required("La ville est à renseigner"),
+  town: yup
+    .object()
+    .shape({
+      label: yup.string(),
+      value: yup.string(),
+    })
+    .nullable(true) // to consider null as an object and let required validate and displays the appropriate message
+    .required("La ville est à renseigner"),
 })
 
 const Step1 = () => {
@@ -126,7 +134,7 @@ const Step1 = () => {
         locationMain: state?.steps?.dateLocation?.locationMain || null,
         locationSecondary:
           state?.steps?.dateLocation?.locationSecondary || null,
-        town: state?.steps?.dateLocation?.town,
+        town: state?.steps?.dateLocation?.town || null,
       }),
 
       resolver: yupResolver(schema),
@@ -196,15 +204,8 @@ const Step1 = () => {
           >
             Ville
           </label>
-          <input
-            className={`form-input ${errors?.town && "border-red-600"}`}
-            type="text"
-            id="town"
-            name="town"
-            placeholder="Tapez les premières lettres"
-            ref={register}
-            aria-invalid={!!errors?.town?.message}
-          />
+
+          <TownSelect name="town" control={control} />
 
           <InputError error={errors?.town?.message} />
         </div>
