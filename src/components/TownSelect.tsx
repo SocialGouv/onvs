@@ -3,7 +3,7 @@ import { Control, Controller } from "react-hook-form"
 import AsyncSelect from "react-select/async"
 
 import fetcher from "@/utils/fetcher"
-import { buildSelectOptions } from "@/utils/select"
+import { buildSelectOptions, SelectType } from "@/utils/select"
 
 const BAN_URL = "https://api-adresse.data.gouv.fr/search/?"
 
@@ -17,6 +17,16 @@ const composeBanUrl = (query) => {
 
 const fetchCity = async (query) => {
   return fetcher(composeBanUrl(query))
+}
+
+export async function loadCities(search: string): Promise<Array<SelectType>> {
+  const cities = await fetchCity(search)
+
+  const options = cities?.features.map(
+    (feature) => `${feature.properties.city} (${feature.properties.postcode})`,
+  )
+
+  return buildSelectOptions(options)
 }
 
 export default function TownSelect({
@@ -33,23 +43,14 @@ export default function TownSelect({
   onChange: () => void
   control: Control
 }): JSX.Element {
-  const loadCities = async (search) => {
-    const cities = await fetchCity(search)
-
-    const options = cities?.features.map(
-      (feature) =>
-        `${feature.properties.city} (${feature.properties.postcode})`,
-    )
-
-    return buildSelectOptions(options)
-  }
-
   return (
     <>
       <Controller
         as={AsyncSelect}
         control={control}
         name={name}
+        inputId={name}
+        aria-label={name}
         loadOptions={(search) => loadCities(search)}
         isClearable={true}
         placeholder="Tapez le nom d'une ville"

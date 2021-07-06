@@ -122,7 +122,7 @@ const Step1 = () => {
         <div className="flex-1">
           <label
             className="block mb-2 text-xs font-medium tracking-wide text-gray-700 uppercase"
-            htmlFor="periodDay"
+            htmlFor="hour"
           >
             Horaire
           </label>
@@ -131,6 +131,7 @@ const Step1 = () => {
             as={Select}
             options={hoursOptions}
             name="hour"
+            inputId="hour"
             control={control}
             styles={selectConfig}
           />
