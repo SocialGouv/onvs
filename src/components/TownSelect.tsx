@@ -22,10 +22,9 @@ const fetchCity = async (query) => {
 export async function loadCities(search: string): Promise<Array<SelectType>> {
   const cities = await fetchCity(search)
 
-  const options = cities?.features.map(
+  const options = cities?.features?.map(
     (feature) => `${feature.properties.city} (${feature.properties.postcode})`,
   )
-
   return buildSelectOptions(options)
 }
 
