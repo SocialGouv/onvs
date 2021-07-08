@@ -1,3 +1,10 @@
+## [2.21.1](https://github.com/SocialGouv/onvs/compare/v2.21.0...v2.21.1) (2021-07-08)
+
+
+### Bug Fixes
+
+* rename role + add ability to add a user ets for admin ([#162](https://github.com/SocialGouv/onvs/issues/162)) ([45ae701](https://github.com/SocialGouv/onvs/commit/45ae7018bc58a2d431188b4a9f183bb929e89bd1))
+
 # [2.21.0](https://github.com/SocialGouv/onvs/compare/v2.20.0...v2.21.0) (2021-07-08)
 
 
