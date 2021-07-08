@@ -145,6 +145,7 @@ const EtsForm = ({ ets, onSubmit, children }: Props): JSX.Element => {
                 <Controller
                   options={juridicStatusOptions}
                   name="juridicStatus"
+                  inputId="juridicStatus"
                   control={control}
                   as={Select}
                   placeholder="Choisir..."

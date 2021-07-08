@@ -51,9 +51,8 @@ const Step0 = () => {
           as={Select}
           options={jobsOptions}
           name="job"
-          id="job"
-          instanceId="job"
-          aria-label="job"
+          inputId="job"
+          aria-label="job" // aria-label is important for the component to be found by Jest! (inputId, id, instanceId don't work)
           isClearable="true"
           control={control}
           styles={selectConfig}

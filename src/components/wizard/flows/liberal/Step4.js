@@ -286,6 +286,7 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
               as={Select}
               control={control}
               name={`victims[${number}].type`}
+              inputId={`victims[${number}].type`}
               id={`victims[${number}].type`}
               instanceId={`victims[${number}].type`}
               options={victimTypeOptions}
@@ -311,6 +312,7 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
             as={Select}
             control={control}
             name={`victims[${number}].gender`}
+            inputId={`victims[${number}].gender`}
             id={`victims[${number}].gender`}
             instanceId={`victims[${number}].gender`}
             options={genderOptions}
@@ -336,6 +338,7 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
             as={Select}
             control={control}
             name={`victims[${number}].age`}
+            inputId={`victims[${number}].age`}
             id={`victims[${number}].age`}
             instanceId={`victims[${number}].age`}
             options={ageOptions}
@@ -367,6 +370,7 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
                 as={Select}
                 control={control}
                 name={`victims[${number}].healthJob`}
+                inputId={`victims[${number}].healthJob`}
                 id={`victims[${number}].healthJob`}
                 instanceId={`victims[${number}].healthJob`}
                 options={healthJobOptions}
@@ -509,6 +513,7 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
             as={Select}
             control={control}
             name={`authors[${number}].type`}
+            inputId={`authors[${number}].type`}
             id={`authors[${number}].type`}
             instanceId={`authors[${number}].type`}
             options={authorProfileOptions}
@@ -533,6 +538,7 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
             as={Select}
             control={control}
             name={`authors[${number}].gender`}
+            inputId={`authors[${number}].gender`}
             id={`authors[${number}].gender`}
             instanceId={`authors[${number}].gender`}
             options={genderOptions}
@@ -558,6 +564,7 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
             as={Select}
             control={control}
             name={`authors[${number}].age`}
+            inputId={`authors[${number}].age`}
             id={`authors[${number}].age`}
             instanceId={`authors[${number}].age`}
             options={ageOptions}
@@ -589,6 +596,7 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
                 as={Select}
                 control={control}
                 name={`authors[${number}].healthJob`}
+                inputId={`authors[${number}].healthJob`}
                 id={`authors[${number}].healthJob`}
                 instanceId={`authors[${number}].healthJob`}
                 options={healthJobOptions}

@@ -43,6 +43,10 @@ const DatePart = ({ data }) => {
         <span className="inline-block w-48 font-bold">Ville</span>
         {data.town}
       </p>
+      <p>
+        <span className="inline-block w-48 font-bold">Code postal</span>
+        {data.postalCode}
+      </p>
       {/* Those data doesn't exist for hospital flow */}
       {data.location && (
         <p>
