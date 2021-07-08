@@ -41,8 +41,8 @@ export const jobsByOrders = {
 }
 
 export const roles = [
-  // "Gestionnaire d'ETS",
-  // "Gestionnaire multi-ETS",
+  "Gestionnaire établissement",
+  // "Gestionnaire multi-établissements",
   "Gestionnaire d'ordre",
   "Administrateur",
 ]

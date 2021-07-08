@@ -44,7 +44,7 @@ const formSchema = yup.object({
           .nullable()
           .required("L'ordre est requis"),
       })
-    } else if (role?.value === "Gestionnaire d'ETS") {
+    } else if (role?.value === "Gestionnaire établissement") {
       return yup.object({
         ets: yup.string().required(),
       })
@@ -77,7 +77,7 @@ export function buildRoleAndScopeFromUserForm(user: UserFormType): {
   let scope = {}
   if (role === "Gestionnaire d'ordre") {
     scope = { order: user?.scope?.order?.value }
-  } else if (role === "Gestionnaire d'ETS") {
+  } else if (role === "Gestionnaire établissement") {
     scope = { ets: user?.scope?.ets?.value }
   }
   return { role, scope }
@@ -181,7 +181,7 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
               </div>
             </div>
 
-            {role?.value === "Gestionnaire d'ETS" && (
+            {role?.value === "Gestionnaire établissement" && (
               <div className="sm:col-span-6">
                 <InputText
                   label="ETS"

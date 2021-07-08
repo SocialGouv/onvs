@@ -7,13 +7,23 @@ exports.seed = function (knex) {
     .then(function () {
       return knex("users").insert([
         {
+          email: "multi-ets@onvs.fr",
+          first_name: null,
+          id: uuid(),
+          last_name: null,
+          password:
+            "$2y$10$VQJlTRYj4aIXvsWLr1wc/Ov10DRAeTOsxR4q5XDfzewEouFI3eQ3i", // test
+          role: "Gestionnaire multi établissements",
+          scope: null,
+        },
+        {
           email: "ets@onvs.fr",
           first_name: null,
           id: uuid(),
           last_name: null,
           password:
             "$2y$10$VQJlTRYj4aIXvsWLr1wc/Ov10DRAeTOsxR4q5XDfzewEouFI3eQ3i", // test
-          role: "Gestionnaire multi-ETS",
+          role: "Gestionnaire établissement",
           scope: null,
         },
         {
