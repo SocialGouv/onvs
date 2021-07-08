@@ -1,3 +1,10 @@
+# [2.21.0](https://github.com/SocialGouv/onvs/compare/v2.20.0...v2.21.0) (2021-07-08)
+
+
+### Features
+
+* add postal code in form and db ([#161](https://github.com/SocialGouv/onvs/issues/161)) ([a4451e3](https://github.com/SocialGouv/onvs/commit/a4451e3fb5ae6cb5790200cf1e4ef200289dd8f1))
+
 # [2.20.0](https://github.com/SocialGouv/onvs/compare/v2.19.0...v2.20.0) (2021-07-01)
 
 
