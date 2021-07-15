@@ -2,7 +2,7 @@ import { castJSToDB, validateJS } from "@/models/declarations/liberal"
 
 import declarationSample from "./declaration-sample.json"
 
-test("A correct declaration", async () => {
+test.skip("A correct declaration", async () => {
   const declaration = {
     date: "2020-09-09",
     job: {
@@ -25,7 +25,7 @@ test("A correct declaration", async () => {
         `)
 })
 
-test("A incorrect declaration", async () => {
+test.skip("A incorrect declaration", async () => {
   const consoleErrorLegacy = console.error
   console.error = jest.fn()
 
@@ -43,6 +43,6 @@ test("A incorrect declaration", async () => {
   console.error = consoleErrorLegacy
 })
 
-test("A full correct declaration", async () => {
+test.skip("A full correct declaration", async () => {
   await expect(castJSToDB(declarationSample?.form)).resolves.toMatchSnapshot()
 })

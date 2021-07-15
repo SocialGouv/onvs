@@ -103,7 +103,7 @@ function DeclarationAdministration() {
               <td className="px-6 py-4 text-sm text-gray-800">
                 <span className="line-clamp-4">
                   {composeContactAgreementLabel(
-                    declaration.declarant_contact_agreement,
+                    declaration.declarantContactAgreement,
                   )}
                 </span>
               </td>
