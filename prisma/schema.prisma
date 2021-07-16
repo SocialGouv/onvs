@@ -16,8 +16,8 @@ model Declaration {
   date                         String    @db.VarChar(30)
   hour                         String    @db.VarChar(60)
   town                         String    @db.VarChar(255)
-  location                     String?   @db.VarChar(255)
-  otherLocation                String?   @map("other_location") @db.VarChar(255)
+  location_deprecated          String?   @db.VarChar(255)
+  other_location_deprecated    String?   @db.VarChar(255)
   factTypes                    Json?     @map("fact_types")
   fpGroups                     Json?     @map("fp_groups")
   fpSpokenViolences            Json?     @map("fp_spoken_violences")
@@ -63,6 +63,7 @@ model Declaration {
   locationMain                 String?   @map("ets_location1") @db.VarChar(255)
   locationSecondary            String?   @map("ets_location2") @db.VarChar(255)
   postalCode                   String    @map("postal_code") @db.VarChar(5)
+  location                     Json
 
   @@map("declarations")
 }
