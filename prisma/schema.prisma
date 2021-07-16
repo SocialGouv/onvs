@@ -9,14 +9,13 @@ datasource db {
 
 model Declaration {
   id                           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt                    DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdAt                    DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt                    DateTime? @map("updated_at") @db.Timestamptz(6)
-  deletedAt                    DateTime? @map("deleted_at") @db.Timestamptz(6)
-  declarationType              String?   @map("declaration_type") @db.VarChar(60)
+  declarationType              String    @map("declaration_type") @db.VarChar(60)
   job                          String?   @db.VarChar(255)
-  date                         String?   @db.VarChar(30)
-  hour                         String?   @db.VarChar(60)
-  town                         String?   @db.VarChar(255)
+  date                         String    @db.VarChar(30)
+  hour                         String    @db.VarChar(60)
+  town                         String    @db.VarChar(255)
   location                     String?   @db.VarChar(255)
   otherLocation                String?   @map("other_location") @db.VarChar(255)
   factTypes                    Json?     @map("fact_types")
@@ -43,16 +42,16 @@ model Declaration {
   rOthers                      Json?     @map("r_others")
   rOthersPrecision             String?   @map("r_others_precision") @db.VarChar(255)
   rNotApparent                 Boolean?  @map("r_not_apparent")
-  victims                      Json?
+  victims                      Json
   thirdParty                   Json?     @map("third_party")
   thirdPartyIsPresent          String?   @map("third_party_is_present") @db.VarChar(255)
   thirdPartyPrecision          String?   @map("third_party_precision") @db.VarChar(255)
   pursuit                      String?   @db.VarChar(255)
   pursuitPrecision             String?   @map("pursuit_precision") @db.VarChar(255)
   pursuitBy                    Json?     @map("pursuit_by")
-  authors                      Json?
-  description                  String?
-  declarantContactAgreement    String?   @map("declarant_contact_agreement") @db.VarChar(30)
+  authors                      Json
+  description                  String
+  declarantContactAgreement    String    @map("declarant_contact_agreement") @db.VarChar(30)
   declarantNames               String?   @map("declarant_names") @db.VarChar(255)
   declarantExternalId          String?   @map("declarant_external_id") @db.VarChar(255)
   declarantEmail               String?   @map("declarant_email") @db.VarChar(255)
@@ -63,7 +62,7 @@ model Declaration {
   etsModeratedBy               String?   @map("ets_moderated_by") @db.Uuid
   locationMain                 String?   @map("ets_location1") @db.VarChar(255)
   locationSecondary            String?   @map("ets_location2") @db.VarChar(255)
-  postalCode                   String?   @map("postal_code") @db.VarChar(5)
+  postalCode                   String    @map("postal_code") @db.VarChar(5)
 
   @@map("declarations")
 }
