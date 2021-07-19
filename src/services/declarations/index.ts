@@ -8,11 +8,11 @@ export const create = async (
 ): Promise<string | undefined> => {
   schema.parse(declaration)
 
-  await prisma.declaration.create({
+  const newDeclaration = await prisma.declaration.create({
     data: declaration,
   })
 
-  return declaration?.id
+  return newDeclaration?.id
 }
 
 export const find = async ({

@@ -10,8 +10,10 @@ import { OutlineButton, Title1 } from "@/components/lib"
 import Spinner from "@/components/svg/spinner"
 import useUser from "@/hooks/useUser"
 import { findDeclaration } from "@/clients/declarations"
+import { DeclarationModel } from "@/models/declarations"
+import { Prisma } from "@prisma/client"
 
-const DatePart = ({ data }) => {
+const DatePart = ({ data }: { data: DeclarationModel }) => {
   return (
     <>
       <Title1 className="mt-6 mb-4">
@@ -21,7 +23,7 @@ const DatePart = ({ data }) => {
         <span className="inline-block w-48 font-bold">
           Date de la déclaration
         </span>
-        {format(parseISO(data.createdAt), "dd/MM/yyyy")}
+        {format(parseISO(data.createdAt as unknown as string), "dd/MM/yyyy")}
       </p>
       <p>
         <span className="inline-block w-48 font-bold">
@@ -47,32 +49,12 @@ const DatePart = ({ data }) => {
         <span className="inline-block w-48 font-bold">Code postal</span>
         {data.postalCode}
       </p>
-      {/* Those data doesn't exist for hospital flow */}
-      {data.location && (
-        <p>
-          <span className="inline-block w-48 font-bold">Précision lieu</span>
-          {data.location}
+      {Object.keys(data.location as Prisma.JsonObject)?.map((key) => (
+        <p key={key}>
+          <span className="inline-block w-48 font-bold">{key}</span>
+          {data.location?.[key]}
         </p>
-      )}
-      {data.otherLocation && (
-        <p>
-          <span className="inline-block w-48 font-bold">Autre</span>
-          {data.otherLocation}
-        </p>
-      )}
-      {/* Those data only exist for hospital flow */}
-      {data.locationMain && (
-        <p>
-          <span className="inline-block w-48 font-bold">Lieu principal</span>
-          {data.locationMain}
-        </p>
-      )}
-      {data.locationSecondary && (
-        <p>
-          <span className="inline-block w-48 font-bold">Lieu secondaire</span>
-          {data.locationSecondary}
-        </p>
-      )}
+      ))}
     </>
   )
 }
@@ -341,7 +323,7 @@ const VictimsAuthorsPart = ({ data }) => {
   )
 }
 
-const FinalPrecisionsPart = ({ data }) => {
+const FinalPrecisionsPart = ({ data }: { data: DeclarationModel }) => {
   return (
     <>
       <Title1 className="mt-6 mb-4">
@@ -353,13 +335,13 @@ const FinalPrecisionsPart = ({ data }) => {
         {data.description}
       </p>
       {/* Those data doesn't exist for hospital flow */}
-      {["true", "false"].includes(data.declarantContactAgreement) && (
+      {data.declarantContactAgreement !== null && (
         <p>
           <span className="inline-block w-48 font-bold">Consentement</span>
-          {data.declarantContactAgreement === "true" ? "Oui" : "Non"}
+          {data.declarantContactAgreement === true ? "Oui" : "Non"}
         </p>
       )}
-      {data.declarantContactAgreement === "true" && (
+      {data.declarantContactAgreement && (
         <>
           <p>
             <span className="inline-block w-48 font-bold ">Nom Prénom</span>
@@ -392,7 +374,7 @@ ReasonsPart.propTypes = DatePart.propTypes
 VictimsAuthorsPart.propTypes = DatePart.propTypes
 FinalPrecisionsPart.propTypes = DatePart.propTypes
 
-const ShowDeclarationPage = () => {
+const ShowDeclarationPage = (): JSX.Element => {
   const { user } = useUser()
 
   const router = useRouter()
