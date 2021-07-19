@@ -1,0 +1,358 @@
+# Création d'une déclaration de type ets
+# "id": "c1344a7e-64ea-4f9a-965d-bfd150110031",
+POST http://localhost:3030/api/declarations
+Content-Type: application/json
+
+{
+  // Champs spécifiques
+  "declarationType": "ets",
+  "location" : {
+    "Dans quel service ?": "Addictologie",
+    "Dans quel lieu précisément ?": "Bureau du personnel (médical ou non)"
+  },
+  // Champs génériques
+  "date": "2021-07-16",
+  "hour": "Matin (7h-12h)",
+  "town": "Pointe-à-Pitre",
+  "postalCode": "97110",
+  "fpSpokenViolences": [],
+  "fpSexualViolences": [],
+  "fpPsychologicalViolences": [],
+  "fpPhysicalViolences": [],
+  "fpOthers": [],
+  "fpNoRespects": [],
+  "fpGroups": [],
+  "fpDiscriminations": [],
+  "fgStealWithoutBreakins": [],
+  "fgStealWithBreakins": [],
+  "fgOthers": ["Trafic de stupéfiants ou autre trafic dans l’établissement"],
+  "fgGroups": ["Autres faits"],
+  "fgDeteriorations": [],
+  "factTypes": ["Atteinte aux biens"],
+  "rCausePatients": [],
+  "rCauseProfessionals": [],
+  "rDiscords": [],
+  "rLifeRules": [],
+  "rFalsifications": [],
+  "rDeficientCommunications": [],
+  "rOthers": [],
+  "rOthersPrecision": "",
+  "rNotApparent": true,
+  "pursuit": "Non",
+  "victims": [
+    {
+      "type": {
+        "label": "Accompagnant/Visiteur/Famille",
+        "value": "Accompagnant/Visiteur/Famille"
+      },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
+      "sickLeaveDays": 0,
+      "hospitalizationDays": 0,
+      "ITTDays": 0
+    }
+  ],
+  "authors": [
+    {
+      "discernmentTroublesIsPresent": "Non",
+      "type": { "label": "Détenu", "value": "Détenu" },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
+    }
+  ],
+  "thirdPartyIsPresent": "Non",
+  "pursuitBy": [],
+  "thirdParty": [],
+  "description": "description for ets "
+}
+
+#### Liberal declaration
+
+POST http://localhost:3030/api/declarations
+Content-Type: application/json
+
+{
+  // Champs spécifiques
+  "declarationType": "liberal",
+  "job": "Assistant dentaire",
+  "declarantContactAgreement": true,
+  "location" : {
+    "Dans quel lieu précisément ?": "Bureau du personnel (médical ou non)"
+  },
+
+  // Champs génériques
+  "date": "2021-07-16",
+  "hour": "Matin (7h-12h)",
+  "town": "Pointe-à-Pitre",
+  "postalCode": "97110",
+  "fpSpokenViolences": [],
+  "fpSexualViolences": [],
+  "fpPsychologicalViolences": [],
+  "fpPhysicalViolences": [],
+  "fpOthers": [],
+  "fpNoRespects": [],
+  "fpGroups": [],
+  "fpDiscriminations": [],
+  "fgStealWithoutBreakins": [],
+  "fgStealWithBreakins": [],
+  "fgOthers": ["Trafic de stupéfiants ou autre trafic dans l’établissement"],
+  "fgGroups": ["Autres faits"],
+  "fgDeteriorations": [],
+  "factTypes": ["Atteinte aux biens"],
+  "rCausePatients": [],
+  "rCauseProfessionals": [],
+  "rDiscords": [],
+  "rLifeRules": [],
+  "rFalsifications": [],
+  "rDeficientCommunications": [],
+  "rOthers": [],
+  "rOthersPrecision": "",
+  "rNotApparent": true,
+  "pursuit": "Non",
+  "victims": [
+    {
+      "type": {
+        "label": "Accompagnant/Visiteur/Famille",
+        "value": "Accompagnant/Visiteur/Famille"
+      },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
+      "sickLeaveDays": 0,
+      "hospitalizationDays": 0,
+      "ITTDays": 0
+    }
+  ],
+  "authors": [
+    {
+      "discernmentTroublesIsPresent": "Non",
+      "type": { "label": "Détenu", "value": "Détenu" },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
+    }
+  ],
+  "thirdPartyIsPresent": "Non",
+  "pursuitBy": [],
+  "thirdParty": [],
+  "description": "description for liberal"
+}
+
+### Liberal declaration with other location
+
+POST http://localhost:3030/api/declarations
+Content-Type: application/json
+
+{
+  // Champs spécifiques
+  "declarationType": "liberal",
+  "job": "Assistant dentaire",
+  "declarantContactAgreement": true,
+  "location" : {
+    "Dans quel lieu précisément ?": ["Autre", "pas très loin"]
+  },
+
+  // Champs génériques
+  "date": "2021-07-16",
+  "hour": "Matin (7h-12h)",
+  "town": "Pointe-à-Pitre",
+  "postalCode": "97110",
+  "fpSpokenViolences": [],
+  "fpSexualViolences": [],
+  "fpPsychologicalViolences": [],
+  "fpPhysicalViolences": [],
+  "fpOthers": [],
+  "fpNoRespects": [],
+  "fpGroups": [],
+  "fpDiscriminations": [],
+  "fgStealWithoutBreakins": [],
+  "fgStealWithBreakins": [],
+  "fgOthers": ["Trafic de stupéfiants ou autre trafic dans l’établissement"],
+  "fgGroups": ["Autres faits"],
+  "fgDeteriorations": [],
+  "factTypes": ["Atteinte aux biens"],
+  "rCausePatients": [],
+  "rCauseProfessionals": [],
+  "rDiscords": [],
+  "rLifeRules": [],
+  "rFalsifications": [],
+  "rDeficientCommunications": [],
+  "rOthers": [],
+  "rOthersPrecision": "",
+  "rNotApparent": true,
+  "pursuit": "Non",
+  "victims": [
+    {
+      "type": {
+        "label": "Accompagnant/Visiteur/Famille",
+        "value": "Accompagnant/Visiteur/Famille"
+      },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
+      "sickLeaveDays": 0,
+      "hospitalizationDays": 0,
+      "ITTDays": 0
+    }
+  ],
+  "authors": [
+    {
+      "discernmentTroublesIsPresent": "Non",
+      "type": { "label": "Détenu", "value": "Détenu" },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
+    }
+  ],
+  "thirdPartyIsPresent": "Non",
+  "pursuitBy": [],
+  "thirdParty": [],
+  "description": "description for liberal"
+}
+
+
+### Liberal declaration with an id generated client side
+POST http://localhost:3030/api/declarations
+Content-Type: application/json
+
+{
+  // Champs spécifiques
+  "declarationType": "liberal",
+  "job": "Assistant dentaire",
+  "declarantContactAgreement": true,
+  "location" : {
+    "Dans quel lieu précisément ?": ["Autre", "pas très loin"]
+  },
+
+  // Champs génériques
+  "id": "ecdbced5-7fee-492b-af7e-cc58d527d50d",
+  "date": "2021-07-16",
+  "hour": "Matin (7h-12h)",
+  "town": "Pointe-à-Pitre",
+  "postalCode": "97110",
+  "fpSpokenViolences": [],
+  "fpSexualViolences": [],
+  "fpPsychologicalViolences": [],
+  "fpPhysicalViolences": [],
+  "fpOthers": [],
+  "fpNoRespects": [],
+  "fpGroups": [],
+  "fpDiscriminations": [],
+  "fgStealWithoutBreakins": [],
+  "fgStealWithBreakins": [],
+  "fgOthers": ["Trafic de stupéfiants ou autre trafic dans l’établissement"],
+  "fgGroups": ["Autres faits"],
+  "fgDeteriorations": [],
+  "factTypes": ["Atteinte aux biens"],
+  "rCausePatients": [],
+  "rCauseProfessionals": [],
+  "rDiscords": [],
+  "rLifeRules": [],
+  "rFalsifications": [],
+  "rDeficientCommunications": [],
+  "rOthers": [],
+  "rOthersPrecision": "",
+  "rNotApparent": true,
+  "pursuit": "Non",
+  "victims": [
+    {
+      "type": {
+        "label": "Accompagnant/Visiteur/Famille",
+        "value": "Accompagnant/Visiteur/Famille"
+      },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
+      "sickLeaveDays": 0,
+      "hospitalizationDays": 0,
+      "ITTDays": 0
+    }
+  ],
+  "authors": [
+    {
+      "discernmentTroublesIsPresent": "Non",
+      "type": { "label": "Détenu", "value": "Détenu" },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
+    }
+  ],
+  "thirdPartyIsPresent": "Non",
+  "pursuitBy": [],
+  "thirdParty": [],
+  "description": "description for liberal"
+}
+
+
+### From formulaire
+
+POST http://localhost:3030/api/declarations
+Content-Type: "application/json"
+
+{
+  "declarationType": "ets",
+
+  "date": "2021-07-19",
+  "hour": "Matin (7h-12h)",
+  "town": "Pont-à-Mousson",
+  "locationMain": { "label": "Chirurgie", "value": "Chirurgie" },
+  "locationSecondary": { "label": "Bloc opératoire", "value": "Bloc opératoire" },
+  "fpSpokenViolences": [],
+  "fpSexualViolences": [],
+  "fpPsychologicalViolences": [],
+  "fpPhysicalViolences": [],
+  "fpOthers": [],
+  "fpNoRespects": [],
+  "fpGroups": [],
+  "fpDiscriminations": [],
+  "fgStealWithoutBreakins": [],
+  "fgStealWithBreakins": [
+    "Matériel de grande valeur (médical ou non)",
+    "Effets personnels d’un patient, d’un accompagnant, d’une autre personne",
+  ],
+  "fgOthers": [],
+  "fgGroups": ["Vol avec effraction"],
+  "fgDeteriorations": [],
+  "factTypes": ["Atteinte aux biens"],
+  "rCausePatients": [],
+  "rCauseProfessionals": [],
+  "rDiscords": [],
+  "rLifeRules": [],
+  "rFalsifications": [],
+  "rDeficientCommunications": [],
+  "rOthers": [],
+  "rOthersPrecision": "",
+  "rNotApparent": true,
+  "pursuit": "Non",
+  "victims": [
+    {
+      "type": {
+        "label": "Accompagnant/Visiteur/Famille",
+        "value": "Accompagnant/Visiteur/Famille",
+      },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
+      "sickLeaveDays": 0,
+      "hospitalizationDays": 0,
+      "ITTDays": 0,
+    },
+  ],
+  "authors": [
+    {
+      "discernmentTroublesIsPresent": "Non",
+      "type": { "label": "Inconnu", "value": "Inconnu" },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
+    },
+  ],
+  "thirdPartyIsPresent": "Non",
+  "pursuitBy": [],
+  "thirdParty": [],
+  "description": "test clietn",
+  "id": "7961c90e-05f1-4204-9b8b-17058c40eba7",
+  "postalCode": "54700",
+  "locationMain_deprecated": "Chirurgie",
+  "locationSecondary_deprecated": "Bloc opératoire",
+  "location": {
+    "Dans quel service ?": { "label": "Chirurgie", "value": "Chirurgie" },
+    "Dans quel lieu précisément ?": {
+      "label": "Bloc opératoire",
+      "value": "Bloc opératoire",
+    },
+  },
+  "declarantContactAgreement": null,
+}

@@ -44,14 +44,49 @@ export const createDeclaration = async ({
     data.job = declaration.steps.job.job.label
   }
 
-  // For declarationType == hospital
-  if (data.locationMain?.label) {
-    data.locationMain = data.locationMain.label
+  // LOCATION ---------------------------------------------------------------
+
+  if (data.declarationType === "ets") {
+    // Filling the legacy columns (renamed in _deprecated to distinguish them).
+    if (data.locationMain?.label) {
+      data.locationMain_deprecated = data.locationMain.label
+    }
+
+    if (data.locationSecondary?.label) {
+      data.locationSecondary_deprecated = data.locationSecondary.label
+    }
+
+    // Filling the new column.
+    data.location = {
+      "Dans quel service ?": data.locationMain?.label,
+      "Dans quel lieu précisément ?": data.locationSecondary?.label,
+    }
+
+    // We need to remove the newly deprecated fieds as zod expect not to see it.
+    delete data.locationMain
+    delete data.locationSecondary
+  } else {
+    // Should be the liberal flow.
+    data.location = {
+      "Dans quel lieu précisément ?": data.otherLocation
+        ? ["Autre", data.otherLocation]
+        : data.location,
+    }
+
+    // We need to remove the newly deprecated fied as zod expect not to see it.
+    delete data.otherLocation
   }
 
-  if (data.locationSecondary?.label) {
-    data.locationSecondary = data.locationSecondary.label
-  }
+  // DECLARANT_CONTACT_AGREEMENT ---------------------------------------------------------------
+  // Filling the legacy column for user agreement (renamed in _deprecated).
+  data.declarantContactAgreement_deprecated = data.declarantContactAgreement
+  // Filling the new column for user agreement (which is of boolean type and can be null)
+  data.declarantContactAgreement =
+    data.declarantContactAgreement_deprecated === "true"
+      ? true
+      : data.declarantContactAgreement_deprecated === "false"
+      ? false
+      : null
 
   // TODO: the victims and authors shouldn't be with the { label, value } shape in db.
   // Do a migration to reshape the data in db (prod) and make the following to adapt the client.

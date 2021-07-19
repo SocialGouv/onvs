@@ -33,6 +33,8 @@ exports.up = async function (knex) {
     table.renameColumn("location", "location_deprecated")
     table.renameColumn("other_location", "other_location_deprecated")
     table.renameColumn("location_json", "location")
+    table.renameColumn("ets_location1", "ets_location1_deprecated")
+    table.renameColumn("ets_location2", "ets_location2_deprecated")
   })
 }
 
@@ -41,5 +43,7 @@ exports.down = function (knex) {
     table.dropColumn("location")
     table.renameColumn("location_deprecated", "location")
     table.renameColumn("other_location_deprecated", "other_location")
+    table.renameColumn("ets_location1_deprecated", "ets_location1")
+    table.renameColumn("ets_location2_deprecated", "ets_location2")
   })
 }

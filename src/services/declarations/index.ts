@@ -1,16 +1,12 @@
 import { validate as uuidValidate } from "uuid"
 
 import prisma from "@/prisma/db"
-import { DeclarationModel } from "@/models/declarations"
+import { DeclarationModel, schema } from "@/models/declarations"
 
 export const create = async (
   declaration: DeclarationModel,
 ): Promise<string | undefined> => {
-  const type = declaration?.declarationType
-
-  if (!type) {
-    throw new Error("The declarationType must be present")
-  }
+  schema.parse(declaration)
 
   await prisma.declaration.create({
     data: declaration,
