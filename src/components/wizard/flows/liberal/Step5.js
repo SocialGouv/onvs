@@ -10,6 +10,7 @@ import { useScrollTop } from "@/hooks/useScrollTop"
 const schema = yup.object({
   declarantContactAgreement: yup
     .string()
+    .nullable()
     .required(
       "L'accord (ou non) sur l'envoi des coordonnées est à renseigner.",
     ),

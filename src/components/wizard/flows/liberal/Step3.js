@@ -59,8 +59,10 @@ const Step3Page = () => {
   const watchReasonNotApparent = watch("rNotApparent")
   const watchROthers = watch("rOthers")
 
+  console.log("watchReasonNotApparent", watchReasonNotApparent)
+
   React.useEffect(() => {
-    if (watchReasonNotApparent === "Pas de motif apparent") {
+    if (watchReasonNotApparent) {
       setValue("rCausePatients", [])
       setValue("rCauseProfessionals", [])
       setValue("rDeficientCommunications", [])
@@ -250,7 +252,6 @@ const Step3Page = () => {
                   type="checkbox"
                   className="form-check"
                   name="rNotApparent"
-                  value="Pas de motif apparent"
                   ref={register}
                 />
                 <span className="mx-2">Pas de motif apparent</span>

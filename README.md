@@ -122,6 +122,16 @@ yarn build
 yarn start
 ```
 
+### Prisma
+
+The preferred way to request the db is with Prisma.
+
+The workflow is :
+- `npx prisma introspect` introspect the database defined in DATABASE_URL and create a schema.prisma file. This file it the keystone to interact with Prisma. We can modify this file for our needs. For examaple, we can rename a column name or a column table.
+- `npx prisma generate` to generate the types which are stored in node_modules/.prisma/client. Each time you modify the schema.prisma, you need to regenerate the client.
+
+PS : at first, Knex was used instead of Prisma. This is the reason why it is still used for some parts of the app (especially the migration mechanism). Prisma is now encouraged, since it is designed especially for TypeScript code, it controls the shape of the parameters and do the tedious mapping between the names of the columns in db and of the object in TypeScript.
+
 ### 🏋️‍♂️ Run the tests
 
 There is some Jest tests, which can be run with :
