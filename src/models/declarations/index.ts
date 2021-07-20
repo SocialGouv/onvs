@@ -59,10 +59,15 @@ const schemaLocationForLiberal = z.object({
   declarationType: z.literal(DeclarationType.Liberal),
   job: z.string(),
   declarantContactAgreement: z.boolean(),
+  declarantContactAgreement_deprecated: z.string(), // TODO: remove when time has come
+
   declarantNames: z.string().optional(),
   declarantExternalId: z.string().optional(), // TODO : remove this field.
   declarantEmail: z.string().email().optional(),
   declarantTel: z.string().min(10).optional(),
+
+  location_deprecated: z.string(), // TODO remove when time has come
+  otherLocation_deprecated: z.string().optional(), // TODO remove when time has come
 
   location: z
     .object({
@@ -80,6 +85,9 @@ const schemaLocationForEts = z.object({
   etsStatus: z.string().optional(), // TODO : remove this field ??
   etsDeclaredBy: z.string().optional(), // TODO : remove this field ??
   etsModeratedBy: z.string().optional(), // TODO : remove this field ??
+
+  locationMain_deprecated: z.string(), // TODO: remove when time has come
+  locationSecondary_deprecated: z.string(), // TODO: remove when time has come
 
   location: z
     .object({

@@ -281,78 +281,180 @@ Content-Type: application/json
 ### From formulaire
 
 POST http://localhost:3030/api/declarations
-Content-Type: "application/json"
+Content-Type: application/json
 
 {
-  "declarationType": "ets",
-
-  "date": "2021-07-19",
-  "hour": "Matin (7h-12h)",
-  "town": "Pont-à-Mousson",
-  "locationMain": { "label": "Chirurgie", "value": "Chirurgie" },
-  "locationSecondary": { "label": "Bloc opératoire", "value": "Bloc opératoire" },
-  "fpSpokenViolences": [],
-  "fpSexualViolences": [],
-  "fpPsychologicalViolences": [],
-  "fpPhysicalViolences": [],
-  "fpOthers": [],
-  "fpNoRespects": [],
-  "fpGroups": [],
-  "fpDiscriminations": [],
-  "fgStealWithoutBreakins": [],
-  "fgStealWithBreakins": [
-    "Matériel de grande valeur (médical ou non)",
-    "Effets personnels d’un patient, d’un accompagnant, d’une autre personne",
-  ],
-  "fgOthers": [],
-  "fgGroups": ["Vol avec effraction"],
-  "fgDeteriorations": [],
-  "factTypes": ["Atteinte aux biens"],
-  "rCausePatients": [],
-  "rCauseProfessionals": [],
-  "rDiscords": [],
-  "rLifeRules": [],
-  "rFalsifications": [],
-  "rDeficientCommunications": [],
-  "rOthers": [],
-  "rOthersPrecision": "",
-  "rNotApparent": true,
-  "pursuit": "Non",
-  "victims": [
-    {
-      "type": {
-        "label": "Accompagnant/Visiteur/Famille",
-        "value": "Accompagnant/Visiteur/Famille",
-      },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
-      "sickLeaveDays": 0,
-      "hospitalizationDays": 0,
-      "ITTDays": 0,
-    },
-  ],
-  "authors": [
-    {
-      "discernmentTroublesIsPresent": "Non",
-      "type": { "label": "Inconnu", "value": "Inconnu" },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
-    },
-  ],
-  "thirdPartyIsPresent": "Non",
-  "pursuitBy": [],
-  "thirdParty": [],
-  "description": "test clietn",
-  "id": "7961c90e-05f1-4204-9b8b-17058c40eba7",
-  "postalCode": "54700",
-  "locationMain_deprecated": "Chirurgie",
-  "locationSecondary_deprecated": "Bloc opératoire",
-  "location": {
-    "Dans quel service ?": { "label": "Chirurgie", "value": "Chirurgie" },
-    "Dans quel lieu précisément ?": {
-      "label": "Bloc opératoire",
-      "value": "Bloc opératoire",
-    },
+  "declarantContactAgreement":false,
+  "declarationType":"liberal",
+  "postalCode":"91590",
+  "job":"Audioprothésiste",
+  "location_deprecated":"Cabinet individuel",
+  "otherLocation_deprecated":"",
+  "declarantContactAgreement_deprecated":"false",
+  "date":"2021-07-20",
+  "location":{
+    "Dans quel lieu précisément ?":"Cabinet individuel"
   },
-  "declarantContactAgreement": null,
+  "hour":"Matin (7h-12h)",
+  "town":"D'Huison-Longueville",
+  "fpSpokenViolences":[],
+  "fpSexualViolences":[],
+  "fpPsychologicalViolences":[],
+  "fpPhysicalViolences":[],
+  "fpOthers":[],
+  "fpNoRespects":[],
+  "fpGroups":[],
+  "fpDiscriminations":[],
+  "fgStealWithoutBreakins":[],
+  "fgStealWithBreakins":[],
+  "fgOthers":[
+    "Trafic de stupéfiants ou autre trafic dans l’établissement"
+  ],
+  "fgGroups":[
+    "Autres faits"
+  ],
+  "fgDeteriorations":[],
+  "factTypes":[
+    "Atteinte aux biens"
+  ],
+  "rCausePatients":[],
+  "rCauseProfessionals":[],
+  "rDiscords":[],
+  "rLifeRules":[],
+  "rFalsifications":[],
+  "rDeficientCommunications":[],
+  "rOthers":[],
+  "rOthersPrecision":"",
+  "rNotApparent":true,
+  "pursuit":"Non",
+  "victims":[
+    {
+      "type":{
+        "label":"Accompagnant/Visiteur/Famille",
+        "value":"Accompagnant/Visiteur/Famille"
+      },
+      "gender":{
+        "label":"Masculin",
+        "value":"Masculin"
+      },
+      "age":{
+        "label":"- de 18 ans",
+        "value":"- de 18 ans"
+      },
+      "sickLeaveDays":0,
+      "hospitalizationDays":0,
+      "ITTDays":0
+    }
+  ],
+  "authors":[
+    {
+      "discernmentTroublesIsPresent":"Non",
+      "type":{
+        "label":"Accompagnant/Visiteur/Famille",
+        "value":"Accompagnant/Visiteur/Famille"
+      },
+      "gender":{
+        "label":"Masculin",
+        "value":"Masculin"
+      },
+      "age":{
+        "label":"- de 18 ans",
+        "value":"- de 18 ans"
+      }
+    }
+  ],
+  "thirdPartyIsPresent":"Non",
+  "pursuitBy":[],
+  "thirdParty":[],
+  "description":"test"
+}
+
+
+### From formulaire ets
+POST http://localhost:3030/api/declarations
+Content-Type: application/json
+
+{
+  "declarationType":"ets",
+  "postalCode":"78290",
+  "locationMain_deprecated":"Addictologie",
+  "locationSecondary_deprecated":"Véhicule (dans le cadre d’un transport de patients/résidents)",
+  "location":{
+    "Dans quel service ?":"Addictologie",
+    "Dans quel lieu précisément ?":"Véhicule (dans le cadre d’un transport de patients/résidents)"
+  },
+  "declarantContactAgreement":null,
+  "date":"2021-07-20",
+  "hour":"Matin (7h-12h)",
+  "town":"Croissy-sur-Seine",
+  "fpSpokenViolences":[],
+  "fpSexualViolences":[],
+  "fpPsychologicalViolences":[],
+  "fpPhysicalViolences":[],
+  "fpOthers":[],
+  "fpNoRespects":[],
+  "fpGroups":[],
+  "fpDiscriminations":[],
+  "fgStealWithoutBreakins":[],
+  "fgStealWithBreakins":[],
+  "fgOthers":[
+    "Trafic de stupéfiants ou autre trafic dans l’établissement"
+  ],
+  "fgGroups":[
+    "Autres faits"
+  ],
+  "fgDeteriorations":[],
+  "factTypes":[
+    "Atteinte aux biens"
+  ],
+  "rCausePatients":[],
+  "rCauseProfessionals":[],
+  "rDiscords":[],
+  "rLifeRules":[],
+  "rFalsifications":[],
+  "rDeficientCommunications":[],
+  "rOthers":[],
+  "rOthersPrecision":"",
+  "rNotApparent":true,
+  "pursuit":"Non",
+  "victims":[
+    {
+      "type":{
+        "label":"Accompagnant/Visiteur/Famille",
+        "value":"Accompagnant/Visiteur/Famille"
+      },
+      "gender":{
+        "label":"Masculin",
+        "value":"Masculin"
+      },
+      "age":{
+        "label":"- de 18 ans",
+        "value":"- de 18 ans"
+      },
+      "sickLeaveDays":0,
+      "hospitalizationDays":0,
+      "ITTDays":0
+    }
+  ],
+  "authors":[
+    {
+      "discernmentTroublesIsPresent":"Non",
+      "type":{
+        "label":"Accompagnant/Visiteur/Famille",
+        "value":"Accompagnant/Visiteur/Famille"
+      },
+      "gender":{
+        "label":"Masculin",
+        "value":"Masculin"
+      },
+      "age":{
+        "label":"- de 18 ans",
+        "value":"- de 18 ans"
+      }
+    }
+  ],
+  "thirdPartyIsPresent":"Non",
+  "pursuitBy":[],
+  "thirdParty":[],
+  "description":"test"
 }

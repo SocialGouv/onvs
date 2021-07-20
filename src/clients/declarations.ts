@@ -62,11 +62,15 @@ export const createDeclaration = async ({
       "Dans quel lieu précisément ?": data.locationSecondary?.label,
     }
 
-    // We need to remove the newly deprecated fieds as zod expect not to see it.
+    // We need to remove these fields since they are renamed in _deprecated.
     delete data.locationMain
     delete data.locationSecondary
   } else {
     // Should be the liberal flow.
+    data.location_deprecated = data.location
+    data.otherLocation_deprecated = data.otherLocation
+
+    // Fill the new column.
     data.location = {
       "Dans quel lieu précisément ?": data.otherLocation
         ? ["Autre", data.otherLocation]
