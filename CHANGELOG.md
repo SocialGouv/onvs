@@ -1,3 +1,10 @@
+# [2.22.0](https://github.com/SocialGouv/onvs/compare/v2.21.1...v2.22.0) (2021-07-20)
+
+
+### Features
+
+* refactor create declaration in prisma ([#163](https://github.com/SocialGouv/onvs/issues/163)) ([b19dcc9](https://github.com/SocialGouv/onvs/commit/b19dcc995b9a2a532d627318c284de2224ace73d))
+
 ## [2.21.1](https://github.com/SocialGouv/onvs/compare/v2.21.0...v2.21.1) (2021-07-08)
 
 
