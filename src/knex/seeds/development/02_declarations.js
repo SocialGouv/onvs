@@ -8,8 +8,10 @@ exports.seed = function (knex) {
       return knex("declarations").insert([
         {
           declaration_type: "liberal",
-          authors:
+          authors_deprecated:
             '[{"age": {"label": "- de 18 ans", "value": "- de 18 ans"}, "type": {"label": "Accompagnant/Visiteur/Famille", "value": "Accompagnant/Visiteur/Famille"}, "gender": {"label": "Masculin", "value": "Masculin"}, "discernmentTroublesIsPresent": "Non"}]',
+          authors:
+            '[{"age": "- de 18 ans", "type": "Accompagnant/Visiteur/Famille", "gender": "Masculin" }]',
           created_at: "2021-05-04 13:33:44.988147+00",
           date: "2021-05-04",
           declarant_contact_agreement: false,
@@ -45,9 +47,10 @@ exports.seed = function (knex) {
           location: {
             "Dans quel lieu précisément ?": "Cabinet individuel",
           },
-          pursuit: "Non",
-          pursuit_by: "[]",
-          pursuit_precision: null,
+          pursuit_deprecated: "Non",
+          pursuit_by_deprecated: "[]",
+          pursuit_precision_deprecated: null,
+          pursuit: null,
           r_cause_patients: "[]",
           r_cause_professionals: "[]",
           r_deficient_communications: "[]",
@@ -57,18 +60,23 @@ exports.seed = function (knex) {
           r_not_apparent: true,
           r_others: "[]",
           r_others_precision: null,
-          third_party: "[]",
-          third_party_is_present: "Non",
-          third_party_precision: null,
+          third_party_deprecated: "[]",
+          third_party_is_present_deprecated: "Non",
+          third_party_precision_deprecated: null,
+          third_party: null,
           town: "aze",
           postal_code: "",
-          victims:
+          victims_deprecated:
             '[{"age": {"label": "- de 18 ans", "value": "- de 18 ans"}, "type": {"label": "Agent de sécurité-sûreté", "value": "Agent de sécurité-sûreté"}, "gender": {"label": "Masculin", "value": "Masculin"}, "ITTDays": 0, "sickLeaveDays": 0, "hospitalizationDays": 0}]',
+          victims:
+            '[{"age": "- de 18 ans", "type": "Agent de sécurité-sûreté", "gender": "Masculin", "ITTDays": 0, "sickLeaveDays": 0, "hospitalizationDays": 0}]',
         },
         {
           declaration_type: "ets",
-          authors:
+          authors_deprecated:
             '[{"age": {"label": "- de 18 ans", "value": "- de 18 ans"}, "type": {"label": "Accompagnant/Visiteur/Famille", "value": "Accompagnant/Visiteur/Famille"}, "gender": {"label": "Masculin", "value": "Masculin"}, "discernmentTroublesIsPresent": "Non"}]',
+          authors:
+            '[{"age": "- de 18 ans", "type": "Accompagnant/Visiteur/Famille", "gender": "Masculin"}]',
           created_at: "2021-05-04 13:34:53.18524+00",
           date: "2021-05-04",
           description: "test ets",
@@ -101,9 +109,10 @@ exports.seed = function (knex) {
           hour: "Matin (7h-12h)",
           id: uuid(),
           job: null,
-          pursuit: "Non",
-          pursuit_by: "[]",
-          pursuit_precision: null,
+          pursuit_deprecated: "Non",
+          pursuit_by_deprecated: "[]",
+          pursuit_precision_deprecated: null,
+          pursuit: null,
           r_cause_patients: "[]",
           r_cause_professionals: "[]",
           r_deficient_communications: "[]",
@@ -113,18 +122,23 @@ exports.seed = function (knex) {
           r_not_apparent: true,
           r_others: "[]",
           r_others_precision: null,
-          third_party: "[]",
-          third_party_is_present: "Non",
-          third_party_precision: null,
+          third_party_deprecated: "[]",
+          third_party_is_present_deprecated: "Non",
+          third_party_precision_deprecated: null,
+          third_party: null,
           town: "aze",
           postal_code: "",
-          victims:
+          victims_deprecated:
             '[{"age": {"label": "- de 18 ans", "value": "- de 18 ans"}, "type": {"label": "Accompagnant/Visiteur/Famille", "value": "Accompagnant/Visiteur/Famille"}, "gender": {"label": "Masculin", "value": "Masculin"}, "ITTDays": 0, "sickLeaveDays": 0, "hospitalizationDays": 0}]',
+          victims:
+            '[{"age": "- de 18 ans", "type": "Accompagnant/Visiteur/Famille", "gender": "Masculin", "ITTDays": 0, "sickLeaveDays": 0, "hospitalizationDays": 0}]',
         },
         {
           declaration_type: "liberal",
-          authors:
+          authors_deprecated:
             '[{"age": {"label": "+ de 18 ans", "value": "+ de 18 ans"}, "type": {"label": "Détenu", "value": "Détenu"}, "gender": {"label": "Masculin", "value": "Masculin"}, "discernmentTroublesIsPresent": "Non"}]',
+          authors:
+            '[{"age": "+ de 18 ans", "type": "Détenu", "gender": "Masculin"}]',
           created_at: "2021-04-22 20:39:14.915979+00",
           date: "2021-04-22",
           declarant_contact_agreement: false,
@@ -160,9 +174,10 @@ exports.seed = function (knex) {
           location: {
             "Dans quel lieu précisément ?": "Cabinet individuel",
           },
-          pursuit: "Non",
-          pursuit_by: "[]",
-          pursuit_precision: null,
+          pursuit_deprecated: "Non",
+          pursuit_by_deprecated: "[]",
+          pursuit_precision_deprecated: null,
+          pursuit: null,
           r_cause_patients: "[]",
           r_cause_professionals: "[]",
           r_deficient_communications: "[]",
@@ -172,18 +187,23 @@ exports.seed = function (knex) {
           r_not_apparent: true,
           r_others: "[]",
           r_others_precision: null,
-          third_party: "[]",
-          third_party_is_present: "Non",
-          third_party_precision: null,
+          third_party_deprecated: "[]",
+          third_party_is_present_deprecated: "Non",
+          third_party_precision_deprecated: null,
+          third_party: null,
           town: "dg",
           postal_code: "",
-          victims:
+          victims_deprecated:
             '[{"age": {"label": "- de 18 ans", "value": "- de 18 ans"}, "type": {"label": "Accompagnant/Visiteur/Famille", "value": "Accompagnant/Visiteur/Famille"}, "gender": {"label": "Masculin", "value": "Masculin"}, "ITTDays": 0, "sickLeaveDays": 0, "hospitalizationDays": 0}]',
+          victims:
+            '[{"age": "- de 18 ans", "type": "Accompagnant/Visiteur/Famille", "gender": "Masculin", "ITTDays": 0, "sickLeaveDays": 0, "hospitalizationDays": 0}]',
         },
         {
           declaration_type: "ets",
-          authors:
+          authors_deprecated:
             '[{"age": {"label": "- de 18 ans", "value": "- de 18 ans"}, "type": {"label": "Accompagnant/Visiteur/Famille", "value": "Accompagnant/Visiteur/Famille"}, "gender": {"label": "Féminin", "value": "Féminin"}, "discernmentTroublesIsPresent": "Non"}]',
+          authors:
+            '[{"age": "- de 18 ans", "type": "Accompagnant/Visiteur/Famille", "gender": "Féminin"}]',
           created_at: "2021-04-21 14:54:11.242723+00",
           date: "2021-04-21",
           declarant_contact_agreement: null,
@@ -220,9 +240,10 @@ exports.seed = function (knex) {
             "Dans quel lieu précisément ?":
               "Bureau du personnel (médical ou non)",
           },
-          pursuit: "Non",
-          pursuit_by: "[]",
-          pursuit_precision: null,
+          pursuit_deprecated: "Non",
+          pursuit_by_deprecated: "[]",
+          pursuit_precision_deprecated: null,
+          pursuit: null,
           r_cause_patients: "[]",
           r_cause_professionals: "[]",
           r_deficient_communications: "[]",
@@ -232,13 +253,16 @@ exports.seed = function (knex) {
           r_not_apparent: true,
           r_others: "[]",
           r_others_precision: null,
-          third_party: "[]",
-          third_party_is_present: "Non",
-          third_party_precision: null,
+          third_party_deprecated: "[]",
+          third_party_is_present_deprecated: "Non",
+          third_party_precision_deprecated: null,
+          third_party: null,
           town: "ave",
           postal_code: "",
+          victims_deprecated:
+            '[{"age": {"label": "- de 18 ans", "value": "- de 18 ans"}, "type": {"label": "Accompagnant/Visiteur/Famille", "value": "Accompagnant/Visiteur/Famille"}, "gender": {"label": "Masculin", "value": "Masculin"}, "ITTDays": 10, "sickLeaveDays": 0, "hospitalizationDays": 0}]',
           victims:
-            '[{"age": {"label": "- de 18 ans", "value": "- de 18 ans"}, "type": {"label": "Accompagnant/Visiteur/Famille", "value": "Accompagnant/Visiteur/Famille"}, "gender": {"label": "Masculin", "value": "Masculin"}, "ITTDays": 0, "sickLeaveDays": 0, "hospitalizationDays": 0}]',
+            '[{"age": "- de 18 ans", "type": "Accompagnant/Visiteur/Famille", "gender": "Masculin", "ITTDays": 10, "sickLeaveDays": 0, "hospitalizationDays": 0}]',
         },
       ])
     })
