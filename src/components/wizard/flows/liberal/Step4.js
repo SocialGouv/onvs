@@ -19,13 +19,18 @@ import {
 import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
-
-const isHealthType = (type) =>
-  ["Étudiant en santé", "Professionnel de santé"].includes(type)
-
-const pursuitOptions = ["Non", "Main courante", "Plainte"]
-
-const ouiNonOptions = ["Oui", "Non"]
+import {
+  ageOptions,
+  authorTypesOptions,
+  discernmentTroubles,
+  genderOptions,
+  healthJobOptions,
+  isHealthType,
+  ouiNonOptions,
+  pursuitComplaintsByValues,
+  pursuits,
+  victimTypesOptions,
+} from "@/utils/options"
 
 const schema = yup.object({
   authors: yup
@@ -67,7 +72,7 @@ const schema = yup.object({
     .required("Au moins un auteur est à renseigner"),
   pursuit: yup
     .mixed()
-    .oneOf(pursuitOptions, "Les suites judiciaires sont à renseigner")
+    .oneOf(pursuits, "Les suites judiciaires sont à renseigner")
     .required("Les suites judiciaires sont à renseigner"),
   pursuitBy: yup.array(yup.string()).when("pursuit", (pursuit, schema) => {
     return pursuit === "Plainte"
@@ -129,69 +134,6 @@ const schema = yup.object({
     .min(1, "Au moins une victime est à renseigner")
     .required("Au moins un auteur est à renseigner"),
 })
-
-const ageOptions = ["- de 18 ans", "+ de 18 ans"].map((curr) => ({
-  label: curr,
-  value: curr,
-}))
-
-const genderOptions = ["Masculin", "Féminin"].map((curr) => ({
-  label: curr,
-  value: curr,
-}))
-
-const victimTypeOptions = [
-  "Accompagnant/Visiteur/Famille",
-  "Agent de sécurité-sûreté",
-  "Détenu",
-  "Établissement",
-  "Étudiant en santé",
-  "Patient/Résident",
-  "Personnel administratif et technique",
-  "Professionnel de santé",
-  "Prestataire extérieur",
-].map((curr) => ({ label: curr, value: curr }))
-
-const authorProfileOptions = [
-  "Accompagnant/Visiteur/Famille",
-  "Agent de sécurité-sûreté",
-  "Détenu",
-  "Étudiant en santé",
-  "Inconnu",
-  "Patient/Résident",
-  "Personnel administratif et technique",
-  "Professionnel de santé",
-  "Prestataire extérieur",
-].map((curr) => ({ label: curr, value: curr }))
-
-const healthJobOptions = [
-  "Aide-soignant",
-  "Ambulancier",
-  "Assistant dentaire",
-  "Audioprothésiste",
-  "Auxiliaire de puériculture",
-  "Chiropracteur",
-  "Chirurgien-dentiste",
-  "Diététicien",
-  "Ergothérapeute",
-  "Infirmier",
-  "Manipulateur d'électroradiologie médicale",
-  "Masseur-kinésithérapeute",
-  "Médecin",
-  "Opticien-lunetier",
-  "Orthophoniste",
-  "Orthoptiste",
-  "Ostéopathe",
-  "Pédicure-podologue",
-  "Pharmacien",
-  "Préparateur en pharmacie et en pharmacie hospitalière",
-  "Prothésiste et orthésiste",
-  "Psychologue",
-  "Psychomotricien",
-  "Psychothérapeute",
-  "Sage-femme",
-  "Technicien de laboratoire médical",
-].map((curr) => ({ label: curr, value: curr }))
 
 const customStyles = {
   container: (styles) => ({
@@ -289,7 +231,7 @@ const Victim = ({ data, control, number = 0, remove, errors }) => {
               inputId={`victims[${number}].type`}
               id={`victims[${number}].type`}
               instanceId={`victims[${number}].type`}
-              options={victimTypeOptions}
+              options={victimTypesOptions}
               placeholder="Choisir..."
               isClearable={true}
               styles={customStyles}
@@ -516,7 +458,7 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
             inputId={`authors[${number}].type`}
             id={`authors[${number}].type`}
             instanceId={`authors[${number}].type`}
-            options={authorProfileOptions}
+            options={authorTypesOptions}
             placeholder="Choisir..."
             isClearable={true}
             styles={customStyles}
@@ -651,11 +593,9 @@ const Author = ({ data, control, number = 0, remove, register, errors }) => {
               register={register()}
               allChecked={data?.discernmentTroubles}
             >
-              <Option value="Trouble psychique ou neuropsychique (TPN)" />
-              <Option value="Prise d’alcool" />
-              <Option value="Prise de produits stupéfiants" />
-              <Option value="Prise de médicaments" />
-              <Option value="Effet de l’anesthésie" />
+              {discernmentTroubles.map((value) => (
+                <Option key={value} value={value} />
+              ))}
             </Options>
 
             <InputError
@@ -756,7 +696,7 @@ const Step4Page = () => {
         <div className="mt-4">
           <div className="block mt-3">
             <div className="mt-2 space-y-2">
-              {pursuitOptions.map((pursuit) => (
+              {pursuits.map((pursuit) => (
                 <RadioInput
                   key={pursuit}
                   name="pursuit"
@@ -773,9 +713,9 @@ const Step4Page = () => {
                 <Title2 className="mt-12">Par...</Title2>
 
                 <Options name="pursuitBy" register={register}>
-                  <Option value="La (les) victime(s)" />
-                  <Option value="L'établissement" />
-                  <Option value="L'ordre" />
+                  {pursuitComplaintsByValues.map((value) => (
+                    <Option key={value} value={value} />
+                  ))}
                 </Options>
 
                 <InputError error={errors?.pursuitBy?.message} />

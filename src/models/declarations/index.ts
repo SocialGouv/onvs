@@ -1,5 +1,17 @@
 import { z } from "zod"
 import { Declaration, Prisma } from "@prisma/client"
+import {
+  ages,
+  authorTypes,
+  discernmentTroubles,
+  genders,
+  healthJobs,
+  isHealthType,
+  pursuitComplaintsByValues,
+  thirdParties,
+  victimTypes,
+} from "@/utils/options"
+import { difference, uniq } from "lodash"
 
 export enum DeclarationType {
   Liberal = "liberal",
@@ -11,6 +23,124 @@ export enum OuiNonType {
   Oui = "oui",
   Non = "non",
 }
+
+export const victimSchema = z
+  .object({
+    type: z.string().refine((type) => victimTypes.includes(type)),
+    gender: z.string().refine((gender) => genders.includes(gender)),
+    age: z.string().refine((age) => ages.includes(age)),
+    healthJob: z.string().optional(), // the refine rule below will check if this field can be really undefined.
+    sickLeaveDays: z.number(),
+    hospitalizationDays: z.number(),
+    ITTDays: z.number(),
+  })
+  .strict()
+  .refine(
+    (val) =>
+      isHealthType(val.type)
+        ? val.healthJob && healthJobs.includes(val.healthJob)
+        : val.healthJob === undefined,
+    {
+      message:
+        "Le champ healthJob doit être rempli (nomenclature healthJobs) si le type est en lien avec une profession de santé (nomenclature healthTypes) et vide sinon.",
+    },
+  )
+
+export type VictimSchema = z.infer<typeof victimSchema>
+
+export const authorSchema = z
+  .object({
+    type: z.string().refine((type) => authorTypes.includes(type)),
+    gender: z.string().refine((gender) => genders.includes(gender)),
+    age: z.string().refine((age) => ages.includes(age)),
+    healthJob: z.string().optional(), // the refine rule below will check if this field can be really undefined.
+    discernmentTroubles: z
+      .string()
+      .array()
+      .transform((val) => uniq(val))
+      .refine((val) => difference(val, discernmentTroubles).length === 0) // Are all the elements included in discernmentTroubles ?
+      .optional(),
+  })
+  .strict()
+  .refine(
+    (val) =>
+      isHealthType(val.type)
+        ? val.healthJob && healthJobs.includes(val.healthJob)
+        : val.healthJob === undefined,
+    {
+      message:
+        "Le champ healthJob doit être rempli (nomenclature healthJobs) si le type est en lien avec une profession de santé (nomenclature healthTypes) et vide sinon.",
+    },
+  )
+
+export type AuthorSchema = z.infer<typeof authorSchema>
+
+export const thirdPartySchema = z
+  .string()
+  .or(z.tuple([z.literal("Autre"), z.string()]))
+  .array()
+  .transform((val) => uniq(val)) // Remove duplicate entries if any.
+  .refine(
+    (val) => {
+      if (!val.length) return true // Optional is ok.
+
+      // Only 1 array with Autre is allowed.
+      const nbArrays = val.filter((elt) => Array.isArray(elt))
+      if (nbArrays.length > 1) return false
+
+      for (const elt of val) {
+        if (!Array.isArray(elt)) {
+          if (!thirdParties.includes(elt)) {
+            return false
+          }
+        }
+      }
+      return true
+    },
+    {
+      message:
+        "Valeur inconnue pour le champ thirdParty ou présence de plusieurs tableaux Autre",
+      path: ["thirdParty"],
+    },
+  )
+
+export type ThirdPartySchemaType = z.infer<typeof thirdPartySchema>
+
+const pursuitSchemaForOther = z
+  .object({
+    value: z.tuple([z.literal("Autre"), z.string()]),
+  })
+  .strict()
+
+const pursuitSchemaForLogBook = z
+  .object({
+    value: z.literal("Main courante"),
+  })
+  .strict()
+
+const pursuitSchemaForComplaint = z
+  .object({
+    value: z.literal("Plainte"),
+    details: z
+      .string()
+      .array()
+      .transform((val) => uniq(val))
+      .refine((val) => {
+        for (const elt of val) {
+          if (!pursuitComplaintsByValues.includes(elt)) return false
+        }
+        return true
+      }),
+  })
+  .strict()
+
+export const pursuitSchema = z.union([
+  pursuitSchemaForOther,
+  pursuitSchemaForLogBook,
+  pursuitSchemaForComplaint,
+])
+
+export type PursuitSchema = z.infer<typeof pursuitSchema>
 
 // Fields available for all declaration types.
 const baseSchemaDeclarationApi = z.object({
@@ -43,19 +173,25 @@ const baseSchemaDeclarationApi = z.object({
   rOthers: z.string().array(),
   rOthersPrecision: z.string().optional(),
   rNotApparent: z.boolean(),
-  victims: z.object({}).array(),
-  authors: z.object({}).array(),
-  thirdParty: z.string().array(),
-  thirdPartyIsPresent: z.string(), // TODO For now a string, later it should be a boolean.
-  thirdPartyPrecision: z.string().optional(), // TODO : nest in future thirdParty JSON field.
-  pursuit: z.string(), // TODO : check over possible values.
-  pursuitPrecision: z.string().optional(), // TODO : nest in future thirdParty JSON field.
-  pursuitBy: z.string().array(),
+  victims: victimSchema.array(),
+  authors: authorSchema.array(),
+  victims_deprecated: z.object({}).array(),
+  authors_deprecated: z.object({}).array(),
+
+  thirdParty: thirdPartySchema.optional(),
+  thirdParty_deprecated: z.string().array(),
+  thirdPartyIsPresent_deprecated: z.string(), // TODO For now a string, later it should be a boolean.
+  thirdPartyPrecision_deprecated: z.string().optional(), // TODO : nest in future thirdParty JSON field.
+  pursuit_deprecated: z.string(), // TODO : check over possible values.
+  pursuitPrecision_deprecated: z.string().optional(), // TODO : nest in future thirdParty JSON field.
+  pursuitBy_deprecated: z.string().array(),
+
+  pursuit: pursuitSchema.optional(),
   description: z.string(),
 })
 
 // Specificity for liberal.
-const schemaLocationForLiberal = z.object({
+const liberalAddonSchema = z.object({
   declarationType: z.literal(DeclarationType.Liberal),
   job: z.string(),
   declarantContactAgreement: z.boolean(),
@@ -79,7 +215,7 @@ const schemaLocationForLiberal = z.object({
 })
 
 // Specificity for ETS.
-const schemaLocationForEts = z.object({
+const etsAddonSchema = z.object({
   declarationType: z.literal(DeclarationType.Ets),
   etsId: z.string().optional(), // TODO : check if this a uuid refering the ets.
   etsStatus: z.string().optional(), // TODO : remove this field ??
@@ -99,7 +235,7 @@ const schemaLocationForEts = z.object({
 
 // TODO : il faut aussi préciser la spécialité en plus du job.
 // Specificity for pharmacist.
-const schemaLocationForPharmacist = z.object({
+const pharmacistAddonSchema = z.object({
   declarationType: z.literal(DeclarationType.Liberal),
   job: z.literal("Pharmacien"),
 
@@ -115,14 +251,10 @@ const schemaLocationForPharmacist = z.object({
     .strict(),
 })
 
-export const schemaLiberal = baseSchemaDeclarationApi.merge(
-  schemaLocationForLiberal,
-)
-export const schemaEts = baseSchemaDeclarationApi.merge(schemaLocationForEts)
+export const schemaLiberal = baseSchemaDeclarationApi.merge(liberalAddonSchema)
+export const schemaEts = baseSchemaDeclarationApi.merge(etsAddonSchema)
 
-export const schemaPharmacist = schemaLocationForLiberal.merge(
-  schemaLocationForPharmacist,
-)
+export const schemaPharmacist = liberalAddonSchema.merge(pharmacistAddonSchema)
 
 export const schema = z.union([schemaLiberal, schemaEts])
 
