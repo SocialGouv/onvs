@@ -1,6 +1,6 @@
 import { schema } from "@/models/declarations"
 
-test("A correct declaration for ets", () => {
+test.skip("A correct declaration for ets", () => {
   const declaration = {
     declarationType: "ets",
     postalCode: "78290",
@@ -138,7 +138,7 @@ test("A correct declaration for ets", () => {
         `)
 })
 
-test("A inccorrect declaration for ets", () => {
+test.skip("A inccorrect declaration for ets", () => {
   const declaration = {
     declarationType: "ets",
     postalCode: "78290",
@@ -274,7 +274,7 @@ test("A inccorrect declaration for ets", () => {
   }
 })
 
-test("A correct declaration for liberal", async () => {
+test.skip("A correct declaration for liberal", async () => {
   const declaration = {
     declarantContactAgreement: false,
     declarationType: "liberal",

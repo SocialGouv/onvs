@@ -4,9 +4,12 @@ import {
   ages,
   authorTypes,
   discernmentTroubles,
+  etsMainLocations,
+  etsSecondaryLocations,
   genders,
   healthJobs,
   isHealthType,
+  liberalLocations,
   pursuitComplaintsByValues,
   thirdParties,
   victimTypes,
@@ -209,7 +212,19 @@ const liberalAddonSchema = z.object({
     .object({
       "Dans quel lieu précisément ?": z
         .string()
-        .or(z.tuple([z.literal("Autre"), z.string()])),
+        .or(z.tuple([z.literal("Autre"), z.string()]))
+        .refine(
+          (val) => {
+            if (!Array.isArray(val)) {
+              return liberalLocations.includes(val)
+            }
+            return true
+          },
+          {
+            message:
+              "Les valeurs attendues sont dans la nomenclature liberalLocations",
+          },
+        ),
     })
     .strict(),
 })
@@ -227,8 +242,18 @@ const etsAddonSchema = z.object({
 
   location: z
     .object({
-      "Dans quel service ?": z.string(),
-      "Dans quel lieu précisément ?": z.string(),
+      "Dans quel service ?": z
+        .string()
+        .refine((val) => etsMainLocations.includes(val), {
+          message:
+            "Les valeurs attendues sont dans la nomenclature etsMainLocations",
+        }),
+      "Dans quel lieu précisément ?": z
+        .string()
+        .refine((val) => etsSecondaryLocations.includes(val), {
+          message:
+            "Les valeurs attendues sont dans la nomenclature etsSecondaryLocations",
+        }),
     })
     .strict(),
 })

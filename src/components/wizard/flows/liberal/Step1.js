@@ -9,17 +9,14 @@ import { InputError, RadioInput, Title2 } from "@/components/lib"
 import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
-import { buildSelectOptions } from "@/utils/select"
 
 import { selectConfig } from "../../../../config"
 import TownSelect from "@/components/TownSelect"
-
-export const hoursOptions = buildSelectOptions([
-  "Matin (7h-12h)",
-  "Après-midi (12h-19h)",
-  "Soirée (19h-00h)",
-  "Nuit (00h-7h)",
-])
+import {
+  hoursOptions,
+  insideLiberalLocations,
+  outsideLiberalLocations,
+} from "@/utils/options"
 
 const schema = yup.object().shape({
   date: yup
@@ -159,18 +156,15 @@ const Step1 = () => {
         <b>Intérieur</b>
         <div className="block mt-3">
           <div className="mt-2 space-y-2">
-            <RadioInput
-              name="location"
-              value="Cabinet individuel"
-              register={register}
-              defaultChecked
-            />
-            <RadioInput
-              name="location"
-              value="Cabinet collectif"
-              register={register}
-            />
-            <RadioInput name="location" value="Officine" register={register} />
+            {insideLiberalLocations.map((value) => (
+              <RadioInput
+                key={value}
+                name="location"
+                value={value}
+                register={register}
+                defaultChecked
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -179,26 +173,15 @@ const Step1 = () => {
         <b>Extérieur</b>
         <div className="block mt-3">
           <div className="mt-2 space-y-2">
-            <RadioInput
-              name="location"
-              value="En face/à proximité du cabinet ou de l’officine"
-              register={register}
-            />
-            <RadioInput
-              name="location"
-              value="Au domicile du patient"
-              register={register}
-            />
-            <RadioInput
-              name="location"
-              value="Sur le trajet entre le cabinet et le domicile du patient"
-              register={register}
-            />
-            <RadioInput
-              name="location"
-              value="Sur le trajet entre votre domicile et votre lieu de travail"
-              register={register}
-            />
+            {outsideLiberalLocations.map((value) => (
+              <RadioInput
+                key={value}
+                name="location"
+                value={value}
+                register={register}
+                defaultChecked
+              />
+            ))}
 
             <div>
               <label className="inline-flex items-center">
