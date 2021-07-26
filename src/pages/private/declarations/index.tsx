@@ -14,11 +14,11 @@ import { FORMAT_DATE } from "@/utils/constants"
 import { upperCaseFirstLetters } from "@/utils/string"
 
 function composeContactAgreementLabel(data) {
-  return data === "true" ? (
+  return data === true ? (
     <span className="inline-flex px-2 text-xs font-semibold leading-5 text-yellow-800 bg-yellow-100 rounded-full">
       Oui
     </span>
-  ) : data === "false" ? (
+  ) : data === false ? (
     <span className="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full">
       Non
     </span>
