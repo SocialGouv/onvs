@@ -1,3 +1,10 @@
+## [2.22.1](https://github.com/SocialGouv/onvs/compare/v2.22.0...v2.22.1) (2021-07-26)
+
+
+### Bug Fixes
+
+* the field A contacter was broken. Fixed ([#164](https://github.com/SocialGouv/onvs/issues/164)) ([c76a23f](https://github.com/SocialGouv/onvs/commit/c76a23f617802b6ea6522e357b11148456d7d044))
+
 # [2.22.0](https://github.com/SocialGouv/onvs/compare/v2.21.1...v2.22.0) (2021-07-20)
 
 
