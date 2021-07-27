@@ -1,12 +1,35 @@
 import { validate as uuidValidate } from "uuid"
 
 import prisma from "@/prisma/db"
-import { DeclarationModel, schema } from "@/models/declarations"
+import {
+  DeclarationModel,
+  DeclarationType,
+  schemaEts,
+  schemaLiberal,
+} from "@/models/declarations"
 
 export const create = async (
   declaration: DeclarationModel,
 ): Promise<string | undefined> => {
-  schema.parse(declaration)
+  // console.log("declaration dans API", declaration)
+
+  switch (declaration?.declarationType) {
+    case DeclarationType.Liberal: {
+      schemaLiberal.parse(declaration)
+      break
+    }
+    case DeclarationType.Ets: {
+      schemaEts.parse(declaration)
+      break
+    }
+    default: {
+      throw new Error(
+        `The declarationType (${
+          declaration?.declarationType || "null"
+        })} is not expected.`,
+      )
+    }
+  }
 
   const newDeclaration = await prisma.declaration.create({
     data: declaration,

@@ -10,70 +10,10 @@ import { hoursOptions } from "@/components/wizard/flows/liberal/Step1"
 import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
-import { buildSelectOptions } from "@/utils/select"
 
 import { selectConfig } from "../../../../config"
 import TownSelect from "@/components/TownSelect"
-
-const locationMainOptions = buildSelectOptions([
-  "Accueil Mère/enfant",
-  "Addictologie",
-  "Cancérologie",
-  "Chirurgie",
-  "CMP",
-  "Dialyse",
-  "Établissement pénitentiaire (autre que UHSI et UHSA)",
-  "Gériatrie court séjour",
-  "Gynécologie-obstétrique-maternité",
-  "Hôpital de jour",
-  "Imagerie médicale",
-  "Laboratoire",
-  "Médecine",
-  "Morgue",
-  "PASS",
-  "Pédiatrie-néonatologie",
-  "PUI",
-  "Réanimation",
-  "Rééducation",
-  "SAU",
-  "SMUR",
-  "Soins palliatifs",
-  "UHCD/UHTCD",
-  "UMJ",
-  "USIP",
-  "USLD",
-  "USMP",
-  "Autre",
-])
-
-const locationSecondaryOptions = buildSelectOptions([
-  "Accueil, standard (de l’Ets ou d’un service de l’Ets)",
-  "Atelier thérapeutique",
-  "Bloc opératoire",
-  "Bureau du personnel (médical ou non)",
-  "Cafétéria/commerce",
-  "Chambre du patient/résident",
-  "Chambre sécurisée (détenu ou gardé à vue)",
-  "Chambre d’isolement",
-  "Domicile patient (intérieur)",
-  "Domicile patient (extérieur : rue, parking, hall d’immeuble, ascenseur, escalier, palier)",
-  "Dans l’enceinte : s/sol, jardin, parking,  zone de circulation dont ascenseur, escalier, couloir, toilettes",
-  "À l’extérieur (voie publique, commerces)",
-  "Espace d’apaisement",
-  "Espace fumeurs",
-  "Locaux des services de sécurité",
-  "Magasin/entrepôt/local/services techniques",
-  "Salle à manger",
-  "Salle d’attente",
-  "Salle de détente (patients/résidents : tv, jeux, etc.)",
-  "Salle de pause du personnel",
-  "Salle de réveil",
-  "Trésorerie",
-  "Unité de soins (box, bureau de consultation, salle de soins)",
-  "Véhicule (dans le cadre d’un transport de patients/résidents)",
-  "Vestiaire",
-  "Autre",
-])
+import { locationMainOptions, locationSecondaryOptions } from "@/utils/options"
 
 const schema = yup.object().shape({
   date: yup

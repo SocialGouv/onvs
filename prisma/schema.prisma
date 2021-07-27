@@ -42,14 +42,14 @@ model Declaration {
   rOthers                              Json?     @map("r_others")
   rOthersPrecision                     String?   @map("r_others_precision") @db.VarChar(255)
   rNotApparent                         Boolean?  @map("r_not_apparent")
-  victims                              Json
-  thirdParty                           Json?     @map("third_party")
-  thirdPartyIsPresent                  String?   @map("third_party_is_present") @db.VarChar(255)
-  thirdPartyPrecision                  String?   @map("third_party_precision") @db.VarChar(255)
-  pursuit                              String?   @db.VarChar(255)
-  pursuitPrecision                     String?   @map("pursuit_precision") @db.VarChar(255)
-  pursuitBy                            Json?     @map("pursuit_by")
-  authors                              Json
+  victims_deprecated                   Json
+  thirdParty_deprecated                Json?     @map("third_party_deprecated")
+  thirdPartyIsPresent_deprecated       String?   @map("third_party_is_present_deprecated") @db.VarChar(255)
+  thirdPartyPrecision_deprecated       String?   @map("third_party_precision_deprecated") @db.VarChar(255)
+  pursuit_deprecated                   String?   @db.VarChar(255)
+  pursuitPrecision_deprecated          String?   @map("pursuit_precision_deprecated") @db.VarChar(255)
+  pursuitBy_deprecated                 Json?     @map("pursuit_by_deprecated")
+  authors_deprecated                   Json
   description                          String
   declarantContactAgreement_deprecated String?   @map("declarant_contact_agreement_deprecated") @db.VarChar(30)
   declarantNames                       String?   @map("declarant_names") @db.VarChar(255)
@@ -65,6 +65,10 @@ model Declaration {
   postalCode                           String    @map("postal_code") @db.VarChar(5)
   location                             Json
   declarantContactAgreement            Boolean?  @map("declarant_contact_agreement")
+  thirdParty                           Json?     @map("third_party")
+  pursuit                              Json?
+  victims                              Json
+  authors                              Json
 
   @@map("declarations")
 }

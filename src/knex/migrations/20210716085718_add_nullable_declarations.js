@@ -18,7 +18,7 @@ exports.up = async function (knex) {
         .where("id", row.id)
         .update({ postal_code, declarant_contact_agreement })
     } catch (error) {
-      console.log(`Error for row.id ${row.id}`, error)
+      console.error(`Error for row.id ${row.id}`, error)
     }
   })
 

@@ -19,7 +19,7 @@ exports.up = async function (knex) {
     try {
       await knex("declarations").where("id", row.id).update({ location_json })
     } catch (error) {
-      console.log(`Error for row.id ${row.id}`, error)
+      console.error(`Error for row.id ${row.id}`, error)
     }
   })
 

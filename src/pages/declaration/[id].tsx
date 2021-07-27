@@ -10,7 +10,12 @@ import { OutlineButton, Title1 } from "@/components/lib"
 import Spinner from "@/components/svg/spinner"
 import useUser from "@/hooks/useUser"
 import { findDeclaration } from "@/clients/declarations"
-import { DeclarationModel } from "@/models/declarations"
+import {
+  AuthorSchema,
+  DeclarationModel,
+  PursuitSchema,
+  VictimSchema,
+} from "@/models/declarations"
 import { Prisma } from "@prisma/client"
 
 const DatePart = ({ data }: { data: DeclarationModel }) => {
@@ -241,23 +246,28 @@ const ReasonsPart = ({ data }) => {
   )
 }
 
-const VictimsAuthorsPart = ({ data }) => {
+const VictimsAuthorsPart = ({ data }: { data: DeclarationModel }) => {
+  const victims = data?.victims as Prisma.JsonArray
+  const authors = data?.authors as Prisma.JsonArray
+  const pursuit = data?.pursuit as PursuitSchema
+  const pursuitBy = pursuit["pursuitBy"]
+  const thirdParty = data?.thirdParty as Prisma.JsonArray
+
   return (
     <>
       <Title1 className="mb-4">
         <b>Victimes & auteurs</b>
       </Title1>
 
-      {data.victims?.map((victim, index) => (
+      {victims?.map((victim: VictimSchema, index) => (
         <div key={index} className="mb-6">
           <p>
             <span className="inline-block w-48 font-bold">
               Victime #{index + 1}
             </span>
-            {victim.type.label} de sexe {victim.gender.label} et âgé de{" "}
-            {victim.age.label}
+            {victim.type} de sexe {victim.gender} et âgé de {victim.age}
             {victim.healthJob && (
-              <>&nbsp;dont la profession est {victim.healthJob.label}</>
+              <>&nbsp;dont la profession est {victim.healthJob}</>
             )}
           </p>
           <p>
@@ -276,47 +286,48 @@ const VictimsAuthorsPart = ({ data }) => {
           </p>
         </div>
       ))}
-      {data.pursuit && (
+      {pursuit && (
         <p>
           <span className="inline-block w-48 ">Suites judiciaires</span>
-          {data.pursuit}
+          {pursuit.type}
         </p>
       )}
-      {!!data.pursuitBy.length && (
+      {pursuitBy?.length && (
         <p>
           <span className="inline-block w-48 ">Par</span>
-          {data.pursuitBy.join(", ")}
+          {pursuitBy.join(", ")}
         </p>
       )}
 
-      {data.authors?.map((author, index) => (
+      {authors?.map((author: AuthorSchema, index) => (
         <div key={index} className="mt-6">
           <p>
             <span className="inline-block w-48 font-bold">
               Auteur #{index + 1}
             </span>
-            {author.type.label} de sexe {author.gender.label} et âgé de{" "}
-            {author.age.label}
+            {author.type} de sexe {author.gender} et âgé de {author.age}
             {author.healthJob && (
-              <>&nbsp;dont la profession est {author.healthJob.label}</>
+              <>&nbsp;dont la profession est {author.healthJob}</>
             )}
           </p>
           <p>
             <span className="inline-block w-48 ">
               Altération du discernement
             </span>
-            {author.discernmentTroublesIsPresent}
             {!!author.discernmentTroubles?.length &&
-              ` (${author.discernmentTroubles.join(", ")})`}
+              `${author.discernmentTroubles.join(", ")}`}
           </p>
         </div>
       ))}
 
-      {data.thirdPartyIsPresent && (
+      {thirdParty && (
         <p>
           <span className="inline-block w-48 ">Intervention de tiers</span>
-          {data.thirdPartyIsPresent}
-          {!!data.thirdParty?.length && ` (${data.thirdParty.join(", ")})`}
+          {thirdParty
+            ?.map((elt) =>
+              Array.isArray(elt) ? `${elt?.[0]} (${elt?.[1]})` : elt,
+            )
+            .join(", ")}
         </p>
       )}
     </>
