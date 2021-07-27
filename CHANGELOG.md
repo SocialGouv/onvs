@@ -1,3 +1,10 @@
+## [2.23.1](https://github.com/SocialGouv/onvs/compare/v2.23.0...v2.23.1) (2021-07-27)
+
+
+### Bug Fixes
+
+* problem in declaration detail. Fixed. ([#166](https://github.com/SocialGouv/onvs/issues/166)) ([40007f0](https://github.com/SocialGouv/onvs/commit/40007f094c4e2ec29b3c9b2b110cf23b9f8ac3b5))
+
 # [2.23.0](https://github.com/SocialGouv/onvs/compare/v2.22.1...v2.23.0) (2021-07-27)
 
 
