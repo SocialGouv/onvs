@@ -1,3 +1,10 @@
+# [2.23.0](https://github.com/SocialGouv/onvs/compare/v2.22.1...v2.23.0) (2021-07-27)
+
+
+### Features
+
+* migration victims authors page ([#165](https://github.com/SocialGouv/onvs/issues/165)) ([3b01543](https://github.com/SocialGouv/onvs/commit/3b015437317c566e264c0b889caab0b8cb4b91c4))
+
 ## [2.22.1](https://github.com/SocialGouv/onvs/compare/v2.22.0...v2.22.1) (2021-07-26)
 
 
