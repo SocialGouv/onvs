@@ -5,6 +5,7 @@ Content-Type: application/json
 
 {
   "declarationType": "ets",
+  "finesset": "350023883",
   // Champs génériques
   "date": "2021-07-16",
   "hour": "Matin (7h-12h)",
@@ -101,6 +102,112 @@ Content-Type: application/json
     }
   ]
 }
+
+### Décla de type ETS. KO car finesset n'existe pas dans la table ets
+
+POST http://localhost:3030/api/declarations
+Content-Type: application/json
+
+{
+  "declarationType": "ets",
+  "finesset": "350023883xxxx",
+  // Champs génériques
+  "date": "2021-07-16",
+  "hour": "Matin (7h-12h)",
+  "town": "Pointe-à-Pitre",
+  "postalCode": "97110",
+  "fpSpokenViolences": [],
+  "fpSexualViolences": [],
+  "fpPsychologicalViolences": [],
+  "fpPhysicalViolences": [],
+  "fpOthers": [],
+  "fpNoRespects": [],
+  "fpGroups": [],
+  "fpDiscriminations": [],
+  "fgStealWithoutBreakins": [],
+  "fgStealWithBreakins": [],
+  "fgOthers": ["Trafic de stupéfiants ou autre trafic dans l’établissement"],
+  "fgGroups": ["Autres faits"],
+  "fgDeteriorations": [],
+  "factTypes": ["Atteinte aux biens"],
+  "rCausePatients": [],
+  "rCauseProfessionals": [],
+  "rDiscords": [],
+  "rLifeRules": [],
+  "rFalsifications": [],
+  "rDeficientCommunications": [],
+  "rOthers": [],
+  "rOthersPrecision": "",
+  "rNotApparent": true,
+  "description": "description for ets ",
+
+  "victims": [
+    {
+      "type": "Accompagnant/Visiteur/Famille",
+      "gender": "Masculin",
+      "age": "- de 18 ans" ,
+      "sickLeaveDays": 0,
+      "hospitalizationDays": 0,
+      "ITTDays": 0
+    }
+  ],
+  "authors": [
+    {
+      "type": "Détenu",
+      "gender": "Masculin",
+      "age": "- de 18 ans"
+    }
+  ],
+  "pursuit": {
+    "type": "Plainte",
+    "pursuitBy": [
+      "L'établissement",
+      "L'ordre"
+    ]
+  },
+  "thirdParty": [
+    "Personnel hospitalier",
+    "Sapeurs-pompiers",
+    ["Autre", "autre parties prenantes"]
+  ],
+
+  "location" : {
+    "Dans quel service ?": "Addictologie",
+    "Dans quel lieu précisément ?": "Bureau du personnel (médical ou non)"
+  },
+
+  // Champs spécifique deprecated
+  "locationMain_deprecated": "Addictologie",
+  "locationSecondary_deprecated": "Bureau du personnel (médical ou non)",
+
+  // Champs génériques deprecated
+  "thirdPartyIsPresent_deprecated": "Non",
+  "thirdParty_deprecated": [],
+  "pursuit_deprecated": "Non",
+  "pursuitBy_deprecated": [],
+  "victims_deprecated": [
+    {
+      "type": {
+        "label": "Accompagnant/Visiteur/Famille",
+        "value": "Accompagnant/Visiteur/Famille"
+      },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
+      "sickLeaveDays": 0,
+      "hospitalizationDays": 0,
+      "ITTDays": 0
+    }
+  ],
+  "authors_deprecated": [
+    {
+      "discernmentTroublesIsPresent": "Non",
+      "type": { "label": "Détenu", "value": "Détenu" },
+      "gender": { "label": "Masculin", "value": "Masculin" },
+      "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
+    }
+  ]
+}
+
 
 #### Liberal declaration
 
@@ -300,7 +407,7 @@ Content-Type: application/json
 }
 
 
-### Liberal declaration with an id generated client side
+### Liberal declaration with an id generated client side. KO car l'id existe déjà.
 POST http://localhost:3030/api/declarations
 Content-Type: application/json
 
@@ -507,6 +614,8 @@ Content-Type: application/json
 
 {
   "declarationType":"ets",
+  "finesset": "350023883",
+
   "postalCode":"78290",
   "locationMain_deprecated":"Addictologie",
   "locationSecondary_deprecated":"Véhicule (dans le cadre d’un transport de patients/résidents)",

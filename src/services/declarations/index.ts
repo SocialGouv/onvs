@@ -19,7 +19,7 @@ export const create = async (
       break
     }
     case DeclarationType.Ets: {
-      schemaEts.parse(declaration)
+      await schemaEts.parseAsync(declaration)
       break
     }
     default: {
