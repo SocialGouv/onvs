@@ -22,7 +22,7 @@ exports.up = async function (knex) {
           .where("id", row.id)
           .update({ third_party_json: JSON.stringify(third_party_json) })
       } catch (error) {
-        console.log(`Error for row.id ${row.id}`, error)
+        console.error(`Error for row.id ${row.id}`, error)
       }
     }
   })

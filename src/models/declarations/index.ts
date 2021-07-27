@@ -111,20 +111,20 @@ export type ThirdPartySchemaType = z.infer<typeof thirdPartySchema>
 
 const pursuitSchemaForOther = z
   .object({
-    value: z.tuple([z.literal("Autre"), z.string()]),
+    type: z.tuple([z.literal("Autre"), z.string()]),
   })
   .strict()
 
 const pursuitSchemaForLogBook = z
   .object({
-    value: z.literal("Main courante"),
+    type: z.literal("Main courante"),
   })
   .strict()
 
 const pursuitSchemaForComplaint = z
   .object({
-    value: z.literal("Plainte"),
-    details: z
+    type: z.literal("Plainte"),
+    pursuitBy: z
       .string()
       .array()
       .transform((val) => uniq(val))

@@ -44,7 +44,7 @@ model Declaration {
   rNotApparent                         Boolean?  @map("r_not_apparent")
   victims_deprecated                   Json
   thirdParty_deprecated                Json?     @map("third_party_deprecated")
-  thirdPartyIsPresent_deprecated       String?   @map("third_party_is_present_deprecated")  @db.VarChar(255)
+  thirdPartyIsPresent_deprecated       String?   @map("third_party_is_present_deprecated") @db.VarChar(255)
   thirdPartyPrecision_deprecated       String?   @map("third_party_precision_deprecated") @db.VarChar(255)
   pursuit_deprecated                   String?   @db.VarChar(255)
   pursuitPrecision_deprecated          String?   @map("pursuit_precision_deprecated") @db.VarChar(255)

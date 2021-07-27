@@ -53,8 +53,8 @@ Content-Type: application/json
     }
   ],
   "pursuit": {
-    "value": "Plainte",
-    "details": [
+    "type": "Plainte",
+    "pursuitBy": [
       "L'établissement",
       "L'ordre"
     ]
@@ -158,8 +158,8 @@ Content-Type: application/json
     }
   ],
   "pursuit": {
-    "value": "Plainte",
-    "details": [
+    "type": "Plainte",
+    "pursuitBy": [
       "L'établissement",
       "L'ordre"
     ]
@@ -220,9 +220,11 @@ Content-Type: application/json
   "declarationType": "liberal",
   "job": "Assistant dentaire",
   "declarantContactAgreement": true,
+  "declarantContactAgreement_deprecated": "true",
   "location" : {
     "Dans quel lieu précisément ?": ["Autre", "pas très loin"]
   },
+  "location_deprecated" : "pas très loin",
 
   // Champs génériques
   "date": "2021-07-16",
@@ -252,8 +254,8 @@ Content-Type: application/json
   "rOthers": [],
   "rOthersPrecision": "",
   "rNotApparent": true,
-  "pursuit": "Non",
-  "victims": [
+  "pursuit_deprecated": "Non",
+  "victims_deprecated": [
     {
       "type": {
         "label": "Accompagnant/Visiteur/Famille",
@@ -266,7 +268,17 @@ Content-Type: application/json
       "ITTDays": 0
     }
   ],
-  "authors": [
+  "victims": [
+    {
+      "type": "Accompagnant/Visiteur/Famille",
+      "gender": "Masculin",
+      "age": "- de 18 ans",
+      "sickLeaveDays": 0,
+      "hospitalizationDays": 0,
+      "ITTDays": 0
+    }
+  ],
+  "authors_deprecated": [
     {
       "discernmentTroublesIsPresent": "Non",
       "type": { "label": "Détenu", "value": "Détenu" },
@@ -274,9 +286,16 @@ Content-Type: application/json
       "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
     }
   ],
-  "thirdPartyIsPresent": "Non",
-  "pursuitBy": [],
-  "thirdParty": [],
+  "authors": [
+    {
+      "type": "Détenu",
+      "gender": "Masculin",
+      "age": "- de 18 ans"
+    }
+  ],
+  "thirdPartyIsPresent_deprecated": "Non",
+  "pursuitBy_deprecated": [],
+  "thirdParty_deprecated": [],
   "description": "description for liberal"
 }
 
@@ -290,9 +309,11 @@ Content-Type: application/json
   "declarationType": "liberal",
   "job": "Assistant dentaire",
   "declarantContactAgreement": true,
+  "declarantContactAgreement_deprecated": "true",
   "location" : {
     "Dans quel lieu précisément ?": ["Autre", "pas très loin"]
   },
+  "location_deprecated" : "pas très loin",
 
   // Champs génériques
   "id": "ecdbced5-7fee-492b-af7e-cc58d527d50d",
@@ -323,8 +344,8 @@ Content-Type: application/json
   "rOthers": [],
   "rOthersPrecision": "",
   "rNotApparent": true,
-  "pursuit": "Non",
-  "victims": [
+  "pursuit_deprecated": "Non",
+  "victims_deprecated": [
     {
       "type": {
         "label": "Accompagnant/Visiteur/Famille",
@@ -337,7 +358,17 @@ Content-Type: application/json
       "ITTDays": 0
     }
   ],
-  "authors": [
+  "victims": [
+    {
+      "type": "Accompagnant/Visiteur/Famille",
+      "gender": "Masculin",
+      "age": "- de 18 ans",
+      "sickLeaveDays": 0,
+      "hospitalizationDays": 0,
+      "ITTDays": 0
+    }
+  ],
+  "authors_deprecated": [
     {
       "discernmentTroublesIsPresent": "Non",
       "type": { "label": "Détenu", "value": "Détenu" },
@@ -345,9 +376,16 @@ Content-Type: application/json
       "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
     }
   ],
-  "thirdPartyIsPresent": "Non",
-  "pursuitBy": [],
-  "thirdParty": [],
+  "authors": [
+    {
+      "type": "Détenu",
+      "gender": "Masculin",
+      "age": "- de 18 ans"
+    }
+  ],
+  "thirdPartyIsPresent_deprecated": "Non",
+  "pursuitBy_deprecated": [],
+  "thirdParty_deprecated": [],
   "description": "description for liberal"
 }
 
@@ -358,17 +396,19 @@ POST http://localhost:3030/api/declarations
 Content-Type: application/json
 
 {
-  "declarantContactAgreement":false,
   "declarationType":"liberal",
+  "declarantContactAgreement":false,
+  "declarantContactAgreement_deprecated":false,
+
   "postalCode":"91590",
   "job":"Audioprothésiste",
   "location_deprecated":"Cabinet individuel",
-  "otherLocation_deprecated":"",
   "declarantContactAgreement_deprecated":"false",
   "date":"2021-07-20",
   "location":{
     "Dans quel lieu précisément ?":"Cabinet individuel"
   },
+  "location_deprecated": "Cabinet individuel",
   "hour":"Matin (7h-12h)",
   "town":"D'Huison-Longueville",
   "fpSpokenViolences":[],
@@ -400,8 +440,8 @@ Content-Type: application/json
   "rOthers":[],
   "rOthersPrecision":"",
   "rNotApparent":true,
-  "pursuit":"Non",
-  "victims":[
+  "pursuit_deprecated":"Non",
+  "victims_deprecated":[
     {
       "type":{
         "label":"Accompagnant/Visiteur/Famille",
@@ -420,7 +460,17 @@ Content-Type: application/json
       "ITTDays":0
     }
   ],
-  "authors":[
+  "victims":[
+    {
+      "type":"Accompagnant/Visiteur/Famille",
+      "gender": "Masculin",
+      "age": "- de 18 ans",
+      "sickLeaveDays":0,
+      "hospitalizationDays":0,
+      "ITTDays":0
+    }
+  ],
+  "authors_deprecated":[
     {
       "discernmentTroublesIsPresent":"Non",
       "type":{
@@ -437,9 +487,16 @@ Content-Type: application/json
       }
     }
   ],
-  "thirdPartyIsPresent":"Non",
-  "pursuitBy":[],
-  "thirdParty":[],
+  "authors":[
+    {
+      "type": "Accompagnant/Visiteur/Famille",
+      "gender": "Masculin",
+      "age": "- de 18 ans"
+    }
+  ],
+  "thirdPartyIsPresent_deprecated":"Non",
+  "pursuitBy_deprecated":[],
+  "thirdParty_deprecated":[],
   "description":"test"
 }
 
@@ -458,6 +515,8 @@ Content-Type: application/json
     "Dans quel lieu précisément ?":"Véhicule (dans le cadre d’un transport de patients/résidents)"
   },
   "declarantContactAgreement":null,
+  "declarantContactAgreement_deprecated":null,
+
   "date":"2021-07-20",
   "hour":"Matin (7h-12h)",
   "town":"Croissy-sur-Seine",
@@ -490,8 +549,8 @@ Content-Type: application/json
   "rOthers":[],
   "rOthersPrecision":"",
   "rNotApparent":true,
-  "pursuit":"Non",
-  "victims":[
+  "pursuit_deprecated":"Non",
+  "victims_deprecated":[
     {
       "type":{
         "label":"Accompagnant/Visiteur/Famille",
@@ -510,7 +569,17 @@ Content-Type: application/json
       "ITTDays":0
     }
   ],
-  "authors":[
+  "victims":[
+    {
+      "type": "Accompagnant/Visiteur/Famille",
+      "gender": "Masculin",
+      "age": "- de 18 ans",
+      "sickLeaveDays":0,
+      "hospitalizationDays":0,
+      "ITTDays":0
+    }
+  ],
+  "authors_deprecated":[
     {
       "discernmentTroublesIsPresent":"Non",
       "type":{
@@ -527,8 +596,15 @@ Content-Type: application/json
       }
     }
   ],
-  "thirdPartyIsPresent":"Non",
-  "pursuitBy":[],
-  "thirdParty":[],
+  "authors":[
+    {
+      "type": "Accompagnant/Visiteur/Famille",
+      "gender": "Masculin",
+      "age": "- de 18 ans"
+    }
+  ],
+  "thirdPartyIsPresent_deprecated":"Non",
+  "pursuitBy_deprecated":[],
+  "thirdParty_deprecated":[],
   "description":"test"
 }

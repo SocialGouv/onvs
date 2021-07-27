@@ -2,11 +2,11 @@ import { pursuitSchema, PursuitSchema } from "@/models/declarations"
 
 test("pursuitSchema ok, for tuple with Autre in first place", () => {
   const object: PursuitSchema = {
-    value: ["Autre", "titi"],
+    type: ["Autre", "titi"],
   }
   expect(pursuitSchema.parse(object)).toMatchInlineSnapshot(`
     Object {
-      "value": Array [
+      "type": Array [
         "Autre",
         "titi",
       ],
@@ -16,24 +16,24 @@ test("pursuitSchema ok, for tuple with Autre in first place", () => {
 
 test("pursuitSchema ok, for Plainte", () => {
   const object: PursuitSchema = {
-    value: "Plainte",
-    details: ["L'établissement", "L'ordre", "L'ordre"],
+    type: "Plainte",
+    pursuitBy: ["L'établissement", "L'ordre", "L'ordre"],
   }
   expect(pursuitSchema.parse(object)).toMatchInlineSnapshot(`
     Object {
-      "details": Array [
+      "pursuitBy": Array [
         "L'établissement",
         "L'ordre",
       ],
-      "value": "Plainte",
+      "type": "Plainte",
     }
   `)
 })
 
 test("pursuitSchema in error for Plainte because details has not expected values", () => {
   const object: PursuitSchema = {
-    value: "Plainte",
-    details: ["L'établissement", "L'ordre", "titi"],
+    type: "Plainte",
+    pursuitBy: ["L'établissement", "L'ordre", "titi"],
   }
 
   expect.assertions(1)
@@ -44,15 +44,15 @@ test("pursuitSchema in error for Plainte because details has not expected values
     expect(error.format()).toMatchInlineSnapshot(`
       Object {
         "_errors": Array [
-          "Unrecognized key(s) in object: 'details'",
-          "Unrecognized key(s) in object: 'details'",
+          "Unrecognized key(s) in object: 'pursuitBy'",
+          "Unrecognized key(s) in object: 'pursuitBy'",
         ],
-        "details": Object {
+        "pursuitBy": Object {
           "_errors": Array [
             "Invalid input",
           ],
         },
-        "value": Object {
+        "type": Object {
           "_errors": Array [
             "Expected array, received string",
             "Expected Main courante, received Plainte",
@@ -65,11 +65,11 @@ test("pursuitSchema in error for Plainte because details has not expected values
 
 test("pursuitSchema ok, for Main courante", () => {
   const object: PursuitSchema = {
-    value: "Main courante",
+    type: "Main courante",
   }
   expect(pursuitSchema.parse(object)).toMatchInlineSnapshot(`
     Object {
-      "value": "Main courante",
+      "type": "Main courante",
     }
   `)
 })
@@ -78,7 +78,7 @@ test("pursuitSchema ok, for Main courante", () => {
 
 test("pursuitSchema in error for tuple which not have 2 elements only", () => {
   const object = {
-    value: ["Autre", "toto", "titi"],
+    type: ["Autre", "toto", "titi"],
   }
 
   expect.assertions(1)
@@ -89,12 +89,12 @@ test("pursuitSchema in error for tuple which not have 2 elements only", () => {
     expect(error.format()).toMatchInlineSnapshot(`
       Object {
         "_errors": Array [],
-        "details": Object {
+        "pursuitBy": Object {
           "_errors": Array [
             "Required",
           ],
         },
-        "value": Object {
+        "type": Object {
           "_errors": Array [
             "Should have at most 2 items",
             "Expected Main courante, received Autre,toto,titi",
@@ -108,8 +108,8 @@ test("pursuitSchema in error for tuple which not have 2 elements only", () => {
 
 test("pursuitSchema in error for Main courante when not expected fields", () => {
   const object = {
-    value: "Main courante",
-    details: ["L'ordre"],
+    type: "Main courante",
+    pursuitBy: ["L'ordre"],
   }
 
   expect.assertions(1)
@@ -120,10 +120,10 @@ test("pursuitSchema in error for Main courante when not expected fields", () => 
     expect(error.format()).toMatchInlineSnapshot(`
       Object {
         "_errors": Array [
-          "Unrecognized key(s) in object: 'details'",
-          "Unrecognized key(s) in object: 'details'",
+          "Unrecognized key(s) in object: 'pursuitBy'",
+          "Unrecognized key(s) in object: 'pursuitBy'",
         ],
-        "value": Object {
+        "type": Object {
           "_errors": Array [
             "Expected array, received string",
             "Expected Plainte, received Main courante",

@@ -20,14 +20,12 @@ exports.up = async function (knex) {
       }
     })
 
-    console.log("victims_json", victims_json)
-
     try {
       await knex("declarations")
         .where("id", row.id)
         .update({ victims_json: JSON.stringify(victims_json) })
     } catch (error) {
-      console.log(`Error for row.id ${row.id}`, error)
+      console.error(`Error for row.id ${row.id}`, error)
     }
   })
 
@@ -52,7 +50,7 @@ exports.up = async function (knex) {
         .where("id", row.id)
         .update({ authors_json: JSON.stringify(authors_json) })
     } catch (error) {
-      console.log(`Error for row.id ${row.id}`, error)
+      console.error(`Error for row.id ${row.id}`, error)
     }
   })
 

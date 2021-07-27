@@ -92,38 +92,79 @@ export const createDeclaration = async ({
       ? false
       : null
 
-  // TODO: the victims and authors shouldn't be with the { label, value } shape in db.
-  // Do a migration to reshape the data in db (prod) and make the following to adapt the client.
+  // PURSUIT  ---------------------------------------------------------------
 
-  // let victims = data.victims
+  data.pursuit_deprecated = data.pursuit // => Non, Main courate ou plainte (varachar)
+  data.pursuitBy_deprecated = data.pursuitBy // tableau
+  // pursuit_precision_deprecated => jamais utilisé
 
-  // if (victims?.length) {
-  //   victims = victims.map((victim) => {
-  //     return {
-  //       ...victim,
-  //       type: victim.type.label,
-  //       gender: victim.gender.label,
-  //       age: victim.age.label,
-  //     }
-  //   })
+  if (data.pursuit === "Non") {
+    delete data.pursuit // We don't store the pursuit anymore when no is choosen.
+  } else {
+    data.pursuit = {
+      type:
+        data.pursuit === "Autre"
+          ? ["Autre", data.pursuitPrecision]
+          : data.pursuit,
+      ...(data.pursuit === "Plainte" && { pursuitBy: data.pursuitBy }),
+    }
+  }
 
-  //   data.victims = victims
-  // }
+  delete data.pursuitBy
 
-  // let authors = data.authors
+  // THIRD_PARTY  ---------------------------------------------------------------
 
-  // if (authors?.length) {
-  //   authors = authors.map((author) => {
-  //     return {
-  //       ...author,
-  //       type: author.type.label,
-  //       gender: author.gender.label,
-  //       age: author.age.label,
-  //     }
-  //   })
+  data.thirdParty_deprecated = data.thirdParty
+  data.thirdPartyIsPresent_deprecated = data.thirdPartyIsPresent
+  data.thirdPartyPrecision_deprecated = data.thirdPartyPrecision
 
-  //   data.authors = authors
-  // }
+  if (data.thirdPartyIsPresent === "Non") {
+    delete data.thirdParty
+  } else {
+    data.thirdParty = data.thirdParty.map((elt) =>
+      elt === "Autre" ? ["Autre", data.thirdPartyPrecision] : elt,
+    )
+  }
+
+  delete data.thirdPartyIsPresent
+  delete data.thirdPartyPrecision
+
+  // VICTIMS & AUTHORS ---------------------------------------------------------------
+
+  data.victims_deprecated = data.victims
+  data.authors_deprecated = data.authors
+
+  if (data.victims?.length) {
+    const victims = data.victims.map((victim) => {
+      return {
+        ...victim,
+        type: victim.type.label,
+        gender: victim.gender.label,
+        age: victim.age.label,
+        ...(victim.healthJob && { healthJob: victim.healthJob.label }),
+      }
+    })
+
+    data.victims = victims
+  }
+
+  if (data.authors?.length) {
+    const authors = data.authors.map((author) => {
+      // We ignore discernmentTroublesIsPresent, since it can be deduce if the discernmentTroubles is an empty array.
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { discernmentTroublesIsPresent, ...restAuthors } = author
+
+      return {
+        ...restAuthors,
+        type: author.type.label,
+        gender: author.gender.label,
+        age: author.age.label,
+        ...(author.healthJob && { healthJob: author.healthJob.label }),
+      }
+    })
+
+    data.authors = authors
+  }
 
   // console.log("dans clients", data)
 

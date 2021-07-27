@@ -13,13 +13,13 @@ exports.up = async function (knex) {
   rows.forEach(async (row) => {
     if (row.pursuit !== "Non") {
       const pursuit_json = {
-        value:
+        type:
           row.pursuit === "Autre"
             ? ["Autre", row.pursuit_precision]
             : row.pursuit,
       }
       if (row.pursuit === "Plainte") {
-        pursuit_json.details = row.pursuit_by
+        pursuit_json.pursuitBy = row.pursuit_by
       }
 
       try {
@@ -27,7 +27,7 @@ exports.up = async function (knex) {
           .where("id", row.id)
           .update({ pursuit_json: JSON.stringify(pursuit_json) })
       } catch (error) {
-        console.log(`Error for row.id ${row.id}`, error)
+        console.error(`Error for row.id ${row.id}`, error)
       }
     }
   })
