@@ -19,6 +19,8 @@ import {
 import { Prisma } from "@prisma/client"
 
 const DatePart = ({ data }: { data: DeclarationModel }) => {
+  const location = data.location as Prisma.JsonObject
+
   return (
     <>
       <Title1 className="mt-6 mb-4">
@@ -54,10 +56,12 @@ const DatePart = ({ data }: { data: DeclarationModel }) => {
         <span className="inline-block w-48 font-bold">Code postal</span>
         {data.postalCode}
       </p>
-      {Object.keys(data.location as Prisma.JsonObject)?.map((key) => (
+      {Object.keys(location)?.map((key) => (
         <p key={key}>
           <span className="inline-block w-48 font-bold">{key}</span>
-          {data.location?.[key]}
+          {Array.isArray(location[key])
+            ? `${location[key]?.[0]} (${location[key]?.[1]})`
+            : location[key]}
         </p>
       ))}
     </>
@@ -250,7 +254,7 @@ const VictimsAuthorsPart = ({ data }: { data: DeclarationModel }) => {
   const victims = data?.victims as Prisma.JsonArray
   const authors = data?.authors as Prisma.JsonArray
   const pursuit = data?.pursuit as PursuitSchema
-  const pursuitBy = pursuit["pursuitBy"]
+  const pursuitBy = pursuit && pursuit["pursuitBy"]
   const thirdParty = data?.thirdParty as Prisma.JsonArray
 
   return (
