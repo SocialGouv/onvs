@@ -1,3 +1,10 @@
+# [2.24.0](https://github.com/SocialGouv/onvs/compare/v2.23.1...v2.24.0) (2021-07-28)
+
+
+### Features
+
+* remove unused columns for declarations + add finesset column ([#167](https://github.com/SocialGouv/onvs/issues/167)) ([416aeb6](https://github.com/SocialGouv/onvs/commit/416aeb6f2834577d7888da9357b0fef08cd6919d))
+
 ## [2.23.1](https://github.com/SocialGouv/onvs/compare/v2.23.0...v2.23.1) (2021-07-27)
 
 
