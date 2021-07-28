@@ -56,10 +56,6 @@ model Declaration {
   declarantExternalId                  String?   @map("declarant_external_id") @db.VarChar(255)
   declarantEmail                       String?   @map("declarant_email") @db.VarChar(255)
   declarantTel                         String?   @map("declarant_tel") @db.VarChar(30)
-  etsId                                String?   @map("ets_id") @db.Uuid
-  etsStatus                            String?   @map("ets_status") @db.VarChar(30)
-  etsDeclaredBy                        String?   @map("ets_declared_by") @db.Uuid
-  etsModeratedBy                       String?   @map("ets_moderated_by") @db.Uuid
   locationMain_deprecated              String?   @map("ets_location1_deprecated") @db.VarChar(255)
   locationSecondary_deprecated         String?   @map("ets_location2_deprecated") @db.VarChar(255)
   postalCode                           String    @map("postal_code") @db.VarChar(5)
@@ -69,6 +65,7 @@ model Declaration {
   pursuit                              Json?
   victims                              Json
   authors                              Json
+  finesset                             String?   @db.VarChar(255)
 
   @@map("declarations")
 }

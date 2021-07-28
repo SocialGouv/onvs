@@ -6,14 +6,17 @@ import Select from "react-select"
 import * as yup from "yup"
 
 import { InputError, Title2 } from "@/components/lib"
-import { hoursOptions } from "@/components/wizard/flows/liberal/Step1"
 import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
 
 import { selectConfig } from "../../../../config"
 import TownSelect from "@/components/TownSelect"
-import { locationMainOptions, locationSecondaryOptions } from "@/utils/options"
+import {
+  hoursOptions,
+  locationMainOptions,
+  locationSecondaryOptions,
+} from "@/utils/options"
 
 const schema = yup.object().shape({
   date: yup

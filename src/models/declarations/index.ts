@@ -1,5 +1,7 @@
 import { z } from "zod"
 import { Declaration, Prisma } from "@prisma/client"
+import prisma from "@/prisma/db"
+
 import {
   ages,
   authorTypes,
@@ -232,10 +234,20 @@ const liberalAddonSchema = z.object({
 // Specificity for ETS.
 const etsAddonSchema = z.object({
   declarationType: z.literal(DeclarationType.Ets),
-  etsId: z.string().optional(), // TODO : check if this a uuid refering the ets.
-  etsStatus: z.string().optional(), // TODO : remove this field ??
-  etsDeclaredBy: z.string().optional(), // TODO : remove this field ??
-  etsModeratedBy: z.string().optional(), // TODO : remove this field ??
+  finesset: z.string().refine(async (finesset) => {
+    try {
+      const ets = await prisma.ets.findUnique({
+        where: {
+          finesset,
+        },
+      })
+      console.log("pour ets, on trouve", ets)
+      return ets !== null
+    } catch (error) {
+      console.error("Erreur lors du test du finesset")
+      return false
+    }
+  }),
 
   locationMain_deprecated: z.string(), // TODO: remove when time has come
   locationSecondary_deprecated: z.string(), // TODO: remove when time has come

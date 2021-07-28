@@ -21,10 +21,6 @@ exports.seed = function (knex) {
           declarant_names: null,
           declarant_tel: null,
           description: "test",
-          ets_declared_by: null,
-          ets_id: null,
-          ets_moderated_by: null,
-          ets_status: null,
           fact_types: '["Atteinte aux biens"]',
           fg_deteriorations: "[]",
           fg_groups: '["Autres faits"]',
@@ -73,6 +69,7 @@ exports.seed = function (knex) {
         },
         {
           declaration_type: "ets",
+          finesset: "350019337",
           authors_deprecated:
             '[{"age": {"label": "- de 18 ans", "value": "- de 18 ans"}, "type": {"label": "Accompagnant/Visiteur/Famille", "value": "Accompagnant/Visiteur/Famille"}, "gender": {"label": "Masculin", "value": "Masculin"}, "discernmentTroublesIsPresent": "Non"}]',
           authors:
@@ -80,16 +77,12 @@ exports.seed = function (knex) {
           created_at: "2021-05-04 13:34:53.18524+00",
           date: "2021-05-04",
           description: "test ets",
-          ets_declared_by: null,
-          ets_id: null,
           location: {
             "Dans quel service ?": "Accueil Mère/enfant",
             "Dans quel lieu précisément ?":
               "Bureau du personnel (médical ou non)",
           },
           declarant_contact_agreement_deprecated: "false",
-          ets_moderated_by: null,
-          ets_status: null,
           fact_types: '["Atteinte aux biens"]',
           fg_deteriorations: "[]",
           fg_groups: '["Autres faits"]',
@@ -148,10 +141,6 @@ exports.seed = function (knex) {
           declarant_names: null,
           declarant_tel: null,
           description: "tes ",
-          ets_declared_by: null,
-          ets_id: null,
-          ets_moderated_by: null,
-          ets_status: null,
           fact_types: '["Atteinte aux biens"]',
           fg_deteriorations: "[]",
           fg_groups: '["Autres faits"]',
@@ -200,6 +189,7 @@ exports.seed = function (knex) {
         },
         {
           declaration_type: "ets",
+          finesset: "350023883",
           authors_deprecated:
             '[{"age": {"label": "- de 18 ans", "value": "- de 18 ans"}, "type": {"label": "Accompagnant/Visiteur/Famille", "value": "Accompagnant/Visiteur/Famille"}, "gender": {"label": "Féminin", "value": "Féminin"}, "discernmentTroublesIsPresent": "Non"}]',
           authors:
@@ -213,10 +203,6 @@ exports.seed = function (knex) {
           declarant_names: null,
           declarant_tel: null,
           description: "erezrez",
-          ets_declared_by: null,
-          ets_id: null,
-          ets_moderated_by: null,
-          ets_status: null,
           fact_types: '["Atteinte aux biens"]',
           fg_deteriorations: "[]",
           fg_groups: '["Vol avec effraction"]',
