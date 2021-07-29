@@ -1,16 +1,16 @@
 import env from "@kosko/env"
-import gitlab from "@socialgouv/kosko-charts/environments/gitlab"
+import environments from "@socialgouv/kosko-charts/environments"
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge"
 import { ok } from "assert"
 import { CronJob } from "kubernetes-models/batch/v1beta1/CronJob"
 
 const name =  "onvs-email-alerts";
-const gitlabEnv = gitlab(process.env);
-const annotations = merge(gitlabEnv.annotations || {}, {
+const ciEnv = environments(process.env);
+const annotations = merge(ciEnv.metadata.annotations ?? {}, {
   "kapp.k14s.io/disable-default-ownership-label-rules": "",
   "kapp.k14s.io/disable-default-label-scoping-rules": "",
 });
-const labels = merge(gitlabEnv.labels || {}, {
+const labels = merge(ciEnv.metadata.labels ?? {}, {
   app: name,
 });
 
@@ -24,7 +24,7 @@ const cronJob = new CronJob({
     annotations,
     labels,
     name,
-    namespace: gitlabEnv.namespace.name,
+    namespace: ciEnv.metadata.namespace.name,
   },
   spec: {
     schedule: "30 17 * * FRI",
