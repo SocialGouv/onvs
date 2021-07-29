@@ -98,7 +98,7 @@ spec:
             periodSeconds: 5
           envFrom:
             - secretRef:
-                name: azure-pg-user-0123456
+                name: azure-pg-user-master-dev42
             - secretRef:
                 name: app-sealed-secret
             - configMapRef:
@@ -109,8 +109,8 @@ spec:
               value: '24'
           envFrom:
             - secretRef:
-                name: azure-pg-user-0123456
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.0.1
+                name: azure-pg-user-master-dev42
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -222,7 +222,7 @@ spec:
     app: app
   type: ClusterIP
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -246,9 +246,12 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: app
-              servicePort: 80
+              service:
+                name: app
+                port:
+                  name: http
             path: /
+            pathType: Prefix
   tls:
     - hosts:
         - master-dev42-onvs.dev42.fabrique.social.gouv.fr
@@ -265,17 +268,17 @@ spec:
             - create-db-user
           env:
             - name: NEW_DB_NAME
-              value: autodevops_0123456
+              value: autodevops_master-dev42
             - name: NEW_USER
-              value: user_0123456
+              value: user_master-dev42
             - name: NEW_PASSWORD
-              value: password_0123456
+              value: password_master-dev42
             - name: NEW_DB_EXTENSIONS
               value: hstore pgcrypto citext uuid-ossp
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user
-          image: ghcr.io/socialgouv/docker/azure-db:6.0.1
+          image: ghcr.io/socialgouv/docker/azure-db:6.32.2
           imagePullPolicy: IfNotPresent
           name: create-db-user
           resources:
@@ -314,18 +317,18 @@ apiVersion: v1
 kind: Secret
 stringData:
   DATABASE_URL: >-
-    postgresql://user_0123456%40onvsdevserver.postgres.database.azure.com:password_0123456@onvsdevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+    postgresql://user_master-dev42%40onvsdevserver.postgres.database.azure.com:password_master-dev42@onvsdevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
   DB_URI: >-
-    postgresql://user_0123456%40onvsdevserver.postgres.database.azure.com:password_0123456@onvsdevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+    postgresql://user_master-dev42%40onvsdevserver.postgres.database.azure.com:password_master-dev42@onvsdevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
   HASURA_GRAPHQL_DATABASE_URL: >-
-    postgresql://user_0123456%40onvsdevserver.postgres.database.azure.com:password_0123456@onvsdevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
-  PGDATABASE: autodevops_0123456
+    postgresql://user_master-dev42%40onvsdevserver.postgres.database.azure.com:password_master-dev42@onvsdevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
+  PGDATABASE: autodevops_master-dev42
   PGHOST: onvsdevserver.postgres.database.azure.com
-  PGPASSWORD: password_0123456
+  PGPASSWORD: password_master-dev42
   PGRST_DB_URI: >-
-    postgresql://user_0123456%40onvsdevserver.postgres.database.azure.com:password_0123456@onvsdevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+    postgresql://user_master-dev42%40onvsdevserver.postgres.database.azure.com:password_master-dev42@onvsdevserver.postgres.database.azure.com/autodevops_master-dev42?sslmode=require
   PGSSLMODE: require
-  PGUSER: user_0123456@onvsdevserver.postgres.database.azure.com
+  PGUSER: user_master-dev42@onvsdevserver.postgres.database.azure.com
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-onvs
@@ -336,7 +339,7 @@ metadata:
     owner: onvs
     team: onvs
     cert: wildcard
-  name: azure-pg-user-0123456
+  name: azure-pg-user-master-dev42
   namespace: onvs-85-master-dev42
 "
 `;
