@@ -1,3 +1,10 @@
+## [2.24.1](https://github.com/SocialGouv/onvs/compare/v2.24.0...v2.24.1) (2021-07-29)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @socialgouv/kosko-charts to v9 ([#154](https://github.com/SocialGouv/onvs/issues/154)) ([5224e4a](https://github.com/SocialGouv/onvs/commit/5224e4ace4c10e337280d112fa99386f8a3a00c2))
+
 # [2.24.0](https://github.com/SocialGouv/onvs/compare/v2.23.1...v2.24.0) (2021-07-28)
 
 
