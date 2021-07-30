@@ -1,5 +1,213 @@
 /** List of options expected by the db */
 
+export const factPersonsGroups = {
+  fpSpokenViolences: {
+    label: "La victime a subi une violence verbale",
+    options: [
+      {
+        value: "Injure, provocation, outrage",
+        info: "Paroles contre la personne ou sa profession, gestes obscènes ou de provocation pour mépriser, rabaisser, intimider ou chercher la bagarre, parler très près du visage, cracher par terre. Si crachat au visage ou sur la personne cocher violence volontaire sans arme. Si menace verbale ou par geste explicite de mort et/ou d’atteinte à l’intégrité physique : cocher menace de mort et d’atteinte à l’intégrité physique.",
+      },
+      {
+        value: "Propos discriminatoire",
+        info: "Quand les injures et outrages se rapportent spécifiquement à : la race, l'ethnie, la nation, au pays, la religion, au sexe.",
+      },
+      {
+        value:
+          "Menace de mort et d’atteinte à l’intégrité physique ou d’atteinte aux biens",
+        info: "À un personnel de santé, sa famille, autre personne. Il faut une formulation ou un geste explicite : « Je vais te tuer, t’égorger, te casser la gueule, etc.», montrer les poings, faire le geste du couteau qu’on passe sous sa gorge, « Je vais brûler ta maison », « Je vais faire sauter l'hôpital »,  etc.",
+      },
+      {
+        value: "Menace avec arme par nature ou par destination",
+        info: "Arme par nature : arme à feu ; arme blanche dont les objets contondants: poing américain, tonfa, nunchaku, etc. ; bombe lacrymogène... Arme par destination: objet qui va être utilisé comme arme soit par détournement de son usage naturel à des fins de violence (canne de marche, chaise, clé, couverts, déambulateur, etc.) soit parce que l’auteur a délibérément transformé l’objet dans le but d’en faire une arme (petite cuillère aiguisée, etc.).",
+      },
+    ],
+  },
+
+  fpPhysicalViolences: {
+    label: "La victime a subi une violence physique",
+    options: [
+      {
+        value: "Maltraitance volontaire ou par négligence",
+        info: "Cet item concerne uniquement la relation d'un personnel de santé envers un patient/résident (ex : négliger le patient/résident qui attend un soin de nursing, etc.)",
+      },
+      {
+        value: "Violence volontaire sans arme",
+        info: "Bousculade, coup, morsure, crachat au visage et sur la personne, saisir une personne à la gorge. Attention: une personne souffrant d’un Trouble Psychique ou Neuro-psychique (TPN), à savoir une abolition partielle ou totale de son discernement, est considérée comme commettant une violence volontaire (cocher également la case TPN). Une personne sous l’emprise manifeste d’alcool ou de stupéfiants commet une violence volontaire car c’est elle qui s’est mise dans cet état (ne pas cocher la case TPN).",
+      },
+      {
+        value: "Violence volontaire avec arme par nature ou par destination",
+        info: "Arme par nature: arme à feu ; arme blanche dont les objets contondants : poing américain, tonfa, nunchaku, etc. ; bombe lacrymogène. Arme par destination: objet qui va être utilisé comme arme soit par détournement de son usage naturel à des fins de violence (canne de marche, chaise, clé, couverts, jouet, etc.), soit parce que l’auteur a délibérément transformé l’objet dans le but d’en faire une arme (petite cuillère aiguisée, etc.).",
+      },
+      {
+        value: "Autre fait qualifié de crime",
+        info: "Meurtre et tentative, violences volontaires entraînant mutilation ou infirmité permanente, enlèvement, séquestration",
+        precision: "fpPhysicalViolencesPrecision",
+      },
+    ],
+  },
+  fpSexualViolences: {
+    label: "La victime a subi une violence sexuelle",
+    options: [
+      {
+        value: "Exhibition sexuelle",
+        info: "Se montrer nu de façon intentionnelle à la vue du public (personnel de santé ou autres personnes).",
+      },
+      {
+        value: "Agression sexuelle",
+        info: "L’agression sexuelle est une atteinte sexuelle sans pénétration commise avec contrainte, menace, surprise sans le consentement de la victime. Si pénétration, cocher viol.",
+      },
+      {
+        value: "Viol",
+        info: "Tout acte de pénétration sexuelle, de quelque nature qu'il soit, commis par violence, contrainte, menace ou surprise.",
+      },
+    ],
+  },
+  fpPsychologicalViolences: {
+    label: "La victime a subi une violence psychologique",
+    options: [
+      {
+        value: "Abus de faiblesse ou état d’ignorance",
+        info: "Maltraitance physique et/ou psychique sur une personne dont on connaît sa particulière vulnérabilité (minorité, âge, maladie, infirmité, déficience physique ou psychique, état de grossesse) en vue d’obtenir un acte ou une abstention qui lui sont gravement préjudiciables. Par exemple, lui soutirer de l'argent, lui faire signer un chèque en blanc, une procuration, etc.",
+      },
+      {
+        value: "Constat d'un suicide ou d'une tentative",
+        info: "C’est une violence psychologique sur ceux qui constatent ce fait. Cette atteinte ne nécessite pas forcément de remplir le masque « motifs ».",
+      },
+      {
+        value: "Harcèlement moral",
+        info: "Agissements répétés de comportements, propos, réseaux sociaux, courriel, téléphone, SMS, écrits qui troublent la tranquillité de la victime ou dégradent les conditions de travail. Ex: répétitions d’appels téléphoniques à la suite du refus d’un médecin de délivrer une ordonnance, d’une vengeance d’un soin considéré comme mal fait, etc.",
+      },
+      {
+        value: "Harcèlement sexuel",
+        info: "Agissements répétés de comportements, propos, usage réseaux sociaux, courriel, téléphone, texto, écrit.",
+      },
+    ],
+  },
+  fpDiscriminations: {
+    label: "La victime a été discriminée",
+    options: [
+      {
+        value:
+          "Refus de délivrer un bien ou d'un service en raison de critères discriminatoires",
+        info: "Le fait (ici uniquement pour un personnel de santé ou un prestataire) de refuser de délivrer un bien ou un service en raison d’une distinction opérée à propos de : l'origine, le sexe, la religion, l'opinion politique...",
+      },
+      // Hack to make the field fpDiscriminations an array (like the other fields), not a boolean
+      { value: "N/A", hidden: true },
+    ],
+  },
+  fpNoRespects: {
+    label:
+      "Les auteurs n’ont pas respecté les règles du lieu / ont eu un comportement incivique",
+    options: [
+      {
+        value: "Nuisance, chahut, fugue",
+        info: "Non-respect des règles de l’établissement (horaires de visites, stationnement, niveau sonore d’un appareil, fumer dans un espace interdit...). Parler exagérément fort ou ameuter le public pour parvenir à ses fins, taper sur les meubles, faire le siège d’un bureau avec un personnel à l’intérieur pour obtenir une décision, ne pas respecter les règles de la laïcité, etc.",
+      },
+      {
+        value:
+          "Consommation ou détention sur place d’alcool et/ou de produits stupéfiants pour son propre usage",
+      },
+    ],
+  },
+  fpOthers: {
+    label: "Autres faits",
+    options: [
+      {
+        value: "Atteinte à la vie privée et/ou au droit à l’image",
+        info: "Atteinte à la vie privée: fait de filmer, photographier et/ou enregistrer vos propos sans vous demander l’autorisation. Atteinte au droit à l’image: fait de diffuser ensuite film, photo/enregistrement sonore dans les médias (presse, audio, vidéo) sans votre autorisation. Attention: La chambre d’un établissement est un lieu privé, mais un établissement (public ou privé) et un cabinet, une officine ne sont pas un lieu privé. Donc il n’y pas d’atteinte à la vie privée si vous êtes filmé dans les couloirs ou encore une salle d’attente. En revanche la diffusion de votre image peut dans certaines circonstances être une violation du droit à l’image.",
+      },
+      { value: "Atteinte au respect dû aux morts" },
+    ],
+  },
+}
+
+export const factGoodsGroups = {
+  fgDeteriorations: {
+    label: "Dégradation",
+    options: [
+      {
+        value: "Dégradation autre que par incendie",
+        info: "Mobilier, véhicule, local, matériel, etc.",
+      },
+      {
+        value: "Dégradation par incendie volontaire",
+        info: "Local, matelas, mobilier, poubelle, véhicule, etc.",
+      },
+      {
+        value: "Tags, graffitis, autres salissures",
+        info: "Avec caractère ou non injurieux envers quelqu’un ou établissement/cabinet/officine. Si en plus le tag/graffiti a un caractère injurieux envers quelqu’un ou établissement/cabinet/officine, cocher la case correspondante dans la rubrique : La victime a subi une violence verbale.",
+      },
+      {
+        value: "Squat et occupation",
+        info: "D’un lieu, d’un bâtiment, sous/sol avec détérioration ou non (laisser des détritus, salissures): se laver dans une chambre vide, rester ou dormir dans une salle d’attente, squatter une pièce en sous-sol, etc.",
+      },
+      { value: "Matériel de grande valeur (médical ou non)" },
+    ],
+  },
+  fgStealWithoutBreakins: {
+    label: "Vol sans effraction",
+    options: [
+      {
+        value: "Objets professionnels ou personnels du personnel de santé",
+        info: "Caducée, fonds de caisse, plaque professionnelle, ordonnancier, tampon professionnel, médicaments, mobilier, masque, ramettes de papier, nourriture dans les frigos, etc.",
+      },
+      {
+        value: "Matériel de grande valeur (médical ou non)",
+        info: "outil informatique, endoscope, véhicule de l’établissement, etc.",
+      },
+      {
+        value:
+          "Effets personnels d’un patient, d’un accompagnant, d’une autre personne",
+      },
+      {
+        value: "Informations",
+        info: "Par le biais du piratage des dossiers patients, de l’ordinateur, rançonnage.",
+      },
+      { value: "Vol à main armée" },
+    ],
+  },
+  fgStealWithBreakins: {
+    label: "Vol avec effraction",
+    options: [
+      {
+        value: "Objets professionnels ou personnels du personnel de santé",
+        info: "Caducée, fonds de caisse, plaque professionnelle, ordonnancier, tampon professionnel, médicaments, mobilier, masque, ramettes de papier, nourriture dans les frigos, etc.",
+      },
+      {
+        value: "Matériel de grande valeur (médical ou non)",
+        info: "Outil informatique, endoscope, véhicule de l’établissement, etc.",
+      },
+      {
+        value:
+          "Effets personnels d’un patient, d’un accompagnant, d’une autre personne",
+      },
+      {
+        value: "Informations",
+        info: "Par le biais du piratage des dossiers patients, de l’ordinateur, rançonnage.",
+      },
+      { value: "Vol à main armée" },
+    ],
+  },
+  fgOthers: {
+    label: "Autres faits",
+    options: [
+      {
+        value: "Port d’arme ou détention d’arme",
+        info: "Arme à feu, arme blanche, gaz lacrymogène, objet contondant : poing américain, tonfa, nunchaku, etc. Cette atteinte ne nécessite pas forcément de remplir le masque « motifs ».",
+      },
+      {
+        value: "Escroquerie",
+        info: "Ex. : à la suite d’un vol d’ordonnancier pour se faire remettre indument des médicaments, obtenir des droits indus (présenter une fausse attestation ou une attestation falsifiée, une fausse carte vitale, un faux arrêt de travail, etc.).",
+      },
+      {
+        value: "Trafic de stupéfiants ou autre trafic dans l’établissement",
+        info: "Cigarettes, médicaments, etc.",
+      },
+    ],
+  },
+}
+
 export const hours = [
   "Matin (7h-12h)",
   "Après-midi (12h-19h)",

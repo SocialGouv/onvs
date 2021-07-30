@@ -24,11 +24,19 @@ export function useDeclarationForm({ defaultValuesFromState, resolver } = {}) {
     ? defaultValuesFromState(context?.state)
     : {}
 
-  const { control, errors, handleSubmit, setValue, register, watch, setError } =
-    useForm({
-      defaultValues,
-      resolver,
-    })
+  const {
+    control,
+    errors,
+    handleSubmit,
+    setValue,
+    getValues,
+    register,
+    watch,
+    setError,
+  } = useForm({
+    defaultValues,
+    resolver,
+  })
 
   useEffectToast(errors)
 
@@ -40,6 +48,7 @@ export function useDeclarationForm({ defaultValuesFromState, resolver } = {}) {
     register,
     setError,
     setValue,
+    getValues,
     watch,
   }
 }

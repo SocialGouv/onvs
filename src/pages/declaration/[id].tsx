@@ -68,106 +68,53 @@ const DatePart = ({ data }: { data: DeclarationModel }) => {
   )
 }
 
-const FactsPart = ({ data }) => {
+// Utility to display fact, since they can be a string or a tuple with 2 elements.
+function prettyDisplay(facts: Prisma.JsonArray) {
+  return facts
+    .map((fact) => (!Array.isArray(fact) ? fact : `${fact[0]} (${fact[1]})`))
+    .join(", ")
+}
+
+const FactsPart = ({ data }: { data: DeclarationModel }) => {
+  const factPersons = data.factPersons as Prisma.JsonObject
+  const factGoods = data.factGoods as Prisma.JsonObject
+
   return (
     <>
       <Title1 className="mt-6 mb-4">
         <b>Faits</b>
       </Title1>
-      {data.factTypes?.includes("Atteinte aux personnes") && (
+
+      {factPersons && Boolean(Object.keys(factPersons).length) && (
         <>
           <span className="inline-block w-48 font-bold">
             Atteinte aux personnes
           </span>
 
-          {!!data.fpSpokenViolences?.length && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">Violence verbale</span>
-              {data.fpSpokenViolences.join(", ")}
+          {Object.keys(factPersons).map((key) => (
+            <p key={key}>
+              <span className="inline-block w-48 pl-8 ">{key}</span>
+              {Array.isArray(factPersons[key]) &&
+                (factPersons[key] as Prisma.JsonArray).length &&
+                prettyDisplay(factPersons[key] as Prisma.JsonArray)}
             </p>
-          )}
-          {!!data.fpPhysicalViolences?.length && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">Violence physique</span>
-              {data.fpPhysicalViolences.join(", ")}
-            </p>
-          )}
-          {!!data.fpPhysicalViolencesPrecision && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">
-                Précision violence physique
-              </span>
-              {data.fpPhysicalViolencesPrecision}
-            </p>
-          )}
-          {!!data.fpSexualViolences?.length && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">Violence sexuelle</span>
-              {data.fpSexualViolences.join(", ")}
-            </p>
-          )}
-          {!!data.fpPsychologicalViolences?.length && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">
-                Violence psychologique
-              </span>
-              {data.fpPsychologicalViolences.join(", ")}
-            </p>
-          )}
-          {!!data.fpDiscriminations?.length && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">Discriminations</span>
-              {data.fpDiscriminations.join(", ")}
-            </p>
-          )}
-          {!!data.fpNoRespects?.length && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">Respect du lieu</span>
-              {data.fpNoRespects.join(", ")}
-            </p>
-          )}
-          {!!data.fpOthers?.length && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">Autres</span>
-              {data.fpOthers.join(", ")}
-            </p>
-          )}
+          ))}
         </>
       )}
-      {data.factTypes?.includes("Atteinte aux biens") && (
+      {factGoods && Boolean(Object.keys(factGoods).length) && (
         <>
           <span className="inline-block w-48 font-bold">
             Atteinte aux biens
           </span>
 
-          {!!data.fgDeteriorations?.length && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">Dégradations</span>
-              {data.fgDeteriorations.join(", ")}
+          {Object.keys(factGoods).map((key) => (
+            <p key={key}>
+              <span className="inline-block w-48 pl-8 ">{key}</span>
+              {Array.isArray(factGoods[key]) &&
+                (factGoods[key] as Prisma.JsonArray).length &&
+                prettyDisplay(factGoods[key] as Prisma.JsonArray)}
             </p>
-          )}
-          {!!data.fgStealWithoutBreakins?.length && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">
-                Vol sans effraction
-              </span>
-              {data.fgStealWithoutBreakins.join(", ")}
-            </p>
-          )}
-          {!!data.fgStealWithBreakins?.length && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">
-                Vol avec effraction
-              </span>
-              {data.fgStealWithBreakins.join(", ")}
-            </p>
-          )}
-          {!!data.fgOthers?.length && (
-            <p>
-              <span className="inline-block w-48 pl-8 ">Dégradations</span>
-              {data.fgOthers.join(", ")}
-            </p>
-          )}
+          ))}
         </>
       )}
     </>
