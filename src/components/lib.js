@@ -165,6 +165,8 @@ export const Options = ({
   disabled = false,
   children,
   allChecked = [],
+  setValue,
+  getValues,
 }) => {
   if (!children) return null
 
@@ -179,6 +181,8 @@ export const Options = ({
         disabled,
         name,
         register,
+        setValue,
+        getValues,
       })
     }
     return child // It should not happen.
@@ -199,6 +203,8 @@ Options.propTypes = {
   name: PropTypes.string,
   register: PropTypes.func,
   values: PropTypes.array,
+  setValue: PropTypes.func,
+  getValues: PropTypes.func,
 }
 
 //TODO: séparer les options checkbox et les options text (p. ex. defaultChecked ne fonctionne pas pour les inputs text)
@@ -213,8 +219,9 @@ export const Option = ({
   error,
   hidden,
   info,
-  onChangePrecision,
   allChecked,
+  setValue,
+  getValues,
 }) => {
   const isChecked = allChecked.includes(value)
 
@@ -257,7 +264,11 @@ export const Option = ({
               ref={register()}
               aria-invalid={error ? "true" : "false"}
               autoComplete="off"
-              onChange={onChangePrecision}
+              onChange={() => {
+                const values = getValues(name)?.length ? getValues(name) : []
+
+                if (!values?.includes(value)) setValue(name, [...values, value])
+              }}
             />
           </div>
         </>
@@ -279,6 +290,8 @@ Option.propTypes = {
   precision: PropTypes.string,
   register: PropTypes.func,
   value: PropTypes.string.isRequired,
+  setValue: PropTypes.func,
+  getValues: PropTypes.func,
 }
 
 export const Counter = ({ value = 0, onChange }) => {

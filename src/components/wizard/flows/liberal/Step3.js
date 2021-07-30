@@ -59,8 +59,6 @@ const Step3Page = () => {
   const watchReasonNotApparent = watch("rNotApparent")
   const watchROthers = watch("rOthers")
 
-  console.log("watchReasonNotApparent", watchReasonNotApparent)
-
   React.useEffect(() => {
     if (watchReasonNotApparent) {
       setValue("rCausePatients", [])

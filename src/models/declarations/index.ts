@@ -15,6 +15,8 @@ import {
   pursuitComplaintsByValues,
   thirdParties,
   victimTypes,
+  factPersonsGroups,
+  factGoodsGroups,
 } from "@/utils/options"
 import { difference, uniq } from "lodash"
 
@@ -147,6 +149,52 @@ export const pursuitSchema = z.union([
 
 export type PursuitSchema = z.infer<typeof pursuitSchema>
 
+const makeFactProperty = (property: {
+  label: string
+  options: Array<{ value: string }>
+}) => ({
+  [property.label]: z
+    .string()
+    .or(z.tuple([z.string(), z.string()]))
+    .array()
+    .transform((val) => uniq(val))
+    .refine((arr) => {
+      for (const elt of arr) {
+        const key = Array.isArray(elt) && elt.length ? elt[0] : elt
+        if (!property.options.map((option) => option.value).includes(key)) {
+          return false
+        }
+      }
+      return true
+    })
+    .optional(),
+})
+
+export const factPersonsSchema = z
+  .object({
+    ...makeFactProperty(factPersonsGroups.fpSpokenViolences),
+    ...makeFactProperty(factPersonsGroups.fpPhysicalViolences),
+    ...makeFactProperty(factPersonsGroups.fpSexualViolences),
+    ...makeFactProperty(factPersonsGroups.fpPsychologicalViolences),
+    ...makeFactProperty(factPersonsGroups.fpDiscriminations),
+    ...makeFactProperty(factPersonsGroups.fpNoRespects),
+    ...makeFactProperty(factPersonsGroups.fpOthers),
+  })
+  .strict()
+
+export type FactPersonsSchema = z.infer<typeof factPersonsSchema>
+
+export const factGoodsSchema = z
+  .object({
+    ...makeFactProperty(factGoodsGroups.fgDeteriorations),
+    ...makeFactProperty(factGoodsGroups.fgStealWithoutBreakins),
+    ...makeFactProperty(factGoodsGroups.fgStealWithBreakins),
+    ...makeFactProperty(factGoodsGroups.fgOthers),
+  })
+  .strict()
+
+export type FactGoodsSchema = z.infer<typeof factGoodsSchema>
+
 // Fields available for all declaration types.
 const baseSchemaDeclarationApi = z.object({
   id: z.string().uuid().optional(),
@@ -154,21 +202,25 @@ const baseSchemaDeclarationApi = z.object({
   hour: z.string(), // TODO use an enum for hours see Step1.js
   town: z.string(),
   postalCode: z.string().min(4).max(5),
-  factTypes: z.string().array(), // TODO check the possible values
+  factTypes_deprecated: z.string().array(), // TODO check the possible values
   //fpGroups: z.string(), // Not needed, I think.
-  fpSpokenViolences: z.string().array(),
-  fpPhysicalViolences: z.string().array(),
-  fpPhysicalViolencesPrecision: z.string().optional(),
-  fpSexualViolences: z.string().array(),
-  fpPsychologicalViolences: z.string().array(),
-  fpDiscriminations: z.string().array(),
-  fpNoRespects: z.string().array(),
-  fpOthers: z.string().array(),
-  fgGroups: z.string().array(),
-  fgDeteriorations: z.string().array(),
-  fgStealWithoutBreakins: z.string().array(),
-  fgStealWithBreakins: z.string().array(),
-  fgOthers: z.string().array(),
+  fpSpokenViolences_deprecated: z.string().array(),
+  fpPhysicalViolences_deprecated: z.string().array(),
+  fpPhysicalViolencesPrecision_deprecated: z.string().optional(),
+  fpSexualViolences_deprecated: z.string().array(),
+  fpPsychologicalViolences_deprecated: z.string().array(),
+  fpDiscriminations_deprecated: z.string().array(),
+  fpNoRespects_deprecated: z.string().array(),
+  fpOthers_deprecated: z.string().array(),
+  fgGroups_deprecated: z.string().array(),
+  fgDeteriorations_deprecated: z.string().array(),
+  fgStealWithoutBreakins_deprecated: z.string().array(),
+  fgStealWithBreakins_deprecated: z.string().array(),
+  fgOthers_deprecated: z.string().array(),
+
+  factPersons: factPersonsSchema,
+  factGoods: factGoodsSchema,
+
   rCausePatients: z.string().array(),
   rCauseProfessionals: z.string().array(),
   rDiscords: z.string().array(),
@@ -241,7 +293,6 @@ const etsAddonSchema = z.object({
           finesset,
         },
       })
-      console.log("pour ets, on trouve", ets)
       return ets !== null
     } catch (error) {
       console.error("Erreur lors du test du finesset")
@@ -288,8 +339,27 @@ const pharmacistAddonSchema = z.object({
     .strict(),
 })
 
-export const schemaLiberal = baseSchemaDeclarationApi.merge(liberalAddonSchema)
-export const schemaEts = baseSchemaDeclarationApi.merge(etsAddonSchema)
+// The control on facts can't be on baseSchemaDeclarationApi directly, I don't know why (merge error in this case).
+export const schemaLiberal = baseSchemaDeclarationApi
+  .merge(liberalAddonSchema)
+  .refine(
+    (elt) =>
+      Object.keys(elt.factPersons).length || Object.keys(elt.factGoods).length,
+    {
+      message:
+        "Au moins un fait sur les personnes ou les biens doit être présent",
+    },
+  )
+export const schemaEts = baseSchemaDeclarationApi
+  .merge(etsAddonSchema)
+  .refine(
+    (elt) =>
+      Object.keys(elt.factPersons).length || Object.keys(elt.factGoods).length,
+    {
+      message:
+        "Au moins un fait sur les personnes ou les biens doit être présent",
+    },
+  )
 
 export const schemaPharmacist = liberalAddonSchema.merge(pharmacistAddonSchema)
 

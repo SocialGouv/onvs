@@ -2,6 +2,7 @@ import { DeclarationModel } from "@/models/declarations"
 import { API_URL } from "@/utils/config"
 import fetcher from "@/utils/fetcher"
 import { flatObject } from "@/utils/object"
+import { factGoodsGroups, factPersonsGroups } from "@/utils/options"
 
 const DECLARATION_ENDPOINT = "declarations"
 
@@ -80,6 +81,75 @@ export const createDeclaration = async ({
     // We need to remove the newly deprecated fied as zod expect not to see it.
     delete data.otherLocation
   }
+
+  // FACTS  -----------------------------------------------------------------------------------
+
+  data.fpSpokenViolences_deprecated = data.fpSpokenViolences
+  data.fpSexualViolences_deprecated = data.fpSexualViolences
+  data.fpPsychologicalViolences_deprecated = data.fpPsychologicalViolences
+  data.fpPhysicalViolences_deprecated = data.fpPhysicalViolences
+  data.fpPhysicalViolencesPrecision_deprecated =
+    data.fpPhysicalViolencesPrecision
+  data.fpOthers_deprecated = data.fpOthers
+  data.fpNoRespects_deprecated = data.fpNoRespects
+  data.fpGroups_deprecated = data.fpGroups
+  data.fpDiscriminations_deprecated = data.fpDiscriminations
+  data.fgStealWithoutBreakins_deprecated = data.fgStealWithoutBreakins
+  data.fgStealWithBreakins_deprecated = data.fgStealWithBreakins
+  data.fgOthers_deprecated = data.fgOthers
+  data.fgGroups_deprecated = data.fgGroups
+  data.fgDeteriorations_deprecated = data.fgDeteriorations
+  data.factTypes_deprecated = data.factTypes
+
+  data.factPersons = Object.keys(factPersonsGroups)
+    .map((key) => ({
+      key,
+      label: factPersonsGroups[key].label,
+      data: data[key],
+    }))
+    .filter((elt) => elt.data.length)
+    .map((elt) =>
+      elt.key !== "fpPhysicalViolences"
+        ? elt
+        : {
+            ...elt,
+            data: elt.data.map((option) =>
+              option !== "Autre fait qualifié de crime"
+                ? option
+                : [
+                    "Autre fait qualifié de crime",
+                    data?.fpPhysicalViolencesPrecision,
+                  ],
+            ),
+          },
+    )
+    .reduce((acc, current) => ({ ...acc, [current.label]: current.data }), {})
+
+  data.factGoods = Object.keys(factGoodsGroups)
+    .map((key) => ({
+      key,
+      label: factGoodsGroups[key].label,
+      data: data[key],
+    }))
+    .filter((elt) => elt.data.length)
+    .reduce((acc, current) => ({ ...acc, [current.label]: current.data }), {})
+
+  delete data.fpSpokenViolences
+  delete data.fpSexualViolences
+  delete data.fpPsychologicalViolences
+  delete data.fpPhysicalViolences
+  delete data.fpPhysicalViolencesPrecision
+  delete data.fpOthers
+  delete data.fpNoRespects
+  delete data.fpGroups
+  delete data.fpDiscriminations
+  delete data.fgStealWithoutBreakins
+  delete data.fgStealWithBreakins
+  delete data.fgOthers
+  delete data.fgGroups
+  delete data.fgDeteriorations
+  delete data.factTypes
+
 
   // DECLARANT_CONTACT_AGREEMENT ---------------------------------------------------------------
   // Filling the legacy column for user agreement (renamed in _deprecated).
