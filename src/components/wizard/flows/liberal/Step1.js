@@ -162,7 +162,6 @@ const Step1 = () => {
                 name="location"
                 value={value}
                 register={register}
-                defaultChecked
               />
             ))}
           </div>
@@ -179,7 +178,6 @@ const Step1 = () => {
                 name="location"
                 value={value}
                 register={register}
-                defaultChecked
               />
             ))}
 
