@@ -1,3 +1,10 @@
+# [2.25.0](https://github.com/SocialGouv/onvs/compare/v2.24.1...v2.25.0) (2021-07-30)
+
+
+### Features
+
+* migration of facts with new structure in db  + zod ([#168](https://github.com/SocialGouv/onvs/issues/168)) ([629914c](https://github.com/SocialGouv/onvs/commit/629914c5b75f094e21270465e4afc82a0d502b88))
+
 ## [2.24.1](https://github.com/SocialGouv/onvs/compare/v2.24.0...v2.24.1) (2021-07-29)
 
 
