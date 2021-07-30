@@ -2,7 +2,7 @@ import { DeclarationModel } from "@/models/declarations"
 import { API_URL } from "@/utils/config"
 import fetcher from "@/utils/fetcher"
 import { flatObject } from "@/utils/object"
-import { factGoodsGroups, factPersonsGroups } from "@/utils/options"
+import { factGoodsGroups, factPersonsGroups, reasons } from "@/utils/options"
 
 const DECLARATION_ENDPOINT = "declarations"
 
@@ -150,6 +150,53 @@ export const createDeclaration = async ({
   delete data.fgDeteriorations
   delete data.factTypes
 
+  // REASONS  -----------------------------------------------------------------------------------
+
+  data.rCausePatients_deprecated = data.rCausePatients
+  data.rCauseProfessionals_deprecated = data.rCauseProfessionals
+  data.rDiscords_deprecated = data.rDiscords
+  data.rLifeRules_deprecated = data.rLifeRules
+  data.rFalsifications_deprecated = data.rFalsifications
+  data.rDeficientCommunications_deprecated = data.rDeficientCommunications
+  data.rOthers_deprecated = data.rOthers
+  data.rOthersPrecision_deprecated = data.rOthersPrecision
+  data.rNotApparent_deprecated = data.rNotApparent
+
+  data.reasons = Object.keys(reasons)
+    .map((key) => ({
+      ...reasons[key],
+      data: data[key],
+    }))
+    .filter((elt) => elt.data.length)
+    .map((elt) => ({
+      ...elt,
+      data: elt.data.map((option) => {
+        const [optionDefinition] = elt.options.filter(
+          (aux) => aux.value === option,
+        )
+
+        return !optionDefinition?.precision
+          ? option
+          : [optionDefinition.value, data?.rOthersPrecision]
+      }),
+    }))
+    .reduce((acc, current) => ({ ...acc, [current.label]: current.data }), {})
+
+  if (!Object.keys(data.reasons).length) {
+    delete data.reasons
+  }
+
+  data.reasonNotApparent = Boolean(data.rNotApparent)
+
+  delete data.rCausePatients
+  delete data.rCauseProfessionals
+  delete data.rDiscords
+  delete data.rLifeRules
+  delete data.rFalsifications
+  delete data.rDeficientCommunications
+  delete data.rOthers
+  delete data.rOthersPrecision
+  delete data.rNotApparent
 
   // DECLARANT_CONTACT_AGREEMENT ---------------------------------------------------------------
   // Filling the legacy column for user agreement (renamed in _deprecated).

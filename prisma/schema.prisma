@@ -33,15 +33,15 @@ model Declaration {
   fgStealWithoutBreakins_deprecated       Json?     @map("fg_steal_without_breakins_deprecated")
   fgStealWithBreakins_deprecated          Json?     @map("fg_steal_with_breakins_deprecated")
   fgOthers_deprecated                     Json?     @map("fg_others_deprecated")
-  rCausePatients                          Json?     @map("r_cause_patients")
-  rCauseProfessionals                     Json?     @map("r_cause_professionals")
-  rDiscords                               Json?     @map("r_discords")
-  rLifeRules                              Json?     @map("r_life_rules")
-  rFalsifications                         Json?     @map("r_falsifications")
-  rDeficientCommunications                Json?     @map("r_deficient_communications")
-  rOthers                                 Json?     @map("r_others")
-  rOthersPrecision                        String?   @map("r_others_precision") @db.VarChar(255)
-  rNotApparent                            Boolean?  @map("r_not_apparent")
+  rCausePatients_deprecated               Json?     @map("r_cause_patients_deprecated")
+  rCauseProfessionals_deprecated          Json?     @map("r_cause_professionals_deprecated")
+  rDiscords_deprecated                    Json?     @map("r_discords_deprecated")
+  rLifeRules_deprecated                   Json?     @map("r_life_rules_deprecated")
+  rFalsifications_deprecated              Json?     @map("r_falsifications_deprecated")
+  rDeficientCommunications_deprecated     Json?     @map("r_deficient_communications_deprecated")
+  rOthers_deprecated                      Json?     @map("r_others_deprecated")
+  rOthersPrecision_deprecated             String?   @map("r_others_precision_deprecated") @db.VarChar(255)
+  rNotApparent_deprecated                 Boolean?  @map("r_not_apparent_deprecated")
   victims_deprecated                      Json
   thirdParty_deprecated                   Json?     @map("third_party_deprecated")
   thirdPartyIsPresent_deprecated          String?   @map("third_party_is_present_deprecated") @db.VarChar(255)
@@ -68,6 +68,8 @@ model Declaration {
   finesset                                String?   @db.VarChar(255)
   factPersons                             Json?     @map("fact_persons")
   factGoods                               Json?     @map("fact_goods")
+  reasons                                 Json?
+  reasonNotApparent                       Boolean   @map("reason_not_apparent") @default(false)
 
   @@map("declarations")
 }

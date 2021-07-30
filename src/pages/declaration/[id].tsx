@@ -68,9 +68,9 @@ const DatePart = ({ data }: { data: DeclarationModel }) => {
   )
 }
 
-// Utility to display fact, since they can be a string or a tuple with 2 elements.
-function prettyDisplay(facts: Prisma.JsonArray) {
-  return facts
+// Utility to display fact and reasons, since they can be of type string or be a tuple of 2 elements.
+function prettyDisplay(arrayWithPrecision: Prisma.JsonArray) {
+  return arrayWithPrecision
     .map((fact) => (!Array.isArray(fact) ? fact : `${fact[0]} (${fact[1]})`))
     .join(", ")
 }
@@ -121,77 +121,31 @@ const FactsPart = ({ data }: { data: DeclarationModel }) => {
   )
 }
 
-const ReasonsPart = ({ data }) => {
+const ReasonsPart = ({ data }: { data: DeclarationModel }) => {
+  const reasons = data.reasons as Prisma.JsonObject
+
   return (
     <>
       <Title1 className="mt-6 mb-4">
         <b>Motifs</b>
       </Title1>
-      {data.rNotApparent && (
+
+      {data.reasonNotApparent && (
         <p>
           <span className="inline-block w-48">Pas de motif apparent</span>
         </p>
       )}
-      {!!data.rCausePatients?.length && (
-        <p>
-          <span className="inline-block w-48 font-bold">
-            Refus par le patient
-          </span>
-          {data.rCausePatients.join(", ")}
-        </p>
-      )}
-      {!!data.rCauseProfessionals?.length && (
-        <p>
-          <span className="inline-block w-48 font-bold">
-            Refus par le professionnel
-          </span>
-          {data.rCauseProfessionals.join(", ")}
-        </p>
-      )}
-
-      {!!data.rDiscords?.length && (
-        <p>
-          <span className="inline-block w-48 font-bold">Mésentente</span>
-          {data.rDiscords.join(", ")}
-        </p>
-      )}
-      {!!data.rLifeRules?.length && (
-        <p>
-          <span className="inline-block w-48 font-bold">
-            Non respect règles de vie
-          </span>
-          {data.rLifeRules.join(", ")}
-        </p>
-      )}
-      {!!data.rFalsifications?.length && (
-        <p>
-          <span className="inline-block w-48 font-bold">
-            Non conformité documents
-          </span>
-          {data.rFalsifications.join(", ")}
-        </p>
-      )}
-      {!!data.rDeficientCommunications?.length && (
-        <p>
-          <span className="inline-block w-48 font-bold">
-            Communication défaillante
-          </span>
-          {data.rDeficientCommunications.join(", ")}
-        </p>
-      )}
-      {!!data.rOthers?.length && (
-        <p>
-          <span className="inline-block w-48 font-bold">Motifs divers</span>
-          {data.rOthers.join(", ")}
-        </p>
-      )}
-      {!!data.rOthersPrecision && (
-        <p>
-          <span className="inline-block w-48 font-bold">
-            Précision autre motif
-          </span>
-          {data.rOthersPrecision}
-        </p>
+      {reasons && Boolean(Object.keys(reasons).length) && (
+        <>
+          {Object.keys(reasons).map((key) => (
+            <p key={key}>
+              <span className="inline-block w-48 pl-8 ">{key}</span>
+              {Array.isArray(reasons[key]) &&
+                (reasons[key] as Prisma.JsonArray).length &&
+                prettyDisplay(reasons[key] as Prisma.JsonArray)}
+            </p>
+          ))}
+        </>
       )}
     </>
   )

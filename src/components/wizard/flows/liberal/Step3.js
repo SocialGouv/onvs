@@ -11,6 +11,7 @@ import { useScrollTop } from "@/hooks/useScrollTop"
 import { hasData } from "@/utils/misc"
 
 import { toastConfig } from "../../../../config"
+import { reasons } from "@/utils/options"
 
 const schema = yup.object({
   rOthersPrecision: yup.string().when("rOthers", (rOthers, schema) => {
@@ -35,8 +36,8 @@ const Step3Page = () => {
   const {
     onSubmit: originalOnSubmit,
     handleSubmit,
-    errors,
     setValue,
+    getValues,
     watch,
     register,
   } = useDeclarationForm({
@@ -57,7 +58,6 @@ const Step3Page = () => {
   const { addToast } = useToasts()
 
   const watchReasonNotApparent = watch("rNotApparent")
-  const watchROthers = watch("rOthers")
 
   React.useEffect(() => {
     if (watchReasonNotApparent) {
@@ -89,23 +89,13 @@ const Step3Page = () => {
     originalOnSubmit(data)
   }
 
-  const ensureOptionIsChecked = () => {
-    const rOthers = watchROthers?.length ? watchROthers : []
-
-    if (!watchROthers?.includes("Autre"))
-      setValue("rOthers", [...rOthers, "Autre"])
-  }
-
   return (
     <FormComponent
       onSubmit={handleSubmit(onSubmit)}
       title="Quel(s) étai(en)t le(s) motif(s) apparent(s) de la violence ?"
     >
       <div className="mt-12">
-        <b>
-          Refus ou contestation par le patient, le résident ou l’accompagnant/la
-          famille
-        </b>
+        <b>{reasons.rCausePatients.label}</b>
 
         <Options
           name="rCausePatients"
@@ -113,17 +103,14 @@ const Step3Page = () => {
           register={register}
           color="text-indigo-600"
         >
-          <Option value="Du RDV donné (délai, horaire)" />
-          <Option value="D’accepter le diagnostic, la décision thérapeutique/médicale/de sortie, etc." />
-          <Option value="D’accepter les soins" />
-          <Option value="D’accepter les soins de toilette" />
-          <Option value="De paiement" />
-          <Option value="De participer à une activité extérieure" />
+          {reasons.rCausePatients.options.map((option) => (
+            <Option key={option.value} {...option} />
+          ))}
         </Options>
       </div>
 
       <div className="mt-4">
-        <b>Refus par le professionnel de santé</b>
+        <b>{reasons.rCausePatients.label}</b>
 
         <Options
           name="rCauseProfessionals"
@@ -131,20 +118,14 @@ const Step3Page = () => {
           register={register}
           color="text-green-500"
         >
-          <Option value="De prescription, de délivrance, de modification : d’une ordonnance, d’un arrêt de travail, d’hospitalisation" />
-          <Option value="De donner des informations médicales à une tierce personne non référent médical" />
-          <Option value="De soins" />
-          <Option value="De donner un RDV (délai, horaire)" />
-          <Option
-            value="De vente pour non-conformité des droits"
-            info="Pièce justificative manquante, falsifiée, périmée (carte vitale, ordonnance, etc.)  - à valider avec pharmaciens"
-          />
-          <Option value="De vente pour d’autres raisons (hors stupéfiants)" />
+          {reasons.rCauseProfessionals.options.map((option) => (
+            <Option key={option.value} {...option} />
+          ))}
         </Options>
       </div>
 
       <div className="mt-4">
-        <b>Incompatibilité d’humeur et mésentente</b>
+        <b>{reasons.rDiscords.label}</b>
 
         <Options
           name="rDiscords"
@@ -152,15 +133,14 @@ const Step3Page = () => {
           register={register}
           color="text-pink-600"
         >
-          <Option value="Entre le professionnel/collaborateur et le patient/résident/accompagnant/famille" />
-          <Option value="Entre les professionnels" />
-          <Option value="Entre les patients/résidents/accompagnants" />
-          <Option value="Autres (bandes, clans, squatteurs…)" />
+          {reasons.rDiscords.options.map((option) => (
+            <Option key={option.value} {...option} />
+          ))}
         </Options>
       </div>
 
       <div className="mt-4">
-        <b>Non-respect des règles de vie</b>
+        <b>{reasons.rLifeRules.label}</b>
 
         <Options
           name="rLifeRules"
@@ -168,22 +148,14 @@ const Step3Page = () => {
           register={register}
           color="text-red-600"
         >
-          <Option value="Retard du patient" />
-          <Option value="Temps d’attente jugé excessif par le patient/résident/accompagnant/famille" />
-          <Option value="Ordre de passage entre patients" />
-          <Option
-            value="Non-respect des conditions de séjour"
-            info="règlement intérieur - droits et devoirs des patients, des accompagnants dans un établissement"
-          />
-          <Option value="Frustation/contrariété (pas de sortie, pas de cigarettes, pas de nourriture supplémentaire, etc.)" />
+          {reasons.rLifeRules.options.map((option) => (
+            <Option key={option.value} {...option} />
+          ))}
         </Options>
       </div>
 
       <div className="mt-4">
-        <b>
-          Falsification ou non-conformité de documents médicaux et/ou
-          administratifs
-        </b>
+        <b>{reasons.rFalsifications.label}</b>
 
         <Options
           name="rFalsifications"
@@ -191,13 +163,14 @@ const Step3Page = () => {
           register={register}
           color="text-orange-600"
         >
-          <Option value="Document médical (ordonnance)" />
-          <Option value="Document administratif (CNI, carte Vitale non mise à jour, etc.)" />
+          {reasons.rFalsifications.options.map((option) => (
+            <Option key={option.value} {...option} />
+          ))}
         </Options>
       </div>
 
       <div className="mt-4">
-        <b>Communication défaillante</b>
+        <b>{reasons.rDeficientCommunications.label}</b>
 
         <Options
           name="rDeficientCommunications"
@@ -205,38 +178,26 @@ const Step3Page = () => {
           register={register}
           color="text-teal-600"
         >
-          <Option value="Remarques de la part du professionnel/collaborateur" />
-          <Option value="Défaut d’information ou information incomplète du professionnel" />
-          <Option value="Reproche d’une communication non adaptée (termes trop techniques, difficultés de compréhension de la langue)" />
+          {reasons.rDeficientCommunications.options.map((option) => (
+            <Option key={option.value} {...option} />
+          ))}
         </Options>
       </div>
 
       <div className="mt-4">
-        <b>Motifs divers</b>
+        <b>{reasons.rOthers.label}</b>
 
         <Options
           name="rOthers"
           disabled={!!watchReasonNotApparent}
           register={register}
           color="text-purple-600"
+          setValue={setValue}
+          getValues={getValues}
         >
-          <Option
-            value="Atteinte au principe de laïcité"
-            info="À ne pas confondre avec la radicalisation (Voir item suivant). L’atteinte à la laïcité est le non-respect des devoirs de neutralité, de dignité, de réserve, d’exécuter ses fonctions. Ex. :  ne pas vouloir serrer la main d’une personne du sexe opposé, ne pas vouloir soigner une personne du sexe opposé, refuser d’être dans la salle d’attente avec une personne d’un autre sexe, ne pas vouloir se faire soigner ou qu’un tiers refuse qu’un membre de sa famille soit soigné par un soignant du sexe opposé, installer un coin prière dans une partie de l’établissement, etc. Dans le privé on peut retrouver ces attitudes également : Ex. : ne pas retirer son voile sur le fauteuil du dentiste, etc."
-          />
-          <Option
-            value="Radicalisation"
-            info=" À ne pas confondre avec l’atteinte au principe de laïcité. «La radicalisation est un processus par lequel un individu ou un groupe adopte des velléités de violence, directement liées à une idéologie extrémiste à contenu politique, social ou religieux qui conteste l’ordre établi sur le plan politique, social ou culturel. » Les trois critères cumulatifs de la radicalisation violente sont donc : => Un processus marqué par des ruptures comportementales ; => L’adhésion à une idéologie extrémiste ; => L’adoption de la violence (risque de passage à l’acte, soutien, apologie."
-          />
-          <Option value="Caisse (vol de caisse, rendu de monnaie, etc.)" />
-          <Option value="Réaction face à la douleur du soin" />
-          <Option value="Patient sous stupéfiants" />
-          <Option
-            value="Autre"
-            precision={"rOthersPrecision"}
-            onChangePrecision={ensureOptionIsChecked}
-            error={errors?.rOthersPrecision?.message}
-          />
+          {reasons.rOthers.options.map((option) => (
+            <Option key={option.value} {...option} />
+          ))}
         </Options>
       </div>
 
