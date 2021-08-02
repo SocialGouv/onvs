@@ -1,3 +1,10 @@
+# [2.26.0](https://github.com/SocialGouv/onvs/compare/v2.25.0...v2.26.0) (2021-08-02)
+
+
+### Features
+
+* refactor reasons db + zod controls ([#173](https://github.com/SocialGouv/onvs/issues/173)) ([ff519b3](https://github.com/SocialGouv/onvs/commit/ff519b3ba3f3e8781a877fd195be70e8d56bb077))
+
 # [2.25.0](https://github.com/SocialGouv/onvs/compare/v2.24.1...v2.25.0) (2021-07-30)
 
 
