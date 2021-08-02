@@ -1,4 +1,4 @@
-/** List of options expected by the db */
+/** List of options expected by the UI and db */
 
 export const factPersonsGroups = {
   fpSpokenViolences: {
@@ -203,6 +203,120 @@ export const factGoodsGroups = {
       {
         value: "Trafic de stupéfiants ou autre trafic dans l’établissement",
         info: "Cigarettes, médicaments, etc.",
+      },
+    ],
+  },
+}
+
+export const reasons = {
+  rCausePatients: {
+    label:
+      "Refus ou contestation par le patient, le résident ou l’accompagnant/la famille",
+    options: [
+      { value: "Du RDV donné (délai, horaire)" },
+      {
+        value:
+          "D’accepter le diagnostic, la décision thérapeutique/médicale/de sortie, etc.",
+      },
+      { value: "D’accepter les soins" },
+      { value: "D’accepter les soins de toilette" },
+      { value: "De paiement" },
+      { value: "De participer à une activité extérieure" },
+    ],
+  },
+  rCauseProfessionals: {
+    label: "Refus par le professionnel de santé",
+    options: [
+      {
+        value:
+          "De prescription, de délivrance, de modification : d’une ordonnance, d’un arrêt de travail, d’hospitalisation",
+      },
+      {
+        value:
+          "De donner des informations médicales à une tierce personne non référent médical",
+      },
+      { value: "De soins" },
+      { value: "De donner un RDV (délai, horaire)" },
+      {
+        value: "De vente pour non-conformité des droits",
+        info: "Pièce justificative manquante, falsifiée, périmée (carte vitale, ordonnance, etc.)  - à valider avec pharmaciens",
+      },
+      { value: "De vente pour d’autres raisons (hors stupéfiants)" },
+    ],
+  },
+  rDiscords: {
+    label: "Incompatibilité d’humeur et mésentente",
+    options: [
+      {
+        value:
+          "Entre le professionnel/collaborateur et le patient/résident/accompagnant/famille",
+      },
+      { value: "Entre les professionnels" },
+      { value: "Entre les patients/résidents/accompagnants" },
+      { value: "Autres (bandes, clans, squatteurs…)" },
+    ],
+  },
+  rLifeRules: {
+    label: "Non-respect des règles de vie",
+    options: [
+      { value: "Retard du patient" },
+      {
+        value:
+          "Temps d’attente jugé excessif par le patient/résident/accompagnant/famille",
+      },
+      { value: "Ordre de passage entre patients" },
+      {
+        value: "Non-respect des conditions de séjour",
+        info: "règlement intérieur - droits et devoirs des patients, des accompagnants dans un établissement",
+      },
+      {
+        value:
+          "Frustation/contrariété (pas de sortie, pas de cigarettes, pas de nourriture supplémentaire, etc.)",
+      },
+    ],
+  },
+  rFalsifications: {
+    label:
+      "Falsification ou non-conformité de documents médicaux et/ou administratifs",
+    options: [
+      { value: "Document médical (ordonnance)" },
+      {
+        value:
+          "Document administratif (CNI, carte Vitale non mise à jour, etc.)",
+      },
+    ],
+  },
+  rDeficientCommunications: {
+    label: "Communication défaillante",
+    options: [
+      { value: "Remarques de la part du professionnel/collaborateur" },
+      {
+        value:
+          "Défaut d’information ou information incomplète du professionnel",
+      },
+      {
+        value:
+          "Reproche d’une communication non adaptée (termes trop techniques, difficultés de compréhension de la langue)",
+      },
+    ],
+  },
+  rOthers: {
+    label: "Motifs divers",
+    options: [
+      {
+        value: "Atteinte au principe de laïcité",
+        info: "À ne pas confondre avec la radicalisation (Voir item suivant). L’atteinte à la laïcité est le non-respect des devoirs de neutralité, de dignité, de réserve, d’exécuter ses fonctions. Ex. :  ne pas vouloir serrer la main d’une personne du sexe opposé, ne pas vouloir soigner une personne du sexe opposé, refuser d’être dans la salle d’attente avec une personne d’un autre sexe, ne pas vouloir se faire soigner ou qu’un tiers refuse qu’un membre de sa famille soit soigné par un soignant du sexe opposé, installer un coin prière dans une partie de l’établissement, etc. Dans le privé on peut retrouver ces attitudes également : Ex. : ne pas retirer son voile sur le fauteuil du dentiste, etc.",
+      },
+      {
+        value: "Radicalisation",
+        info: " À ne pas confondre avec l’atteinte au principe de laïcité. «La radicalisation est un processus par lequel un individu ou un groupe adopte des velléités de violence, directement liées à une idéologie extrémiste à contenu politique, social ou religieux qui conteste l’ordre établi sur le plan politique, social ou culturel. » Les trois critères cumulatifs de la radicalisation violente sont donc : => Un processus marqué par des ruptures comportementales ; => L’adhésion à une idéologie extrémiste ; => L’adoption de la violence (risque de passage à l’acte, soutien, apologie.",
+      },
+      { value: "Caisse (vol de caisse, rendu de monnaie, etc.)" },
+      { value: "Réaction face à la douleur du soin" },
+      { value: "Patient sous stupéfiants" },
+      {
+        value: "Autre",
+        precision: "rOthersPrecision",
       },
     ],
   },

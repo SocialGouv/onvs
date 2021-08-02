@@ -17,6 +17,7 @@ import {
   victimTypes,
   factPersonsGroups,
   factGoodsGroups,
+  reasons,
 } from "@/utils/options"
 import { difference, uniq } from "lodash"
 
@@ -149,9 +150,9 @@ export const pursuitSchema = z.union([
 
 export type PursuitSchema = z.infer<typeof pursuitSchema>
 
-const makeFactProperty = (property: {
+const makeProperty = (property: {
   label: string
-  options: Array<{ value: string }>
+  options: Array<{ value: string; precision?: string }>
 }) => ({
   [property.label]: z
     .string()
@@ -161,6 +162,20 @@ const makeFactProperty = (property: {
     .refine((arr) => {
       for (const elt of arr) {
         const key = Array.isArray(elt) && elt.length ? elt[0] : elt
+
+        // If this is a tuple, it should have exactly 2 elemnts, and the first must be an option with a precision.
+        if (Array.isArray(elt)) {
+          if (
+            elt.length !== 2 ||
+            !property.options
+              .filter((option) => Boolean(option.precision))
+              .map((option) => option.value)
+              .includes(key)
+          ) {
+            return false
+          }
+        }
+
         if (!property.options.map((option) => option.value).includes(key)) {
           return false
         }
@@ -170,15 +185,29 @@ const makeFactProperty = (property: {
     .optional(),
 })
 
+export const reasonsSchema = z
+  .object({
+    ...makeProperty(reasons.rCausePatients),
+    ...makeProperty(reasons.rCauseProfessionals),
+    ...makeProperty(reasons.rDiscords),
+    ...makeProperty(reasons.rLifeRules),
+    ...makeProperty(reasons.rFalsifications),
+    ...makeProperty(reasons.rDeficientCommunications),
+    ...makeProperty(reasons.rOthers),
+  })
+  .strict()
+
+export type ReasonSchema = z.infer<typeof reasonsSchema>
+
 export const factPersonsSchema = z
   .object({
-    ...makeFactProperty(factPersonsGroups.fpSpokenViolences),
-    ...makeFactProperty(factPersonsGroups.fpPhysicalViolences),
-    ...makeFactProperty(factPersonsGroups.fpSexualViolences),
-    ...makeFactProperty(factPersonsGroups.fpPsychologicalViolences),
-    ...makeFactProperty(factPersonsGroups.fpDiscriminations),
-    ...makeFactProperty(factPersonsGroups.fpNoRespects),
-    ...makeFactProperty(factPersonsGroups.fpOthers),
+    ...makeProperty(factPersonsGroups.fpSpokenViolences),
+    ...makeProperty(factPersonsGroups.fpPhysicalViolences),
+    ...makeProperty(factPersonsGroups.fpSexualViolences),
+    ...makeProperty(factPersonsGroups.fpPsychologicalViolences),
+    ...makeProperty(factPersonsGroups.fpDiscriminations),
+    ...makeProperty(factPersonsGroups.fpNoRespects),
+    ...makeProperty(factPersonsGroups.fpOthers),
   })
   .strict()
 
@@ -186,10 +215,10 @@ export type FactPersonsSchema = z.infer<typeof factPersonsSchema>
 
 export const factGoodsSchema = z
   .object({
-    ...makeFactProperty(factGoodsGroups.fgDeteriorations),
-    ...makeFactProperty(factGoodsGroups.fgStealWithoutBreakins),
-    ...makeFactProperty(factGoodsGroups.fgStealWithBreakins),
-    ...makeFactProperty(factGoodsGroups.fgOthers),
+    ...makeProperty(factGoodsGroups.fgDeteriorations),
+    ...makeProperty(factGoodsGroups.fgStealWithoutBreakins),
+    ...makeProperty(factGoodsGroups.fgStealWithBreakins),
+    ...makeProperty(factGoodsGroups.fgOthers),
   })
   .strict()
 
@@ -221,15 +250,19 @@ const baseSchemaDeclarationApi = z.object({
   factPersons: factPersonsSchema,
   factGoods: factGoodsSchema,
 
-  rCausePatients: z.string().array(),
-  rCauseProfessionals: z.string().array(),
-  rDiscords: z.string().array(),
-  rLifeRules: z.string().array(),
-  rFalsifications: z.string().array(),
-  rDeficientCommunications: z.string().array(),
-  rOthers: z.string().array(),
-  rOthersPrecision: z.string().optional(),
-  rNotApparent: z.boolean(),
+  rCausePatients_deprecated: z.string().array(),
+  rCauseProfessionals_deprecated: z.string().array(),
+  rDiscords_deprecated: z.string().array(),
+  rLifeRules_deprecated: z.string().array(),
+  rFalsifications_deprecated: z.string().array(),
+  rDeficientCommunications_deprecated: z.string().array(),
+  rOthers_deprecated: z.string().array(),
+  rOthersPrecision_deprecated: z.string().optional(),
+  rNotApparent_deprecated: z.boolean(),
+
+  reasons: reasonsSchema.nullable(),
+  reasonNotApparent: z.boolean(),
+
   victims: victimSchema.array(),
   authors: authorSchema.array(),
   victims_deprecated: z.object({}).array(),
@@ -339,7 +372,7 @@ const pharmacistAddonSchema = z.object({
     .strict(),
 })
 
-// The control on facts can't be on baseSchemaDeclarationApi directly, I don't know why (merge error in this case).
+// The control on facts and reasons can't be on baseSchemaDeclarationApi directly, I don't know why (merge error in this case).
 export const schemaLiberal = baseSchemaDeclarationApi
   .merge(liberalAddonSchema)
   .refine(
@@ -350,6 +383,17 @@ export const schemaLiberal = baseSchemaDeclarationApi
         "Au moins un fait sur les personnes ou les biens doit être présent",
     },
   )
+  .refine(
+    (elt) =>
+      elt.reasons !== null && Object.keys(elt.reasons).length
+        ? elt.reasonNotApparent === false
+        : elt.reasonNotApparent === true,
+    {
+      message:
+        "S'il n'y a pas de raisons apparentes, le champ reasonNotApparent doit être à true",
+    },
+  )
+
 export const schemaEts = baseSchemaDeclarationApi
   .merge(etsAddonSchema)
   .refine(
@@ -358,6 +402,16 @@ export const schemaEts = baseSchemaDeclarationApi
     {
       message:
         "Au moins un fait sur les personnes ou les biens doit être présent",
+    },
+  )
+  .refine(
+    (elt) =>
+      elt.reasons !== null && Object.keys(elt.reasons).length
+        ? elt.reasonNotApparent === false
+        : elt.reasonNotApparent === true,
+    {
+      message:
+        "S'il n'y a pas de raisons apparentes, le champ reasonNotApparent doit être à true",
     },
   )
 
