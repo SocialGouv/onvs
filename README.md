@@ -180,4 +180,3 @@ In k8s environments, go to Rancher, select the pod and clic on View logs.
 ### 📧 Debuging emails
 
 A fake SMTP server is setup in docker-compose file. It can be accessed at http://localhost:37408/.
-
