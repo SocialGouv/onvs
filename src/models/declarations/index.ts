@@ -319,19 +319,25 @@ const liberalAddonSchema = z.object({
 // Specificity for ETS.
 const etsAddonSchema = z.object({
   declarationType: z.literal(DeclarationType.Ets),
-  finesset: z.string().refine(async (finesset) => {
-    try {
-      const ets = await prisma.ets.findUnique({
-        where: {
-          finesset,
-        },
-      })
-      return ets !== null
-    } catch (error) {
-      console.error("Erreur lors du test du finesset")
-      return false
-    }
-  }),
+  finesset: z
+    .string()
+    .regex(/^[0-9]{9}$/, "Le n° FINESS doit être composé de 9 chiffres."),
+  editorId: z.string().refine(
+    async (id) => {
+      try {
+        const editor = await prisma.editor.findUnique({
+          where: {
+            id,
+          },
+        })
+        return editor !== null
+      } catch (error) {
+        console.error("Le champ editorId ne correspond pas à un éditeur connu.")
+        return false
+      }
+    },
+    { message: "Le champ editorId ne correspond pas à un éditeur connu." },
+  ),
 
   locationMain_deprecated: z.string(), // TODO: remove when time has come
   locationSecondary_deprecated: z.string(), // TODO: remove when time has come

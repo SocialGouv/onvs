@@ -12,13 +12,13 @@ export const DEFAULT_PAGE_SIZE = 50
  * Compute all useful variables for pagination.
  */
 export async function buildMetaPagination({
+  totalCount,
   pageIndex,
   pageSize,
-  totalCount,
 }: {
-  pageIndex: number
-  pageSize: number
   totalCount: number
+  pageIndex?: number
+  pageSize?: number
 }): Promise<ReturnType> {
   pageIndex = Number(pageIndex) || 0
   pageSize = Number(pageSize) || DEFAULT_PAGE_SIZE

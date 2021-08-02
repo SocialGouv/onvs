@@ -4,4 +4,7 @@ exports.seed = function (knex) {
     .del()
     .then(() => knex("declarations").del())
     .then(() => knex("reports_history").del())
+    .then(() => knex("ets").del())
+    .then(() => knex("tokens").del())
+    .then(() => knex("editors").del())
 }

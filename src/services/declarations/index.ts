@@ -7,9 +7,11 @@ import {
   schemaEts,
   schemaLiberal,
 } from "@/models/declarations"
+import { EditorModel } from "@/models/editor"
 
 export const create = async (
   declaration: DeclarationModel,
+  editor: EditorModel,
 ): Promise<string | undefined> => {
   // console.log("declaration dans API", declaration)
 
@@ -19,6 +21,7 @@ export const create = async (
       break
     }
     case DeclarationType.Ets: {
+      declaration.editorId = editor.id
       await schemaEts.parseAsync(declaration)
       break
     }
