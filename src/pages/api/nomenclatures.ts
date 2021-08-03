@@ -16,7 +16,6 @@ function flatten(obj) {
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
-  res.setHeader("Cache-Control", "public, max-age=60, must-revalidate")
 
   try {
     switch (req.method) {
