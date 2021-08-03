@@ -47,7 +47,7 @@ const handler = async (req, res) => {
             relatedField: "",
             values: options.etsMainLocations,
           },
-          secondaryLocations: {
+          secondaryLocation: {
             description: "Dans quel lieu précisément ? (lieu secondaire)",
             relatedField: "",
             values: options.etsSecondaryLocations,
