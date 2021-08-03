@@ -1,3 +1,15 @@
+# [2.27.0](https://github.com/SocialGouv/onvs/compare/v2.26.0...v2.27.0) (2021-08-03)
+
+
+### Bug Fixes
+
+* **deps:** update all dependencies ([#172](https://github.com/SocialGouv/onvs/issues/172)) ([86f22f7](https://github.com/SocialGouv/onvs/commit/86f22f7402470b078eee5808fbb22fb07820c443))
+
+
+### Features
+
+* add editors & tokens tables + API access control in headers ([#175](https://github.com/SocialGouv/onvs/issues/175)) ([7b319e0](https://github.com/SocialGouv/onvs/commit/7b319e04f31a22e60a6b96a8ec0b1e19adcedd29))
+
 # [2.26.0](https://github.com/SocialGouv/onvs/compare/v2.25.0...v2.26.0) (2021-08-02)
 
 
