@@ -7,26 +7,15 @@ Content-Type: application/json
 {
   "declarationType": "ets",
   "finesset": "350023883",
-  // Champs génériques
   "date": "2021-07-16",
   "hour": "Matin (7h-12h)",
   "town": "Pointe-à-Pitre",
   "postalCode": "97110",
   "factGoods": {"Autres faits": ["Trafic de stupéfiants ou autre trafic dans l’établissement"]},
   "factPersons": {},
-  "rCausePatients_deprecated": [],
-  "rCauseProfessionals_deprecated": [],
-  "rDiscords_deprecated": [],
-  "rLifeRules_deprecated": [],
-  "rFalsifications_deprecated": [],
-  "rDeficientCommunications_deprecated": [],
-  "rOthers_deprecated": [],
-  "rOthersPrecision_deprecated": "",
-  "rNotApparent_deprecated": true,
   "reasonNotApparent": true,
   "reasons": {},
   "description": "description for ets ",
-
   "victims": [
     {
       "type": "Accompagnant/Visiteur/Famille",
@@ -60,53 +49,7 @@ Content-Type: application/json
   "location" : {
     "Dans quel service ?": "Addictologie",
     "Dans quel lieu précisément ?": "Bureau du personnel (médical ou non)"
-  },
-
-  // Champs spécifique deprecated
-  "locationMain_deprecated": "Addictologie",
-  "locationSecondary_deprecated": "Bureau du personnel (médical ou non)",
-
-  // Champs génériques deprecated
-  "fpSpokenViolences_deprecated": [],
-  "fpSexualViolences_deprecated": [],
-  "fpPsychologicalViolences_deprecated": [],
-  "fpPhysicalViolences_deprecated": [],
-  "fpOthers_deprecated": [],
-  "fpNoRespects_deprecated": [],
-  "fpGroups_deprecated": [],
-  "fpDiscriminations_deprecated": [],
-  "fgStealWithoutBreakins_deprecated": [],
-  "fgStealWithBreakins_deprecated": [],
-  "fgOthers_deprecated": ["Trafic de stupéfiants ou autre trafic dans l’établissement"],
-  "fgGroups_deprecated": ["Autres faits"],
-  "fgDeteriorations_deprecated": [],
-  "factTypes_deprecated": ["Atteinte aux biens"],
-
-  "thirdPartyIsPresent_deprecated": "Non",
-  "thirdParty_deprecated": [],
-  "pursuit_deprecated": "Non",
-  "pursuitBy_deprecated": [],
-  "victims_deprecated": [
-    {
-      "type": {
-        "label": "Accompagnant/Visiteur/Famille",
-        "value": "Accompagnant/Visiteur/Famille"
-      },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
-      "sickLeaveDays": 0,
-      "hospitalizationDays": 0,
-      "ITTDays": 0
-    }
-  ],
-  "authors_deprecated": [
-    {
-      "discernmentTroublesIsPresent": "Non",
-      "type": { "label": "Détenu", "value": "Détenu" },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
-    }
-  ]
+  }
 }
 
 ### Décla de type ETS. KO car finesset n'existe pas dans la table ets
@@ -126,15 +69,6 @@ Authorization: Bearer 5e679014-eec3-4956-96f8-f084c616c54e
   "postalCode": "97110",
   "factPersons": {},
   "factGoods": {"Autres faits" : ["Trafic de stupéfiants ou autre trafic dans l’établissement"]},
-  "rCausePatients_deprecated": [],
-  "rCauseProfessionals_deprecated": [],
-  "rDiscords_deprecated": [],
-  "rLifeRules_deprecated": [],
-  "rFalsifications_deprecated": [],
-  "rDeficientCommunications_deprecated": [],
-  "rOthers_deprecated": [],
-  "rOthersPrecision_deprecated": "",
-  "rNotApparent_deprecated": true,
   "reasonNotApparent": true,
   "reasons": {},
 
@@ -173,53 +107,7 @@ Authorization: Bearer 5e679014-eec3-4956-96f8-f084c616c54e
   "location" : {
     "Dans quel service ?": "Addictologie",
     "Dans quel lieu précisément ?": "Bureau du personnel (médical ou non)"
-  },
-
-  // Champs spécifique deprecated
-  "locationMain_deprecated": "Addictologie",
-  "locationSecondary_deprecated": "Bureau du personnel (médical ou non)",
-
-  // Champs génériques deprecated
-  "fpSpokenViolences_deprecated": [],
-  "fpSexualViolences_deprecated": [],
-  "fpPsychologicalViolences_deprecated": [],
-  "fpPhysicalViolences_deprecated": [],
-  "fpOthers_deprecated": [],
-  "fpNoRespects_deprecated": [],
-  "fpGroups_deprecated": [],
-  "fpDiscriminations_deprecated": [],
-  "fgStealWithoutBreakins_deprecated": [],
-  "fgStealWithBreakins_deprecated": [],
-  "fgOthers_deprecated": ["Trafic de stupéfiants ou autre trafic dans l’établissement"],
-  "fgGroups_deprecated": ["Autres faits"],
-  "fgDeteriorations_deprecated": [],
-  "factTypes_deprecated": ["Atteinte aux biens"],
-
-  "thirdPartyIsPresent_deprecated": "Non",
-  "thirdParty_deprecated": [],
-  "pursuit_deprecated": "Non",
-  "pursuitBy_deprecated": [],
-  "victims_deprecated": [
-    {
-      "type": {
-        "label": "Accompagnant/Visiteur/Famille",
-        "value": "Accompagnant/Visiteur/Famille"
-      },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
-      "sickLeaveDays": 0,
-      "hospitalizationDays": 0,
-      "ITTDays": 0
-    }
-  ],
-  "authors_deprecated": [
-    {
-      "discernmentTroublesIsPresent": "Non",
-      "type": { "label": "Détenu", "value": "Détenu" },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
-    }
-  ]
+  }
 }
 
 
@@ -239,15 +127,6 @@ Content-Type: application/json
   "postalCode": "97110",
   "factPersons": {},
   "factGoods": {"Autres faits" : ["Trafic de stupéfiants ou autre trafic dans l’établissement"]},
-  "rCausePatients_deprecated": [],
-  "rCauseProfessionals_deprecated": [],
-  "rDiscords_deprecated": [],
-  "rLifeRules_deprecated": [],
-  "rFalsifications_deprecated": [],
-  "rDeficientCommunications_deprecated": [],
-  "rOthers_deprecated": [],
-  "rOthersPrecision_deprecated": "",
-  "rNotApparent_deprecated": true,
   "reasonNotApparent": true,
   "reasons": {},
 
@@ -289,53 +168,7 @@ Content-Type: application/json
 
   "location" : {
     "Dans quel lieu précisément ?": "Cabinet individuel"
-  },
-
-  // Champs deprecated spécifiques
-  "declarantContactAgreement_deprecated": "true",
-  "location_deprecated": "",
-
-  // champs deprecated génériques
-  "fpSpokenViolences_deprecated": [],
-  "fpSexualViolences_deprecated": [],
-  "fpPsychologicalViolences_deprecated": [],
-  "fpPhysicalViolences_deprecated": [],
-  "fpOthers_deprecated": [],
-  "fpNoRespects_deprecated": [],
-  "fpGroups_deprecated": [],
-  "fpDiscriminations_deprecated": [],
-  "fgStealWithoutBreakins_deprecated": [],
-  "fgStealWithBreakins_deprecated": [],
-  "fgOthers_deprecated": ["Trafic de stupéfiants ou autre trafic dans l’établissement"],
-  "fgGroups_deprecated": ["Autres faits"],
-  "fgDeteriorations_deprecated": [],
-  "factTypes_deprecated": ["Atteinte aux biens"],
-
-  "thirdPartyIsPresent_deprecated": "Non",
-  "thirdParty_deprecated": [],
-  "pursuit_deprecated": "Non",
-  "pursuitBy_deprecated": [],
-  "victims_deprecated": [
-    {
-      "type": {
-        "label": "Accompagnant/Visiteur/Famille",
-        "value": "Accompagnant/Visiteur/Famille"
-      },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
-      "sickLeaveDays": 0,
-      "hospitalizationDays": 0,
-      "ITTDays": 0
-    }
-  ],
-  "authors_deprecated": [
-    {
-      "discernmentTroublesIsPresent": "Non",
-      "type": { "label": "Détenu", "value": "Détenu" },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
-    }
-  ]
+  }
 }
 
 ### Liberal declaration with other location
@@ -349,11 +182,9 @@ Content-Type: application/json
   "finesset": "350023883",
   "job": "Assistant dentaire",
   "declarantContactAgreement": true,
-  "declarantContactAgreement_deprecated": "true",
   "location" : {
     "Dans quel lieu précisément ?": ["Autre", "pas très loin"]
   },
-  "location_deprecated" : "pas très loin",
 
   // Champs génériques
   "date": "2021-07-16",
@@ -362,46 +193,8 @@ Content-Type: application/json
   "postalCode": "97110",
   "factPersons": {},
   "factGoods": {"Autres faits" : ["Trafic de stupéfiants ou autre trafic dans l’établissement"]},
-  "rCausePatients_deprecated": [],
-  "rCauseProfessionals_deprecated": [],
-  "rDiscords_deprecated": [],
-  "rLifeRules_deprecated": [],
-  "rFalsifications_deprecated": [],
-  "rDeficientCommunications_deprecated": [],
-  "rOthers_deprecated": [],
-  "rOthersPrecision_deprecated": "",
-  "rNotApparent_deprecated": true,
   "reasonNotApparent": true,
   "reasons": {},
-
-  "fpSpokenViolences_deprecated": [],
-  "fpSexualViolences_deprecated": [],
-  "fpPsychologicalViolences_deprecated": [],
-  "fpPhysicalViolences_deprecated": [],
-  "fpOthers_deprecated": [],
-  "fpNoRespects_deprecated": [],
-  "fpGroups_deprecated": [],
-  "fpDiscriminations_deprecated": [],
-  "fgStealWithoutBreakins_deprecated": [],
-  "fgStealWithBreakins_deprecated": [],
-  "fgOthers_deprecated": ["Trafic de stupéfiants ou autre trafic dans l’établissement"],
-  "fgGroups_deprecated": ["Autres faits"],
-  "fgDeteriorations_deprecated": [],
-  "factTypes_deprecated": ["Atteinte aux biens"],
-  "pursuit_deprecated": "Non",
-  "victims_deprecated": [
-    {
-      "type": {
-        "label": "Accompagnant/Visiteur/Famille",
-        "value": "Accompagnant/Visiteur/Famille"
-      },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
-      "sickLeaveDays": 0,
-      "hospitalizationDays": 0,
-      "ITTDays": 0
-    }
-  ],
   "victims": [
     {
       "type": "Accompagnant/Visiteur/Famille",
@@ -412,14 +205,6 @@ Content-Type: application/json
       "ITTDays": 0
     }
   ],
-  "authors_deprecated": [
-    {
-      "discernmentTroublesIsPresent": "Non",
-      "type": { "label": "Détenu", "value": "Détenu" },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
-    }
-  ],
   "authors": [
     {
       "type": "Détenu",
@@ -427,9 +212,6 @@ Content-Type: application/json
       "age": "- de 18 ans"
     }
   ],
-  "thirdPartyIsPresent_deprecated": "Non",
-  "pursuitBy_deprecated": [],
-  "thirdParty_deprecated": [],
   "description": "description for liberal"
 }
 
@@ -444,11 +226,9 @@ Content-Type: application/json
   "finesset": "350023883",
   "job": "Assistant dentaire",
   "declarantContactAgreement": true,
-  "declarantContactAgreement_deprecated": "true",
   "location" : {
     "Dans quel lieu précisément ?": ["Autre", "pas très loin"]
   },
-  "location_deprecated" : "pas très loin",
 
   // Champs génériques
   "id": "ecdbced5-7fee-492b-af7e-cc58d527d50d",
@@ -458,47 +238,9 @@ Content-Type: application/json
   "postalCode": "97110",
   "factPersons": {},
   "factGoods": {"Autres faits" : ["Trafic de stupéfiants ou autre trafic dans l’établissement"]},
-  "rCausePatients_deprecated": [],
-  "rCauseProfessionals_deprecated": [],
-  "rDiscords_deprecated": [],
-  "rLifeRules_deprecated": [],
-  "rFalsifications_deprecated": [],
-  "rDeficientCommunications_deprecated": [],
-  "rOthers_deprecated": [],
-  "rOthersPrecision_deprecated": "",
-  "rNotApparent_deprecated": true,
   "reasonNotApparent": true,
   "reasons": {},
 
-  "fpSpokenViolences_deprecated": [],
-  "fpSexualViolences_deprecated": [],
-  "fpPsychologicalViolences_deprecated": [],
-  "fpPhysicalViolences_deprecated": [],
-  "fpOthers_deprecated": [],
-  "fpNoRespects_deprecated": [],
-  "fpGroups_deprecated": [],
-  "fpDiscriminations_deprecated": [],
-  "fgStealWithoutBreakins_deprecated": [],
-  "fgStealWithBreakins_deprecated": [],
-  "fgOthers_deprecated": ["Trafic de stupéfiants ou autre trafic dans l’établissement"],
-  "fgGroups_deprecated": ["Autres faits"],
-  "fgDeteriorations_deprecated": [],
-  "factTypes_deprecated": ["Atteinte aux biens"],
-
-  "pursuit_deprecated": "Non",
-  "victims_deprecated": [
-    {
-      "type": {
-        "label": "Accompagnant/Visiteur/Famille",
-        "value": "Accompagnant/Visiteur/Famille"
-      },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" },
-      "sickLeaveDays": 0,
-      "hospitalizationDays": 0,
-      "ITTDays": 0
-    }
-  ],
   "victims": [
     {
       "type": "Accompagnant/Visiteur/Famille",
@@ -509,14 +251,6 @@ Content-Type: application/json
       "ITTDays": 0
     }
   ],
-  "authors_deprecated": [
-    {
-      "discernmentTroublesIsPresent": "Non",
-      "type": { "label": "Détenu", "value": "Détenu" },
-      "gender": { "label": "Masculin", "value": "Masculin" },
-      "age": { "label": "- de 18 ans", "value": "- de 18 ans" }
-    }
-  ],
   "authors": [
     {
       "type": "Détenu",
@@ -524,9 +258,6 @@ Content-Type: application/json
       "age": "- de 18 ans"
     }
   ],
-  "thirdPartyIsPresent_deprecated": "Non",
-  "pursuitBy_deprecated": [],
-  "thirdParty_deprecated": [],
   "description": "description for liberal"
 }
 
@@ -539,68 +270,20 @@ Content-Type: application/json
 {
   "declarationType":"liberal",
   "declarantContactAgreement":false,
-  "declarantContactAgreement_deprecated":false,
 
   "postalCode":"91590",
   "job":"Audioprothésiste",
-  "location_deprecated":"Cabinet individuel",
-  "declarantContactAgreement_deprecated":"false",
   "date":"2021-07-20",
   "location":{
     "Dans quel lieu précisément ?":"Cabinet individuel"
   },
-  "location_deprecated": "Cabinet individuel",
   "hour":"Matin (7h-12h)",
   "town":"D'Huison-Longueville",
   "factPersons": {},
   "factGoods": {"Autres faits" : ["Trafic de stupéfiants ou autre trafic dans l’établissement"]},
-  "rCausePatients_deprecated":[],
-  "rCauseProfessionals_deprecated":[],
-  "rDiscords_deprecated":[],
-  "rLifeRules_deprecated":[],
-  "rFalsifications_deprecated":[],
-  "rDeficientCommunications_deprecated":[],
-  "rOthers_deprecated":[],
-  "rOthersPrecision_deprecated":"",
-  "rNotApparent_deprecated":true,
   "reasonNotApparent": true,
   "reasons": {},
 
-  "fpSpokenViolences_deprecated":[],
-  "fpSexualViolences_deprecated":[],
-  "fpPsychologicalViolences_deprecated":[],
-  "fpPhysicalViolences_deprecated":[],
-  "fpOthers_deprecated":[],
-  "fpNoRespects_deprecated":[],
-  "fpGroups_deprecated":[],
-  "fpDiscriminations_deprecated":[],
-  "fgStealWithoutBreakins_deprecated":[],
-  "fgStealWithBreakins_deprecated":[],
-  "fgOthers_deprecated":["Trafic de stupéfiants ou autre trafic dans l’établissement"],
-  "fgGroups_deprecated":["Autres faits"],
-  "fgDeteriorations_deprecated":[],
-  "factTypes_deprecated":["Atteinte aux biens"],
-
-  "pursuit_deprecated":"Non",
-  "victims_deprecated":[
-    {
-      "type":{
-        "label":"Accompagnant/Visiteur/Famille",
-        "value":"Accompagnant/Visiteur/Famille"
-      },
-      "gender":{
-        "label":"Masculin",
-        "value":"Masculin"
-      },
-      "age":{
-        "label":"- de 18 ans",
-        "value":"- de 18 ans"
-      },
-      "sickLeaveDays":0,
-      "hospitalizationDays":0,
-      "ITTDays":0
-    }
-  ],
   "victims":[
     {
       "type":"Accompagnant/Visiteur/Famille",
@@ -611,23 +294,6 @@ Content-Type: application/json
       "ITTDays":0
     }
   ],
-  "authors_deprecated":[
-    {
-      "discernmentTroublesIsPresent":"Non",
-      "type":{
-        "label":"Accompagnant/Visiteur/Famille",
-        "value":"Accompagnant/Visiteur/Famille"
-      },
-      "gender":{
-        "label":"Masculin",
-        "value":"Masculin"
-      },
-      "age":{
-        "label":"- de 18 ans",
-        "value":"- de 18 ans"
-      }
-    }
-  ],
   "authors":[
     {
       "type": "Accompagnant/Visiteur/Famille",
@@ -635,9 +301,6 @@ Content-Type: application/json
       "age": "- de 18 ans"
     }
   ],
-  "thirdPartyIsPresent_deprecated":"Non",
-  "pursuitBy_deprecated":[],
-  "thirdParty_deprecated":[],
   "description":"test"
 }
 
@@ -652,67 +315,20 @@ Content-Type: application/json
   "finesset": "350023883",
 
   "postalCode":"78290",
-  "locationMain_deprecated":"Addictologie",
-  "locationSecondary_deprecated":"Véhicule (dans le cadre d’un transport de patients/résidents)",
   "location":{
     "Dans quel service ?":"Addictologie",
     "Dans quel lieu précisément ?":"Véhicule (dans le cadre d’un transport de patients/résidents)"
   },
   "declarantContactAgreement":null,
-  "declarantContactAgreement_deprecated":null,
 
   "date":"2021-07-20",
   "hour":"Matin (7h-12h)",
   "town":"Croissy-sur-Seine",
   "factPersons": {},
   "factGoods": {"Autres faits" : ["Trafic de stupéfiants ou autre trafic dans l’établissement"]},
-  "rCausePatients_deprecated":[],
-  "rCauseProfessionals_deprecated":[],
-  "rDiscords_deprecated":[],
-  "rLifeRules_deprecated":[],
-  "rFalsifications_deprecated":[],
-  "rDeficientCommunications_deprecated":[],
-  "rOthers_deprecated":[],
-  "rOthersPrecision_deprecated":"",
-  "rNotApparent_deprecated":true,
   "reasonNotApparent": true,
   "reasons": {},
 
-  "fpSpokenViolences_deprecated":[],
-  "fpSexualViolences_deprecated":[],
-  "fpPsychologicalViolences_deprecated":[],
-  "fpPhysicalViolences_deprecated":[],
-  "fpOthers_deprecated":[],
-  "fpNoRespects_deprecated":[],
-  "fpGroups_deprecated":[],
-  "fpDiscriminations_deprecated":[],
-  "fgStealWithoutBreakins_deprecated":[],
-  "fgStealWithBreakins_deprecated":[],
-  "fgOthers_deprecated":["Trafic de stupéfiants ou autre trafic dans l’établissement"],
-  "fgGroups_deprecated":["Autres faits"],
-  "fgDeteriorations_deprecated":[],
-  "factTypes_deprecated":["Atteinte aux biens"],
-
-  "pursuit_deprecated":"Non",
-  "victims_deprecated":[
-    {
-      "type":{
-        "label":"Accompagnant/Visiteur/Famille",
-        "value":"Accompagnant/Visiteur/Famille"
-      },
-      "gender":{
-        "label":"Masculin",
-        "value":"Masculin"
-      },
-      "age":{
-        "label":"- de 18 ans",
-        "value":"- de 18 ans"
-      },
-      "sickLeaveDays":0,
-      "hospitalizationDays":0,
-      "ITTDays":0
-    }
-  ],
   "victims":[
     {
       "type": "Accompagnant/Visiteur/Famille",
@@ -723,23 +339,6 @@ Content-Type: application/json
       "ITTDays":0
     }
   ],
-  "authors_deprecated":[
-    {
-      "discernmentTroublesIsPresent":"Non",
-      "type":{
-        "label":"Accompagnant/Visiteur/Famille",
-        "value":"Accompagnant/Visiteur/Famille"
-      },
-      "gender":{
-        "label":"Masculin",
-        "value":"Masculin"
-      },
-      "age":{
-        "label":"- de 18 ans",
-        "value":"- de 18 ans"
-      }
-    }
-  ],
   "authors":[
     {
       "type": "Accompagnant/Visiteur/Famille",
@@ -747,8 +346,5 @@ Content-Type: application/json
       "age": "- de 18 ans"
     }
   ],
-  "thirdPartyIsPresent_deprecated":"Non",
-  "pursuitBy_deprecated":[],
-  "thirdParty_deprecated":[],
   "description":"test"
 }

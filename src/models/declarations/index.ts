@@ -231,50 +231,17 @@ const baseSchemaDeclarationApi = z.object({
   hour: z.string(), // TODO use an enum for hours see Step1.js
   town: z.string(),
   postalCode: z.string().min(4).max(5),
-  factTypes_deprecated: z.string().array(), // TODO check the possible values
-  //fpGroups: z.string(), // Not needed, I think.
-  fpSpokenViolences_deprecated: z.string().array(),
-  fpPhysicalViolences_deprecated: z.string().array(),
-  fpPhysicalViolencesPrecision_deprecated: z.string().optional(),
-  fpSexualViolences_deprecated: z.string().array(),
-  fpPsychologicalViolences_deprecated: z.string().array(),
-  fpDiscriminations_deprecated: z.string().array(),
-  fpNoRespects_deprecated: z.string().array(),
-  fpOthers_deprecated: z.string().array(),
-  fgGroups_deprecated: z.string().array(),
-  fgDeteriorations_deprecated: z.string().array(),
-  fgStealWithoutBreakins_deprecated: z.string().array(),
-  fgStealWithBreakins_deprecated: z.string().array(),
-  fgOthers_deprecated: z.string().array(),
 
   factPersons: factPersonsSchema,
   factGoods: factGoodsSchema,
-
-  rCausePatients_deprecated: z.string().array(),
-  rCauseProfessionals_deprecated: z.string().array(),
-  rDiscords_deprecated: z.string().array(),
-  rLifeRules_deprecated: z.string().array(),
-  rFalsifications_deprecated: z.string().array(),
-  rDeficientCommunications_deprecated: z.string().array(),
-  rOthers_deprecated: z.string().array(),
-  rOthersPrecision_deprecated: z.string().optional(),
-  rNotApparent_deprecated: z.boolean(),
 
   reasons: reasonsSchema.nullable(),
   reasonNotApparent: z.boolean(),
 
   victims: victimSchema.array(),
   authors: authorSchema.array(),
-  victims_deprecated: z.object({}).array(),
-  authors_deprecated: z.object({}).array(),
 
   thirdParty: thirdPartySchema.optional(),
-  thirdParty_deprecated: z.string().array(),
-  thirdPartyIsPresent_deprecated: z.string(), // TODO For now a string, later it should be a boolean.
-  thirdPartyPrecision_deprecated: z.string().optional(), // TODO : nest in future thirdParty JSON field.
-  pursuit_deprecated: z.string(), // TODO : check over possible values.
-  pursuitPrecision_deprecated: z.string().optional(), // TODO : nest in future thirdParty JSON field.
-  pursuitBy_deprecated: z.string().array(),
 
   pursuit: pursuitSchema.optional(),
   description: z.string(),
@@ -285,15 +252,11 @@ const liberalAddonSchema = z.object({
   declarationType: z.literal(DeclarationType.Liberal),
   job: z.string(),
   declarantContactAgreement: z.boolean(),
-  declarantContactAgreement_deprecated: z.string(), // TODO: remove when time has come
 
   declarantNames: z.string().optional(),
   declarantExternalId: z.string().optional(), // TODO : remove this field.
   declarantEmail: z.string().email().optional(),
   declarantTel: z.string().min(10).optional(),
-
-  location_deprecated: z.string(), // TODO remove when time has come
-  otherLocation_deprecated: z.string().optional(), // TODO remove when time has come
 
   location: z
     .object({
@@ -338,9 +301,6 @@ const etsAddonSchema = z.object({
     },
     { message: "Le champ editorId ne correspond pas à un éditeur connu." },
   ),
-
-  locationMain_deprecated: z.string(), // TODO: remove when time has come
-  locationSecondary_deprecated: z.string(), // TODO: remove when time has come
 
   location: z
     .object({
