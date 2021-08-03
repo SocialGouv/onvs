@@ -1,3 +1,10 @@
+# [2.28.0](https://github.com/SocialGouv/onvs/compare/v2.27.0...v2.28.0) (2021-08-03)
+
+
+### Features
+
+* remove deprecated columns ([#176](https://github.com/SocialGouv/onvs/issues/176)) ([6facff4](https://github.com/SocialGouv/onvs/commit/6facff475d0c427dda51ed970907c32532713e84))
+
 # [2.27.0](https://github.com/SocialGouv/onvs/compare/v2.26.0...v2.27.0) (2021-08-03)
 
 
