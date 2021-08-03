@@ -48,58 +48,26 @@ export const createDeclaration = async ({
   // LOCATION ---------------------------------------------------------------
 
   if (data.declarationType === "ets") {
-    // Filling the legacy columns (renamed in _deprecated to distinguish them).
-    if (data.locationMain?.label) {
-      data.locationMain_deprecated = data.locationMain.label
-    }
-
-    if (data.locationSecondary?.label) {
-      data.locationSecondary_deprecated = data.locationSecondary.label
-    }
-
-    // Filling the new column.
     data.location = {
       "Dans quel service ?": data.locationMain?.label,
       "Dans quel lieu précisément ?": data.locationSecondary?.label,
     }
 
-    // We need to remove these fields since they are renamed in _deprecated.
     delete data.locationMain
     delete data.locationSecondary
   } else {
     // Should be the liberal flow.
-    data.location_deprecated = data.location
-    data.otherLocation_deprecated = data.otherLocation
 
-    // Fill the new column.
     data.location = {
       "Dans quel lieu précisément ?": data.otherLocation
         ? ["Autre", data.otherLocation]
         : data.location,
     }
 
-    // We need to remove the newly deprecated fied as zod expect not to see it.
     delete data.otherLocation
   }
 
   // FACTS  -----------------------------------------------------------------------------------
-
-  data.fpSpokenViolences_deprecated = data.fpSpokenViolences
-  data.fpSexualViolences_deprecated = data.fpSexualViolences
-  data.fpPsychologicalViolences_deprecated = data.fpPsychologicalViolences
-  data.fpPhysicalViolences_deprecated = data.fpPhysicalViolences
-  data.fpPhysicalViolencesPrecision_deprecated =
-    data.fpPhysicalViolencesPrecision
-  data.fpOthers_deprecated = data.fpOthers
-  data.fpNoRespects_deprecated = data.fpNoRespects
-  data.fpGroups_deprecated = data.fpGroups
-  data.fpDiscriminations_deprecated = data.fpDiscriminations
-  data.fgStealWithoutBreakins_deprecated = data.fgStealWithoutBreakins
-  data.fgStealWithBreakins_deprecated = data.fgStealWithBreakins
-  data.fgOthers_deprecated = data.fgOthers
-  data.fgGroups_deprecated = data.fgGroups
-  data.fgDeteriorations_deprecated = data.fgDeteriorations
-  data.factTypes_deprecated = data.factTypes
 
   data.factPersons = Object.keys(factPersonsGroups)
     .map((key) => ({
@@ -152,16 +120,6 @@ export const createDeclaration = async ({
 
   // REASONS  -----------------------------------------------------------------------------------
 
-  data.rCausePatients_deprecated = data.rCausePatients
-  data.rCauseProfessionals_deprecated = data.rCauseProfessionals
-  data.rDiscords_deprecated = data.rDiscords
-  data.rLifeRules_deprecated = data.rLifeRules
-  data.rFalsifications_deprecated = data.rFalsifications
-  data.rDeficientCommunications_deprecated = data.rDeficientCommunications
-  data.rOthers_deprecated = data.rOthers
-  data.rOthersPrecision_deprecated = data.rOthersPrecision
-  data.rNotApparent_deprecated = data.rNotApparent
-
   data.reasons = Object.keys(reasons)
     .map((key) => ({
       ...reasons[key],
@@ -199,21 +157,14 @@ export const createDeclaration = async ({
   delete data.rNotApparent
 
   // DECLARANT_CONTACT_AGREEMENT ---------------------------------------------------------------
-  // Filling the legacy column for user agreement (renamed in _deprecated).
-  data.declarantContactAgreement_deprecated = data.declarantContactAgreement
-  // Filling the new column for user agreement (which is of boolean type and can be null)
   data.declarantContactAgreement =
-    data.declarantContactAgreement_deprecated === "true"
+    data.data.declarantContactAgreement === "true"
       ? true
-      : data.declarantContactAgreement_deprecated === "false"
+      : data.data.declarantContactAgreement === "false"
       ? false
       : null
 
   // PURSUIT  ---------------------------------------------------------------
-
-  data.pursuit_deprecated = data.pursuit // => Non, Main courate ou plainte (varachar)
-  data.pursuitBy_deprecated = data.pursuitBy // tableau
-  // pursuit_precision_deprecated => jamais utilisé
 
   if (data.pursuit === "Non") {
     delete data.pursuit // We don't store the pursuit anymore when no is choosen.
@@ -231,10 +182,6 @@ export const createDeclaration = async ({
 
   // THIRD_PARTY  ---------------------------------------------------------------
 
-  data.thirdParty_deprecated = data.thirdParty
-  data.thirdPartyIsPresent_deprecated = data.thirdPartyIsPresent
-  data.thirdPartyPrecision_deprecated = data.thirdPartyPrecision
-
   if (data.thirdPartyIsPresent === "Non") {
     delete data.thirdParty
   } else {
@@ -247,9 +194,6 @@ export const createDeclaration = async ({
   delete data.thirdPartyPrecision
 
   // VICTIMS & AUTHORS ---------------------------------------------------------------
-
-  data.victims_deprecated = data.victims
-  data.authors_deprecated = data.authors
 
   if (data.victims?.length) {
     const victims = data.victims.map((victim) => {
