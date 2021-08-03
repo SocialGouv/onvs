@@ -510,7 +510,7 @@ export const authorTypes = [...baseVictimsAuthors, "Inconnu"].sort((a, b) =>
 
 export const juridicStatus = ["Public", "Privé"]
 
-const healthTypes = ["Étudiant en santé", "Professionnel de santé"]
+export const healthTypes = ["Étudiant en santé", "Professionnel de santé"]
 
 export const pursuits = ["Non", "Main courante", "Plainte"]
 

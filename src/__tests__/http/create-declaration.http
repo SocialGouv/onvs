@@ -1,6 +1,7 @@
 # Création d'une déclaration de type ets
 # "id": "c1344a7e-64ea-4f9a-965d-bfd150110031",
 POST http://localhost:3030/api/declarations
+Authorization: Bearer 8045dead-a8a8-4532-b9a9-3b6faf81498f
 Content-Type: application/json
 
 {
@@ -112,6 +113,7 @@ Content-Type: application/json
 
 POST http://localhost:3030/api/declarations
 Content-Type: application/json
+Authorization: Bearer 5e679014-eec3-4956-96f8-f084c616c54e
 
 {
   "declarationType": "ets",
@@ -642,6 +644,7 @@ Content-Type: application/json
 
 ### From formulaire ets
 POST http://localhost:3030/api/declarations
+Authorization: Bearer 8045dead-a8a8-4532-b9a9-3b6faf81498f
 Content-Type: application/json
 
 {

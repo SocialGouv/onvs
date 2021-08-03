@@ -1,4 +1,5 @@
 import Cors from "micro-cors"
+import { NextApiRequest, NextApiResponse } from "next"
 
 import prisma from "@/prisma/db"
 import { create } from "@/services/declarations"
@@ -6,8 +7,13 @@ import withSession from "@/lib/session"
 import { UserLoggedModel } from "@/models/users"
 import { buildMetaPagination } from "@/utils/pagination"
 import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
-import { AuthenticationError, DuplicateError } from "@/utils/errors"
+import {
+  AuthenticationError,
+  AuthorizationError,
+  DuplicateError,
+} from "@/utils/errors"
 import { jobsByOrders } from "@/utils/options"
+import { getEditorFromToken } from "@/services/editors"
 
 const UNIQUE_VIOLATION_PG = "23505"
 
@@ -24,7 +30,10 @@ function buildWhereClause(user: UserLoggedModel) {
   }
 }
 
-const handler = async (req, res) => {
+const handler = async (
+  req: NextApiRequest & { session: any },
+  res: NextApiResponse,
+) => {
   res.setHeader("Content-Type", "application/json")
 
   try {
@@ -42,7 +51,10 @@ const handler = async (req, res) => {
         })
 
         const { pageIndex, pageSize, totalPages, prismaPaginationQueryParams } =
-          await buildMetaPagination({ totalCount, ...req.query })
+          await buildMetaPagination({
+            totalCount,
+            ...req.query,
+          })
 
         const declarations = await prisma.declaration.findMany({
           orderBy: [{ createdAt: "desc" }],
@@ -60,7 +72,24 @@ const handler = async (req, res) => {
       }
 
       case "POST": {
-        const id = await create(req.body)
+        if (
+          !req.headers.authorization ||
+          !/Bearer/.test(req.headers.authorization)
+        )
+          throw new AuthorizationError(
+            "Un entête 'Authorization: Bearer <editor-id>' doit être présent.",
+          )
+
+        const token = req.headers.authorization.replace("Bearer", "").trim()
+
+        const editor = await getEditorFromToken(token)
+
+        if (!editor)
+          throw new AuthorizationError(
+            "Le token fourni n'est pas valide pour utiliser l'API.",
+          )
+
+        const id = await create(req.body, editor)
 
         return res.status(200).json({ id })
       }

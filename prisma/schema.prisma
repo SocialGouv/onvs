@@ -69,7 +69,9 @@ model Declaration {
   factPersons                             Json?     @map("fact_persons")
   factGoods                               Json?     @map("fact_goods")
   reasons                                 Json?
-  reasonNotApparent                       Boolean   @map("reason_not_apparent") @default(false)
+  reasonNotApparent                       Boolean   @default(false) @map("reason_not_apparent")
+  editorId                                String?   @map("editor_id") @db.Uuid
+  editor                                  Editor?   @relation("declarationsToeditors", fields: [editorId], references: [id])
 
   @@map("declarations")
 }
@@ -126,4 +128,25 @@ model reports_history {
   sent_to String?   @db.VarChar(255)
 
   @@ignore
+}
+
+model Editor {
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt    DateTime?     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime?     @map("updated_at") @db.Timestamptz(6)
+  name         String?       @db.VarChar(255)
+  declarations Declaration[] @relation("declarationsToeditors")
+  tokens       Token[]       @relation("editorsTotokens")
+
+  @@map("editors")
+}
+
+model Token {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
+  editorId  String?   @map("editor_id") @db.Uuid
+  editor    Editor?   @relation("editorsTotokens", fields: [editorId], references: [id])
+
+  @@map("tokens")
 }
