@@ -669,12 +669,6 @@ const Step4Page = () => {
     }
   }, [setValue, watchThirdParty])
 
-  const ensureOtherThirdPartyIsChecked = () => {
-    const thirdParty = watchThirdParty?.length ? watchThirdParty : []
-    if (!watchThirdParty?.includes("Autre"))
-      setValue("thirdParty", [...thirdParty, "Autre"])
-  }
-
   const onSubmit = (data) => {
     // We can't do it in yup validation (with transform) because this part of the form is not present so it is not carry on by react hook form...
     if (data?.pursuit !== "Plainte") data.pursuitBy = []
