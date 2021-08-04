@@ -29,6 +29,7 @@ import {
   ouiNonOptions,
   pursuitComplaintsByValues,
   pursuits,
+  thirdPartyOptions,
   victimTypesOptions,
 } from "@/utils/options"
 
@@ -625,6 +626,7 @@ const Step4Page = () => {
     errors,
     control,
     setValue,
+    getValues,
     state,
     watch,
     register,
@@ -770,18 +772,17 @@ const Step4Page = () => {
             <>
               <i className="text-gray-600">Plusieurs choix possibles</i>
 
-              <Options name="thirdParty" register={register}>
-                <Option value="Personnel hospitalier" />
-                <Option value="Service de sécurité-sûreté" />
-                <Option value="Forces de l'ordre (police et gendarmerie nationales, police municipale)" />
-                <Option value="Sapeurs-pompiers" />
-                <Option
-                  value="Autre"
-                  precision={"thirdPartyPrecision"}
-                  onChangePrecision={ensureOtherThirdPartyIsChecked}
-                  error={errors?.thirdPartyPrecision?.message}
-                />
+              <Options
+                name="thirdParty"
+                register={register}
+                setValue={setValue}
+                getValues={getValues}
+              >
+                {thirdPartyOptions.map((option) => (
+                  <Option key={option.value} {...option} />
+                ))}
               </Options>
+
               <InputError error={errors?.thirdParty?.message} />
             </>
           )}

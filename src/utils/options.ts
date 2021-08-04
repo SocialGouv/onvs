@@ -208,6 +208,20 @@ export const factGoodsGroups = {
   },
 }
 
+export const thirdPartyOptions = [
+  { value: "Personnel hospitalier" },
+  { value: "Service de sécurité-sûreté" },
+  {
+    value:
+      "Forces de l'ordre (police et gendarmerie nationales, police municipale)",
+  },
+  { value: "Sapeurs-pompiers" },
+  {
+    value: "Autre",
+    precision: "thirdPartyPrecision",
+  },
+]
+
 export const reasons = {
   rCausePatients: {
     label:
@@ -518,13 +532,6 @@ export const pursuitComplaintsByValues = [
   "La (les) victime(s)",
   "L'établissement",
   "L'ordre",
-]
-
-export const thirdParties = [
-  "Personnel hospitalier",
-  "Service de sécurité-sûreté",
-  "Forces de l'ordre (police et gendarmerie nationales, police municipale)",
-  "Sapeurs-pompiers",
 ]
 
 export const ouiNonOptions = ["Oui", "Non"]
