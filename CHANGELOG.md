@@ -1,3 +1,10 @@
+## [2.28.2](https://github.com/SocialGouv/onvs/compare/v2.28.1...v2.28.2) (2021-08-04)
+
+
+### Bug Fixes
+
+* update README + new release ([4ae44e6](https://github.com/SocialGouv/onvs/commit/4ae44e6d5778378ee4b84f55366b74957ac743f0))
+
 ## [2.28.1](https://github.com/SocialGouv/onvs/compare/v2.28.0...v2.28.1) (2021-08-04)
 
 
