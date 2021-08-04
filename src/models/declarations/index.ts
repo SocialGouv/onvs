@@ -13,7 +13,7 @@ import {
   isHealthType,
   liberalLocations,
   pursuitComplaintsByValues,
-  thirdParties,
+  thirdPartyOptions,
   victimTypes,
   factPersonsGroups,
   factGoodsGroups,
@@ -98,7 +98,12 @@ export const thirdPartySchema = z
 
       for (const elt of val) {
         if (!Array.isArray(elt)) {
-          if (!thirdParties.includes(elt)) {
+          if (
+            !thirdPartyOptions
+              .filter((option) => !option.precision)
+              .map((option) => option.value)
+              .includes(elt)
+          ) {
             return false
           }
         }

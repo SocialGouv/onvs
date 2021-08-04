@@ -96,10 +96,10 @@ const handler = async (req, res) => {
             relatedField: "pursuit.pursuitBy",
             values: options.pursuitComplaintsByValues,
           },
-          thirdParties: {
+          thirdPartyOptions: {
             description: "Liste pour les intervention de tiers",
             relatedField: "thirdParty",
-            values: options.thirdParties,
+            values: options.thirdPartyOptions,
           },
           discernmentTroubles: {
             description: "Liste des troubles du discernement",

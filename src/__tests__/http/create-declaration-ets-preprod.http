@@ -1,0 +1,53 @@
+# Création d'une déclaration de type ets. Token de l'éditeur ONVS
+POST  https://preprod-onvs.dev.fabrique.social.gouv.fr/api/declarations
+Authorization: Bearer 5e679014-eec3-4956-96f8-f084c616c54e
+Content-Type: application/json
+
+{
+  "declarationType": "ets",
+  "finesset": "350023883",
+  "date": "2021-07-16",
+  "hour": "Matin (7h-12h)",
+  "town": "Pointe-à-Pitre",
+  "postalCode": "97110",
+  "factGoods": {"Autres faits": ["Trafic de stupéfiants ou autre trafic dans l’établissement"]},
+  "factPersons": {},
+  "reasonNotApparent": true,
+  "reasons": {},
+  "description": "description for ets ",
+  "victims": [
+    {
+      "type": "Accompagnant/Visiteur/Famille",
+      "gender": "Masculin",
+      "age": "- de 18 ans" ,
+      "sickLeaveDays": 0,
+      "hospitalizationDays": 0,
+      "ITTDays": 0
+    }
+  ],
+  "authors": [
+    {
+      "type": "Détenu",
+      "gender": "Masculin",
+      "age": "- de 18 ans"
+    }
+  ],
+  "pursuit": {
+    "type": "Plainte",
+    "pursuitBy": [
+      "L'établissement",
+      "L'ordre"
+    ]
+  },
+  "thirdParty": [
+    "Personnel hospitalier",
+    "Sapeurs-pompiers",
+    ["Autre", "autre parties prenantes"]
+  ],
+
+  "location" : {
+    "Dans quel service ?": "Addictologie",
+    "Dans quel lieu précisément ?": "Bureau du personnel (médical ou non)"
+  }
+}
+
