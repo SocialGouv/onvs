@@ -141,7 +141,7 @@ export const createDeclaration = async ({
     .reduce((acc, current) => ({ ...acc, [current.label]: current.data }), {})
 
   if (!Object.keys(data.reasons).length) {
-    delete data.reasons
+    data.reasons = {}
   }
 
   data.reasonNotApparent = Boolean(data.rNotApparent)
@@ -158,9 +158,9 @@ export const createDeclaration = async ({
 
   // DECLARANT_CONTACT_AGREEMENT ---------------------------------------------------------------
   data.declarantContactAgreement =
-    data.data.declarantContactAgreement === "true"
+    data.declarantContactAgreement === "true"
       ? true
-      : data.data.declarantContactAgreement === "false"
+      : data.declarantContactAgreement === "false"
       ? false
       : null
 
@@ -229,9 +229,17 @@ export const createDeclaration = async ({
 
   // console.log("dans clients", data)
 
+  console.log(
+    "process.env.NEXT_PUBLIC_ONVS_API_TOKEN",
+    process.env.NEXT_PUBLIC_ONVS_API_TOKEN,
+  )
+
   return fetcher(`${API_URL}/${DECLARATION_ENDPOINT}`, {
     body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_ONVS_API_TOKEN}`,
+    },
     method: "POST",
   })
 }
