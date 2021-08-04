@@ -1,3 +1,10 @@
+## [2.28.1](https://github.com/SocialGouv/onvs/compare/v2.28.0...v2.28.1) (2021-08-04)
+
+
+### Bug Fixes
+
+* problem on third party with Autre ([#177](https://github.com/SocialGouv/onvs/issues/177)) ([ad7fac1](https://github.com/SocialGouv/onvs/commit/ad7fac1f05cb9b5de66742a5c52967ff33a8b17f))
+
 # [2.28.0](https://github.com/SocialGouv/onvs/compare/v2.27.0...v2.28.0) (2021-08-03)
 
 
