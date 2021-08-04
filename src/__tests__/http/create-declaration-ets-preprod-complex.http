@@ -1,6 +1,6 @@
-# Création d'une déclaration de type ets. Token de l'éditeur Yes
+# Création d'une déclaration de type ets. Token de l'éditeur ONVS
 POST  https://preprod-onvs.dev.fabrique.social.gouv.fr/api/declarations
-Authorization: Bearer 32bdd81c-6c58-4e99-a9b8-d87dfac6e939
+Authorization: Bearer 5e679014-eec3-4956-96f8-f084c616c54e
 Content-Type: application/json
 
 {

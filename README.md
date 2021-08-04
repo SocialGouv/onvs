@@ -49,6 +49,7 @@ You need to set `process.env` variables.
 - MAIL_FROM email sender
 - MAIL_TO email recipients as a comma separated string
 - MAIL_WEBHOOK_TOKEN token used to authenticate the cron for the email webhook
+- NEXT_PUBLIC_ONVS_API_TOKEN  an authorized token in tokens table to be able to use POST API declaration (like an editor)
 
 The easiest solution to set the variables, is to populate the `.env` file at root of the project. See the `.env.sample` for a file example of this.
 
