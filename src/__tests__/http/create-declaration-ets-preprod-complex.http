@@ -1,0 +1,118 @@
+# Création d'une déclaration de type ets. Token de l'éditeur Yes
+POST  https://preprod-onvs.dev.fabrique.social.gouv.fr/api/declarations
+Authorization: Bearer 32bdd81c-6c58-4e99-a9b8-d87dfac6e939
+Content-Type: application/json
+
+{
+   "declarationType":"ets",
+   "finesset": "350023883",
+   "date":"2021-08-04",
+   "location":{
+        "Dans quel service ?": "Addictologie",
+        "Dans quel lieu précisément ?": "Bureau du personnel (médical ou non)"
+   },
+   "hour":"Matin (7h-12h)",
+   "town":"Vincennes",
+   "pursuit":{
+      "type":"Plainte",
+      "pursuitBy":[
+         "La (les) victime(s)",
+         "L'établissement"
+      ]
+   },
+   "victims":[
+      {
+         "type":"Étudiant en santé",
+         "gender":"Masculin",
+         "age":"- de 18 ans",
+         "sickLeaveDays":3,
+         "hospitalizationDays":1,
+         "ITTDays":0,
+         "healthJob":"Aide-soignant"
+      },
+      {
+         "type":"Détenu",
+         "gender":"Masculin",
+         "age":"- de 18 ans",
+         "sickLeaveDays":0,
+         "hospitalizationDays":3,
+         "ITTDays":0
+      }
+   ],
+   "authors":[
+      {
+         "type":"Étudiant en santé",
+         "gender":"Féminin",
+         "age":"+ de 18 ans",
+         "healthJob":"Assistant dentaire",
+         "discernmentTroubles":[
+            "Prise d’alcool",
+            "Prise de produits stupéfiants"
+         ]
+      },
+      {
+         "type":"Accompagnant/Visiteur/Famille",
+         "gender":"Masculin",
+         "age":"- de 18 ans"
+      }
+   ],
+   "thirdParty":[
+      "Sapeurs-pompiers",
+      [
+         "Autre",
+         "autre tiers qui est intervenu"
+      ]
+   ],
+   "description":"Description de mon problème. \n\nSuperatis Tauri montis verticibus qui ad solis ortum sublimius attolluntur, Cilicia spatiis porrigitur late distentis dives bonis omnibus terra, eiusque lateri dextro adnexa Isauria, pari sorte uberi palmite viget et frugibus minutis, quam mediam navigabile flumen Calycadnus interscindit.",
+   "postalCode":"94300",
+   "job":"Chiropracteur",
+   "factPersons":{
+      "La victime a subi une violence verbale":[
+         "Injure, provocation, outrage",
+         "Propos discriminatoire"
+      ],
+      "La victime a subi une violence physique":[
+         "Violence volontaire avec arme par nature ou par destination",
+         [
+            "Autre fait qualifié de crime",
+            "autre crime"
+         ]
+      ]
+   },
+   "factGoods":{
+      "Dégradation":[
+         "Dégradation autre que par incendie",
+         "Dégradation par incendie volontaire"
+      ],
+      "Vol sans effraction":[
+         "Informations",
+         "Vol à main armée"
+      ]
+   },
+   "reasons":{
+      "Refus ou contestation par le patient, le résident ou l’accompagnant/la famille":[
+         "Du RDV donné (délai, horaire)",
+         "D’accepter le diagnostic, la décision thérapeutique/médicale/de sortie, etc."
+      ],
+      "Refus par le professionnel de santé":[
+         "De prescription, de délivrance, de modification : d’une ordonnance, d’un arrêt de travail, d’hospitalisation",
+         "De donner des informations médicales à une tierce personne non référent médical"
+      ],
+      "Incompatibilité d’humeur et mésentente":[
+         "Entre les patients/résidents/accompagnants",
+         "Autres (bandes, clans, squatteurs…)"
+      ],
+      "Non-respect des règles de vie":[
+         "Non-respect des conditions de séjour",
+         "Frustation/contrariété (pas de sortie, pas de cigarettes, pas de nourriture supplémentaire, etc.)"
+      ],
+      "Motifs divers":[
+         "Patient sous stupéfiants",
+         [
+            "Autre",
+            "autre motif"
+         ]
+      ]
+   },
+   "reasonNotApparent":false
+}
