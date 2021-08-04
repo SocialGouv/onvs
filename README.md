@@ -124,13 +124,22 @@ yarn start
 
 ### Prisma
 
-The preferred way to request the db is with Prisma.
+Historically, Knex was used to interact with the db. But the preferred way is now to request the db is with Prisma.
+Nevertheless, Knex is still used for migrations because of its capacity to transform data in JS.
 
 The workflow is :
 - `npx prisma introspect` introspect the database defined in DATABASE_URL and create a schema.prisma file. This file it the keystone to interact with Prisma. We can modify this file for our needs. For examaple, we can rename a column name or a column table.
 - `npx prisma generate` to generate the types which are stored in node_modules/.prisma/client. Each time you modify the schema.prisma, you need to regenerate the client.
 
-PS : at first, Knex was used instead of Prisma. This is the reason why it is still used for some parts of the app (especially the migration mechanism). Prisma is now encouraged, since it is designed especially for TypeScript code, it controls the shape of the parameters and do the tedious mapping between the names of the columns in db and of the object in TypeScript.
+As a handy shortchut, a script `yarn prisma:refresh` runs migrate:latest + prisma introspect + prisma generate. To be used since you modify the structure of the db.
+
+### Tokens
+
+The API to declare a violence act is allowed for third party app (editors of hospitals apps).
+To restrict access to them only and to track who's using the API, this API must be called with a token in the Authorization header.
+
+The valid tokens are in the tokens table.
+See the [wiki](https://github.com/SocialGouv/onvs/wiki) for more details on this.
 
 ### 🏋️‍♂️ Run the tests
 
@@ -139,6 +148,8 @@ There is some Jest tests, which can be run with :
 ```shell script
 yarn run test
 ```
+
+Since the project is now in TypeScript, a handy script is `yarn check-all`. It runs in sequence yarn lint + yarn tsc + yarn test.
 
 ### 🤐 Secrets
 
