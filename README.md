@@ -132,7 +132,7 @@ The workflow is :
 - `npx prisma introspect` introspect the database defined in DATABASE_URL and create a schema.prisma file. This file it the keystone to interact with Prisma. We can modify this file for our needs. For examaple, we can rename a column name or a column table.
 - `npx prisma generate` to generate the types which are stored in node_modules/.prisma/client. Each time you modify the schema.prisma, you need to regenerate the client.
 
-As a handy shortchut, a script `yarn prisma:refresh` runs migrate:latest + prisma introspect + prisma generate. To be used since you modify the structure of the db.
+As a handy shortcut, a script `yarn prisma:refresh` runs `migrate:latest` + `prisma introspect` + `prisma generate`. To be used as soon as you modify the structure of the db. 
 
 ### Tokens
 
