@@ -154,26 +154,26 @@ Since the project is now in TypeScript, a handy script is `yarn check-all`. It r
 
 ### 🤐 Secrets
 
-Les fichiers sealed-secrets.yaml peuvent être générés à partir du script `sealed-secrets`.
+The sealed-secrets.yaml files can be generated from the script `sealed-secrets`.
 
 ```shell
 yarn sealed-secrets
 ```
 
-Pour cela, il faut avoir un fichier `.secrets.yml` (qui ne sera pas commit) à la racine du projet, contenant les secrets non chiffrés.
+You need to have a `.secrets.yml` file (which will be gitignore) a the project root, including the secrets uncrypted.
 
-Lancer le script : `yarn run seal-secrets`.
+Run the script : `yarn run seal-secrets`.
 
-Les fichiers seront générés dans un répertoire temporaire `.temp-secrets/environments`.
-Il faut ensuite, reporter le contenu dans le répertoire `.k8s/environments`.
+The files will be generated in a temporary directory `.temp-secrets/environments`.
 
-Ensuite, il faut mettre à jour les snapshots Jest pour Kosko.
+Then, copy the content in the `.k8s/environments` directory.
+
+Then, update the Jest snapshots for Kosko.
 
 ```
-cd .k8s
-yarn && yarn test -u # le yarn est à faire seulement la 1ère fois, pour récupérer les librairies
+yarn k8s # only the first time or to update the dependancies
+yarn k8s test -u
 ```
-
 
 ### 🧯 Troubleshoot
 
