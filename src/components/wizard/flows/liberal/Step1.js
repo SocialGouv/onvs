@@ -39,7 +39,7 @@ const schema = yup.object().shape({
     })
     .nullable(true) // to consider null as an object and let required validate and displays the appropriate message
     .required("Les heures sont à renseigner"),
-  location: yup.string().required("Le lieu est à renseigner"),
+  location: yup.string().nullable(true).required("Le lieu est à renseigner"),
   otherLocation: yup.string().when("location", {
     is: "Autre",
     then: yup
