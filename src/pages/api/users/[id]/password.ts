@@ -4,7 +4,7 @@ import { z } from "zod"
 import prisma from "@/prisma/db"
 import { OnvsError } from "@/utils/errors"
 import { hashPassword } from "@/utils/bcrypt"
-import { handleApiError, handleNotAllowedMethods } from "@/utils/api"
+import { checkAllowedMethods, handleApiError } from "@/utils/api"
 import { pipe } from "lodash/fp"
 
 const bodySchema = z.object({
@@ -43,15 +43,15 @@ const handler = async (req, res) => {
 
       return res.status(200).json({})
     }
-
-    default: {
-      handleNotAllowedMethods(req, res)
-    }
   }
 }
 
-const cors = Cors({
-  allowMethods: ["PUT", "OPTIONS"],
-})
+const allowMethods = ["PUT"]
 
-export default pipe(cors, handleApiError)(handler)
+export default pipe(
+  Cors({
+    allowMethods,
+  }),
+  checkAllowedMethods({ allowMethods }),
+  handleApiError,
+)(handler)

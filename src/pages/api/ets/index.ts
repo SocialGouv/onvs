@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client"
 import prisma from "@/prisma/db"
 import { OnvsError } from "@/utils/errors"
 import { EtsApiSchema, EtsApiType } from "@/models/ets"
-import { handleApiError, handleNotAllowedMethods } from "@/utils/api"
+import { checkAllowedMethods, handleApiError } from "@/utils/api"
 import { buildMetaPagination } from "@/utils/pagination"
 import { pipe } from "lodash/fp"
 
@@ -77,14 +77,15 @@ const handler = async (req, res) => {
         .status(200)
         .json({ data: etsList, pageIndex, totalCount, pageSize, totalPages })
     }
-    default: {
-      handleNotAllowedMethods(req, res)
-    }
   }
 }
 
-const cors = Cors({
-  allowMethods: ["GET", "OPTIONS"],
-})
+const allowMethods = ["GET"]
 
-export default pipe(cors, handleApiError)(handler)
+export default pipe(
+  Cors({
+    allowMethods,
+  }),
+  checkAllowedMethods({ allowMethods }),
+  handleApiError,
+)(handler)

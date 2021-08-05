@@ -1,7 +1,7 @@
 import Cors from "micro-cors"
 import withSession from "@/lib/session"
 import { findWithCredentials } from "@/services/users"
-import { handleNotAllowedMethods, handleApiError } from "@/utils/api"
+import { checkAllowedMethods, handleApiError } from "@/utils/api"
 import { pipe } from "lodash/fp"
 
 const handler = async (req, res) => {
@@ -19,14 +19,16 @@ const handler = async (req, res) => {
       await req.session.save()
       return res.status(200).json(user)
     }
-    default: {
-      handleNotAllowedMethods(req, res)
-    }
   }
 }
 
-const cors = Cors({
-  allowMethods: ["OPTIONS", "POST"],
-})
+const allowMethods = ["POST"]
 
-export default pipe(withSession, cors, handleApiError)(handler)
+export default pipe(
+  withSession,
+  Cors({
+    allowMethods,
+  }),
+  checkAllowedMethods({ allowMethods }),
+  handleApiError,
+)(handler)

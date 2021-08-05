@@ -2,7 +2,7 @@ import Cors from "micro-cors"
 
 import { find } from "@/services/declarations"
 import { isEmpty } from "@/utils/object"
-import { handleApiError, handleNotAllowedMethods } from "@/utils/api"
+import { handleApiError, checkAllowedMethods } from "@/utils/api"
 import { pipe } from "lodash/fp"
 
 const handler = async (req, res) => {
@@ -21,14 +21,15 @@ const handler = async (req, res) => {
 
       return res.status(200).json(act)
     }
-    default: {
-      handleNotAllowedMethods(req, res)
-    }
   }
 }
 
-const cors = Cors({
-  allowMethods: ["GET", "OPTIONS"],
-})
+const allowMethods = ["GET"]
 
-export default pipe(cors, handleApiError)(handler)
+export default pipe(
+  Cors({
+    allowMethods,
+  }),
+  checkAllowedMethods({ allowMethods }),
+  handleApiError,
+)(handler)

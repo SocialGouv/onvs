@@ -3,7 +3,7 @@ import Cors from "micro-cors"
 import prisma from "@/prisma/db"
 import { OnvsError } from "@/utils/errors"
 import { UserApiSchema, UserApiType } from "@/models/users"
-import { handleApiError, handleNotAllowedMethods } from "@/utils/api"
+import { checkAllowedMethods, handleApiError } from "@/utils/api"
 import { Prisma } from ".prisma/client"
 import { buildMetaPagination } from "@/utils/pagination"
 import { pipe } from "lodash/fp"
@@ -76,14 +76,15 @@ const handler = async (req, res) => {
         .status(200)
         .json({ data: userList, pageIndex, totalCount, pageSize, totalPages })
     }
-    default: {
-      handleNotAllowedMethods(req, res)
-    }
   }
 }
 
-const cors = Cors({
-  allowMethods: ["GET", "POST", "OPTIONS"],
-})
+const allowMethods = ["GET", "POST"]
 
-export default pipe(cors, handleApiError)(handler)
+export default pipe(
+  Cors({
+    allowMethods,
+  }),
+  checkAllowedMethods({ allowMethods }),
+  handleApiError,
+)(handler)

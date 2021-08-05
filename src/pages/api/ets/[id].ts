@@ -3,7 +3,7 @@ import Cors from "micro-cors"
 import prisma from "@/prisma/db"
 import { BadRequestError, InexistingResourceError } from "@/utils/errors"
 import { EtsApiSchema } from "@/models/ets"
-import { handleApiError, handleNotAllowedMethods } from "@/utils/api"
+import { checkAllowedMethods, handleApiError } from "@/utils/api"
 import { pipe } from "lodash/fp"
 
 const handler = async (req, res) => {
@@ -68,14 +68,15 @@ const handler = async (req, res) => {
 
       return res.status(200).json({})
     }
-    default: {
-      handleNotAllowedMethods(req, res)
-    }
   }
 }
 
-const cors = Cors({
-  allowMethods: ["DELETE", "PUT", "GET", "OPTIONS"],
-})
+const allowMethods = ["DELETE", "PUT", "GET"]
 
-export default pipe(cors, handleApiError)(handler)
+export default pipe(
+  Cors({
+    allowMethods,
+  }),
+  checkAllowedMethods({ allowMethods }),
+  handleApiError,
+)(handler)

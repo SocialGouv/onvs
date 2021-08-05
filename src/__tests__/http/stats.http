@@ -1,0 +1,2 @@
+### API stats
+GET http://localhost:3030/api/stats

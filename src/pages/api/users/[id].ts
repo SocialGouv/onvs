@@ -3,7 +3,7 @@ import Cors from "micro-cors"
 import prisma from "@/prisma/db"
 import { OnvsError } from "@/utils/errors"
 import { UserApiType, UserApiSchema } from "@/models/users"
-import { handleApiError, handleNotAllowedMethods } from "@/utils/api"
+import { checkAllowedMethods, handleApiError } from "@/utils/api"
 import { pipe } from "lodash/fp"
 
 const handler = async (req, res) => {
@@ -47,15 +47,15 @@ const handler = async (req, res) => {
 
       return res.status(200).json({ user: updatedUser })
     }
-
-    default: {
-      handleNotAllowedMethods(req, res)
-    }
   }
 }
 
-const cors = Cors({
-  allowMethods: ["DELETE", "PATCH", "OPTIONS"],
-})
+const allowMethods = ["DELETE", "PATCH"]
 
-export default pipe(cors, handleApiError)(handler)
+export default pipe(
+  Cors({
+    allowMethods,
+  }),
+  checkAllowedMethods({ allowMethods }),
+  handleApiError,
+)(handler)

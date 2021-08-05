@@ -8,7 +8,7 @@ import { create } from "@/services/declarations"
 import withSession from "@/lib/session"
 import { UserLoggedModel } from "@/models/users"
 import { buildMetaPagination } from "@/utils/pagination"
-import { handleApiError, handleNotAllowedMethods } from "@/utils/api"
+import { checkAllowedMethods, handleApiError } from "@/utils/api"
 import {
   AuthenticationError,
   AuthorizationError,
@@ -109,14 +109,16 @@ const handler = async (
         else throw error
       }
     }
-    default: {
-      handleNotAllowedMethods(req, res)
-    }
   }
 }
 
-const cors = Cors({
-  allowMethods: ["GET", "OPTIONS", "POST"],
-})
+const allowMethods = ["GET", "POST"]
 
-export default pipe(withSession, cors, handleApiError)(handler)
+export default pipe(
+  withSession,
+  Cors({
+    allowMethods,
+  }),
+  checkAllowedMethods({ allowMethods }),
+  handleApiError,
+)(handler)
