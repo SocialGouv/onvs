@@ -1,0 +1,3 @@
+# Liste des déclarations
+GET http://localhost:3030/api/declarations/d94493cc-71f3-436d-81c3-596bda53693f
+
