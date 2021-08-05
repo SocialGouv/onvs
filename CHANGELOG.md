@@ -1,3 +1,15 @@
+# [2.29.0](https://github.com/SocialGouv/onvs/compare/v2.28.3...v2.29.0) (2021-08-05)
+
+
+### Bug Fixes
+
+* incorrect toast error message for location ([#180](https://github.com/SocialGouv/onvs/issues/180)) ([8918666](https://github.com/SocialGouv/onvs/commit/8918666c048568dc3c7a528fe91816224a5e9646))
+
+
+### Features
+
+* improve errors api ([#181](https://github.com/SocialGouv/onvs/issues/181)) ([5a2011b](https://github.com/SocialGouv/onvs/commit/5a2011b647a6fa56ced86e9eb821db4c3114a8c2))
+
 ## [2.28.3](https://github.com/SocialGouv/onvs/compare/v2.28.2...v2.28.3) (2021-08-05)
 
 
