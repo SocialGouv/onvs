@@ -2,12 +2,20 @@ import Cors from "micro-cors"
 import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
 import * as options from "@/utils/options"
 
+function simplifyOptions(options) {
+  return options.map(({ value, info, precision }) => ({
+    value,
+    info,
+    precision: Boolean(precision),
+  }))
+}
+
 function flatten(obj) {
   return Object.keys(obj).reduce(
     (acc, key) => ({
       ...acc,
       ...{
-        [obj[key].label]: obj[key].options,
+        [obj[key].label]: simplifyOptions(obj[key].options),
       },
     }),
     {},
@@ -44,24 +52,24 @@ const handler = async (req, res) => {
           },
           mainLocation: {
             description: "Dans quel service ? (lieu principal)",
-            relatedField: "",
+            relatedField: "location",
             values: options.etsMainLocations,
           },
           secondaryLocation: {
             description: "Dans quel lieu précisément ? (lieu secondaire)",
-            relatedField: "",
+            relatedField: "location",
             values: options.etsSecondaryLocations,
           },
           healthJobs: {
             description:
               "Liste des professions de santé, éventuellement demandé si le type d'une victim ou d'un auteur correspond à une profession de santé",
-            relatedField: "",
+            relatedField: "victim.healthJob / author.healthJob",
             values: options.healthJobs,
           },
           healthTypes: {
             description:
               "Type qui nécessite une précision sur la profession de santé",
-            relatedField: "N/A",
+            relatedField: "victim.type / author.type",
             values: options.healthTypes,
           },
           victimTypes: {
@@ -76,6 +84,11 @@ const handler = async (req, res) => {
             relatedField: "author.type",
             values: options.authorTypes,
           },
+          discernmentTroubles: {
+            description: "Liste des troubles du discernement",
+            relatedField: "author.discernmentTroubles",
+            values: options.discernmentTroubles,
+          },
           ages: {
             description: "Champs âges des victimes ou auteurs",
             relatedField: "victim.age / author.age",
@@ -88,7 +101,7 @@ const handler = async (req, res) => {
           },
           pursuits: {
             description: "Poursuites",
-            relatedField: "pursuit",
+            relatedField: "pursuit.type",
             values: options.pursuits,
           },
           pursuitComplaintsByValues: {
@@ -100,11 +113,6 @@ const handler = async (req, res) => {
             description: "Liste pour les intervention de tiers",
             relatedField: "thirdParty",
             values: options.thirdPartyOptions,
-          },
-          discernmentTroubles: {
-            description: "Liste des troubles du discernement",
-            relatedField: "author.discernmentTroubles",
-            values: options.discernmentTroubles,
           },
         })
       }
