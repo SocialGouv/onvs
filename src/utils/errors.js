@@ -29,7 +29,7 @@ export class AuthenticationError extends Error {
 }
 if (process.env.JEST_WORKER_ID === undefined) {
   SuperJson.registerClass(AuthenticationError, {
-    identifier: "BlitzAuthenticationError",
+    identifier: "OnvsAuthenticationError",
     allowProps: errorProps,
   })
 }
@@ -43,7 +43,7 @@ export class AuthorizationError extends Error {
 }
 if (process.env.JEST_WORKER_ID === undefined) {
   SuperJson.registerClass(AuthorizationError, {
-    identifier: "BlitzAuthorizationError",
+    identifier: "OnvsAuthorizationError",
     allowProps: errorProps,
   })
 }
@@ -88,3 +88,26 @@ SuperJson.registerClass(BadRequestError, {
   identifier: "OnvsBadRequestError",
   allowProps: errorProps,
 })
+
+import { ZodError } from "zod"
+
+export function composeError(error) {
+  let message = error.message || "API error"
+  const statusCode = error instanceof ZodError ? 400 : error?.statusCode || 500
+
+  let details
+
+  if (error instanceof ZodError) {
+    details = error.format()
+
+    if (details._errors && !details._errors.length) delete details._errors
+
+    const maybePlural = Object.keys(details).length > 1 ? "s" : ""
+
+    message = `Format error on field${maybePlural} : ${Object.keys(
+      details,
+    ).join(", ")}`
+  }
+
+  return { message, statusCode, details }
+}
