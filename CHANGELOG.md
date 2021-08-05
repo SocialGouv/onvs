@@ -1,3 +1,10 @@
+## [2.28.3](https://github.com/SocialGouv/onvs/compare/v2.28.2...v2.28.3) (2021-08-05)
+
+
+### Bug Fixes
+
+* use docker build-arg for NEXT_PUBLIC_* ([#179](https://github.com/SocialGouv/onvs/issues/179)) ([36f8370](https://github.com/SocialGouv/onvs/commit/36f83705f81fc6cea90989cd04c7d40a33f7d4db))
+
 ## [2.28.2](https://github.com/SocialGouv/onvs/compare/v2.28.1...v2.28.2) (2021-08-04)
 
 
