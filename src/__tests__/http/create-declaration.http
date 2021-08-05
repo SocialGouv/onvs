@@ -52,7 +52,7 @@ Content-Type: application/json
   }
 }
 
-### Décla de type ETS. KO car finesset n'existe pas dans la table ets
+### Décla de type ETS.
 
 POST http://localhost:3030/api/declarations
 Content-Type: application/json
@@ -115,6 +115,7 @@ Authorization: Bearer 5e679014-eec3-4956-96f8-f084c616c54e
 
 POST http://localhost:3030/api/declarations
 Content-Type: application/json
+Authorization: Bearer 8045dead-a8a8-4532-b9a9-3b6faf81498f
 
 {
   "declarationType": "liberal",
@@ -216,9 +217,10 @@ Content-Type: application/json
 }
 
 
-### Liberal declaration with an id generated client side. KO car l'id existe déjà.
+### Liberal declaration with an id generated client side. KO car l'id existe déjà. DuplicateError
 POST http://localhost:3030/api/declarations
 Content-Type: application/json
+Authorization: Bearer 8045dead-a8a8-4532-b9a9-3b6faf81498f
 
 {
   // Champs spécifiques

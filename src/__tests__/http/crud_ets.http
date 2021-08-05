@@ -19,7 +19,7 @@ GET {{baseUrl}}/ets?pageSize=2
 Content-Type: application/json
 
 ### List of all Ets for a search token.
-GET {{baseUrl}}/ets?pageSize=2&search=west
+GET {{baseUrl}}/ets?pageSize=2&search=coz
 Content-Type: application/json
 
 ###

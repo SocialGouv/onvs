@@ -1,36 +1,46 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { ZodError } from "zod"
-import { OnvsError } from "./errors"
+import { composeError } from "./errors"
 
-export function handleNotAllowedMethods(
-  req: NextApiRequest,
-  res: NextApiResponse,
-): void {
-  if (req.method === "OPTIONS") {
-    res.status(200).json({})
-  } else {
-    res.status(405).json({ message: "Not allowed HTTP method." })
+export function checkAllowedMethods({
+  allowMethods,
+}: {
+  allowMethods: string[]
+}) {
+  return function (handler: (req, res) => void) {
+    return async function (
+      req: NextApiRequest,
+      res: NextApiResponse,
+    ): Promise<void> {
+      if (req?.method === "OPTIONS") {
+        return res.status(200).json({})
+      } else if (!req?.method || !allowMethods.includes(req.method)) {
+        return res.status(405).json({ message: "Not allowed HTTP method." })
+      }
+      await handler(req, res)
+    }
   }
 }
+
 export function handleErrors(
   error: Error & { statusCode?: number },
   res: NextApiResponse,
 ): void {
   console.error("API error", error)
 
-  let message = "API error"
-  let details
+  const { message, statusCode, details } = composeError(error)
 
-  if (error?.statusCode) {
-    res.status(error?.statusCode).json({ message: error.message })
-  } else if (error instanceof ZodError) {
-    // const paths = error?.issues.map((issue) => issue.path)
-    details = error.format()
+  res.status(statusCode).json({ message, ...(details && { details }) })
+}
 
-    message = `Error on field(s) : ${Object.keys(details).join(", ")}`
-  } else if (error instanceof OnvsError) {
-    message = error.message
+export function handleApiError(handler: (req, res) => void) {
+  return async function (
+    req: NextApiRequest,
+    res: NextApiResponse,
+  ): Promise<void> {
+    try {
+      await handler(req, res)
+    } catch (error) {
+      handleErrors(error, res)
+    }
   }
-
-  res.status(500).json({ message, ...(details && { details }) })
 }

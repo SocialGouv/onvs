@@ -3,82 +3,80 @@ import Cors from "micro-cors"
 import prisma from "@/prisma/db"
 import { BadRequestError, InexistingResourceError } from "@/utils/errors"
 import { EtsApiSchema } from "@/models/ets"
-import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
+import { checkAllowedMethods, handleApiError } from "@/utils/api"
+import { pipe } from "lodash/fp"
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
 
   const { id } = req.query
 
-  try {
-    switch (req.method) {
-      case "PUT": {
-        const { ets } = req.body
-        const parsedEts = EtsApiSchema.parse(ets)
+  switch (req.method) {
+    case "PUT": {
+      const { ets } = req.body
+      const parsedEts = EtsApiSchema.parse(ets)
 
-        if (id !== ets.id) {
-          throw new BadRequestError("Bad inputs")
-        }
-
-        const existingEts = await prisma.ets.findUnique({
-          where: {
-            id,
-          },
-        })
-
-        if (!existingEts) {
-          throw new InexistingResourceError(
-            `There is no ETS for the corresponding n° FINESS ${parsedEts.finesset}.`,
-          )
-        }
-
-        const updatedEts = await prisma.ets.update({
-          where: {
-            id,
-          },
-          data: parsedEts,
-        })
-
-        return res.status(200).json({ data: updatedEts })
+      if (id !== ets.id) {
+        throw new BadRequestError("Bad inputs")
       }
-      case "GET": {
-        if (!id) {
-          throw new BadRequestError("Bad inputs")
-        }
 
-        const ets = await prisma.ets.findFirst({
-          where: {
-            id,
-          },
-        })
+      const existingEts = await prisma.ets.findUnique({
+        where: {
+          id,
+        },
+      })
 
-        if (!ets) {
-          throw new InexistingResourceError(`There is no ETS for the id ${id}.`)
-        }
-
-        return res.status(200).json({ data: ets })
+      if (!existingEts) {
+        throw new InexistingResourceError(
+          `There is no ETS for the corresponding n° FINESS ${parsedEts.finesset}.`,
+        )
       }
-      case "DELETE": {
-        // TODO: empêcher de supprimer logiquement un ETS si des gestionnaire d'ets existent pour cet ets ?
-        await prisma.ets.delete({
-          where: {
-            id,
-          },
-        })
 
-        return res.status(200).json({})
-      }
-      default: {
-        handleNotAllowedMethods(req, res)
-      }
+      const updatedEts = await prisma.ets.update({
+        where: {
+          id,
+        },
+        data: parsedEts,
+      })
+
+      return res.status(200).json({ data: updatedEts })
     }
-  } catch (error) {
-    handleErrors(error, res)
+    case "GET": {
+      if (!id) {
+        throw new BadRequestError("Bad inputs")
+      }
+
+      const ets = await prisma.ets.findFirst({
+        where: {
+          id,
+        },
+      })
+
+      if (!ets) {
+        throw new InexistingResourceError(`There is no ETS for the id ${id}.`)
+      }
+
+      return res.status(200).json({ data: ets })
+    }
+    case "DELETE": {
+      // TODO: empêcher de supprimer logiquement un ETS si des gestionnaire d'ets existent pour cet ets ?
+      await prisma.ets.delete({
+        where: {
+          id,
+        },
+      })
+
+      return res.status(200).json({})
+    }
   }
 }
 
-const cors = Cors({
-  allowMethods: ["DELETE", "PUT", "GET", "OPTIONS"],
-})
+const allowMethods = ["DELETE", "PUT", "GET"]
 
-export default cors(handler)
+export default pipe(
+  Cors({
+    allowMethods,
+  }),
+  checkAllowedMethods({ allowMethods }),
+  handleApiError,
+)(handler)

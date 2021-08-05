@@ -1,25 +1,24 @@
 import Cors from "micro-cors"
 import withSession from "@/lib/session"
-import { handleNotAllowedMethods, handleErrors } from "@/utils/api"
+import { checkAllowedMethods, handleApiError } from "@/utils/api"
+import { pipe } from "lodash/fp"
 
 const handler = async (req, res) => {
-  try {
-    switch (req.method) {
-      case "POST": {
-        req.session.destroy()
-        return res.json({ isLoggedIn: false })
-      }
-      default: {
-        handleNotAllowedMethods(req, res)
-      }
+  switch (req.method) {
+    case "POST": {
+      req.session.destroy()
+      return res.json({ isLoggedIn: false })
     }
-  } catch (error) {
-    handleErrors(error, res)
   }
 }
 
-const cors = Cors({
-  allowMethods: ["OPTIONS", "POST"],
-})
+const allowMethods = ["POST"]
 
-export default withSession(cors(handler))
+export default pipe(
+  withSession,
+  Cors({
+    allowMethods,
+  }),
+  checkAllowedMethods({ allowMethods }),
+  handleApiError,
+)(handler)

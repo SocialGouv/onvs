@@ -29,9 +29,6 @@ export const createDeclaration = async ({
   const data = flatObject(declaration?.steps, keys)
   const { town, postalCode } = extractTownAndPostalCode(data?.town?.label)
 
-  // console.log("declaration", declaration)
-  // console.log("data", data)
-
   // Reminder : the id is generated client side, to prevent multiple submits.
   data.id = declaration.id
   data.declarationType = declaration.declarationType
@@ -226,13 +223,6 @@ export const createDeclaration = async ({
 
     data.authors = authors
   }
-
-  // console.log("dans clients", data)
-
-  console.log(
-    "process.env.NEXT_PUBLIC_ONVS_API_TOKEN",
-    process.env.NEXT_PUBLIC_ONVS_API_TOKEN,
-  )
 
   return fetcher(`${API_URL}/${DECLARATION_ENDPOINT}`, {
     body: JSON.stringify(data),
