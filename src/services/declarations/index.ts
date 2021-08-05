@@ -13,8 +13,6 @@ export const create = async (
   declaration: DeclarationModel,
   editor: EditorModel,
 ): Promise<string | undefined> => {
-  // console.log("declaration dans API", declaration)
-
   switch (declaration?.declarationType) {
     case DeclarationType.Liberal: {
       schemaLiberal.parse(declaration)

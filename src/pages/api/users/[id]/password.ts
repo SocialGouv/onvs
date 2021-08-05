@@ -4,7 +4,8 @@ import { z } from "zod"
 import prisma from "@/prisma/db"
 import { OnvsError } from "@/utils/errors"
 import { hashPassword } from "@/utils/bcrypt"
-import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
+import { handleApiError, handleNotAllowedMethods } from "@/utils/api"
+import { pipe } from "lodash/fp"
 
 const bodySchema = z.object({
   id: z.string().uuid().optional(),
@@ -16,40 +17,36 @@ const handler = async (req, res) => {
 
   const { id } = req.query
 
-  try {
-    switch (req.method) {
-      case "PUT": {
-        const { password }: { password: string } = req?.body
-        bodySchema.parse({ password, id })
+  switch (req.method) {
+    case "PUT": {
+      const { password }: { password: string } = req?.body
+      bodySchema.parse({ password, id })
 
-        const user = await prisma.user.findFirst({
-          where: {
-            id,
-          },
-        })
+      const user = await prisma.user.findFirst({
+        where: {
+          id,
+        },
+      })
 
-        if (!user) {
-          throw new OnvsError(`Aucun utilisateur n'existe avec l'id ${id}`)
-        }
-
-        await prisma.user.update({
-          where: {
-            id,
-          },
-          data: {
-            password: await hashPassword(password),
-          },
-        })
-
-        return res.status(200).json({})
+      if (!user) {
+        throw new OnvsError(`Aucun utilisateur n'existe avec l'id ${id}`)
       }
 
-      default: {
-        handleNotAllowedMethods(req, res)
-      }
+      await prisma.user.update({
+        where: {
+          id,
+        },
+        data: {
+          password: await hashPassword(password),
+        },
+      })
+
+      return res.status(200).json({})
     }
-  } catch (error) {
-    handleErrors(error, res)
+
+    default: {
+      handleNotAllowedMethods(req, res)
+    }
   }
 }
 
@@ -57,4 +54,4 @@ const cors = Cors({
   allowMethods: ["PUT", "OPTIONS"],
 })
 
-export default cors(handler)
+export default pipe(cors, handleApiError)(handler)

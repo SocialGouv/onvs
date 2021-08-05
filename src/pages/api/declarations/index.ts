@@ -1,12 +1,14 @@
 import Cors from "micro-cors"
 import { NextApiRequest, NextApiResponse } from "next"
+import { z } from "zod"
+import { pipe } from "lodash/fp"
 
 import prisma from "@/prisma/db"
 import { create } from "@/services/declarations"
 import withSession from "@/lib/session"
 import { UserLoggedModel } from "@/models/users"
 import { buildMetaPagination } from "@/utils/pagination"
-import { handleErrors, handleNotAllowedMethods } from "@/utils/api"
+import { handleApiError, handleNotAllowedMethods } from "@/utils/api"
 import {
   AuthenticationError,
   AuthorizationError,
@@ -14,8 +16,6 @@ import {
 } from "@/utils/errors"
 import { jobsByOrders } from "@/utils/options"
 import { getEditorFromToken } from "@/services/editors"
-
-const UNIQUE_VIOLATION_PG = "23505"
 
 // TODO : filtrer les déclarations pour les autres rôles
 function buildWhereClause(user: UserLoggedModel) {
@@ -36,74 +36,82 @@ const handler = async (
 ) => {
   res.setHeader("Content-Type", "application/json")
 
-  try {
-    switch (req.method) {
-      case "GET": {
-        const user = req.session.get("user")
+  switch (req.method) {
+    case "GET": {
+      const user = req.session.get("user")
 
-        if (!user?.isLoggedIn) {
-          throw new AuthenticationError()
-        }
-        const whereClause = buildWhereClause(user)
+      if (!user?.isLoggedIn) {
+        throw new AuthenticationError()
+      }
+      const whereClause = buildWhereClause(user)
 
-        const totalCount = await prisma.declaration.count({
-          where: whereClause,
-        })
+      const totalCount = await prisma.declaration.count({
+        where: whereClause,
+      })
 
-        const { pageIndex, pageSize, totalPages, prismaPaginationQueryParams } =
-          await buildMetaPagination({
-            totalCount,
-            ...req.query,
-          })
-
-        const declarations = await prisma.declaration.findMany({
-          orderBy: [{ createdAt: "desc" }],
-          ...prismaPaginationQueryParams,
-          where: whereClause,
-        })
-
-        return res.status(200).json({
-          data: declarations,
-          pageIndex,
+      const { pageIndex, pageSize, totalPages, prismaPaginationQueryParams } =
+        await buildMetaPagination({
           totalCount,
-          pageSize,
-          totalPages,
+          ...req.query,
         })
+
+      const declarations = await prisma.declaration.findMany({
+        orderBy: [{ createdAt: "desc" }],
+        ...prismaPaginationQueryParams,
+        where: whereClause,
+      })
+
+      return res.status(200).json({
+        data: declarations,
+        pageIndex,
+        totalCount,
+        pageSize,
+        totalPages,
+      })
+    }
+
+    case "POST": {
+      const bearerError = new AuthorizationError(
+        "A header 'Authorization: Bearer <editor-id>' must be present.",
+      )
+
+      const invalidTokenError = new AuthorizationError(
+        "The provided token is not valid.",
+      )
+
+      if (
+        !req.headers.authorization ||
+        !/Bearer/.test(req.headers.authorization)
+      )
+        throw bearerError
+
+      const token = req.headers.authorization.replace("Bearer", "").trim()
+
+      if (!token) throw bearerError
+
+      const schemaGuid = z.string().uuid()
+
+      if (!schemaGuid.safeParse(token)?.success) {
+        throw invalidTokenError
       }
 
-      case "POST": {
-        if (
-          !req.headers.authorization ||
-          !/Bearer/.test(req.headers.authorization)
-        )
-          throw new AuthorizationError(
-            "Un entête 'Authorization: Bearer <editor-id>' doit être présent.",
-          )
+      const editor = await getEditorFromToken(token)
 
-        const token = req.headers.authorization.replace("Bearer", "").trim()
+      if (!editor) throw invalidTokenError
 
-        const editor = await getEditorFromToken(token)
-
-        if (!editor)
-          throw new AuthorizationError(
-            "Le token fourni n'est pas valide pour utiliser l'API.",
-          )
-
+      try {
         const id = await create(req.body, editor)
-
         return res.status(200).json({ id })
-      }
-      default: {
-        handleNotAllowedMethods(req, res)
+      } catch (error) {
+        console.error("Error Prisma ", error.message)
+        if (error?.code === "P2002")
+          throw new DuplicateError("A declaration with this id already exists.")
+        else throw error
       }
     }
-  } catch (error) {
-    if (error?.code === UNIQUE_VIOLATION_PG) {
-      // eslint-disable-next-line no-ex-assign
-      error = new DuplicateError(error.message)
+    default: {
+      handleNotAllowedMethods(req, res)
     }
-
-    handleErrors(error, res)
   }
 }
 
@@ -111,4 +119,4 @@ const cors = Cors({
   allowMethods: ["GET", "OPTIONS", "POST"],
 })
 
-export default withSession(cors(handler))
+export default pipe(withSession, cors, handleApiError)(handler)
