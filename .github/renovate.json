@@ -23,7 +23,7 @@
         "minor",
         "patch"
       ],
-      "groupName": "all non-major dependencies",
+      "groupName": "all non-major dev dependencies",
       "groupSlug": "all-devdependencies-minor-patch"
     }
   ]
