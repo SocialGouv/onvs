@@ -1,3 +1,30 @@
 {
-  "extends": ["github>SocialGouv/renovate-config:light"]
+  "extends": ["github>SocialGouv/renovate-config:light"],
+  "ignorePresets": ["group:allNonMajor"],
+  "packageRules": [
+    {
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-dependencies-minor-patch"
+    },
+    {
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-devdependencies-minor-patch"
+    },
+  ]
 }
