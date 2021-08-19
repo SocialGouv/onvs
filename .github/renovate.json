@@ -25,6 +25,6 @@
       ],
       "groupName": "all non-major dependencies",
       "groupSlug": "all-devdependencies-minor-patch"
-    },
+    }
   ]
 }
