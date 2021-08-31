@@ -30,16 +30,12 @@ export async function loadCities(search: string): Promise<Array<SelectType>> {
 
 export default function TownSelect({
   name,
-  disabled,
-  value,
-  onChange,
+  disabled = false,
   control,
 }: {
   name: string
   dispatch: () => void
   disabled: boolean
-  value: string
-  onChange: () => void
   control: Control
 }): JSX.Element {
   return (
@@ -55,9 +51,7 @@ export default function TownSelect({
         placeholder="Tapez le nom d'une ville"
         noOptionsMessage={() => "Aucun résultat"}
         loadingMessage={() => "Chargement..."}
-        onChange={onChange}
         isDisabled={disabled}
-        value={value}
       />
     </>
   )
