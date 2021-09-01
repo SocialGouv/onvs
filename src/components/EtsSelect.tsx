@@ -1,6 +1,7 @@
 import React from "react"
 import { Control, Controller, FieldError } from "react-hook-form"
 import AsyncSelect from "react-select/async"
+import debounce from "debounce-promise"
 
 import fetcher from "@/utils/fetcher"
 import { SelectType } from "@/utils/select"
@@ -23,6 +24,12 @@ export async function loadEtsList(search: string): Promise<Array<SelectType>> {
   return options
 }
 
+// Note : debounce's lodash doesn't work because, as the doc says : "subsequent calls to the debounced function
+// return the result of the last func invocation". In our case, this causes to always get the result from precedent
+// execution, note the current one.
+// https://github.com/JedWatson/react-select/issues/3075
+const loadOptionsDebounced = debounce(loadEtsList, 400)
+
 export default function EtsSelect({
   name,
   disabled = false,
@@ -42,7 +49,7 @@ export default function EtsSelect({
         name={name}
         inputId={name}
         aria-label={name}
-        loadOptions={(search) => loadEtsList(search)}
+        loadOptions={loadOptionsDebounced}
         isClearable={true}
         placeholder="Tapez le nom d'un établissement"
         noOptionsMessage={() => "Aucun résultat"}
