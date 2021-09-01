@@ -40,6 +40,12 @@ export type PartialUserModel = {
   [Property in keyof UserModel]+?: UserModel[Property]
 }
 
+type Scope = Prisma.JsonObject & {
+  ets?: string
+  order?: string
+}
+
 export interface UserLoggedModel extends UserModel {
   isLoggedIn: boolean
+  scope: Scope
 }

@@ -1,23 +1,17 @@
 import { useRouter } from "next/router"
 import React from "react"
 
-import { Prisma } from ".prisma/client"
 import { OutlineButton } from "@/components/lib"
 import PrivateLayout from "@/components/PrivateLayout"
 import useUser from "@/hooks/useUser"
 import useSWR from "swr"
 import fetcher from "@/utils/fetcher"
 
-type Scope = Prisma.JsonObject & {
-  ets?: string
-  order?: string
-}
-
 const ProfilePage = () => {
   const router = useRouter()
   const { user } = useUser({ redirectToIfError: "/" })
 
-  const scope = user?.scope as Scope
+  const scope = user?.scope
 
   const { data: ets } = useSWR(
     scope?.ets ? `/api/ets/${scope.ets}` : null,
