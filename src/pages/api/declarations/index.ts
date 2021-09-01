@@ -17,15 +17,23 @@ import {
 import { jobsByOrders } from "@/utils/options"
 import { getEditorFromToken } from "@/services/editors"
 
-// TODO : filtrer les déclarations pour les autres rôles
 function buildWhereClause(user: UserLoggedModel) {
-  if (user.role === "Gestionnaire d'ordre") {
-    if (!(user?.scope as any)?.order)
-      throw new Error("This is not supposed to happen")
-    return {
-      job: {
-        in: jobsByOrders[(user.scope as any)?.order],
-      },
+  switch (user.role) {
+    case "Gestionnaire d'ordre": {
+      if (!user?.scope?.order) throw new Error("This is not supposed to happen")
+      return {
+        job: {
+          in: jobsByOrders[user.scope.order],
+        },
+      }
+    }
+    case "Gestionnaire établissement": {
+      if (!user?.scope?.ets) throw new Error("This is not supposed to happen")
+      return {
+        finesset: {
+          in: user.scope.ets,
+        },
+      }
     }
   }
 }

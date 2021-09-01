@@ -32,6 +32,9 @@ export const createDeclaration = async ({
   // Reminder : the id is generated client side, to prevent multiple submits.
   data.id = declaration.id
   data.declarationType = declaration.declarationType
+  if (declaration.finesset) {
+    data.finesset = declaration.finesset
+  }
   data.town = town
   data.postalCode = postalCode
 

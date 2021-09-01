@@ -11,6 +11,9 @@ import {
 } from "@/components/wizard/formReducer"
 import { firstStepUrl } from "@/components/wizard/stepFlows"
 import useUser from "@/hooks/useUser"
+import fetcher from "@/utils/fetcher"
+import useSWR from "swr"
+import { EtsModel } from "@/models/ets"
 
 function HomePage(): JSX.Element {
   const router = useRouter()
@@ -18,9 +21,15 @@ function HomePage(): JSX.Element {
 
   const { action } = useStateMachine(formReducer)
 
+  const { data: ets } = useSWR<{ data: EtsModel }>(
+    user?.scope?.ets ? `/api/ets/${user.scope.ets}` : null,
+    fetcher,
+  )
+
   function reinit() {
+    console.log("dans reinit", ets?.data?.finesset)
     reset({ action })
-    initEtsForm({ action })
+    initEtsForm({ action, finesset: ets?.data?.finesset || "" })
 
     router.push(firstStepUrl("ets"))
   }
