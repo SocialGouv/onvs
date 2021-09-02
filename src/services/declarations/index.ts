@@ -3,13 +3,18 @@ import { validate as uuidValidate } from "uuid"
 import prisma from "@/prisma/db"
 import {
   DeclarationModel,
+  DeclarationModelWithEditor,
   DeclarationType,
   schemaEts,
   schemaLiberal,
 } from "@/models/declarations"
 import { EditorModel } from "@/models/editor"
+import { UserLoggedModel } from "@/models/users"
+import { jobsByOrders } from "@/utils/options"
+import { findEts } from "@/services/ets"
+import { buildMetaPagination } from "@/utils/pagination"
 
-export const create = async (
+export const createDeclaration = async (
   declaration: DeclarationModel,
   editor: EditorModel,
 ): Promise<string | undefined> => {
@@ -39,11 +44,9 @@ export const create = async (
   return newDeclaration?.id
 }
 
-export const find = async ({
-  id,
-}: {
-  id: string
-}): Promise<DeclarationModel | null> => {
+export const findDeclaration = async (
+  id: string,
+): Promise<DeclarationModelWithEditor | null> => {
   if (!id || !uuidValidate(id)) {
     throw new Error("Bad request")
   }
@@ -52,7 +55,71 @@ export const find = async ({
     where: {
       id,
     },
+    include: {
+      editor: true,
+    },
   })
 
   return declaration
+}
+
+async function buildWhereClause(user: UserLoggedModel) {
+  switch (user.role) {
+    case "Gestionnaire d'ordre": {
+      if (!user?.scope?.order) throw new Error("This is not supposed to happen")
+      return {
+        job: {
+          in: jobsByOrders[user.scope.order],
+        },
+      }
+    }
+    case "Gestionnaire établissement": {
+      if (!user?.scope?.ets) throw new Error("This is not supposed to happen")
+
+      const ets = await findEts(user?.scope?.ets)
+
+      return {
+        finesset: {
+          in: ets?.finesset,
+        },
+      }
+    }
+  }
+}
+
+export async function searchDeclarations({
+  user,
+  pageIndex: initialPageIndex,
+  pageSize: initialPageSize,
+}: {
+  user: UserLoggedModel
+  pageIndex?: number
+  pageSize?: number
+}): Promise<{
+  declarations: DeclarationModel[]
+  pageIndex: number
+  totalCount: number
+  pageSize: number
+  totalPages: number
+}> {
+  const whereClause = await buildWhereClause(user)
+
+  const totalCount = await prisma.declaration.count({
+    where: whereClause,
+  })
+
+  const { pageIndex, pageSize, totalPages, prismaPaginationQueryParams } =
+    await buildMetaPagination({
+      totalCount,
+      pageIndex: initialPageIndex,
+      pageSize: initialPageSize,
+    })
+
+  const declarations = await prisma.declaration.findMany({
+    orderBy: [{ createdAt: "desc" }],
+    ...prismaPaginationQueryParams,
+    where: whereClause,
+  })
+
+  return { declarations, pageIndex, totalCount, pageSize, totalPages }
 }

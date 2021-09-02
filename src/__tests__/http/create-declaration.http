@@ -54,13 +54,16 @@ Content-Type: application/json
 
 ### Décla de type ETS.
 
+# 5e679014-eec3-4956-96f8-f084c616c54e: token ONVS
+# 8045dead-a8a8-4532-b9a9-3b6faf81498f : token BlueKango
+
 POST http://localhost:3030/api/declarations
 Content-Type: application/json
-Authorization: Bearer 5e679014-eec3-4956-96f8-f084c616c54e
+Authorization: Bearer 8045dead-a8a8-4532-b9a9-3b6faf81498f
 
 {
   "declarationType": "ets",
-  "finesset": "350023883",
+  "finesset": "350019337",
 
   // Champs génériques
   "date": "2021-07-16",

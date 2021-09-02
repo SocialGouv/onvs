@@ -1,4 +1,3 @@
-import PropTypes from "prop-types"
 import React from "react"
 
 // import Modal from "@/components/Modal"
@@ -11,17 +10,23 @@ import OutlineButton from "@/components/OutlineButton"
 
 export { PrimaryButton, OutlineButton }
 
-export const HeroTitle = ({ children }) => (
+export const HeroTitle = ({
+  children,
+}: {
+  children: React.ReactNode
+}): JSX.Element => (
   <h1 className="mt-6 text-2xl font-bold text-blue-200 md:text-4xl font-evolventa">
     {children}
   </h1>
 )
 
-HeroTitle.propTypes = {
-  children: PropTypes.string,
-}
-
-export const TitleCard = ({ children, className }) => (
+export const TitleCard = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className?: string
+}): JSX.Element => (
   <h1
     className={`mt-6 text-3xl font-bold leading-9 text-center text-gray-900 ${className}`}
   >
@@ -29,12 +34,13 @@ export const TitleCard = ({ children, className }) => (
   </h1>
 )
 
-TitleCard.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
-
-export const SubTitleCard = ({ children, className }) => (
+export const SubTitleCard = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className?: string
+}): JSX.Element => (
   <h2
     className={`mt-3 text-sm leading-5 text-center text-gray-600 ${className}`}
   >
@@ -42,26 +48,43 @@ export const SubTitleCard = ({ children, className }) => (
   </h2>
 )
 
-SubTitleCard.propTypes = TitleCard.propTypes
+export const Title1Declaration = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className: string
+}): JSX.Element => (
+  <h1
+    className={`text-lg text-center font-evolventa ${className} bg-blue-100 py-2 mt-8`}
+  >
+    {children}
+  </h1>
+)
 
-export const Title1 = ({ children, className }) => (
+export const Title1 = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className: string
+}): JSX.Element => (
   <h1 className={`text-lg text-center font-evolventa ${className}`}>
     {children}
   </h1>
 )
 
-Title1.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
-
-export const Title2 = ({ children, className }) => (
+export const Title2 = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className: string
+}): JSX.Element => (
   <h2 className={`text-lg text-left font-evolventa ${className}`}>
     {children}
   </h2>
 )
-
-Title2.propTypes = Title1.propTypes
 
 export const Input = ({
   ariaLabel,
@@ -70,7 +93,14 @@ export const Input = ({
   type = "text",
   required = false,
   placeholder,
-}) => (
+}: {
+  id?: string
+  ariaLabel?: string
+  name: string
+  type: "text" | "password" | "email"
+  required: boolean
+  placeholder: string
+}): JSX.Element => (
   <input
     aria-label={ariaLabel}
     name={name}
@@ -82,16 +112,17 @@ export const Input = ({
   />
 )
 
-Input.propTypes = {
-  ariaLabel: PropTypes.string,
-  id: PropTypes.string,
-  name: PropTypes.string,
-  placeholder: PropTypes.string,
-  required: PropTypes.bool,
-  type: PropTypes.oneOf(["text", "password", "email"]),
-}
-
-export const Checkbox = ({ ariaLabel, id, name, required = false }) => (
+export const Checkbox = ({
+  id,
+  ariaLabel,
+  name,
+  required = false,
+}: {
+  id: string
+  ariaLabel?: string
+  name?: string
+  required?: boolean
+}): JSX.Element => (
   <input
     aria-label={ariaLabel}
     name={name}
@@ -102,15 +133,16 @@ export const Checkbox = ({ ariaLabel, id, name, required = false }) => (
   />
 )
 
-Checkbox.propTypes = {
-  ariaLabel: PropTypes.string,
-  id: PropTypes.string,
-  name: PropTypes.string,
-  required: PropTypes.bool,
-}
-
 // Shows different groups with different colors
-export const Groups = ({ name, register, children }) => {
+export const Groups = ({
+  name,
+  register,
+  children,
+}: {
+  name: string
+  register: () => void
+  children: React.ReactNode
+}): JSX.Element | null => {
   if (!children) return null
 
   const expandedChildren = React.Children.map(children, (child) => {
@@ -127,13 +159,17 @@ export const Groups = ({ name, register, children }) => {
   )
 }
 
-Groups.propTypes = {
-  children: PropTypes.node,
-  name: PropTypes.string,
-  register: PropTypes.func,
-}
-
-export const Group = ({ name, register, value, color }) => {
+export const Group = ({
+  name,
+  register,
+  value,
+  color,
+}: {
+  name: string
+  register: () => void
+  value: string
+  color: string
+}): JSX.Element => {
   return (
     <div>
       <label className="inline-flex items-center">
@@ -150,13 +186,6 @@ export const Group = ({ name, register, value, color }) => {
   )
 }
 
-Group.propTypes = {
-  color: PropTypes.string,
-  name: PropTypes.string,
-  register: PropTypes.func,
-  value: PropTypes.string.isRequired,
-}
-
 // Shows options of a group with a same color. Options can be disabled.
 export const Options = ({
   name,
@@ -167,7 +196,16 @@ export const Options = ({
   allChecked = [],
   setValue,
   getValues,
-}) => {
+}: {
+  name
+  register
+  color: string
+  disabled: boolean
+  children
+  allChecked: string[]
+  setValue: () => void
+  getValues: () => any
+}): JSX.Element | null => {
   if (!children) return null
 
   // TODO: gérer la liste des options cockés en tant que contexte plutôt que passer le paramètre allChecked
@@ -183,7 +221,7 @@ export const Options = ({
         register,
         setValue,
         getValues,
-      })
+      } as React.HTMLAttributes<any>)
     }
     return child // It should not happen.
   })
@@ -193,18 +231,6 @@ export const Options = ({
       <div className="mt-2 space-y-2">{expandedChildren}</div>
     </div>
   )
-}
-
-Options.propTypes = {
-  allChecked: PropTypes.arrayOf(PropTypes.string),
-  children: PropTypes.node,
-  color: PropTypes.string,
-  disabled: PropTypes.bool,
-  name: PropTypes.string,
-  register: PropTypes.func,
-  values: PropTypes.array,
-  setValue: PropTypes.func,
-  getValues: PropTypes.func,
 }
 
 //TODO: séparer les options checkbox et les options text (p. ex. defaultChecked ne fonctionne pas pour les inputs text)
@@ -222,7 +248,21 @@ export const Option = ({
   allChecked,
   setValue,
   getValues,
-}) => {
+}: {
+  disabled: boolean
+  color: string
+  value: string
+  register: () => React.LegacyRef<HTMLInputElement> | undefined
+  name: string
+  precision: string
+  placeholder: string
+  error: string
+  hidden: boolean
+  info: string
+  allChecked: string[]
+  setValue: (name: string, value: string[]) => void
+  getValues: (name: string) => string[]
+}): JSX.Element => {
   const isChecked = allChecked.includes(value)
 
   return (
@@ -277,24 +317,13 @@ export const Option = ({
   )
 }
 
-Option.propTypes = {
-  allChecked: PropTypes.arrayOf(String),
-  color: PropTypes.string,
-  disabled: PropTypes.bool,
-  error: PropTypes.string,
-  hidden: PropTypes.bool,
-  info: PropTypes.string,
-  name: PropTypes.string,
-  onChangePrecision: PropTypes.func,
-  placeholder: PropTypes.string,
-  precision: PropTypes.string,
-  register: PropTypes.func,
-  value: PropTypes.string.isRequired,
-  setValue: PropTypes.func,
-  getValues: PropTypes.func,
-}
-
-export const Counter = ({ value = 0, onChange }) => {
+export const Counter = ({
+  value = 0,
+  onChange,
+}: {
+  value: number
+  onChange: (number) => void
+}): JSX.Element => {
   const add = () => {
     onChange(value + 1)
   }
@@ -330,11 +359,6 @@ export const Counter = ({ value = 0, onChange }) => {
   )
 }
 
-Counter.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.number,
-}
-
 export default Counter
 
 export const RadioInput = ({
@@ -343,7 +367,13 @@ export const RadioInput = ({
   register,
   defaultChecked = false,
   error,
-}) => {
+}: {
+  name: string
+  value: string
+  register: () => void
+  defaultChecked: boolean
+  error: string
+}): JSX.Element => {
   return (
     <div>
       <label className="inline-flex items-center">
@@ -361,15 +391,11 @@ export const RadioInput = ({
   )
 }
 
-RadioInput.propTypes = {
-  defaultChecked: PropTypes.bool,
-  error: PropTypes.object,
-  name: PropTypes.string.isRequired,
-  register: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
-}
-
-export const InputError = ({ error }) => {
+export const InputError = ({
+  error,
+}: {
+  error: string
+}): JSX.Element | null => {
   return error ? (
     <div role="alert" className="text-red-500">
       <span role="img" aria-label="Warning">
@@ -378,8 +404,4 @@ export const InputError = ({ error }) => {
       {error}
     </div>
   ) : null
-}
-
-InputError.propTypes = {
-  error: PropTypes.string,
 }

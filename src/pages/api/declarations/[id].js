@@ -1,6 +1,6 @@
 import Cors from "micro-cors"
 
-import { find } from "@/services/declarations"
+import { findDeclaration } from "@/services/declarations"
 import { isEmpty } from "@/utils/object"
 import { handleApiError, checkAllowedMethods } from "@/utils/api"
 import { pipe } from "lodash/fp"
@@ -10,7 +10,8 @@ const handler = async (req, res) => {
 
   switch (req.method) {
     case "GET": {
-      const act = await find(req.query)
+      const { id } = req.query
+      const act = await findDeclaration(id)
 
       if (!act || isEmpty(act)) {
         res
