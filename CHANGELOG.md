@@ -1,3 +1,10 @@
+# [2.30.0](https://github.com/SocialGouv/onvs/compare/v2.29.2...v2.30.0) (2021-09-06)
+
+
+### Features
+
+* management of ets user : set a scope, filter his list of declarations ([#196](https://github.com/SocialGouv/onvs/issues/196)) ([e223ba0](https://github.com/SocialGouv/onvs/commit/e223ba085827f1f51827d18582460e018191b44b))
+
 ## [2.29.2](https://github.com/SocialGouv/onvs/compare/v2.29.1...v2.29.2) (2021-08-30)
 
 
