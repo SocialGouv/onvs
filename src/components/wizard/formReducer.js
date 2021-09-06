@@ -25,7 +25,7 @@ const buildState = ({ state, step, data, stepName }) => {
 }
 
 export const formReducer = (state, payload) => {
-  const { step, data, event, declarationType, stepName } = payload
+  const { step, data, event, declarationType, stepName, finesset } = payload
 
   logDebug({ payload })
 
@@ -37,10 +37,14 @@ export const formReducer = (state, payload) => {
         ...buildEmptyState(),
         ...buildState({ data, state, step, stepName }),
         declarationType,
+        ...(finesset && { finesset }),
       }
     }
     case "SUBMIT": {
-      return buildState({ data, state, step, stepName })
+      return {
+        ...buildState({ data, state, step, stepName }),
+        ...(finesset && { finesset }),
+      }
     }
     case "GOTO": {
       const step = event.step
@@ -53,9 +57,10 @@ export function reset({ action }) {
   action({ event: { name: "RESET" } })
 }
 
-export function initEtsForm({ action }) {
+export function initEtsForm({ action, finesset }) {
   const payload = {
     declarationType: "ets",
+    finesset,
     event: { name: "INIT" },
     step: 0,
   }

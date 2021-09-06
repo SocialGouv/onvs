@@ -1,19 +1,17 @@
 import React from "react"
+import { Badge } from "./Badge"
 
 export function BadgeType({ type }: { type: string }): JSX.Element | null {
   switch (type) {
     case "ets": {
-      return (
-        <span className="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-blue-100 rounded-full">
-          Établissement
-        </span>
-      )
+      return <Badge content="Établissement" />
     }
     case "liberal": {
       return (
-        <span className="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-          Libéral
-        </span>
+        <Badge
+          content="Libéral"
+          colors={{ text: "text-green-800", bg: "bg-green-100" }}
+        />
       )
     }
     default: {

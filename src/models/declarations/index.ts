@@ -20,6 +20,7 @@ import {
   reasons,
 } from "@/utils/options"
 import { difference, uniq } from "lodash"
+import { EditorModel } from "../editor"
 
 export enum DeclarationType {
   Liberal = "liberal",
@@ -393,6 +394,10 @@ export const schema = z.union([schemaLiberal, schemaEts])
 // export type DeclarationApiType = z.infer<typeof DeclarationApiSchema>
 
 export type DeclarationModel = Declaration
+
+export type DeclarationModelWithEditor = Declaration & {
+  editor: EditorModel | null
+}
 
 export type DeclarationCreateInput = Prisma.DeclarationCreateInput
 

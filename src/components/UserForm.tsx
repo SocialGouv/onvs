@@ -19,6 +19,9 @@ import {
   MandatoryFieldFlag,
 } from "@/components/Form"
 import { Prisma } from ".prisma/client"
+import EtsSelect from "./EtsSelect"
+import useSWR from "swr"
+import fetcher from "@/utils/fetcher"
 
 const formSchema = yup.object({
   id: yup.string().optional(),
@@ -26,7 +29,7 @@ const formSchema = yup.object({
   lastName: yup.string().optional().default(null),
   email: yup
     .string()
-    .email()
+    .email("Le champ email est mal formé.")
     .required("Le champ email est requis.")
     .nullable(false),
   role: yup
@@ -42,11 +45,17 @@ const formSchema = yup.object({
             value: yup.string(),
           })
           .nullable()
-          .required("L'ordre est requis"),
+          .required("L'ordre est requis."),
       })
     } else if (role?.value === "Gestionnaire établissement") {
       return yup.object({
-        ets: yup.string().required(),
+        ets: yup
+          .object({
+            label: yup.string(),
+            value: yup.string(),
+          })
+          .nullable()
+          .required("L'établissement est requis."),
       })
     } else {
       return yup.object()
@@ -97,7 +106,9 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
     watch,
+    getValues,
   } = useForm({
     defaultValues: {
       ...emptyUser,
@@ -105,11 +116,32 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
       role: user?.role ? getRoleOption(user.role) : null,
       scope: {
         order: user?.scope?.order ? getOrderOption(user.scope.order) : null,
-        ets: user?.scope?.ets ? user.scope.ets : "",
+        ets: user?.scope?.ets ? { value: "", label: "" } : "",
       },
     },
     resolver: yupResolver(formSchema),
   })
+
+  const { data: ets } = useSWR(
+    user?.scope?.ets ? `/api/ets/${user.scope.ets}` : null,
+    fetcher,
+  )
+
+  React.useEffect(() => {
+    if (!ets?.data) {
+      return // loading
+    }
+
+    reset({
+      ...getValues(),
+      scope: {
+        ets: {
+          value: ets.data.id,
+          label: `${ets.data.rs} (${ets.data.finesset})`,
+        },
+      },
+    })
+  }, [reset, ets, getValues])
 
   const role = watch<string, SelectOption>("role")
 
@@ -183,12 +215,20 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
 
             {role?.value === "Gestionnaire établissement" && (
               <div className="sm:col-span-6">
-                <InputText
-                  label="ETS"
-                  name="scope.ets"
-                  register={register}
-                  errors={errors}
-                />
+                <Label>
+                  Établissement <MandatoryFieldFlag />
+                  <div className="mt-1">
+                    <EtsSelect
+                      name="scope.ets"
+                      control={control}
+                      errors={errors}
+                    />
+
+                    <AlertInput>
+                      {(errors?.scope?.["ets"] as FieldError)?.message}
+                    </AlertInput>
+                  </div>
+                </Label>
               </div>
             )}
             {role?.value === "Gestionnaire d'ordre" && (
@@ -199,18 +239,18 @@ const UserForm = ({ user, onSubmit, children }: Props): JSX.Element => {
                     <MandatoryFieldFlag />
                   </span>
                   <Controller
+                    as={Select}
                     options={ordersOptions}
                     name="scope.order"
                     inputId="scope.order"
                     control={control}
-                    as={Select}
                     placeholder="Choisir..."
                     aria-invalid={Boolean(errors?.scope?.["order"])}
                   />
                 </Label>
                 <AlertInput>
                   {(errors?.scope?.["order"] as FieldError)?.message}
-                </AlertInput>{" "}
+                </AlertInput>
               </div>
             )}
           </div>

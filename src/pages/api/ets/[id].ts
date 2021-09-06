@@ -1,10 +1,10 @@
 import Cors from "micro-cors"
 
-import prisma from "@/prisma/db"
 import { BadRequestError, InexistingResourceError } from "@/utils/errors"
 import { EtsApiSchema } from "@/models/ets"
 import { checkAllowedMethods, handleApiError } from "@/utils/api"
 import { pipe } from "lodash/fp"
+import { deleteEts, findEts, updateEts } from "@/services/ets"
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
@@ -20,11 +20,7 @@ const handler = async (req, res) => {
         throw new BadRequestError("Bad inputs")
       }
 
-      const existingEts = await prisma.ets.findUnique({
-        where: {
-          id,
-        },
-      })
+      const existingEts = await findEts(id)
 
       if (!existingEts) {
         throw new InexistingResourceError(
@@ -32,11 +28,9 @@ const handler = async (req, res) => {
         )
       }
 
-      const updatedEts = await prisma.ets.update({
-        where: {
-          id,
-        },
-        data: parsedEts,
+      const updatedEts = updateEts({
+        id,
+        ets: parsedEts,
       })
 
       return res.status(200).json({ data: updatedEts })
@@ -46,11 +40,7 @@ const handler = async (req, res) => {
         throw new BadRequestError("Bad inputs")
       }
 
-      const ets = await prisma.ets.findFirst({
-        where: {
-          id,
-        },
-      })
+      const ets = await findEts(id)
 
       if (!ets) {
         throw new InexistingResourceError(`There is no ETS for the id ${id}.`)
@@ -60,11 +50,7 @@ const handler = async (req, res) => {
     }
     case "DELETE": {
       // TODO: empêcher de supprimer logiquement un ETS si des gestionnaire d'ets existent pour cet ets ?
-      await prisma.ets.delete({
-        where: {
-          id,
-        },
-      })
+      await deleteEts(id)
 
       return res.status(200).json({})
     }

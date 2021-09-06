@@ -557,10 +557,8 @@ const buildSelectOptions = (array) =>
     label: item,
   }))
 
-const getSelectOption =
-  (array: SelectOption[]) =>
-  (value: string): { value: string; label: string } =>
-    array.filter((item) => item.value === value)?.[0] || null
+const getSelectOption = (array: SelectOption[]) => (value: string) =>
+  array.filter((item) => item.value === value)?.[0] || null
 
 export const hoursOptions = buildSelectOptions(hours)
 export const locationMainOptions = buildSelectOptions(etsMainLocations)

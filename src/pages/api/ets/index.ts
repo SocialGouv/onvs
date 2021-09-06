@@ -80,7 +80,7 @@ const handler = async (req, res) => {
   }
 }
 
-const allowMethods = ["GET"]
+const allowMethods = ["GET", "POST"]
 
 export default pipe(
   Cors({
