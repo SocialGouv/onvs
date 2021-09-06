@@ -27,7 +27,6 @@ function HomePage(): JSX.Element {
   )
 
   function reinit() {
-    console.log("dans reinit", ets?.data?.finesset)
     reset({ action })
     initEtsForm({ action, finesset: ets?.data?.finesset || "" })
 
