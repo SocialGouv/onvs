@@ -229,13 +229,13 @@ const VictimsAuthorsPart = ({ data }: { data: DeclarationModel }) => {
         </div>
       ))}
       {pursuit && (
-        <p>
+        <p className="flex">
           <span className="inline-block w-48 ">Suites judiciaires</span>
           {pursuit.type}
         </p>
       )}
       {pursuitBy?.length && (
-        <p>
+        <p className="flex">
           <span className="inline-block w-48 ">Par</span>
           {pursuitBy.join(", ")}
         </p>
@@ -251,7 +251,7 @@ const VictimsAuthorsPart = ({ data }: { data: DeclarationModel }) => {
             )}
             .
           </p>
-          <p>
+          <p className="flex">
             <span className="inline-block w-48 ">
               Altération du discernement
             </span>
@@ -262,8 +262,8 @@ const VictimsAuthorsPart = ({ data }: { data: DeclarationModel }) => {
       ))}
 
       {thirdParty && (
-        <p>
-          <span className="inline-block w-48 ">Intervention de tiers</span>
+        <p className="flex">
+          <span className="inline-block w-48">Intervention de tiers</span>
           {thirdParty
             ?.map((elt) =>
               Array.isArray(elt) ? `${elt?.[0]} (${elt?.[1]})` : elt,
@@ -283,13 +283,13 @@ const FinalPrecisionsPart = ({ data }: { data: DeclarationModel }) => {
       </Title1Declaration>
 
       <p className="flex">
-        <p className="font-bold">Description</p>
-        <p className="ml-4">{data.description}</p>
+        <p className="font-bold w-48">Description</p>
+        <p>{data.description}</p>
       </p>
       {/* Those data doesn't exist for hospital flow */}
       {data.declarantContactAgreement !== null && (
         <p>
-          <span className="inline-block font-bold">Consentement</span>
+          <span className="inline-block font-bold w-48">Consentement</span>
           {data.declarantContactAgreement === true ? "Oui" : "Non"}
         </p>
       )}
