@@ -2,6 +2,7 @@ import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { format } from "date-fns"
+import { saveAs } from "file-saver"
 
 import { Declaration } from "@prisma/client"
 import Alert from "@/components/Alert"
@@ -12,6 +13,8 @@ import { BadgeType } from "@/components/BadgeType"
 import { extractPaginationVariables, useList } from "@/hooks/useList"
 import { FORMAT_DATE } from "@/utils/constants"
 import { upperCaseFirstLetters } from "@/utils/string"
+import { API_URL } from "@/utils/config"
+import OutlineButton from "@/components/OutlineButton"
 
 function composeContactAgreementLabel(data) {
   return data === true ? (
@@ -41,80 +44,96 @@ function DeclarationAdministration() {
     router,
   })
 
-  const { isLoading, message, list } = paginatedData
+  const { isLoading, message, list, totalCount } = paginatedData
 
   return (
-    <PrivateLayout title="Déclarations" leftComponent={null}>
+    <PrivateLayout
+      title="Déclarations"
+      leftComponent={null}
+      rightComponent={
+        <OutlineButton
+          tabIndex={0}
+          onClick={() => saveAs(`${API_URL}/declarations/export`)}
+          disabled={!totalCount}
+        >
+          Exporter
+        </OutlineButton>
+      }
+    >
       <Alert message={message} />
 
       {isLoading ? (
         "Chargement..."
       ) : (
-        <Table
-          headers={[
-            "Date de déclaration",
-            "Type",
-            "Métier",
-            "Ville",
-            "Description",
-            "À contacter",
-            "",
-          ].map((header) => (
-            <th
-              key={header}
-              scope="col"
-              className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
-            >
-              {header}
-            </th>
-          ))}
-          rows={list?.map((declaration) => (
-            <tr
-              key={declaration.id}
-              onClick={() => router.push(`/declaration/${declaration.id}`)}
-              className="cursor-pointer"
-            >
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">
-                  {declaration?.date
-                    ? format(
-                        new Date(declaration.createdAt as Date),
-                        FORMAT_DATE,
-                      )
-                    : "N/A"}
-                </div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-800">
-                  {declaration.declarationType && (
-                    <BadgeType type={declaration.declarationType} />
-                  )}
-                </div>
-              </td>
-              <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                {declaration.job}
-              </td>
-              <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                {upperCaseFirstLetters(declaration.town)}
-              </td>
-              <td className="px-6 py-4 text-sm text-gray-800">
-                <span className="line-clamp-4">{declaration.description}</span>
-              </td>
-              <td className="px-6 py-4 text-sm text-gray-800">
-                <span className="line-clamp-4">
-                  {composeContactAgreementLabel(
-                    declaration.declarantContactAgreement,
-                  )}
-                </span>
-              </td>
-              <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                <Link href={`/declaration/${declaration.id}`}>
-                  <a className="text-blue-600 hover:text-blue-900">Fiche</a>
-                </Link>
-              </td>
-            </tr>
-          ))}
-        />
+        <>
+          <Table
+            headers={[
+              "Date de déclaration",
+              "Type",
+              "Métier",
+              "Ville",
+              "Description",
+              "À contacter",
+              "",
+            ].map((header) => (
+              <th
+                key={header}
+                scope="col"
+                className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-800 uppercase"
+              >
+                {header}
+              </th>
+            ))}
+            rows={list?.map((declaration) => (
+              <tr
+                key={declaration.id}
+                onClick={() => router.push(`/declaration/${declaration.id}`)}
+                className="cursor-pointer"
+              >
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-gray-900">
+                    {declaration?.date
+                      ? format(
+                          new Date(declaration.createdAt as Date),
+                          FORMAT_DATE,
+                        )
+                      : "N/A"}
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-gray-800">
+                    {declaration.declarationType && (
+                      <BadgeType type={declaration.declarationType} />
+                    )}
+                  </div>
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                  {declaration.job}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                  {upperCaseFirstLetters(declaration.town)}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-800">
+                  <span className="line-clamp-4">
+                    {declaration.description}
+                  </span>
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-800">
+                  <span className="line-clamp-4">
+                    {composeContactAgreementLabel(
+                      declaration.declarantContactAgreement,
+                    )}
+                  </span>
+                </td>
+                <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                  <Link href={`/declaration/${declaration.id}`}>
+                    <a className="text-blue-600 hover:text-blue-900">Fiche</a>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          />
+        </>
       )}
       <Pagination pageIndex={pageIndex} {...paginatedData} />
     </PrivateLayout>

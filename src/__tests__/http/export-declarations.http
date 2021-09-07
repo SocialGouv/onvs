@@ -1,0 +1,11 @@
+### Login
+POST http://localhost:3030/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@onvs.fr",
+    "password": "test"
+}
+
+### Liste des déclarations
+GET http://localhost:3030/api/declarations/export

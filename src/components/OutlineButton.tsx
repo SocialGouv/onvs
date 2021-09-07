@@ -33,8 +33,8 @@ const OutlineButton = ({
     <button
       type={type}
       className={classNames(
-        "px-6 py-2 text-sm tracking-wider uppercase rounded font-source border ${colorStyle}",
-        VARIANT_MAPS[variant],
+        "px-6 py-2 text-sm tracking-wider uppercase rounded font-source border disabled:opacity-50 ${colorStyle}",
+        disabled ? "cursor-not-allowed" : VARIANT_MAPS[variant],
       )}
       tabIndex={tabIndex}
       disabled={disabled}
