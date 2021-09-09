@@ -1,3 +1,10 @@
+## [2.30.1](https://github.com/SocialGouv/onvs/compare/v2.30.0...v2.30.1) (2021-09-09)
+
+
+### Bug Fixes
+
+* **k8s:** upgrade for kube 1.2 ([#199](https://github.com/SocialGouv/onvs/issues/199)) ([a4d809f](https://github.com/SocialGouv/onvs/commit/a4d809fe1fde696488e7f46b68485a3f9130417b))
+
 # [2.30.0](https://github.com/SocialGouv/onvs/compare/v2.29.2...v2.30.0) (2021-09-06)
 
 
