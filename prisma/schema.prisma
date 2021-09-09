@@ -13,7 +13,6 @@ model Declaration {
   updatedAt                 DateTime? @map("updated_at") @db.Timestamptz(6)
   declarationType           String    @map("declaration_type") @db.VarChar(60)
   job                       String?   @db.VarChar(255)
-  date                      String    @db.VarChar(30)
   hour                      String    @db.VarChar(60)
   town                      String    @db.VarChar(255)
   description               String
@@ -34,6 +33,7 @@ model Declaration {
   reasons                   Json?
   reasonNotApparent         Boolean   @default(false) @map("reason_not_apparent")
   editorId                  String?   @map("editor_id") @db.Uuid
+  date                      DateTime  @db.Date
   editor                    Editor?   @relation("declarationsToeditors", fields: [editorId], references: [id])
 
   @@map("declarations")

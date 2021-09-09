@@ -26,6 +26,7 @@ const schema = yup.object().shape({
       "past or present ISO date representation",
       "La date ne peut pas être future",
       function (value) {
+        // TODO: utiliser isValid à la place. Car parseISO rend toujours une Date, donc la comparaison suivante est toujours fausse.
         const date = parseISO(value)
         if (date === "Invalid Date") return false
         return !isFuture(date)

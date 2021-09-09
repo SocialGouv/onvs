@@ -233,7 +233,9 @@ export type FactGoodsSchema = z.infer<typeof factGoodsSchema>
 // Fields available for all declaration types.
 const baseSchemaDeclarationApi = z.object({
   id: z.string().uuid().optional(),
-  date: z.string(),
+  date: z.string().regex(/^(\d{4})-(\d{2})-(\d{2})$/, {
+    message: "La date doit avoir un format ISO (YYYY-MM-DD)",
+  }),
   hour: z.string(), // TODO use an enum for hours see Step1.js
   town: z.string(),
   postalCode: z.string().min(4).max(5),
