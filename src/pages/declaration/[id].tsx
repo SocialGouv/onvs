@@ -1,4 +1,4 @@
-import { format, parse, parseISO } from "date-fns"
+import { format, parseISO } from "date-fns"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
@@ -74,7 +74,7 @@ const DatePart = ({ data }: { data: DeclarationModel }) => {
         <span className="inline-block w-48 mt-4 font-bold">
           {"Date de l'évènement"}
         </span>
-        {format(parse(data.date, "yyyy-MM-dd", new Date()), "dd/MM/yyyy")}
+        {format(parseISO(data.date as unknown as string), "dd/MM/yyyy")}
       </p>
       <p>
         <span className="inline-block w-48 font-bold">Horaire</span>
