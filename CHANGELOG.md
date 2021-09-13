@@ -1,3 +1,10 @@
+# [2.31.0](https://github.com/SocialGouv/onvs/compare/v2.30.2...v2.31.0) (2021-09-13)
+
+
+### Features
+
+* the date field is now of type Date in db 🚀 ([#198](https://github.com/SocialGouv/onvs/issues/198)) ([12cb3c9](https://github.com/SocialGouv/onvs/commit/12cb3c98386a68b3e13c273447678c76b64f32df))
+
 ## [2.30.2](https://github.com/SocialGouv/onvs/compare/v2.30.1...v2.30.2) (2021-09-13)
 
 
