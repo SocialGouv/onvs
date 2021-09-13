@@ -1,3 +1,10 @@
+## [2.30.2](https://github.com/SocialGouv/onvs/compare/v2.30.1...v2.30.2) (2021-09-13)
+
+
+### Bug Fixes
+
+* **deps:** update all dependencies ([#200](https://github.com/SocialGouv/onvs/issues/200)) ([0fd1916](https://github.com/SocialGouv/onvs/commit/0fd1916b5dcc0dfeec439bf5c5e75aa179a68638))
+
 ## [2.30.1](https://github.com/SocialGouv/onvs/compare/v2.30.0...v2.30.1) (2021-09-09)
 
 
