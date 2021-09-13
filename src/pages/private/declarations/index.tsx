@@ -3,6 +3,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { format } from "date-fns"
 import { saveAs } from "file-saver"
+import debounce from "debounce-promise"
 
 import { Declaration } from "@prisma/client"
 import Alert from "@/components/Alert"
@@ -15,6 +16,7 @@ import { FORMAT_DATE } from "@/utils/constants"
 import { upperCaseFirstLetters } from "@/utils/string"
 import { API_URL } from "@/utils/config"
 import OutlineButton from "@/components/OutlineButton"
+import { Input } from "@/components/lib"
 
 function composeContactAgreementLabel(data) {
   return data === true ? (
@@ -35,16 +37,28 @@ function composeContactAgreementLabel(data) {
 function DeclarationAdministration() {
   const router = useRouter()
 
+  const formRef = React.useRef(null)
+
   const { pageIndex, pageSize } = extractPaginationVariables(router.query)
+  const { startDate, endDate } = router.query
 
   const paginatedData = useList<Declaration>({
     apiUrl: "/api/declarations",
     pageIndex,
     pageSize,
     router,
+    options: { startDate, endDate },
   })
 
   const { isLoading, message, list, totalCount } = paginatedData
+
+  function handleSubmit() {
+    const params = buildSearchParams(formRef)
+
+    router.replace("/private/declarations?" + params.toString())
+  }
+
+  const handleSubmitDebounced = debounce(handleSubmit, 400)
 
   return (
     <PrivateLayout
@@ -53,7 +67,11 @@ function DeclarationAdministration() {
       rightComponent={
         <OutlineButton
           tabIndex={0}
-          onClick={() => saveAs(`${API_URL}/declarations/export`)}
+          onClick={() => {
+            const params = buildSearchParams(formRef)
+
+            saveAs(`${API_URL}/declarations/export?${params.toString()}`)
+          }}
           disabled={!totalCount}
         >
           Exporter
@@ -61,6 +79,28 @@ function DeclarationAdministration() {
       }
     >
       <Alert message={message} />
+
+      <form
+        ref={formRef}
+        className="mt-5 flex justify-center bg-blue-50 p-4 mb-4 rounded-md"
+        noValidate
+        id="my-form"
+      >
+        <div>
+          <label htmlFor="startDate">Date de début</label>
+
+          <Input
+            name="startDate"
+            type="date"
+            onChange={handleSubmitDebounced}
+          />
+        </div>
+        <div className="ml-16">
+          <label htmlFor="endDate">Date de fin</label>
+
+          <Input name="endDate" type="date" onChange={handleSubmitDebounced} />
+        </div>
+      </form>
 
       {isLoading ? (
         "Chargement..."
@@ -141,3 +181,13 @@ function DeclarationAdministration() {
 }
 
 export default DeclarationAdministration as React.ReactNode
+function buildSearchParams(formRef: React.MutableRefObject<null>) {
+  const data = new FormData(formRef.current as unknown as HTMLFormElement)
+
+  const { startDate, endDate } = Object.fromEntries(data)
+
+  const params = new URLSearchParams()
+  params.set("startDate", startDate?.toString())
+  params.set("endDate", endDate?.toString())
+  return params
+}

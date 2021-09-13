@@ -93,13 +93,15 @@ export const Input = ({
   type = "text",
   required = false,
   placeholder,
+  onChange,
 }: {
   id?: string
   ariaLabel?: string
   name: string
-  type: "text" | "password" | "email"
-  required: boolean
-  placeholder: string
+  type: "text" | "password" | "email" | "date"
+  required?: boolean
+  placeholder?: string
+  onChange?: (event) => void
 }): JSX.Element => (
   <input
     aria-label={ariaLabel}
@@ -109,6 +111,7 @@ export const Input = ({
     required={!!required}
     className="relative block w-full px-3 py-2 mt-1 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
     placeholder={placeholder}
+    onChange={onChange}
   />
 )
 

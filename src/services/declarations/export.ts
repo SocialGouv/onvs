@@ -1,11 +1,23 @@
+import { UserLoggedModel } from "@/models/users"
 import prisma from "@/prisma/db"
+import { formatISO } from "date-fns"
 import Excel from "exceljs"
+import { buildWhereClause } from "."
 
-export async function exportDeclarations(query, user) {
-  console.log("query", query)
+export async function exportDeclarations({
+  startDate,
+  endDate,
+  user,
+}: {
+  startDate?: string
+  endDate?: string
+  user: UserLoggedModel
+}): Promise<Excel.Workbook> {
+  const whereClause = await buildWhereClause(user, startDate, endDate)
 
   const declarations = await prisma.declaration.findMany({
     orderBy: [{ createdAt: "desc" }],
+    where: whereClause,
   })
 
   const workbook = new Excel.Workbook()
@@ -62,11 +74,11 @@ export async function exportDeclarations(query, user) {
 
   inputsWorksheet.addRow({
     name: "Date de l'export",
-    value: new Date(),
+    value: formatISO(new Date(), { representation: "date" }),
   })
   inputsWorksheet.addRow({})
-  inputsWorksheet.addRow({ name: "Date de début", value: query?.startDate })
-  inputsWorksheet.addRow({ name: "Date de fin", value: query?.endDate })
+  inputsWorksheet.addRow({ name: "Date de début", value: startDate })
+  inputsWorksheet.addRow({ name: "Date de fin", value: endDate })
   //   inputsWorksheet.addRow({ name: "Établissements", value: params?.hospitals })
   //   inputsWorksheet.addRow({ name: "Profils", value: params?.profiles })
   //   inputsWorksheet.addRow({ name: "Demandeur", value: params?.asker })

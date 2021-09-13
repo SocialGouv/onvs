@@ -1,6 +1,5 @@
 import Cors from "micro-cors"
 import { NextApiRequest, NextApiResponse } from "next"
-import { z } from "zod"
 import { pipe } from "lodash/fp"
 
 import withSession from "@/lib/session"
@@ -31,7 +30,7 @@ const handler = async (
         "attachment; filename=" + "Report.xlsx",
       )
 
-      const workbook = await exportDeclarations(req.query, user)
+      const workbook = await exportDeclarations({ ...req.query, user })
 
       await workbook.xlsx.write(res)
 

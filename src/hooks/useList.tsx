@@ -25,6 +25,7 @@ type Props = {
   pageSize?: number
   search?: string // TODO : make filters more generic
   router: NextRouter
+  options?: any
 }
 
 type ReturnType<T> = {
@@ -107,6 +108,7 @@ export function useList<T>({
   pageSize = 50,
   search,
   router,
+  options,
 }: Props): ReturnType<T> {
   // We need to retrieve the params from URL bar, since search is not in the useList at first (because of debounce).
   const { pathName } = extractPathAndSearchParams(router)
@@ -115,6 +117,7 @@ export function useList<T>({
     pageIndex: String(pageIndex),
     pageSize: String(pageSize),
     search,
+    ...options,
   })
 
   const {
@@ -153,8 +156,9 @@ export function useList<T>({
   const totalCount = data?.totalCount || 0
   const totalPages = data?.totalPages || 0
 
-  const firstElement = pageIndex * pageSize + 1
-  const lastElement = firstElement + (list?.length || 0) - 1
+  const firstElement = totalCount === 0 ? 0 : pageIndex * pageSize + 1
+  const lastElement =
+    totalCount === 0 ? 0 : firstElement + (list?.length || 0) - 1
 
   return {
     error,
