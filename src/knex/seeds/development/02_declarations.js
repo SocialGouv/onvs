@@ -1,3 +1,4 @@
+const { parseISO } = require("date-fns")
 const { v4: uuid } = require("uuid")
 
 // NB: all passwords are bcrypted and have the value "test"
@@ -11,7 +12,7 @@ exports.seed = function (knex) {
           authors:
             '[{"age": "- de 18 ans", "type": "Accompagnant/Visiteur/Famille", "gender": "Masculin" }]',
           created_at: "2021-05-04 13:33:44.988147+00",
-          date: "2021-05-04",
+          date: parseISO("2021-05-04"),
           declarant_contact_agreement: false,
           declarant_email: null,
           declarant_external_id: null,
@@ -48,7 +49,7 @@ exports.seed = function (knex) {
           authors:
             '[{"age": "- de 18 ans", "type": "Accompagnant/Visiteur/Famille", "gender": "Masculin"}]',
           created_at: "2021-05-04 13:34:53.18524+00",
-          date: "2021-05-04",
+          date: parseISO("2021-05-04"),
           description: "test ets",
           location: {
             "Dans quel service ?": "Accueil Mère/enfant",
@@ -77,7 +78,7 @@ exports.seed = function (knex) {
           authors:
             '[{"age": "+ de 18 ans", "type": "Détenu", "gender": "Masculin"}]',
           created_at: "2021-04-22 20:39:14.915979+00",
-          date: "2021-04-22",
+          date: parseISO("2021-04-22"),
           declarant_contact_agreement: false,
           declarant_email: null,
           declarant_external_id: null,
@@ -111,7 +112,7 @@ exports.seed = function (knex) {
           authors:
             '[{"age": "- de 18 ans", "type": "Accompagnant/Visiteur/Famille", "gender": "Féminin"}]',
           created_at: "2021-04-21 14:54:11.242723+00",
-          date: "2021-04-21",
+          date: parseISO("2021-04-21"),
           declarant_contact_agreement: null,
           declarant_email: null,
           declarant_external_id: null,

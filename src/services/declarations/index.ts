@@ -13,9 +13,10 @@ import { UserLoggedModel } from "@/models/users"
 import { jobsByOrders } from "@/utils/options"
 import { findEts } from "@/services/ets"
 import { buildMetaPagination } from "@/utils/pagination"
+import { parseISO } from "date-fns"
 
 export const createDeclaration = async (
-  declaration: DeclarationModel,
+  declaration: DeclarationModel & { date: string },
   editor: EditorModel,
 ): Promise<string | undefined> => {
   switch (declaration?.declarationType) {
@@ -37,8 +38,12 @@ export const createDeclaration = async (
     }
   }
 
+  // The Timezone offset has to be added to not be overrided by API server TZ configuration.
+  // In other words, w/o that, the date with an API server in France will be the day before the day in input 😕.
+  const date = parseISO(declaration.date + "T00:00:00.000Z")
+
   const newDeclaration = await prisma.declaration.create({
-    data: declaration,
+    data: { ...declaration, date },
   })
 
   return newDeclaration?.id
