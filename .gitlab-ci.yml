@@ -56,7 +56,7 @@ Create seeds DB (dev):
     variables:
         POSTGRES_SSL: "true"
         PGHOST: onvsdevserver.postgres.database.azure.com
-        DATABASE_URL: postgresql://user_${CI_ENVIRONMENT_SLUG}%40${PGHOST}:password_${CI_ENVIRONMENT_SLUG}@${PGHOST}/autodevops_${CI_ENVIRONMENT_SLUG}?sslmode=require
+        DATABASE_URL: postgresql://user_${CI_COMMIT_REF_SLUG}%40${PGHOST}:password_${CI_COMMIT_REF_SLUG}@${PGHOST}/autodevops_${CI_COMMIT_REF_SLUG}?sslmode=require
     script:
         - yarn --frozen-lockfile
         - yarn migrate:latest
