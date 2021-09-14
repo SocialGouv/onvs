@@ -1,3 +1,10 @@
+## [2.31.1](https://github.com/SocialGouv/onvs/compare/v2.31.0...v2.31.1) (2021-09-14)
+
+
+### Bug Fixes
+
+* **ci:** fix seeds ([#202](https://github.com/SocialGouv/onvs/issues/202)) ([02cee1b](https://github.com/SocialGouv/onvs/commit/02cee1bf580948d241dd65cb521ff30db906488f))
+
 # [2.31.0](https://github.com/SocialGouv/onvs/compare/v2.30.2...v2.31.0) (2021-09-13)
 
 
