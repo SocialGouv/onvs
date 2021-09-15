@@ -1,6 +1,6 @@
 export const toastConfig = {
   error: {
-    appearance: "error",
+    appearance: "error" as const,
     autoDismiss: true,
     transitionDuration: 400,
   },

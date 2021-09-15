@@ -1,5 +1,6 @@
 import { UserLoggedModel } from "@/models/users"
 import prisma from "@/prisma/db"
+import { EXPORT_LIMIT } from "@/utils/constants"
 import { formatISO } from "date-fns"
 import Excel from "exceljs"
 import { buildWhereClause } from "."
@@ -14,6 +15,14 @@ export async function exportDeclarations({
   user: UserLoggedModel
 }): Promise<Excel.Workbook> {
   const whereClause = await buildWhereClause(user, startDate, endDate)
+
+  const totalCount = await prisma.declaration.count({
+    where: whereClause,
+  })
+
+  if (totalCount > EXPORT_LIMIT) {
+    throw new Error(`Too many rows (limit is ${EXPORT_LIMIT})`)
+  }
 
   const declarations = await prisma.declaration.findMany({
     orderBy: [{ createdAt: "desc" }],
@@ -79,9 +88,6 @@ export async function exportDeclarations({
   inputsWorksheet.addRow({})
   inputsWorksheet.addRow({ name: "Date de début", value: startDate })
   inputsWorksheet.addRow({ name: "Date de fin", value: endDate })
-  //   inputsWorksheet.addRow({ name: "Établissements", value: params?.hospitals })
-  //   inputsWorksheet.addRow({ name: "Profils", value: params?.profiles })
-  //   inputsWorksheet.addRow({ name: "Demandeur", value: params?.asker })
   inputsWorksheet.addRow({})
   inputsWorksheet.addRow({
     name: "Email de l'utilisateur",

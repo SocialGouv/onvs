@@ -1,7 +1,7 @@
 import React, { ButtonHTMLAttributes } from "react"
 import { classNames } from "@/utils/classnames"
 
-type Variant = "blue" | "red" | "yellow"
+type Variant = "blue" | "red" | "yellow" | "default"
 
 type Props = {
   children: React.ReactNode
@@ -17,6 +17,7 @@ const VARIANT_MAPS: Record<Variant, string> = {
   yellow:
     "text-yellow-600 border-yellow-600 hover:text-white hover:bg-yellow-400",
   blue: "text-blue-600 border-blue-500 hover:text-white hover:bg-blue-500",
+  default: "",
 }
 
 const OutlineButton = ({
@@ -24,8 +25,8 @@ const OutlineButton = ({
   onClick,
   type = "button",
   tabIndex = 0,
+  variant = "default",
   disabled = false,
-  variant = "blue",
 }: Props): JSX.Element => {
   const props = onClick ? { onClick } : {}
 
