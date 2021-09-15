@@ -6,17 +6,19 @@ import { saveAs } from "file-saver"
 import debounce from "debounce-promise"
 
 import { Declaration } from "@prisma/client"
-import Alert from "@/components/Alert"
+import Alert, { AlertMessageType } from "@/components/Alert"
 import Pagination from "@/components/Pagination"
 import PrivateLayout from "@/components/PrivateLayout"
 import Table from "@/components/Table"
 import { BadgeType } from "@/components/BadgeType"
 import { extractPaginationVariables, useList } from "@/hooks/useList"
-import { FORMAT_DATE } from "@/utils/constants"
+import { EXPORT_LIMIT, FORMAT_DATE } from "@/utils/constants"
 import { upperCaseFirstLetters } from "@/utils/string"
 import { API_URL } from "@/utils/config"
 import OutlineButton from "@/components/OutlineButton"
 import { Input } from "@/components/lib"
+import { toastConfig } from "@/config"
+import { useToasts } from "react-toast-notifications"
 
 function composeContactAgreementLabel(data) {
   return data === true ? (
@@ -34,8 +36,26 @@ function composeContactAgreementLabel(data) {
   )
 }
 
+function getFilters(formRef: React.MutableRefObject<null>) {
+  const data = new FormData(formRef.current as unknown as HTMLFormElement)
+
+  return Object.fromEntries(data)
+}
+
+function buildSearchParams(formRef: React.MutableRefObject<null>) {
+  const { startDate, endDate } = getFilters(formRef)
+
+  const params = new URLSearchParams()
+  params.set("startDate", startDate?.toString())
+  params.set("endDate", endDate?.toString())
+  return params
+}
+
 function DeclarationAdministration() {
   const router = useRouter()
+  const [errorExport, setErrorExport] = React.useState<AlertMessageType>()
+  const [filtersOpened, setFiltersOpened] = React.useState(false)
+  const { addToast } = useToasts()
 
   const formRef = React.useRef(null)
 
@@ -53,12 +73,27 @@ function DeclarationAdministration() {
   const { isLoading, message, list, totalCount } = paginatedData
 
   function handleSubmit() {
+    setErrorExport(undefined)
+
     const params = buildSearchParams(formRef)
 
     router.replace("/private/declarations?" + params.toString())
   }
 
   const handleSubmitDebounced = debounce(handleSubmit, 400)
+
+  /**
+   * Je veux mettre des filtres.
+   * Mais quand je ferme le volet, les inputs perdent leurs valeurs. (parce que le form n'est plus dans le dom je pense).
+   * Or, les data sont toujours dans l'URL et l'appel de l'API est incohérent.
+   *
+   * Ça me paraît compliqué de gérer ça par l'URL.
+   * Options :
+   * - ne pas mettre à jour l'URL
+   * - utiliser RHF (cf Medlé)
+   *
+   * Voir aussi si le toast fonctionne bien si le nombre de résultat est trop grand pour l'export.
+   */
 
   return (
     <PrivateLayout
@@ -69,6 +104,16 @@ function DeclarationAdministration() {
           tabIndex={0}
           onClick={() => {
             const params = buildSearchParams(formRef)
+            if (totalCount > EXPORT_LIMIT) {
+              addToast(
+                <div className="text-lg">
+                  {`Le nombre d'éléments dépasse ${EXPORT_LIMIT} 😅. Veuillez filtrer votre recherche, svp.`}
+                </div>,
+                toastConfig.error,
+              )
+
+              return
+            }
 
             saveAs(`${API_URL}/declarations/export?${params.toString()}`)
           }}
@@ -78,34 +123,48 @@ function DeclarationAdministration() {
         </OutlineButton>
       }
     >
-      <Alert message={message} />
+      <Alert message={errorExport || message} />
 
-      <form
-        ref={formRef}
-        className="mt-5 flex justify-center bg-blue-50 p-4 mb-4 rounded-md"
-        noValidate
-        id="my-form"
+      <OutlineButton
+        onClick={() => {
+          setFiltersOpened((filtersOpened) => !filtersOpened)
+        }}
       >
-        <div>
-          <label htmlFor="startDate">Date de début</label>
+        Filtres
+      </OutlineButton>
 
-          <Input
-            name="startDate"
-            type="date"
-            onChange={handleSubmitDebounced}
-          />
-        </div>
-        <div className="ml-16">
-          <label htmlFor="endDate">Date de fin</label>
+      {}
+      {filtersOpened && (
+        <form
+          ref={formRef}
+          className="flex justify-center bg-blue-50 p-4 rounded-md"
+          noValidate
+          id="my-form"
+        >
+          <div>
+            <label htmlFor="startDate">Date de début</label>
 
-          <Input name="endDate" type="date" onChange={handleSubmitDebounced} />
-        </div>
-      </form>
+            <Input
+              name="startDate"
+              type="date"
+              onChange={handleSubmitDebounced}
+            />
+          </div>
+          <div className="ml-16">
+            <label htmlFor="endDate">Date de fin</label>
 
+            <Input
+              name="endDate"
+              type="date"
+              onChange={handleSubmitDebounced}
+            />
+          </div>
+        </form>
+      )}
       {isLoading ? (
         "Chargement..."
       ) : (
-        <>
+        <div className="mt-4">
           <Table
             headers={[
               "Date de déclaration",
@@ -173,7 +232,7 @@ function DeclarationAdministration() {
               </tr>
             ))}
           />
-        </>
+        </div>
       )}
       <Pagination pageIndex={pageIndex} {...paginatedData} />
     </PrivateLayout>
@@ -181,13 +240,3 @@ function DeclarationAdministration() {
 }
 
 export default DeclarationAdministration as React.ReactNode
-function buildSearchParams(formRef: React.MutableRefObject<null>) {
-  const data = new FormData(formRef.current as unknown as HTMLFormElement)
-
-  const { startDate, endDate } = Object.fromEntries(data)
-
-  const params = new URLSearchParams()
-  params.set("startDate", startDate?.toString())
-  params.set("endDate", endDate?.toString())
-  return params
-}
