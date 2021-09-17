@@ -1,3 +1,10 @@
+## [2.33.1](https://github.com/SocialGouv/onvs/compare/v2.33.0...v2.33.1) (2021-09-17)
+
+
+### Bug Fixes
+
+* export with not defined dates ([#203](https://github.com/SocialGouv/onvs/issues/203)) ([7d30bdc](https://github.com/SocialGouv/onvs/commit/7d30bdce7b4c59dd2e1230982749b26af1b2c338))
+
 # [2.33.0](https://github.com/SocialGouv/onvs/compare/v2.32.0...v2.33.0) (2021-09-17)
 
 
