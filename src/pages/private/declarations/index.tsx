@@ -40,8 +40,8 @@ function composeContactAgreementLabel(data) {
 
 function buildSearchParams({ startDate, endDate }) {
   const params = new URLSearchParams()
-  params.set("startDate", startDate?.toString())
-  params.set("endDate", endDate?.toString())
+  if (startDate) params.set("startDate", startDate?.toString())
+  if (endDate) params.set("endDate", endDate?.toString())
   return params
 }
 
