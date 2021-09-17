@@ -68,7 +68,16 @@ export const findDeclaration = async (
   return declaration
 }
 
-async function buildWhereClause(user: UserLoggedModel) {
+export async function buildWhereClause(
+  user: UserLoggedModel,
+  startDate?: string,
+  endDate?: string,
+): Promise<Record<string, unknown>> {
+  const createdAt = {
+    ...(startDate && { gte: new Date(startDate) }),
+    ...(endDate && { lt: new Date(endDate) }),
+  }
+
   switch (user.role) {
     case "Gestionnaire d'ordre": {
       if (!user?.scope?.order) throw new Error("This is not supposed to happen")
@@ -76,6 +85,7 @@ async function buildWhereClause(user: UserLoggedModel) {
         job: {
           in: jobsByOrders[user.scope.order],
         },
+        createdAt,
       }
     }
     case "Gestionnaire établissement": {
@@ -87,8 +97,16 @@ async function buildWhereClause(user: UserLoggedModel) {
         finesset: {
           in: ets?.finesset,
         },
+        createdAt,
       }
     }
+    case "Administrateur": {
+      return {
+        createdAt,
+      }
+    }
+    default:
+      throw new Error("Le rôle n'est pas reconnu.")
   }
 }
 
@@ -96,10 +114,14 @@ export async function searchDeclarations({
   user,
   pageIndex: initialPageIndex,
   pageSize: initialPageSize,
+  startDate,
+  endDate,
 }: {
   user: UserLoggedModel
   pageIndex?: number
   pageSize?: number
+  startDate?: string
+  endDate?: string
 }): Promise<{
   declarations: DeclarationModel[]
   pageIndex: number
@@ -107,7 +129,7 @@ export async function searchDeclarations({
   pageSize: number
   totalPages: number
 }> {
-  const whereClause = await buildWhereClause(user)
+  const whereClause = await buildWhereClause(user, startDate, endDate)
 
   const totalCount = await prisma.declaration.count({
     where: whereClause,

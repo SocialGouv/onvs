@@ -71,7 +71,7 @@ const DatePart = ({ data }: { data: DeclarationModel }) => {
         </p>
       )}
       <p>
-        <span className="inline-block w-48 mt-4 font-bold">
+        <span className="inline-block w-48 font-bold">
           {"Date de l'évènement"}
         </span>
         {format(parseISO(data.date as unknown as string), "dd/MM/yyyy")}
@@ -102,11 +102,16 @@ const DatePart = ({ data }: { data: DeclarationModel }) => {
 
 // Utility to display fact and reasons, since they can be of type string or be a tuple of 2 elements.
 function prettyDisplay(arrayWithPrecision: Prisma.JsonArray) {
-  return arrayWithPrecision.map((fact) =>
+  return arrayWithPrecision.map((fact, index) =>
     !Array.isArray(fact) ? (
-      <li className="list-disc ml-8 pl-2">{fact}</li>
+      <li key={index} className="list-disc ml-8 pl-2">
+        {fact}
+      </li>
     ) : (
-      <li className="list-disc ml-8 pl-2">{`${fact[0]} (${fact[1]})`}</li>
+      <li
+        key={index}
+        className="list-disc ml-8 pl-2"
+      >{`${fact[0]} (${fact[1]})`}</li>
     ),
   )
 }
@@ -128,14 +133,14 @@ const FactsPart = ({ data }: { data: DeclarationModel }) => {
           </span>
 
           {Object.keys(factPersons).map((key) => (
-            <p key={key}>
+            <div key={key}>
               <span className="inline-block">{key}</span> :&nbsp;
               <ul>
                 {Array.isArray(factPersons[key]) &&
                   (factPersons[key] as Prisma.JsonArray).length &&
                   prettyDisplay(factPersons[key] as Prisma.JsonArray)}
               </ul>
-            </p>
+            </div>
           ))}
         </>
       )}
@@ -204,14 +209,14 @@ const VictimsAuthorsPart = ({ data }: { data: DeclarationModel }) => {
 
       {victims?.map((victim: VictimSchema, index) => (
         <div key={index} className="mb-6">
-          <p className="mb-4">
+          <div className="mb-4">
             <p className="font-bold">Victime n°{index + 1}</p>
             {victim.type} de sexe {victim.gender} et âgé de {victim.age}
             {victim.healthJob && (
               <>&nbsp;dont la profession est {victim.healthJob}</>
             )}
             .
-          </p>
+          </div>
           <p>
             <span className="inline-block w-48 ">Jours arrêt de travail</span>
             {victim.sickLeaveDays}
@@ -284,7 +289,7 @@ const FinalPrecisionsPart = ({ data }: { data: DeclarationModel }) => {
 
       <p className="flex">
         <p className="font-bold w-48">Description</p>
-        <p>{data.description}</p>
+        <p className="ml-8">{data.description}</p>
       </p>
       {/* Those data doesn't exist for hospital flow */}
       {data.declarantContactAgreement !== null && (

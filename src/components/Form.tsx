@@ -51,6 +51,7 @@ export const InputText = ({
   errors,
   requiredFlag = false,
   placeholder,
+  onChange,
 }: {
   type?: string
   label: string
@@ -59,6 +60,7 @@ export const InputText = ({
   errors: Record<string, unknown>
   requiredFlag?: boolean
   placeholder?: string
+  onChange?: () => void
 }): JSX.Element => (
   <>
     <Label>
@@ -74,6 +76,7 @@ export const InputText = ({
           placeholder={placeholder}
           autoComplete="off"
           aria-invalid={Boolean(errors[name])}
+          onChange={onChange}
         />
         <AlertInput>{(errors[name] as FieldError)?.message}</AlertInput>
       </div>

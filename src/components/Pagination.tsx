@@ -27,13 +27,19 @@ export default function Pagination({
     >
       <div className="hidden sm:block">
         <p className="text-sm text-gray-700">
-          Éléments <span className="font-medium">{firstElement}</span> à{" "}
-          <span className="font-medium">{lastElement}</span> des{" "}
-          <span className="font-medium">{totalCount}</span> résultats
+          {totalCount === 0 ? (
+            "0 résultat"
+          ) : (
+            <>
+              Éléments <span className="font-medium">{firstElement}</span> à{" "}
+              <span className="font-medium">{lastElement}</span> des{" "}
+              <span className="font-medium">{totalCount}</span> résultats
+            </>
+          )}
         </p>
       </div>
       <div className="flex justify-between flex-1 sm:justify-end">
-        <Link href={urlPreviousPage}>
+        <Link href={urlPreviousPage} passHref>
           <button
             className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50"
             disabled={!canGoToPreviousPage}
@@ -41,7 +47,7 @@ export default function Pagination({
             Précédent
           </button>
         </Link>
-        <Link href={urlNextPage}>
+        <Link href={urlNextPage} passHref>
           <button
             className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50"
             disabled={!canGoToNextPage}
