@@ -1,3 +1,10 @@
+# [2.32.0](https://github.com/SocialGouv/onvs/compare/v2.31.1...v2.32.0) (2021-09-17)
+
+
+### Features
+
+* add export feature for list of declarations ([#201](https://github.com/SocialGouv/onvs/issues/201)) ([8961016](https://github.com/SocialGouv/onvs/commit/8961016f43a8683b4d915df12d939c1ec480bb1c))
+
 ## [2.31.1](https://github.com/SocialGouv/onvs/compare/v2.31.0...v2.31.1) (2021-09-14)
 
 
