@@ -1,9 +1,9 @@
 import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { format } from "date-fns"
 import { saveAs } from "file-saver"
-import debounce from "debounce-promise"
+import { format, isFuture, parseISO } from "date-fns"
+import * as yup from "yup"
 
 import { Declaration } from "@prisma/client"
 import Alert, { AlertMessageType } from "@/components/Alert"
@@ -16,9 +16,11 @@ import { EXPORT_LIMIT, FORMAT_DATE } from "@/utils/constants"
 import { upperCaseFirstLetters } from "@/utils/string"
 import { API_URL } from "@/utils/config"
 import OutlineButton from "@/components/OutlineButton"
-import { Input } from "@/components/lib"
 import { toastConfig } from "@/config"
 import { useToasts } from "react-toast-notifications"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers"
+import { InputText } from "@/components/Form"
 
 function composeContactAgreementLabel(data) {
   return data === true ? (
@@ -36,31 +38,62 @@ function composeContactAgreementLabel(data) {
   )
 }
 
-function getFilters(formRef: React.MutableRefObject<null>) {
-  const data = new FormData(formRef.current as unknown as HTMLFormElement)
-
-  return Object.fromEntries(data)
-}
-
-function buildSearchParams(formRef: React.MutableRefObject<null>) {
-  const { startDate, endDate } = getFilters(formRef)
-
+function buildSearchParams({ startDate, endDate }) {
   const params = new URLSearchParams()
   params.set("startDate", startDate?.toString())
   params.set("endDate", endDate?.toString())
   return params
 }
 
+const formSchema = yup.object({
+  startDate: yup
+    .string()
+    .test("est-future", "La date ne peut pas être future.", function (value) {
+      if (!value) return true
+      const date = parseISO(value)
+      return !isFuture(date)
+    }),
+  endDate: yup
+    .string()
+    .test("est-future", "La date ne peut pas être future.", function (value) {
+      if (!value) return true
+      const date = parseISO(value)
+      return !isFuture(date)
+    }),
+})
+
+export type FormType = yup.TypeOf<typeof formSchema>
+
+function normalizeInput(input) {
+  return Array.isArray(input) ? input[0] : input
+}
+
 function DeclarationAdministration() {
   const router = useRouter()
   const [errorExport, setErrorExport] = React.useState<AlertMessageType>()
-  const [filtersOpened, setFiltersOpened] = React.useState(false)
   const { addToast } = useToasts()
-
-  const formRef = React.useRef(null)
-
   const { pageIndex, pageSize } = extractPaginationVariables(router.query)
   const { startDate, endDate } = router.query
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormType>({
+    resolver: yupResolver(formSchema),
+  })
+
+  React.useEffect(() => {
+    // Since router.query is not accessible in SSR, we need to wait for router to be ready.
+    if (!router.isReady) return
+
+    // Now, the dates are accessible in the query.
+    reset({
+      startDate: normalizeInput(startDate),
+      endDate: normalizeInput(endDate),
+    })
+  }, [router.isReady])
 
   const paginatedData = useList<Declaration>({
     apiUrl: "/api/declarations",
@@ -72,28 +105,13 @@ function DeclarationAdministration() {
 
   const { isLoading, message, list, totalCount } = paginatedData
 
-  function handleSubmit() {
+  function onSubmit(data: FormType) {
     setErrorExport(undefined)
 
-    const params = buildSearchParams(formRef)
+    const params = buildSearchParams(data)
 
     router.replace("/private/declarations?" + params.toString())
   }
-
-  const handleSubmitDebounced = debounce(handleSubmit, 400)
-
-  /**
-   * Je veux mettre des filtres.
-   * Mais quand je ferme le volet, les inputs perdent leurs valeurs. (parce que le form n'est plus dans le dom je pense).
-   * Or, les data sont toujours dans l'URL et l'appel de l'API est incohérent.
-   *
-   * Ça me paraît compliqué de gérer ça par l'URL.
-   * Options :
-   * - ne pas mettre à jour l'URL
-   * - utiliser RHF (cf Medlé)
-   *
-   * Voir aussi si le toast fonctionne bien si le nombre de résultat est trop grand pour l'export.
-   */
 
   return (
     <PrivateLayout
@@ -103,7 +121,7 @@ function DeclarationAdministration() {
         <OutlineButton
           tabIndex={0}
           onClick={() => {
-            const params = buildSearchParams(formRef)
+            const params = buildSearchParams({ startDate, endDate })
             if (totalCount > EXPORT_LIMIT) {
               addToast(
                 <div className="text-lg">
@@ -125,42 +143,38 @@ function DeclarationAdministration() {
     >
       <Alert message={errorExport || message} />
 
-      <OutlineButton
-        onClick={() => {
-          setFiltersOpened((filtersOpened) => !filtersOpened)
-        }}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex justify-center bg-blue-50 p-4 rounded-md"
+        noValidate
+        id="my-form"
       >
-        Filtres
-      </OutlineButton>
+        <div>
+          <InputText
+            label="Date de début"
+            name="startDate"
+            type="date"
+            register={register}
+            errors={errors}
+            aria-invalid={!!errors?.startDate?.message}
+            onChange={() => {
+              handleSubmit(onSubmit)()
+            }}
+          />
+        </div>
+        <div className="ml-16">
+          <InputText
+            label="Date de fin"
+            name="endDate"
+            type="date"
+            register={register}
+            errors={errors}
+            aria-invalid={!!errors?.endDate?.message}
+            onChange={handleSubmit(onSubmit)}
+          />
+        </div>
+      </form>
 
-      {}
-      {filtersOpened && (
-        <form
-          ref={formRef}
-          className="flex justify-center bg-blue-50 p-4 rounded-md"
-          noValidate
-          id="my-form"
-        >
-          <div>
-            <label htmlFor="startDate">Date de début</label>
-
-            <Input
-              name="startDate"
-              type="date"
-              onChange={handleSubmitDebounced}
-            />
-          </div>
-          <div className="ml-16">
-            <label htmlFor="endDate">Date de fin</label>
-
-            <Input
-              name="endDate"
-              type="date"
-              onChange={handleSubmitDebounced}
-            />
-          </div>
-        </form>
-      )}
       {isLoading ? (
         "Chargement..."
       ) : (

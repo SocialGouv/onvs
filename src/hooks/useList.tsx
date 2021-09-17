@@ -110,7 +110,7 @@ export function useList<T>({
   router,
   options,
 }: Props): ReturnType<T> {
-  // We need to retrieve the params from URL bar, since search is not in the useList at first (because of debounce).
+  // We need to retrieve the params from URL bar
   const { pathName } = extractPathAndSearchParams(router)
 
   const searchParams = addInSearchParams(null, {
