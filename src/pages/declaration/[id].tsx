@@ -288,8 +288,8 @@ const FinalPrecisionsPart = ({ data }: { data: DeclarationModel }) => {
       </Title1Declaration>
 
       <p className="flex">
-        <p className="font-bold w-48">Description</p>
-        <p className="ml-8">{data.description}</p>
+        <p className="font-bold w-48 flex-shrink-0">Description</p>
+        <p>{data.description}</p>
       </p>
       {/* Those data doesn't exist for hospital flow */}
       {data.declarantContactAgreement !== null && (
