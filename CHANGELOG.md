@@ -1,3 +1,10 @@
+# [2.34.0](https://github.com/SocialGouv/onvs/compare/v2.33.2...v2.34.0) (2021-09-21)
+
+
+### Features
+
+* emphasize description panel ([#205](https://github.com/SocialGouv/onvs/issues/205)) ([8f5eff9](https://github.com/SocialGouv/onvs/commit/8f5eff97288afab7ad78212361292e61e237adf9))
+
 ## [2.33.2](https://github.com/SocialGouv/onvs/compare/v2.33.1...v2.33.2) (2021-09-19)
 
 
