@@ -6,6 +6,7 @@ import { Title2 } from "@/components/lib"
 import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
+import Info from "@/components/svg/info"
 
 const schema = yup.object({
   description: yup.string().required("La description doit être renseignée"),
@@ -30,12 +31,14 @@ const Step5Page = () => {
         {"Description plus détaillée de l'événement"}
       </Title2>
 
-      <i>
-        Ne faites figurer aucun nom de personne ni de dates de naissance dans la
-        description des faits. Vous pouvez formuler ainsi : «&nbsp;M. ou Mme, le
-        patient ou la patiente, le fils/la fille du patient, etc. a fait
-        ceci&nbsp;».
-      </i>
+      <div className="border p-2 rounded bg-blue-100 align-middle">
+        <i>
+          Ne faites figurer aucun <u>nom de personne</u> ni de{" "}
+          <u>dates de naissance</u> dans la description des faits. Vous pouvez
+          formuler ainsi : «&nbsp;M. ou Mme, le patient ou la patiente, le
+          fils/la fille du patient, etc. a fait ceci&nbsp;».
+        </i>
+      </div>
 
       <textarea
         className={`w-full mt-8 form-textarea rounded ${
