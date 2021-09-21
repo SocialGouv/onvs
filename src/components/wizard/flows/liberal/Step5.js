@@ -6,7 +6,6 @@ import { InputError, Title2 } from "@/components/lib"
 import FormComponent from "@/components/wizard/FormComponent"
 import { useDeclarationForm } from "@/hooks/useDeclarationContext"
 import { useScrollTop } from "@/hooks/useScrollTop"
-import Info from "@/components/svg/info"
 
 const schema = yup.object({
   declarantContactAgreement: yup
