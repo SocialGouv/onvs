@@ -1,3 +1,10 @@
+# [2.35.0](https://github.com/SocialGouv/onvs/compare/v2.34.0...v2.35.0) (2021-09-24)
+
+
+### Features
+
+* **probe:** test of correct Prisma/DB behavior ([#206](https://github.com/SocialGouv/onvs/issues/206)) ([490f71f](https://github.com/SocialGouv/onvs/commit/490f71fcd96f23903b36e77fb337744b5f39f3d0))
+
 # [2.34.0](https://github.com/SocialGouv/onvs/compare/v2.33.2...v2.34.0) (2021-09-21)
 
 
