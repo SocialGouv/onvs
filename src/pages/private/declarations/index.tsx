@@ -21,6 +21,7 @@ import { useToasts } from "react-toast-notifications"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers"
 import { InputText } from "@/components/Form"
+import { BadgeLevel } from "@/components/BadgeLevel"
 
 function composeContactAgreementLabel(data) {
   return data === true ? (
@@ -184,6 +185,8 @@ function DeclarationAdministration() {
               "Date de déclaration",
               "Type",
               "Métier",
+              "Niveau atteinte aux personnes",
+              "Niveau atteinte aux biens",
               "Ville",
               "Description",
               "À contacter",
@@ -222,6 +225,16 @@ function DeclarationAdministration() {
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                   {declaration.job}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                  {declaration.factPersonsLevel != null && (
+                    <BadgeLevel level={declaration.factPersonsLevel!} />
+                  )}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                  {declaration.factGoodsLevel != null && (
+                    <BadgeLevel level={declaration.factGoodsLevel!} />
+                  )}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                   {upperCaseFirstLetters(declaration.town)}
