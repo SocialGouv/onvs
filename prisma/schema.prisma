@@ -28,12 +28,14 @@ model Declaration {
   victims                   Json
   authors                   Json
   finesset                  String?   @db.VarChar(255)
-  factPersons               Json?     @map("fact_persons")
-  factGoods                 Json?     @map("fact_goods")
+  factPersons               Json      @map("fact_persons")
+  factGoods                 Json      @map("fact_goods")
   reasons                   Json?
   reasonNotApparent         Boolean   @default(false) @map("reason_not_apparent")
   editorId                  String?   @map("editor_id") @db.Uuid
   date                      DateTime  @db.Date
+  factGoodsLevel            Int?      @map("fact_goods_level")
+  factPersonsLevel          Int?      @map("fact_persons_level")
   editor                    Editor?   @relation("declarationsToeditors", fields: [editorId], references: [id])
 
   @@map("declarations")

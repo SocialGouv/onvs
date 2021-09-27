@@ -1,10 +1,13 @@
 import { validate as uuidValidate } from "uuid"
+import { parseISO } from "date-fns"
 
 import prisma from "@/prisma/db"
 import {
   DeclarationModel,
   DeclarationModelWithEditor,
   DeclarationType,
+  FactGoodsSchema,
+  FactPersonsSchema,
   schemaEts,
   schemaLiberal,
 } from "@/models/declarations"
@@ -13,7 +16,7 @@ import { UserLoggedModel } from "@/models/users"
 import { jobsByOrders } from "@/utils/options"
 import { findEts } from "@/services/ets"
 import { buildMetaPagination } from "@/utils/pagination"
-import { parseISO } from "date-fns"
+import { computeGoodsMaxLevel, computePersonsMaxLevel } from "@/utils/levels"
 
 export const createDeclaration = async (
   declaration: DeclarationModel & { date: string },
@@ -41,6 +44,14 @@ export const createDeclaration = async (
   // The Timezone offset has to be added to not be overrided by API server TZ configuration.
   // In other words, w/o that, the date with an API server in France will be the day before the day in input 😕.
   const date = parseISO(declaration.date + "T00:00:00.000Z")
+
+  // Compute the level of facts.
+  declaration.factGoodsLevel = computeGoodsMaxLevel(
+    declaration.factGoods as FactGoodsSchema,
+  )
+  declaration.factPersonsLevel = computePersonsMaxLevel(
+    declaration.factPersons as FactPersonsSchema,
+  )
 
   const newDeclaration = await prisma.declaration.create({
     data: { ...declaration, date },

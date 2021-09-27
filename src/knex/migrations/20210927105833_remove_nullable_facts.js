@@ -1,13 +1,13 @@
 exports.up = async function (knex) {
   await knex.schema.alterTable("declarations", (table) => {
-    table.integer("fact_goods_level")
-    table.integer("fact_persons_level")
+    table.jsonb("fact_goods").notNullable().alter()
+    table.jsonb("fact_persons").notNullable().alter()
   })
 }
 
 exports.down = async function (knex) {
   await knex.schema.alterTable("declarations", (table) => {
-    table.dropColumn("fact_goods_level")
-    table.dropColumn("fact_persons_level")
+    table.jsonb("fact_goods").nullable().alter()
+    table.jsonb("fact_persons").nullable().alter()
   })
 }

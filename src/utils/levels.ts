@@ -1,3 +1,4 @@
+import { FactGoodsSchema, FactPersonsSchema } from "@/models/declarations"
 import { factGoodsGroups, factPersonsGroups } from "./options"
 
 // Easier structure to handle facts.
@@ -23,28 +24,30 @@ function flattenFacts(values: (string | [string, string])[]) {
   return values.map((value) => (Array.isArray(value) ? value[0] : value))
 }
 
-// Get the maximum level of gravity of facts, for a certain fact type and given a list of values.
+// Get the maximum level of facts, for a certain fact type and given a list of values.
+// Returns 0 if there is no facts (i.e. if facts is an empty object).
 function computeMaxLevel(referenceFacts) {
-  return function (
-    facts: Record<string, (string | [string, string])[]>,
-  ): number {
+  return function (facts: FactGoodsSchema | FactPersonsSchema): number {
     let level = 0
 
     for (const factType in facts) {
-      const availableOptions = referenceFacts[factType]
+      const value = facts[factType]
+      if (value != undefined) {
+        const availableOptions = referenceFacts[factType]
 
-      const flattenValues = flattenFacts(facts[factType])
+        const flattenValues = flattenFacts(value)
 
-      const levels: number[] = flattenValues.map(
-        (value) => availableOptions[value].level,
-      )
+        const levels: number[] = flattenValues.map(
+          (value) => availableOptions[value].level,
+        )
 
-      const currentLevel = levels.reduce(
-        (acc: number, curr: number) => (curr > acc ? curr : acc),
-        0,
-      )
+        const currentLevel = levels.reduce(
+          (acc: number, curr: number) => (curr > acc ? curr : acc),
+          0,
+        )
 
-      level = currentLevel > level ? currentLevel : level
+        level = currentLevel > level ? currentLevel : level
+      }
     }
 
     return level
