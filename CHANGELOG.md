@@ -1,3 +1,17 @@
+## [2.35.1](https://github.com/SocialGouv/onvs/compare/v2.35.0...v2.35.1) (2021-09-27)
+
+
+### Bug Fixes
+
+* **deps:** update all dependencies ([#207](https://github.com/SocialGouv/onvs/issues/207)) ([8742f98](https://github.com/SocialGouv/onvs/commit/8742f9832e2821f64b556b0da5b0927ad8f457ff))
+
+# [2.35.0](https://github.com/SocialGouv/onvs/compare/v2.34.0...v2.35.0) (2021-09-24)
+
+
+### Features
+
+* **probe:** test of correct Prisma/DB behavior ([#206](https://github.com/SocialGouv/onvs/issues/206)) ([490f71f](https://github.com/SocialGouv/onvs/commit/490f71fcd96f23903b36e77fb337744b5f39f3d0))
+
 # [2.34.0](https://github.com/SocialGouv/onvs/compare/v2.33.2...v2.34.0) (2021-09-21)
 
 
