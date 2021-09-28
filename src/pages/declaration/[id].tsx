@@ -19,6 +19,7 @@ import {
 import { Prisma } from "@prisma/client"
 import { Badge } from "@/components/Badge"
 import { BadgeType } from "@/components/BadgeType"
+import { BadgeLevel } from "@/components/BadgeLevel"
 
 const DeclarationTypePart = ({ data }: { data: DeclarationModel }) => {
   return (
@@ -119,6 +120,7 @@ function prettyDisplay(arrayWithPrecision: Prisma.JsonArray) {
 const FactsPart = ({ data }: { data: DeclarationModel }) => {
   const factPersons = data.factPersons as Prisma.JsonObject
   const factGoods = data.factGoods as Prisma.JsonObject
+  const { factPersonsLevel, factGoodsLevel } = data
 
   return (
     <>
@@ -128,9 +130,14 @@ const FactsPart = ({ data }: { data: DeclarationModel }) => {
 
       {factPersons && Boolean(Object.keys(factPersons).length) && (
         <>
-          <span className="inline-block w-48 font-bold">
+          <div className="font-bold my-4">
             Atteinte aux personnes
-          </span>
+            {typeof factPersonsLevel === "number" && (
+              <div className="inline-block ml-4">
+                <BadgeLevel level={factPersonsLevel} />
+              </div>
+            )}
+          </div>
 
           {Object.keys(factPersons).map((key) => (
             <div key={key}>
@@ -146,9 +153,14 @@ const FactsPart = ({ data }: { data: DeclarationModel }) => {
       )}
       {factGoods && Boolean(Object.keys(factGoods).length) && (
         <>
-          <span className="inline-block w-48 font-bold">
+          <div className="font-bold my-4">
             Atteinte aux biens
-          </span>
+            {typeof factGoodsLevel === "number" && (
+              <div className="inline-block ml-4">
+                <BadgeLevel level={factGoodsLevel} />
+              </div>
+            )}
+          </div>
 
           {Object.keys(factGoods).map((key) => (
             <p key={key}>

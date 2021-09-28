@@ -156,6 +156,13 @@ export const pursuitSchema = z.union([
 
 export type PursuitSchema = z.infer<typeof pursuitSchema>
 
+/**
+ * Create the schema part for a key/value for reasons, factPersons or factGoods.
+ *
+ * The keys are expected, and they are optional (so we use partial and strict on top of that).
+ * The values are expected and are of type string or [string, string] in case of precision.
+ *
+ */
 const makeProperty = (property: {
   label: string
   options: Array<{ value: string; precision?: string }>
@@ -187,8 +194,7 @@ const makeProperty = (property: {
         }
       }
       return true
-    })
-    .optional(),
+    }),
 })
 
 export const reasonsSchema = z
@@ -201,7 +207,8 @@ export const reasonsSchema = z
     ...makeProperty(reasons.rDeficientCommunications),
     ...makeProperty(reasons.rOthers),
   })
-  .strict()
+  .partial() // Keys are optional.
+  .strict() // Only whitelist keys are accepted.
 
 export type ReasonSchema = z.infer<typeof reasonsSchema>
 
@@ -215,7 +222,8 @@ export const factPersonsSchema = z
     ...makeProperty(factPersonsGroups.fpNoRespects),
     ...makeProperty(factPersonsGroups.fpOthers),
   })
-  .strict()
+  .partial() // Keys are optional.
+  .strict() // Only whitelist keys are accepted.
 
 export type FactPersonsSchema = z.infer<typeof factPersonsSchema>
 
@@ -226,7 +234,8 @@ export const factGoodsSchema = z
     ...makeProperty(factGoodsGroups.fgStealWithBreakins),
     ...makeProperty(factGoodsGroups.fgOthers),
   })
-  .strict()
+  .strict() // Only whitelist keys are accepted.
+  .partial() // Keys are optional.
 
 export type FactGoodsSchema = z.infer<typeof factGoodsSchema>
 
