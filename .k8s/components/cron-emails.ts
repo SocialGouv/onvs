@@ -27,7 +27,8 @@ const cronJob = new CronJob({
     namespace: ciEnv.metadata.namespace.name,
   },
   spec: {
-    schedule: "30 17 * * FRI",
+    // schedule: "30 17 * * FRI",
+    schedule: "* * 31 2 *", // 31 february, aka "is never run". See reference of this trick : https://stackoverflow.com/questions/52776690/disabling-cronjob-in-kubernetes).
     jobTemplate: {
       spec: {
         template: {
