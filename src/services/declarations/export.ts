@@ -65,6 +65,8 @@ export async function exportDeclarations({
     { header: "Victimes", key: "victims", width: 20 },
     { header: "Auteurs", key: "authors", width: 20 },
     { header: "N° FINESSET", key: "finesset", width: 20 },
+    { header: "Niveau faits personnes", key: "factPersonsLevel", width: 20 },
+    { header: "Niveau faits biens", key: "factGoodsLevel", width: 20 },
     { header: "Faits personnes", key: "factPersons", width: 20 },
     { header: "Faits biens", key: "factGoods", width: 20 },
     { header: "Motifs", key: "reasons", width: 20 },

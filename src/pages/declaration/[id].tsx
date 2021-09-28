@@ -131,7 +131,12 @@ const FactsPart = ({ data }: { data: DeclarationModel }) => {
       {factPersons && Boolean(Object.keys(factPersons).length) && (
         <>
           <div className="font-bold my-4">
-            Atteinte aux personnes <BadgeLevel level={factPersonsLevel!} />
+            Atteinte aux personnes
+            {typeof factPersonsLevel === "number" && (
+              <div className="inline-block ml-4">
+                <BadgeLevel level={factPersonsLevel} />
+              </div>
+            )}
           </div>
 
           {Object.keys(factPersons).map((key) => (
@@ -149,7 +154,12 @@ const FactsPart = ({ data }: { data: DeclarationModel }) => {
       {factGoods && Boolean(Object.keys(factGoods).length) && (
         <>
           <div className="font-bold my-4">
-            Atteinte aux biens <BadgeLevel level={factGoodsLevel!} />
+            Atteinte aux biens
+            {typeof factGoodsLevel === "number" && (
+              <div className="inline-block ml-4">
+                <BadgeLevel level={factGoodsLevel} />
+              </div>
+            )}
           </div>
 
           {Object.keys(factGoods).map((key) => (
