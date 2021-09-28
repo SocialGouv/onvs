@@ -14,7 +14,6 @@ metadata:
   labels:
     app: app
     application: onvs
-    component: onvs
     owner: onvs
     team: onvs
   name: app
@@ -35,7 +34,6 @@ spec:
       labels:
         app: app
         application: onvs
-        component: onvs
         owner: onvs
         team: onvs
     spec:
@@ -89,7 +87,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -113,7 +111,6 @@ metadata:
   namespace: onvs
   labels:
     application: onvs
-    component: onvs
     owner: onvs
     team: onvs
 spec:
@@ -143,7 +140,6 @@ spec:
       name: app-sealed-secret
       labels:
         application: onvs
-        component: onvs
         owner: onvs
         team: onvs
     type: Opaque
@@ -160,7 +156,6 @@ metadata:
     app.gitlab.com/env.name: prod
   labels:
     application: onvs
-    component: onvs
     owner: onvs
     team: onvs
   namespace: onvs
@@ -181,7 +176,6 @@ metadata:
   labels:
     app: app
     application: onvs
-    component: onvs
     owner: onvs
     team: onvs
   name: app
@@ -206,7 +200,7 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/tls-acme: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
@@ -216,7 +210,6 @@ metadata:
   labels:
     app: app
     application: onvs
-    component: onvs
     owner: onvs
     team: onvs
   name: app
@@ -249,14 +242,13 @@ metadata:
     kapp.k14s.io/disable-default-label-scoping-rules: ''
   labels:
     application: onvs
-    component: onvs
     owner: onvs
     team: onvs
     app: onvs-email-alerts
   name: onvs-email-alerts
   namespace: onvs
 spec:
-  schedule: 30 17 * * FRI
+  schedule: '* * 31 2 *'
   jobTemplate:
     spec:
       template:
@@ -269,7 +261,6 @@ spec:
             kapp.k14s.io/disable-default-label-scoping-rules: ''
           labels:
             application: onvs
-            component: onvs
             owner: onvs
             team: onvs
             app: onvs-email-alerts
@@ -301,7 +292,6 @@ metadata:
   namespace: onvs
   labels:
     application: onvs
-    component: onvs
     owner: onvs
     team: onvs
 spec:
@@ -327,7 +317,6 @@ spec:
       name: azure-pg-user
       labels:
         application: onvs
-        component: onvs
         owner: onvs
         team: onvs
     type: Opaque

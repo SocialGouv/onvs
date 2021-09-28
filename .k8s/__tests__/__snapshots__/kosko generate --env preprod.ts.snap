@@ -6,7 +6,6 @@ apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
-    socialgouv/creator: autodevops
     field.cattle.io/creatorId: gitlab
     field.cattle.io/projectId: c-bd7z2:p-ngv88
     git/branch: v1.2.3
@@ -18,7 +17,6 @@ metadata:
   labels:
     azure-pg-admin-user: onvs
     application: v1-2-3-onvs
-    component: v1-2-3-onvs
     owner: onvs
     team: onvs
     cert: wildcard
@@ -36,7 +34,6 @@ metadata:
   labels:
     app: app
     application: v1-2-3-onvs
-    component: v1-2-3-onvs
     owner: onvs
     team: onvs
     cert: wildcard
@@ -58,7 +55,6 @@ spec:
       labels:
         app: app
         application: v1-2-3-onvs
-        component: v1-2-3-onvs
         owner: onvs
         team: onvs
         cert: wildcard
@@ -113,7 +109,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -138,7 +134,6 @@ metadata:
   namespace: onvs-85-preprod-dev42
   labels:
     application: v1-2-3-onvs
-    component: v1-2-3-onvs
     owner: onvs
     team: onvs
     cert: wildcard
@@ -168,7 +163,6 @@ spec:
       name: app-sealed-secret
       labels:
         application: v1-2-3-onvs
-        component: v1-2-3-onvs
         owner: onvs
         team: onvs
         cert: wildcard
@@ -186,7 +180,6 @@ metadata:
     app.gitlab.com/env.name: preprod-dev42
   labels:
     application: v1-2-3-onvs
-    component: v1-2-3-onvs
     owner: onvs
     team: onvs
     cert: wildcard
@@ -209,7 +202,6 @@ metadata:
   labels:
     app: app
     application: v1-2-3-onvs
-    component: v1-2-3-onvs
     owner: onvs
     team: onvs
     cert: wildcard
@@ -243,7 +235,6 @@ metadata:
   labels:
     app: app
     application: v1-2-3-onvs
-    component: v1-2-3-onvs
     owner: onvs
     team: onvs
     cert: wildcard
@@ -278,7 +269,6 @@ metadata:
   namespace: onvs-85-preprod-dev42
   labels:
     application: v1-2-3-onvs
-    component: v1-2-3-onvs
     owner: onvs
     team: onvs
     cert: wildcard
@@ -306,7 +296,6 @@ spec:
       name: azure-pg-user
       labels:
         application: v1-2-3-onvs
-        component: v1-2-3-onvs
         owner: onvs
         team: onvs
         cert: wildcard
