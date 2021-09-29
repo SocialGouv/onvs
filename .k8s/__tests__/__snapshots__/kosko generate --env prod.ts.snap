@@ -256,7 +256,7 @@ metadata:
   name: onvs-email-alerts
   namespace: onvs
 spec:
-  schedule: 30 17 * * FRI
+  schedule: '* * 31 2 *'
   jobTemplate:
     spec:
       template:

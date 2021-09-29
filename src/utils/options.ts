@@ -136,6 +136,12 @@ export const factPersonsGroups = {
         info: "Atteinte à la vie privée: fait de filmer, photographier et/ou enregistrer vos propos sans vous demander l’autorisation. Atteinte au droit à l’image: fait de diffuser ensuite film, photo/enregistrement sonore dans les médias (presse, audio, vidéo) sans votre autorisation. Attention: La chambre d’un établissement est un lieu privé, mais un établissement (public ou privé) et un cabinet, une officine ne sont pas un lieu privé. Donc il n’y pas d’atteinte à la vie privée si vous êtes filmé dans les couloirs ou encore une salle d’attente. En revanche la diffusion de votre image peut dans certaines circonstances être une violation du droit à l’image.",
         level: 2,
       },
+      {
+        value:
+          "Injures et diffamations publiques (voie de presse - tout autre moyen de communication)",
+        info: "Si l’injure et la diffamation ne sont pas rendues publiques, cocher alors la case : La victime a subi une violence verbale, puis la case : Injure, provocation, outrage.",
+        level: 1,
+      },
       { value: "Atteinte au respect dû aux morts", level: 2 },
     ],
   },
