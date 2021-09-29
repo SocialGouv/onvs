@@ -1,3 +1,10 @@
+# [2.37.0](https://github.com/SocialGouv/onvs/compare/v2.36.0...v2.37.0) (2021-09-29)
+
+
+### Features
+
+* add a new fact ([#209](https://github.com/SocialGouv/onvs/issues/209)) ([36cecf6](https://github.com/SocialGouv/onvs/commit/36cecf62987cf10f9307b3aa142e31e7c42ecbde))
+
 # [2.36.0](https://github.com/SocialGouv/onvs/compare/v2.35.1...v2.36.0) (2021-09-28)
 
 
