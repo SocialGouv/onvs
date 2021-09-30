@@ -1,0 +1,60 @@
+@baseUrl = http://localhost:3030/api
+
+### Login Administrateur
+POST http://localhost:3030/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@onvs.fr",
+    "password": "test"
+}
+
+### Login Gestionnaire d'ets (to check only admin is authorized)
+POST http://localhost:3030/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "ets@onvs.fr",
+    "password": "test"
+}
+
+### Logout
+POST http://localhost:3030/api/auth/logout
+
+### Add a new user.
+# @name userCreation
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+    "user": {
+        "firstName": "John",
+        "lastName": "Mc Lane",
+        "email": "john.maclane@gmail.com",
+        "role": "Gestionnaire d'ordre",
+        "scope": ""
+    }
+}
+
+### List of all users.
+GET {{baseUrl}}/users?pageSize=2
+Content-Type: application/json
+
+### Update an user.
+PATCH {{baseUrl}}/users/{{userCreation.response.body.user.id}}
+Content-Type: application/json
+
+{
+   "user": {
+        "id": "{{userCreation.response.body.user.id}}",
+        "firstName": "John",
+        "lastName": "Mac Lane",
+        "email": "john.maclane@gmail.com",
+        "role": "Gestionnaire établissement",
+        "scope": ""
+    }
+}
+
+###
+DELETE  {{baseUrl}}/users/{{userCreation.response.body.user.id}}
+Content-Type: application/json

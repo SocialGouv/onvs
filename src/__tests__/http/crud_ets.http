@@ -1,17 +1,43 @@
 @baseUrl = http://localhost:3030/api
-@finesset = "957011804"
+@finesset = "957011805"
 
-# Add a new ETS.
+### Login Administrateur
+POST http://localhost:3030/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@onvs.fr",
+    "password": "test"
+}
+
+### Login Gestionnaire d'ets (to check only admin is authorized)
+POST http://localhost:3030/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "ets@onvs.fr",
+    "password": "test"
+}
+
+### Logout
+POST http://localhost:3030/api/auth/logout
+
+
+### Add a new ETS.
 # @name etsCreation
 POST {{baseUrl}}/ets
 Content-Type: application/json
 
 {
-    "finesset": {{finesset}},
-    "juridicStatus": "privé",
-    "town": "West Cruz",
-    "rs": "CHU West Cruz",
-    "department": "95"
+    "ets": {
+        "finesset": {{finesset}},
+        "finessej": "",
+        "juridicStatus": "privé",
+        "town": "West Cruz",
+        "rs": "CHU West Cruz",
+        "department": "95",
+        "juridicStatus": "Public"
+    }
 }
 
 ### List of all Ets.
@@ -22,17 +48,20 @@ Content-Type: application/json
 GET {{baseUrl}}/ets?pageSize=2&search=coz
 Content-Type: application/json
 
-###
+### Update an ETS
 PUT {{baseUrl}}/ets/{{etsCreation.response.body.data.id}}
 Content-Type: application/json
 
 {
-    "id": "{{etsCreation.response.body.data.id}}",
-    "finesset": "{{etsCreation.response.body.data.finesset}}",
-    "juridicStatus": "{{etsCreation.response.body.data.juridicStatus}}",
-    "town": "Vincennes",
-    "department": "94",
-    "rs": "CHU Vincennes"
+    "ets": {
+        "id": "{{etsCreation.response.body.data.id}}",
+        "finesset": "{{etsCreation.response.body.data.finesset}}",
+        "finessej": "",
+        "rs": "CHU Vincennes",
+        "town": "Vincennes",
+        "department": "94",
+        "juridicStatus": "{{etsCreation.response.body.data.juridicStatus}}"
+    }
 }
 
 ###

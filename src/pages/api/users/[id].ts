@@ -1,13 +1,28 @@
 import Cors from "micro-cors"
+import { pipe } from "lodash/fp"
 
 import prisma from "@/prisma/db"
-import { OnvsError } from "@/utils/errors"
+import {
+  AuthenticationError,
+  AuthorizationError,
+  BadRequestError,
+  OnvsError,
+} from "@/utils/errors"
 import { UserApiType, UserApiSchema } from "@/models/users"
 import { checkAllowedMethods, handleApiError } from "@/utils/api"
-import { pipe } from "lodash/fp"
+import withSession from "@/lib/session"
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
+
+  const user = req.session.get("user")
+  if (!user?.isLoggedIn) {
+    throw new AuthenticationError()
+  }
+
+  if (user.role !== "Administrateur") {
+    throw new AuthorizationError()
+  }
 
   const { id } = req.query
 
@@ -23,13 +38,18 @@ const handler = async (req, res) => {
     }
     case "PATCH": {
       const { user }: { user: UserApiType } = req?.body
+
       const parsedUser = UserApiSchema.parse(user)
+
+      if (id !== user.id) {
+        throw new BadRequestError("Bad inputs")
+      }
 
       const otherUser = await prisma.user.findFirst({
         where: {
           email: parsedUser?.email,
           id: {
-            not: parsedUser.id,
+            not: id,
           },
         },
       })
@@ -53,6 +73,7 @@ const handler = async (req, res) => {
 const allowMethods = ["DELETE", "PATCH"]
 
 export default pipe(
+  withSession,
   Cors({
     allowMethods,
   }),

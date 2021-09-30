@@ -9,3 +9,7 @@ Content-Type: application/json
 
 ### Liste des déclarations
 GET http://localhost:3030/api/declarations/export
+
+
+### Logout
+POST http://localhost:3030/api/auth/logout
