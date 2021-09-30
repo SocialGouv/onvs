@@ -1,3 +1,10 @@
+# [2.38.0](https://github.com/SocialGouv/onvs/compare/v2.37.0...v2.38.0) (2021-09-30)
+
+
+### Features
+
+* check if user is connected and admin for some API ([#210](https://github.com/SocialGouv/onvs/issues/210)) ([bcfd510](https://github.com/SocialGouv/onvs/commit/bcfd51073d830487c1ba2ed002e52e2afe0b3122))
+
 # [2.37.0](https://github.com/SocialGouv/onvs/compare/v2.36.0...v2.37.0) (2021-09-29)
 
 
