@@ -1,15 +1,30 @@
 import Cors from "micro-cors"
-
-import { BadRequestError, InexistingResourceError } from "@/utils/errors"
-import { EtsApiSchema } from "@/models/ets"
-import { checkAllowedMethods, handleApiError } from "@/utils/api"
 import { pipe } from "lodash/fp"
+
+import { EtsApiSchema } from "@/models/ets"
+import {
+  AuthenticationError,
+  AuthorizationError,
+  BadRequestError,
+  InexistingResourceError,
+} from "@/utils/errors"
+import { checkAllowedMethods, handleApiError } from "@/utils/api"
 import { deleteEts, findEts, updateEts } from "@/services/ets"
+import withSession from "@/lib/session"
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
 
   const { id } = req.query
+
+  const user = req.session.get("user")
+  if (!user?.isLoggedIn) {
+    throw new AuthenticationError()
+  }
+
+  if (user.role !== "Administrateur") {
+    throw new AuthorizationError()
+  }
 
   switch (req.method) {
     case "PUT": {
@@ -49,6 +64,12 @@ const handler = async (req, res) => {
       return res.status(200).json({ data: ets })
     }
     case "DELETE": {
+      const user = req.session.get("user")
+
+      if (!user?.isLoggedIn) {
+        throw new AuthenticationError()
+      }
+
       // TODO: empêcher de supprimer logiquement un ETS si des gestionnaire d'ets existent pour cet ets ?
       await deleteEts(id)
 
@@ -60,6 +81,7 @@ const handler = async (req, res) => {
 const allowMethods = ["DELETE", "PUT", "GET"]
 
 export default pipe(
+  withSession,
   Cors({
     allowMethods,
   }),

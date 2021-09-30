@@ -1,11 +1,16 @@
 import Cors from "micro-cors"
 import { z } from "zod"
+import { pipe } from "lodash/fp"
 
 import prisma from "@/prisma/db"
-import { OnvsError } from "@/utils/errors"
+import {
+  AuthenticationError,
+  AuthorizationError,
+  OnvsError,
+} from "@/utils/errors"
 import { hashPassword } from "@/utils/bcrypt"
 import { checkAllowedMethods, handleApiError } from "@/utils/api"
-import { pipe } from "lodash/fp"
+import withSession from "@/lib/session"
 
 const bodySchema = z.object({
   id: z.string().uuid().optional(),
@@ -14,6 +19,15 @@ const bodySchema = z.object({
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
+
+  const user = req.session.get("user")
+  if (!user?.isLoggedIn) {
+    throw new AuthenticationError()
+  }
+
+  if (user.role !== "Administrateur") {
+    throw new AuthorizationError()
+  }
 
   const { id } = req.query
 
@@ -49,6 +63,7 @@ const handler = async (req, res) => {
 const allowMethods = ["PUT"]
 
 export default pipe(
+  withSession,
   Cors({
     allowMethods,
   }),

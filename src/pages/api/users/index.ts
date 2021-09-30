@@ -1,15 +1,29 @@
 import Cors from "micro-cors"
 
 import prisma from "@/prisma/db"
-import { OnvsError } from "@/utils/errors"
+import {
+  AuthenticationError,
+  AuthorizationError,
+  OnvsError,
+} from "@/utils/errors"
 import { UserApiSchema, UserApiType } from "@/models/users"
 import { checkAllowedMethods, handleApiError } from "@/utils/api"
 import { Prisma } from ".prisma/client"
 import { buildMetaPagination } from "@/utils/pagination"
 import { pipe } from "lodash/fp"
+import withSession from "@/lib/session"
 
 const handler = async (req, res) => {
   res.setHeader("Content-Type", "application/json")
+
+  const user = req.session.get("user")
+  if (!user?.isLoggedIn) {
+    throw new AuthenticationError()
+  }
+
+  if (user.role !== "Administrateur") {
+    throw new AuthorizationError()
+  }
 
   switch (req.method) {
     case "POST": {
@@ -82,6 +96,7 @@ const handler = async (req, res) => {
 const allowMethods = ["GET", "POST"]
 
 export default pipe(
+  withSession,
   Cors({
     allowMethods,
   }),
