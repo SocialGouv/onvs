@@ -96,17 +96,13 @@ DATABASE_URL=psql://onvs:hmpHQCK7qG6^Lk5M@localhost:5435/onvs
 yarn migrate:latest
 ```
 
-6.  And a minimal set of data (not yet implemented)
+6.  And a minimal set of data
 
 ```shell
 yarn seed:run:dev
 ```
 
-One step further, if you want to getting close to the production build, you can use
-
-The developers can benefit of the hot reload provided by Next.js. for an improved DX.
-
-In this case, just configure a db URL in your `.env` file, then
+7. Install the JS libs and run the Next app in dev mode
 
 ```shell script
 yarn install
@@ -115,7 +111,7 @@ yarn dev
 
 Then, go to the app at [http://localhost:3030/](http://localhost:3030/).
 
-In this mode, you will have the best DX with fast refresh. On the other hand, if you want to test a final build, like it will be on the CI/CD/production environement, do :
+In this mode, you will have the best DX with fast refresh. On the other hand, if you want to test a final build, like it will be on the CI/CD/production environment, do :
 
 ```shell script
 yarn install
@@ -125,21 +121,23 @@ yarn start
 
 ### Prisma
 
-Historically, Knex was used to interact with the db. But the preferred way is now to request the db is with Prisma.
-Nevertheless, Knex is still used for migrations because of its capacity to transform data in JS.
+Historically, Knex was used to interact with the db. But the preferred way is now to request the db with Prisma.
+Nevertheless, Knex is still used for migrations because of it is handy for transforming data in JS with it.
 
-The workflow is :
-- `npx prisma introspect` introspect the database defined in DATABASE_URL and create a schema.prisma file. This file it the keystone to interact with Prisma. We can modify this file for our needs. For examaple, we can rename a column name or a column table.
-- `npx prisma generate` to generate the types which are stored in node_modules/.prisma/client. Each time you modify the schema.prisma, you need to regenerate the client.
+As soon as there is an update of the db, the workflow is :
+- `npx prisma introspect` to introspect the database defined in DATABASE_URL and to create/update the `schema.prisma` file. This file is the keystone to interact with Prisma. We can modify this file after its generatio for our needs. For example, we can rename a column name or a table name.
+- `npx prisma generate` to generate the types which are stored in `node_modules/.prisma/client`. Each time you modify the `schema.prisma`, you need to regenerate the client.
 
-As a handy shortcut, a script `yarn prisma:refresh` runs `migrate:latest` + `prisma introspect` + `prisma generate`. To be used as soon as you modify the structure of the db. 
+As a handy shortcut, a script `yarn prisma:refresh` runs `migrate:latest` + `prisma introspect` + `prisma generate`. 
+To be used as soon as you modify the structure of the db. 
 
 ### Tokens
 
-The API to declare a violence act is allowed for third party app (editors of hospitals apps).
-To restrict access to them only and to track who's using the API, this API must be called with a token in the Authorization header.
+The API to make a declaration is accessible for third party app (editors of hospitals apps).
 
-The valid tokens are in the tokens table.
+To restrict access to them only and to track who's using the API, this API endpoint must be called with a token in the `Authorization header`.
+
+The valid tokens are stored in the `tokens` table.
 See the [wiki](https://github.com/SocialGouv/onvs/wiki) for more details on this.
 
 ### 🏋️‍♂️ Run the tests
@@ -160,7 +158,7 @@ The sealed-secrets.yaml files can be generated from the script `sealed-secrets`.
 yarn sealed-secrets
 ```
 
-You need to have a `.secrets.yml` file (which will be gitignore) a the project root, including the secrets uncrypted.
+You need to have a `.secrets.yml` file (which will be gitignored) a the project root, including the secrets uncrypted.
 
 Run the script : `yarn run seal-secrets`.
 
@@ -171,25 +169,19 @@ Then, copy the content in the `.k8s/environments` directory.
 Then, update the Jest snapshots for Kosko.
 
 ```
-yarn k8s # only the first time or to update the dependancies
-yarn k8s test -u
+yarn k8s # Not absolutely necessary in every case but safer to run it each time anyway.
+yarn k8s test -u # This command updates the snapshots tests for Kosko.
 ```
 
 ### 🧯 Troubleshoot
-
-_How can I see the logs ?_
-
-```shell script
-# To see the logs for the both containers
-docker-compose logs -f
-
-# To see only the app container
-docker-compose logs -f app
-```
 
 In k8s environments, go to Rancher, select the pod and clic on View logs.
 
 ### 📧 Debuging emails
 
-A fake SMTP server is setup in docker-compose file. It can be accessed at http://localhost:37408/.
+NB : At time, a mail was send every week with new declarations to some people. This job is disabled now, given that there is a dashboard with more data.
+
+But in case of wanting to use this job, there is a fake SMTP server setup in docker-compose file. 
+
+It can be accessed at http://localhost:37408/.
 
