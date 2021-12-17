@@ -5829,10 +5829,15 @@ listenercount@~1.0.1:
   resolved "https://registry.yarnpkg.com/listenercount/-/listenercount-1.0.1.tgz#84c8a72ab59c4725321480c975e6508342e70937"
   integrity sha1-hMinKrWcRyUyFIDJdeZQg0LnCTc=
 
-little-state-machine@^3.0.1, little-state-machine@^3.1.4:
+little-state-machine@^3.0.1:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/little-state-machine/-/little-state-machine-3.1.4.tgz#b29c396f732976cc327a612ef9a7a53f3f3520ab"
   integrity sha512-gYlLCj6oUME0NG34/2O0Ljy52qYYyYDJ5yiAuq2ijbaRlBKIqtQQkKkEYn0KfjYXCE693j+bdY22EyZin25Bhw==
+
+little-state-machine@^4.0.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/little-state-machine/-/little-state-machine-4.2.0.tgz#3f7fc37a5b49a3ee5c610f22a80d849e80cb56d0"
+  integrity sha512-UMWelGx2fJfUC3KGy2FajC+H6+DJ9nCHJeolm4pq0Qldks+MemC6/6PTIhRqDpaBkna2TMG4bewidrt393cSsw==
 
 load-json-file@^4.0.0:
   version "4.0.0"
