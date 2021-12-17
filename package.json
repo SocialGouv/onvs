@@ -88,7 +88,7 @@
     "@typescript-eslint/parser": "^4.28.5",
     "autoprefixer": "^10.2.6",
     "babel-plugin-superjson-next": "^0.3.1",
-    "eslint": "^7.26.0",
+    "eslint": "^8.0.0",
     "eslint-config-next": "^11.0.1",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^8.3.0",
