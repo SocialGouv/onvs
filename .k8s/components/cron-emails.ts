@@ -2,7 +2,7 @@ import env from "@kosko/env"
 import environments from "@socialgouv/kosko-charts/environments"
 import { merge } from "@socialgouv/kosko-charts/utils/@kosko/env/merge"
 import { ok } from "assert"
-import { CronJob } from "kubernetes-models/batch/v1beta1/CronJob"
+import { CronJob } from "kubernetes-models/batch/v1/CronJob"
 
 const name =  "onvs-email-alerts";
 const ciEnv = environments(process.env);
